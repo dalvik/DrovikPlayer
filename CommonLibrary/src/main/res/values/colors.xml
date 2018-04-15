@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- common lib res -->
+
+    <!-- 深灰色半透明文字颜色 -->
+    <color name="common_gray_tran_text_color">#88787878</color>
+
+    <!-- Dialog-->
+    <color name="dialog_line_color">#ff80737b</color>
+    <color name="dialog_btn_bg">@android:color/white</color>
+    <color name="dialog_btn_text">#ff80737b</color>
+    <color name="dialog_tip_text">#ff80737b</color>
+    <!-- Confirm Dialog-->
+    <color name="confirm_tip_text">#ff80737b</color>
+    <color name="confirm_content_text">#ff80737b</color>
+
+    <!-- -->
+    <color name="wheel_text_focus_color">#FFFF007A</color>
+    <color name="wheel_text_normal_color">#FF80737B</color>
+
+    <color name="notes_color">#ff777777</color>
+
+
+    <!--透明色-->
+    <color name="find_dialog_color_click_normal">#fafafa</color>
+    <!-- 87黑色-->
+    <color name="findshows_color_87_black">#dd000000</color>
+    <color name="findshows_color_red">#FF6666</color>
+    <color name="centercount_top_bg">#363346</color>
+    <color name="centeracount_freeze_btnbg">#eaeaea</color>
+    
+    <!-- commit button -->
+    <drawable name="commit_normal_red">#FF0000</drawable>
+    <drawable name="commit_disable_red">#FF8888</drawable>
+    <color name="pay_donate_max_bg">#8B0000</color>
+    <color name="pay_donate_max_text">#CD950C</color>
+    
+    <!-- 暗灰色 -->
+    <color name="dimgrey">#696969</color>
+    <!-- 橙绿色 -->
+    <color name="darkslategray">#2F4F4F</color>
+    <!-- 天蓝色 -->
+    <color name="sel_text">#ff5f5f5f</color>
+    <color name="sel_focus">#ff136d99</color>
+    <color name="app_name">#ff747474</color>
+    <color name="aphla">#00000000</color>
+    <color name="webbackground">#fff1f1f1</color>
+
+    <drawable name="app_nums_background">#ff0f80c8</drawable>
+    <drawable name="windows_trans">#00000000</drawable>
+
+    <color name="line">#ffe4ecfc</color>
+    <color name="dialog_bg"> #D0D4D5 </color>
+    <color name="dialog_titletext">#FEFFFF </color>
+    <color name="dialog_txcontent">#2E2E2E </color>
+    <color name="dialog_btncontent">#5B85A2 </color>
+    <color name="deepblue">#104E8B</color>
+    <color name="topmenutextcolor">#AEEEEE</color>
+    <!-- use at personal_center_layout, horizontal_layout and option_item -->
+    <color name="personal_center_gray">#F5F5F5</color>
+
+    <!-- 问答 -->
+    <color name="type_color">#6d86a5</color>
+    <color name="content_color">#8e8e8e</color>
+    <color name="comment_color">#8e8e8e</color>
+    <color name="post_time_color">#8e8e8e</color>
+    <color name="collect_color">#8e8e8e</color>
+    <color name="click_color">#8e8e8e</color>
+    <color name="question_score_color">#00c400</color>
+
+    <!-- 问答详情 -->
+    <color name="qd_comment_layout_color">#ffffff</color>
+    <color name="qd_comment_input_hint_color">#acacac</color>
+    <color name="layout_quetion_detail_header_bg_color">#f5f5f5</color>
+
+    <!-- 创建问题 -->
+    <color name="create_new_question_background">#e3e6ea</color>
+    <color name="create_new_question_gridview_background">#ffffff</color>
+    <color name="question_classification_layout_background">#ffffff</color>
+
+    <!-- 聊天 -->
+    <color name="voip_interface_text_color">#bababa</color>
+    <color name="divider_list">#cccccc</color>
+    <color name="common_top_bar_blue">#4ebcd3</color>
+    <color name="btn_login_normal">#007086</color>
+    <color name="btn_login_pressed">#303744</color>
+    <color name="btn_logout_normal">#d33f3f</color>
+    <color name="btn_logout_pressed">#DA5A4D</color>
+    <color name="btn_register_normal">#2dafa3</color>
+    <color name="btn_register_pressed">#4ebcd3</color>
+    <color name="common_bottom_bar_normal_bg">#2d2f31</color>
+    <color name="common_bottom_bar_selected_bg">#161718</color>
+    <color name="common_botton_bar_blue">#2ea7e0</color>
+    <color name="common_bg">#fcfcfc</color>
+    <color name="btn_pressed_green_solid">#B6DA53</color>
+    <color name="top_bar_normal_bg">#4ebcd3</color>
+    <color name="error_item_color">#F6EBE6</color>
+    <color name="bottom_bar_normal_bg">#2D2F31</color>
+    <color name="bottom_text_color_normal">#ffffff</color>
+    <color name="btn_white_normal">#f7f8f8</color>
+    <color name="btn_white_pressed">#b5b5b6</color>
+    <color name="btn_green_noraml">#68C270</color>
+    <color name="btn_green_pressed">#6FCD78</color>
+    <color name="btn_gray_normal">#c0c0c0</color>
+    <color name="btn_gray_pressed_status">#b5b5b6</color>
+    <color name="btn_gray_pressed">#666667</color>
+    <color name="btn_blue_normal">#1e90ff</color>
+    <color name="btn_blue_pressed">#0066FF</color>
+    <color name="orange">#FFA500</color>
+    <color name="gray_pressed">#b5b5b6</color>
+    <color name="gray_normal">#666667</color>
+    <color name="grid_state_pressed">#1Affffff</color>
+    <color name="grid_state_focused">#80000000</color>
+    <color name="black_deep">#FF000000</color>
+</resources>

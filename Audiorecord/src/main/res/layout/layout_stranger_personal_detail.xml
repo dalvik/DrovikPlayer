@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="DuplicateIds" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <com.android.library.ui.view.RoundImageView
+                android:id="@+id/personal_detail_header_iv_headerIcon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1.0"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/his_personal_center_header_tv_act_count"
+                        style="@style/UI.His.Personal.Center.TextStyle.Gray_Little"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:paddingRight="10dip"
+                        android:text="@string/personal_detail_nickname" />
+
+                    <com.android.library.ui.view.RoundImageView
+                        android:id="@+id/personal_detail_header_iv_sex"
+                        android:layout_width="10dip"
+                        android:layout_height="10dip"
+                        android:layout_gravity="center" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/personal_detail_user_code_tv"
+                    style="@style/UI.His.Personal.Center.TextStyle.Gray_Little"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dip"
+                    android:layout_gravity="left|center"
+                    android:layout_weight="0.5"
+                    android:text="@string/personal_detail_user_code" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_space" >
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:id="@+id/personal_detail_address"
+                android:text="@string/personal_detail_address" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/layout_ui_split_line" />
+
+        <LinearLayout
+            android:id="@+id/persoinal_news_thunb_listview_id"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_height="100dp">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:layout_gravity="left|center"
+                android:text="@string/personal_detail_message" />
+            
+            <com.android.library.ui.view.HorizontalListView
+                android:id="@+id/personalDetailMessageListView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:divider="@android:color/transparent"
+                android:fadingEdge="none"
+                android:layout_centerVertical="true"
+                android:listSelector="@drawable/lv_item_selector"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/layout_ui_split_line" />
+
+        <RelativeLayout
+            style="@style/UI.Center.ItemLayout" >
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:id="@+id/personal_detail_signature"
+                android:text="@string/personal_detail_signature" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/personal_detail_send_message_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+    		android:paddingLeft="20dp"
+    		android:paddingRight="20dp"
+    		android:padding="5dp"
+    		android:layout_marginTop="35dp"
+    		android:layout_marginLeft="14dip"
+    		android:layout_marginRight="14dip"
+            android:background="@drawable/commit_button_text_light"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="@string/personal_detail_send_message"
+            android:textSize="22sp"/>
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_vertical"
+    android:gravity="bottom"
+    android:orientation="horizontal" >
+
+    <View
+        android:id="@id/blank"
+        android:layout_width="0.0dip"
+        android:layout_height="1.0dip"
+        android:layout_weight="1.0" />
+
+    <ImageView
+        android:id="@id/hour1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5.0dip" />
+
+    <ImageView
+        android:id="@id/hour2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5.0dip" />
+
+    <ImageView
+        android:id="@id/middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5.0dip" />
+
+    <ImageView
+        android:id="@id/minute1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5.0dip" />
+
+    <ImageView
+        android:id="@id/minute2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5.0dip" />
+
+    <ImageView
+        android:id="@id/middle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5.0dip" />
+
+    <ImageView
+        android:id="@id/second1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5.0dip" />
+
+    <ImageView
+        android:id="@id/second2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@id/blank1"
+        android:layout_width="0.0dip"
+        android:layout_height="1.0dip"
+        android:layout_weight="1.0" />
+
+</LinearLayout>

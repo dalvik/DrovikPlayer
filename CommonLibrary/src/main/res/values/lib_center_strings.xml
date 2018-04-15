@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 个人中心 -->
+    <string name="center_signature">没个性,不签名.有个性，再签名！</string>
+    <string name="center_update_signature">修改签名</string>
+    <string name="center_personage_setting">设置</string>
+    <string name="center_setting_account">账户</string>
+    <string name="center_setting_updata_pwd">修改密码</string>
+    <string name="center_setting_regards">关于我请客</string>
+    <string name="center_setting_grade">给我评分</string>
+    <string name="center_setting_disturbin">勿扰模式</string>
+    <string name="center_setting_feedback">意见反馈</string>
+    <string name="center_setting_caler_cache">清理缓存</string>
+    <string name="center_setting_renewal">版本更新</string>
+    <string name="center_setting_exit_login">退出账号</string>
+    <string name="center_setting_login">登陆</string>
+    <string name="center_setting_sure_exit_login_title">确定退出</string>
+    <string name="center_setting_sure_exit_login">你确定要退出当前账户?</string>
+    
+    <string name="center_account">账户</string>
+    <string name="center_rewards">奖励</string>
+    <string name="center_activity">活动</string>
+
+    <string name="center_collect">收藏</string>
+    <string name="center_attention">关注</string>
+    <string name="center_attention_signature">这家伙很懒，什么都没有留下</string>
+    <string name="center_add_attention">已添加关注</string>
+    <string name="center_remove_attention">已取消关注</string>
+    <string name="center_jobless">无业</string>
+
+    <string name="center_treat">待请</string>
+    <string name="center_gift">礼物</string>
+    <string name="center_relative">动态</string>
+    <string name="center_setting">设置</string>
+    
+    <!--个人中心  修改资料-->
+    <string name="center_updata">修改资料</string>
+    <string name="center_number">请客号</string>
+    <string name="center_nickname">昵称</string>
+    <string name="center_gender">性别</string>
+    <string name="center_birthday">生日</string>
+    <string name="center_address">居住</string>
+    <string name="center_interest">兴趣</string>
+    <string name="center_skill">技能</string>
+    <string name="center_school">学校</string>
+    <string name="center_industry">行业</string>
+    <string name="center_company">公司</string>
+
+    <string name="center_phoot">相册</string>
+    <string name="center_shoot">相机</string>
+    <string name="center_cancel">取消</string>
+    <string name="center_photopickernotfoundtext">未拍摄照片</string>
+    <string name="center_nosdcard">请检查手机是否有SD卡</string>
+
+    <string name="center_updata_number">修改请客号</string>
+    <string name="center_updata_nickname">修改昵称</string>
+    <string name="center_updata_birthday">修改生日</string>
+    <string name="center_choos_address">选择地址</string>
+    <string name="center_choos_interest">选择兴趣</string>
+    <string name="center_updata_birthday_pattern">yyyy-MM-dd</string>
+    <string name="center_updata_age">%1$d岁</string>
+    <string name="center_choos_school">选择学校</string>
+    <string name="center_only_updata_number">请客号只可修改一次哦~^ ^</string>
+    <string name="center_choos_skill">选择技能</string>
+    <string name="center_choos_industry">选择行业</string>
+    <string name="center_choos_company">选择公司</string>
+    <string name="center_upload_failed">头像上传失败</string>
+    <string name="center_upload_success">头像上传成功</string>
+
+    <!--个人中心 设置 账户-->
+    <string name="center_setting_account_qq">QQ号</string>
+    <string name="center_setting_account_wx">微信号</string>
+    <string name="center_setting_account_mobile">手机</string>
+    <string name="center_setting_account_unbounded">未绑定</string>
+
+    <string name="center_setting_account_bounded">绑定的手机号：</string>
+    <string name="center_setting_account_mobile_prompt">已启用通讯录匹配，如果您的通讯录中有朋友注册了我请客系统会通知您</string>
+    <string name="center_setting_account_upaddress_book">上传通讯录</string>
+    <string name="center_setting_account_updata_mobile">更换手机号</string>
+    <string name="center_setting_account_bounded_mobile">绑定手机号</string>
+    <string name="center_setting_account_input_mobile">请输入新的手机号</string>
+    <string name="center_setting_account_login_pwd">请输入登录密码</string>
+    <string name="center_setting_account_updata_mobile_prompt">更换手机号后，下次登录可使用新手机号登录，当前手机号</string>
+    <string name="center_setting_account_update_mobile_null">您输入的手机号或登录密码为空，请重新输入！</string>
+    <string name="center_setting_account_update_mobile_rule">您输入的手机号码不符合规则，请重新输入！</string>
+    <string name="center_setting_account_update_mobile_login_pwd">您输入的登录密码不正确，请重新输入！</string>
+    <string name="center_setting_account_update_mobile_login_pwd_empty">请填写6-20位数字+字母组成的登录密码</string>
+    <string name="center_setting_account_captcha_wrong">验证码不正确</string>
+    <string name="center_setting_account_update_mobile_failure">更换手机号失败！</string>
+    <string name="center_setting_account_push_captcha">发送验证码</string>
+    <!-- 个人中心 设置 修改密码-->
+    <string name="center_setting_old_pwd">请输入原始密码</string>
+    <string name="center_setting_new_pwd">请输入修改密码</string>
+    <string name="updata_success">修改成功</string>
+    <string name="updata_defeat">修改失败</string>
+
+    <string name="updata_pwd_empty">请填写6-20位数字+字母组成的新密码</string>
+    <string name="updata_pwd_null">你输入的原始密码或新密码为空，请输入!</string>
+    <string name="updata_pwd_equal">新密码与原始密码相同，请重新输入！</string>
+    <string name="updata_pwd_serail_number">密码不能为序列数字</string>
+    <string name="updata_pwd_same_number">密码不能为相同字符</string>
+
+    <!-- 个人中心 我的资产 -->
+    <string name="center_acountinfo_title">我的资产</string>
+    <string name="center_acountinfo_detailtip">账户明细</string>
+    <string name="center_acountinfo_allcount">总资产(元)</string>
+    <string name="center_acountinfo_crash_btn">提现</string>
+    <string name="center_acountinfo_freeze_btn">冻结%1$s元</string>
+    <string name="center_treatinfo_getmoney">获取担保金%1$s元</string>
+
+    <!-- 个人中心 活动 -->
+    <string name="center_treat_nosense">未感应</string>
+    <string name="center_treat_sensed">已感应</string>
+    
+    <!-- 他的个人中心-->
+    <string name="his_personal_center_title">用户详情</string>
+    <string name="his_personal_center_more_chat">发消息</string>
+    <string name="his_personal_center_more_share">分享</string>
+    <string name="his_personal_center_more_delete">删除</string>
+    <string name="his_personal_center_more_cancel">取消</string>
+    <string name="his_personal_center_act">活动</string>
+    <string name="his_personal_center_actcount">%1$d个活动</string>
+    <string name="his_personal_center_rp">人品 %1$s</string>
+    <string name="his_personal_center_nosignature">没个性不签名,有个性再签名</string>
+    <string name="his_personal_center_offline_treat">线下请</string>
+    <string name="his_personal_center_online_treat">线上请</string>
+    <string name="his_personal_center_speeddata">已参与急速约{%1$s}</string>
+    <string name="his_personal_center_noappraise">该用户还没有其他人的评价!</string>
+    <string name="his_personal_center_offline_rate">线下好评率 %1$s</string>
+</resources>

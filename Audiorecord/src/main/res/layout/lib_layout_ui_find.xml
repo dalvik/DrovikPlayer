@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/item_space" >
+
+    <RelativeLayout
+        android:id="@+id/friendCircleRL"
+        style="@style/UI.Center.ItemLayout" >
+
+        <TextView
+            style="@style/UI.Center.ItemTV"
+            android:drawableLeft="@drawable/friend_circle"
+            android:text="@string/find_friend" />
+
+        <ImageView
+            android:id="@+id/arraw"
+            style="@style/UI.Find.ItemIV"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <include
+        layout="@layout/lib_layout_ui_setting_splite_line"
+        android:visibility="gone" />
+
+    <!-- 秀场 -->
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/showsRl"
+        style="@style/UI.Find.ItemLayout" >
+
+        <TextView
+            style="@style/UI.Find.ItemTV"
+            android:drawableLeft="@drawable/find_shows"
+            android:text="@string/find_shows" />
+
+        <ImageView style="@style/UI.Find.ItemIV" />
+    </RelativeLayout>
+
+    <include android:visibility="gone" layout="@layout/lib_layout_ui_line" />
+
+    <!-- 极速约 -->
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/dateRL"
+        style="@style/UI.Find.ItemLayout" >
+
+        <TextView
+            style="@style/UI.Find.ItemTV"
+            android:drawableLeft="@drawable/find_date"
+            android:text="@string/find_date" />
+
+        <ImageView style="@style/UI.Find.ItemIV" />
+    </RelativeLayout>
+    <!-- 感应 -->
+
+    <RelativeLayout
+        android:id="@+id/senseRl"
+        style="@style/UI.Find.ItemLayout"
+        android:layout_marginTop="@dimen/item_space"
+        android:visibility="gone" >
+
+        <TextView
+            style="@style/UI.Find.ItemTV"
+            android:drawableLeft="@drawable/find_scene"
+            android:text="@string/find_scene" />
+
+        <ImageView style="@style/UI.Find.ItemIV" />
+    </RelativeLayout>
+
+    <include layout="@layout/lib_layout_ui_line" />
+
+    <!-- 附近的用户 -->
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/nearbyUserRl"
+        style="@style/UI.Find.ItemLayout" >
+
+        <TextView
+            style="@style/UI.Find.ItemTV"
+            android:drawableLeft="@drawable/find_users"
+            android:text="@string/find_users" />
+
+        <ImageView style="@style/UI.Find.ItemIV" />
+    </RelativeLayout>
+
+    <!-- 商品 -->
+    <RelativeLayout
+        android:visibility="gone"
+        style="@style/UI.Find.ItemLayout"
+        android:layout_marginTop="@dimen/item_space" >
+
+        <TextView
+            style="@style/UI.Find.ItemTV"
+            android:drawableLeft="@drawable/find_goods"
+            android:text="@string/find_goods" />
+
+        <ImageView style="@style/UI.Find.ItemIV" />
+    </RelativeLayout>
+
+</LinearLayout>

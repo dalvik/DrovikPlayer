@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="60dp"
+    android:paddingRight="60dp"
+    android:paddingTop="50dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:id="@+id/oldLockIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/certer_setting_oldpwd" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/item_space"
+            android:layout_marginRight="@dimen/item_space"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/oldLockIV"
+            android:background="@color/line" />
+
+        <EditText
+            android:id="@+id/oldPwdEt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/line"
+            android:background="@null"
+            android:hint="@string/center_setting_old_pwd"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:password="true"
+            android:textColor="#9b99a3"
+            android:textSize="13sp" />
+
+        <CheckBox
+            android:id="@+id/oldLockIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="10dp"
+            android:button="@null"
+            android:background="@drawable/certer_setting_pwd_hide" />
+    </RelativeLayout>
+
+    <include layout="@layout/lib_layout_ui_line" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:id="@+id/newLockIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/certer_setting_newpwd" />
+
+        <View
+            android:id="@+id/lines"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/item_space"
+            android:layout_marginRight="@dimen/item_space"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/newLockIV"
+            android:background="@color/line" />
+
+        <EditText
+            android:id="@+id/newPwdEt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/lines"
+            android:background="@null"
+            android:hint="@string/center_setting_new_pwd"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:textColor="#9b99a3"
+            android:textSize="13sp" />
+
+        <CheckBox
+            android:id="@+id/newLockIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="10dp"
+            android:button="@null"
+            android:background="@drawable/certer_setting_pwd_hide" />
+    </RelativeLayout>
+
+    <include layout="@layout/lib_layout_ui_line" />
+
+</LinearLayout>

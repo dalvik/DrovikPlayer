@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText 
+        android:id="@+id/his_personal_center_add_new_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:minLines="3"
+        android:maxLines="3"
+        android:hint="@string/personal_center_add_text_message_hint" />
+    
+    <RelativeLayout
+        android:id="@+id/his_personal_center_layout_speeddata"
+        android:layout_below="@+id/his_personal_center_add_new_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="@color/bg">
+
+
+        <TextView
+            android:id="@+id/his_personal_center_tv_speeddata_treatoffline"
+            style="@style/UI.His.Personal.Center.Treat.Btn"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/his_personal_center_tv_speeddata_treatonline"
+            android:text="@string/his_personal_center_offline_treat" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

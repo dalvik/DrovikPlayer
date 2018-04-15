@@ -1,0 +1,58 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!---base actionbar height -->
+    <dimen name="base_actionbar_height">48dp</dimen>
+    <dimen name="base_actionbar_padding_left">4dp</dimen>
+    <dimen name="base_actionbar_padding_right">4dp</dimen>
+    <dimen name="base_actionbar_padding_top">4dp</dimen>
+    <dimen name="base_actionbar_padding_bottom">4dp</dimen>
+
+    <!-- icon size-->
+    <dimen name="common_4_dp">4dp</dimen>
+    <dimen name="common_5_dp">5dp</dimen>
+    <dimen name="common_8_dp">8dp</dimen>
+    <dimen name="common_10_dp">10dp</dimen>
+    <dimen name="common_11_dp">11dp</dimen>
+    <dimen name="common_12_dp">12dp</dimen>
+    <dimen name="common_15_dp">15dp</dimen>
+    <dimen name="common_16_dp">16dp</dimen>
+    <dimen name="common_20_dp">20dp</dimen>
+    <dimen name="common_24_dp">24dp</dimen>
+    <dimen name="common_25_dp">25dp</dimen>
+    <dimen name="common_28_dp">28dp</dimen>
+    <dimen name="common_30_dp">30dp</dimen>
+    <dimen name="common_34_dp">34dp</dimen>
+    <dimen name="common_35_dp">35dp</dimen>
+    <dimen name="common_38_dp">38dp</dimen>
+    <dimen name="common_39_dp">39dp</dimen>
+    <dimen name="common_40_dp">40dp</dimen>
+    <dimen name="common_41_dp">41dp</dimen>
+    <dimen name="common_42_dp">42dp</dimen>
+    <dimen name="common_44_dp">44dp</dimen>
+    <dimen name="common_45_dp">45dp</dimen>
+    <dimen name="common_47_dp">47dp</dimen>
+    <dimen name="common_48_dp">48dp</dimen>
+    <dimen name="common_49_dp">49dp</dimen>
+    <dimen name="common_50_dp">50dp</dimen>
+    <dimen name="common_51_dp">51dp</dimen>
+    <dimen name="common_52_dp">52dp</dimen>
+    <dimen name="common_56_dp">56dp</dimen>
+    <dimen name="common_55_dp">55dp</dimen>
+    <dimen name="common_59_dp">59dp</dimen>
+    <dimen name="common_60_dp">60dp</dimen>
+    <dimen name="common_65_dp">65dp</dimen>
+    <dimen name="common_70_dp">70dp</dimen>
+    <dimen name="common_80_dp">80dp</dimen>
+    <dimen name="common_84_dp">84dp</dimen>
+    <dimen name="common_165_dp">165dp</dimen>
+
+    <!-- text size -->
+    <dimen name="base_dafault_size">18sp</dimen>
+    <dimen name="base_title_size">18sp</dimen>
+    <dimen name="base_subtitle_size">12sp</dimen>
+    <dimen name="base_sencond_title_size">16sp</dimen>
+
+    <!-- menu -->
+    <dimen name="base_splite_line_width">0.5dp</dimen>
+    <dimen name="base_splite_line_hight">0.5dp</dimen>
+</resources>

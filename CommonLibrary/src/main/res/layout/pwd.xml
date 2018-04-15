@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/login_logo" />
+
+        <!-- PWD -->
+        <RelativeLayout
+            android:id="@+id/pwdRl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="35dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/login_pwd" />
+
+                <TextView
+                    android:layout_width="1px"
+                    android:layout_height="60px"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/line"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" />
+
+                <EditText
+                    android:id="@+id/pwdEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
+                    android:background="@null"
+                    android:hint="@string/register_pwd_hint"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="@color/font_normal"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/eyeCk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/pwd"
+                android:layout_alignRight="@id/pwd"
+                android:layout_gravity="right"
+                android:background="@drawable/pwd_eye_selector"
+                android:button="@null"
+                android:visibility="visible" />
+
+            <!--line-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@id/pwd"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/line" />
+        </RelativeLayout>
+
+
+        <!-- Btn -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/submitBtn"
+                style="@style/Button.Common"
+                android:enabled="false"
+                android:text="@string/submit" />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

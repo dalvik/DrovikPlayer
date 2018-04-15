@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="DuplicateIds">
+
+        <!-- jianyi -->
+        <RelativeLayout
+            android:id="@+id/feedBackRL"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_space">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_setting_feed_back"
+                android:text="@string/sms_setting_suggestion" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+        </RelativeLayout>
+
+        <include android:visibility="gone" layout="@layout/lib_layout_ui_setting_splite_line" />
+
+        <!-- dashang -->
+        <RelativeLayout
+            android:id="@+id/payDonateRL"
+            style="@style/UI.Center.ItemLayout">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:text="@string/pay_donate_title" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+        </RelativeLayout>
+
+        <!-- bangzhu -->
+        <RelativeLayout
+            android:id="@+id/helpRL"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_space">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_setting_grade"
+                android:text="@string/sms_setting_help" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+        </RelativeLayout>
+
+        <include layout="@layout/lib_layout_ui_setting_splite_line" />
+
+        <!-- 勿扰模式 -->
+        <RelativeLayout
+            android:id="@+id/disturbinRL"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_space"
+
+            android:visibility="gone">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_setting_disturbin"
+                android:text="@string/center_setting_disturbin" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+        </RelativeLayout>
+
+        <!-- <include layout="@layout/line_treat" />-->
+
+        <!-- 意见反馈 -->
+        <RelativeLayout
+            android:id="@+id/feedBackRL"
+            android:visibility="gone"
+            style="@style/UI.Center.ItemLayout">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_setting_feed_back"
+                android:text="@string/center_setting_feedback" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+        </RelativeLayout>
+
+        <!-- 
+        <include layout="@layout/lib_layout_ui_setting_splite_line" />
+         -->
+
+        <!-- 清理缓存 -->
+        <RelativeLayout
+            android:id="@+id/calerCacheRL"
+            android:visibility="gone"
+            style="@style/UI.Center.ItemLayout">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_setting_caler_cache"
+                android:text="@string/center_setting_caler_cache" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+        </RelativeLayout>
+
+        <include layout="@layout/lib_layout_ui_setting_splite_line" />
+        
+        <!-- 关于 -->
+        <RelativeLayout
+            android:id="@+id/aboutRL"
+            style="@style/UI.Center.ItemLayout">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_setting_regards"
+                android:text="@string/sms_setting_about" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+        </RelativeLayout>
+
+        
+        <!-- <include layout="@layout/line_treat" />-->
+
+        <!-- 版本更新 -->
+        <RelativeLayout
+            android:id="@+id/updateRL"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_interval">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_setting_renewal"
+                android:text="@string/center_setting_renewal" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView
+                android:id="@+id/tipUpdateTv"
+                style="@style/UI.Center.RightItemTV"
+                android:text="新版本" />
+        </RelativeLayout>
+
+
+        <!-- 退出登录 -->
+        <RelativeLayout
+            android:id="@+id/exitRL"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="40dp">
+
+            <TextView
+                android:id="@+id/sexTv"
+                style="@style/UI.Mytreat.Btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingBottom="5dp"
+                android:paddingLeft="13dp"
+                android:paddingRight="13dp"
+                android:paddingTop="5dp"
+                android:text="@string/center_setting_exit_login"
+                android:textSize="15sp" />>
+        </RelativeLayout>
+        
+        <!-- 当前版本 -->
+        <RelativeLayout
+            android:id="@+id/updateVersionRL"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_interval">
+
+            <TextView
+                android:id="@+id/curVersionTv"
+                style="@style/UI.Center.ItemTV"
+                android:text="新版本" />
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

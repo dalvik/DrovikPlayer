@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/fill_black_background" >
+
+    <com.android.audiorecorder.ui.view.ImageClock
+        android:id="@id/timerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20.0dip" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout1"
+        android:layout_below="@+id/timerView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+
+        <ImageView
+            android:id="@id/mic_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/micphone" />
+
+        <ImageView
+            android:id="@id/image_d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="45.0dip" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/frameLayout1">
+
+        <ImageView
+            android:id="@id/imageView3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_pan_land" />
+
+        <com.android.audiorecorder.ui.view.VUMeter
+            android:id="@id/uvMeter"
+            android:layout_width="200.0dip"
+            android:layout_height="105.0dip"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="0.0dip"
+            android:layout_marginTop="23.0dip" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_below="@+id/frameLayout2" 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@id/recordButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48.0dip"
+            android:layout_marginRight="48.0dip"
+            android:background="@drawable/record_button_selector" />
+
+        <ImageButton
+            android:id="@id/pauseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48.0dip"
+            android:layout_marginRight="48.0dip"
+            android:background="@drawable/pause_button_selector"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@id/stopButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48.0dip"
+            android:layout_marginRight="48.0dip"
+            android:background="@drawable/stop_button_selector"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/base_content_background">
+    
+	<include layout="@layout/layout_main_header" />   
+    
+    <com.android.audiorecorder.ui.view.ScrollLayout   
+	  android:id="@+id/main_scrolllayout"    
+	  android:layout_width="fill_parent"    
+	  android:layout_height="fill_parent"
+   	  android:layout_weight="1">    
+  
+ 	  <include layout="@layout/layout_frame_local" />
+      
+	  <include layout="@layout/layout_frame_remote" />
+
+	</com.android.audiorecorder.ui.view.ScrollLayout> 
+     
+    <include layout="@layout/layout_main_footer" />   
+
+</LinearLayout>

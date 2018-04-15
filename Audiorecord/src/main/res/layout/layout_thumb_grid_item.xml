@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/grid_item_frame"
+    android:padding="1dip" >
+
+    <com.android.audiorecorder.ui.view.RecyclingImageView
+        android:id="@+id/catalog_file_conver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/thumb_cover_info"
+        android:layout_gravity="center"
+        android:layout_marginTop="2dip"
+        android:layout_marginBottom="2dip" 
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/catalog_file_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="left|center"
+            android:singleLine="true"
+            android:textSize="11sp"
+            android:textColor="@color/font_normal"
+            android:layout_marginLeft="5dip"/>
+
+        <TextView
+            android:id="@+id/catalog_img_number"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dip"
+            android:textSize="10sp"
+            android:textColor="@color/font_normal"
+            android:gravity="left|center" />
+
+    </LinearLayout>
+
+</RelativeLayout>

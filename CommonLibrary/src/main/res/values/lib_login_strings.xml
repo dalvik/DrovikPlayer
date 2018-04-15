@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+ 	<!-- 登陆 -->
+    <string name="login_mobile_hint">邮箱地址/注册号</string>
+    <string name="login_pwd_hint">请输入密码</string>
+    <string name="login_repwd_hint">请重复密码</string>
+    <string name="login_forgot">忘记</string>
+    <string name="login_mobile_error">请输入正确的邮箱地址</string>
+    <string name="login_email_error">请输入正确的邮箱地址</string>
+    <string name="login_id_error">请输入正确的注册号</string>
+    <string name="login_pwd_empty">请填写6位以上密码</string>
+    <string name="login_pwd_not_equal">两次密码不一致</string>
+    
+    <string name="login_registered">该账号已注册，请登录</string>
+    <string name="login_registered_unactive">请登陆邮箱激活账号</string>
+    <string name="login_locked">该账号被锁定</string>
+    <string name="login_destory">该账号被注销</string>
+    <string name="login_user_not_exist">用户名或密码错误</string>
+    <string name="login_success">登陆成功</string>
+    <string name="unknow_error">未知错误</string>
+</resources>

@@ -1,3 +1,338 @@
-<resources>
-    <string name="app_name">Audiorecord</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">BlueRecorder</string>
+    <string name="app_name_image_card">ImageCard</string>
+    <string name="app_name_video_card">VideoCard</string>
+    <string name="record_your_message">Record your message</string>
+    <string name="message_recorded">Message recorded</string>
+    <string name="review_message">Review message</string>
+    <string name="recording">Record</string>
+    <string name="recording_stopped">Stop</string>
+    <string name="recording_paused">Pause</string>
+    <string name="internal_storage_is_full">Phone storage is full</string>
+    <string name="external_storage_is_full">SD card storage is full</string>
+    <string name="max_length_reached">Maximum length reached</string>
+    <string name="insert_sd_card">Please insert SD card firstly or change memory location to phone.</string>
+    <string name="min_available">%d min available</string>
+    <string name="sec_available">%ds available</string>
+    <string name="min_sec_available">%ds available</string>
+    <string name="accept">Save</string>
+    <string name="discard">Cancel</string>
+    <string name="button_ok">OK</string>
+    <string name="timer_format" formatted="false">%02d:%02d</string>
+    <string name="press_record">Ready</string>
+    <string name="audio_db_title_format">yyyyMMddHHmmss</string>
+    <string name="audio_db_artist_name">Your recordings</string>
+    <string name="audio_db_album_name">Audio recordings</string>
+    <string name="audio_db_playlist_name">My recordings</string>
+    <string name="error_sdcard_access">Unable to save</string>
+    <string name="error_app_internal">Internal application error</string>
+    <string name="error_mediadb_new_record">Unable to save recorded audio</string>
+    <string name="error_make_record_path">Unable to create recorded path</string>
+    <string name="error_no_more_space">No more space to store files</string>
+    <string name="record">Record</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="play">Play</string>
+    <string name="save">Save</string>
+    <string name="cancle">Cancle</string>
+    <string name="ask_to_save">Save this record?</string>
+    <string name="files_browse">Browse the recording files</string>
+    <string name="sdcard_toast">Please insert SD card firstly</string>
+    <string name="settings">Settings</string>
+    <string name="to_file_manager">Browse recordings</string>
+    <string name="recoring_inCall">Phone is busy,Please wait</string>
+    <string name="information">Details</string>
+    <string name="rename_item">Rename</string>
+    <string name="record_list_title">Record list</string>
+    <string name="delete_song_desc">The record will be deleted.</string>
+    <!-- frame main -->
+    <string name="main_tab_main">File</string>
+    <string name="main_tab_msg">Message</string>
+    <string name="main_tab_find">Find</string>
+    <string name="main_tab_center">Center</string>
+
+
+    <string name="main_tab_main_image">图片</string>
+    <string name="main_tab_main_video">视频</string>
+    <string name="main_tab_main_bluetooth">蓝牙录音</string>
+    <string name="main_tab_main_telephone">电话录音</string>
+
+    <!-- down or upload -->
+    <string name="upload_item">Upload</string>
+    <string name="reupload_item">重传</string>
+    <string name="delete_item">Delete</string>
+    <string name="no_records_title">No records</string>
+    <string name="path">Path:</string>
+    <string name="size">File size:</string>
+    <string name="file_upload_init">Unupload</string>
+    <string name="file_upload_waiting">Watting</string>
+    <string name="file_uploading">Uploading</string>
+    <string name="file_upload_success">Success</string>
+    <string name="file_upload_fail">Failed</string>
+    <string name="notification_upload_title">上传</string>
+    <string name="notification_download_title">下载</string>
+    <string name="notification_upload_result_success">上传成功</string>
+    <string name="notification_upload_result_fail">上传失败</string>
+    <string name="notification_download_result_success">下载成功</string>
+    <string name="notification_download_result_fail">下载失败</string>
+
+    <string name="type">MIME Type:</string>
+    <string name="duration">Duration:</string>
+    <string name="menu_search">Search</string>
+    <string name="select_all">Select all</string>
+    <string name="unselect_all">Unselect all</string>
+    <string name="unknown">Unknown</string>
+    <string name="records_title">Records</string>
+    <string name="zero_time">0:00</string>
+    <string name="record_rename">Please input new record name:</string>
+    <string name="storage_setting">Memory location</string>
+    <string name="storage_setting_sdcard_item">SD card</string>
+    <string name="storage_setting_local_item">Phone</string>
+    <string name="format_setting">File type</string>
+    <string name="setting_setting">Settings</string>
+    <string name="format_setting_3GPP_item">MP3</string>
+    <string name="format_setting_AMR_item">WAV</string>
+    <string name="record_saved">Record saved</string>
+    <string name="record_name_cannot_empty">New record name can not be empty</string>
+    <string name="FileRename_ERR_NAMEINV">"File name include invalid character "</string>
+    <string name="durationformatshort" formatted="false">%2$d:%5$02d</string>
+    <string name="durationformatlong" formatted="false">%1$d:%3$02d:%5$02d</string>
+    <string name="no_phonestorage">Phonestorage unmounted</string>
+    <string name="file_exists">The same name exists</string>
+    <string name="list_changed">The list is changed, Please reload.</string>
+    <string name="list">Record list</string>
+
+    <string name="audio_bind_error">Service bind failed</string>
+    <string name="service_open_error_msg" msgid="7061754255330276478">"Failed to open file"</string>
+    <string name="select_delete_file" msgid="7061754255330276478">Please select file</string>
+
+    <string-array name="external_sd_path">
+        <item>/storage/extSdCard</item>
+        <item>/storage/sdcard1</item>
+        <item>/mnt/sdcard2</item>
+        <item>/mnt/sdcard-ext</item>
+        <item>/mnt/ext_sdcard</item>
+        <item>/mnt/sdcard/SD_CARD</item>
+        <item>/mnt/sdcard/extra_sd</item>
+        <item>/mnt/extrasd_bind</item>
+        <item>/mnt/sdcard/ext_sd</item>
+        <item>/mnt/sdcard/external_SD</item>
+    </string-array>
+
+    <!-- update -->
+    <string name="_check_version_str">正在检查更新，请稍等。。。</string>
+    <string name="_check_version_result_title_str">升级提示</string>
+    <string name="_check_version_result_success_message_str">您当前已经是最新版本</string>
+    <string name="_check_version_result_error_message_str">您当前已经是最新版本</string>
+    <string name="_check_version_result_ok_str">确定</string>
+    <string name="_check_version_dialog_title_str">软件版本更新</string>
+    <string name="_check_version_dialog_ok_button_str">立即更新</string>
+    <string name="_check_version_dialog_cancle_button_str">以后再说</string>
+    <string name="_loading_new_str">正在下载新版本</string>
+    <string name="_loading_new_cancle_str">取消</string>
+    <string name="_loading_str">下载</string>
+
+    <!-- register -->
+    <string name="register_email_tip">链接已发送至</string>
+    <string name="register_email_name_tip">%1$s</string>
+    <string name="register_email_view_tip">请及时登录邮箱激活完成注册</string>
+
+    <!-- login -->
+    <string name="login_main_tip">登录可以让附近的人发现你</string>
+    <string name="login_registered_unactive">请登录(%1$s)邮箱激活账号</string>
+    <string name="login_not_active">登录失败，请先激活账号</string>
+
+    <!-- 好友 -->
+    <string name="contacts_title">好友</string>
+    <string name="contacts_contact">通讯录</string>
+    <string name="contacts_scene">感应</string>
+    <string name="contacts_add_title">添加好友</string>
+    <string name="contacts_add_friend">好友</string>
+    <string name="contacts_add_success">好友添加成功</string>
+    <string name="contacts_add_fail">好友添加失败</string>
+    <string name="contacts_add_send">已发送验证信息,请等待验证通过</string>
+    <string name="contacts_add_waiting">等待验证</string>
+    <string name="contacts_search_hint">通过注册号/手机号/邮箱查找</string>
+    <string name="contacts_search_empty">未搜索到用户</string>
+    <string name="contacts_local_title">手机通讯录</string>
+    <string name="contacts_local_add">添加</string>
+    <string name="contacts_local_invate">邀请</string>
+
+    <!-- 添加好友-->
+    <string name="contacts_qq">QQ</string>
+    <string name="contacts_weixin">微信</string>
+    <!-- 选择好友-->
+    <string name="contacts_title_choose_contacts">选择好友</string>
+    <string name="contacts_choose_finish">完成</string>
+    <string name="not_checked_contacts">您还没有选择好友!</string>
+    <string name="checked_count">已选择(%1$d)</string>
+    <!-- 通讯录-->
+    <string name="local_contacts_confirmdialog_title">通讯录导入</string>
+    <string name="local_contacts_confirmdialog_content">是否允许通讯录导入?</string>
+    <string name="local_contacts_confirmdialog_yes">允许</string>
+    <string name="local_contacts_confirmdialog_no">拒绝</string>
+
+    <string name="local_contacts_confirmdialog_sync_title">同步通讯录</string>
+    <string name="local_contacts_confirmdialog_sync_content">检测到您的通讯录发生变化,是否同步?</string>
+    <string name="local_contacts_confirmdialog_upload_title">上传通讯录</string>
+    <string name="local_contacts_confirmdialog_upload_content">您还没有上传通讯录,是否上传?</string>
+    <string name="treat_online_detail_no_rate">没有好评</string>
+
+    <!-- 个人详细信息 -->
+    <string name="firend_detail_title">详细信息</string>
+    <string name="personal_detail_name_memo">%1$s</string>
+    <string name="personal_detail_nickname">昵称:  %1$s</string>
+    <string name="personal_detail_nickname_default">匿名</string>
+    <string name="personal_detail_user_code">ID: %1$s</string>
+    <string name="personal_detail_memo">设置备注和标签</string>
+    <string name="personal_detail_address">地区 </string>
+    <string name="personal_detail_message">个人动态</string>
+    <string name="personal_detail_signature">个性签名</string>
+    <string name="personal_detail_send_message">发消息</string>
+
+    <!-- personal center -->
+    <string name="personal_center_add_text_message_hint">这一刻的想法\.\.\.</string>
+    <string name="personal_center_add_none_message">内容不能为空。</string>
+    <string name="personal_center_add_new_message_title">新动态</string>
+    <string name="personal_center_add_new_message_submit">发送</string>
+
+    <!-- setting -->
+    <string name="sms_setting_title">设置</string>
+    <string name="sms_list_back">返回</string>
+    <string name="sms_setting_update">升级软件：</string>
+    <string name="sms_setting_newer">可更新至 <xliff:g id="number">%1$s</xliff:g></string>
+    <string name="sms_setting_newest">当前已是最新版本</string>
+    <string name="sms_setting_suggestion">投诉建议</string>
+    <string name="sms_setting_suggestion_notice">大家的建议为提高软件质量已经起到作用，在此深表感谢。对于大家提出的问题会给与解答，希望大家继续提出宝贵的意见和建议！</string>
+    <string name="sms_setting_suggestion_null">请输入投诉或者建议内容</string>
+    <string name="sms_setting_suggestion_long">输入的投诉或者建议内容太长</string>
+    <string name="sms_setting_suggestion_success">反馈成功，感谢参与！</string>
+    <string name="sms_setting_suggestion_commit">提交</string>
+    <string name="sms_setting_help">帮助中心</string>
+    <string name="sms_setting_help_software">1、软件介绍</string>
+    <string name="sms_setting_help_software_content"><![CDATA[<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;蓝牙录音机是一款轻量级的蓝牙录音软件，主要是为了解决蓝牙耳机种类众多，而蓝牙录音软件严重不足的问题。本软件能够适配市面上大部分的蓝牙耳机，录音音质细腻、清晰，悦耳动听。同时支持后台不间断录音，软件小巧、轻便，运行高效、省点，适合长时间录音。<br/>]]></string>
+    <string name="sms_setting_help_function">2、功能介绍</string>
+    <string name="sms_setting_help_function_content"><![CDATA[<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;蓝牙录音机软件界面设计简单，操作灵活方便，功能稳定。其中主要包括以下功能：<br/>
+        <font color="#000000"><br/>1、蓝牙录音<br/></font>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;蓝牙录音是该软件的特功能。市场上大部分的录音软件都不支持蓝牙录音。但该软件支持A2DP和非A2DP两种类型的蓝牙耳机。录音过程当初如果有蓝牙耳机成功连接，该软件会强制开启蓝牙录音功能。<br/>
+        <font color="#000000"><br/>2、后台录音<br/></font>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在录音过程当中，您可以点击home键或者返回键去做其他事情。录音不会停止。方便用户。一般的录音软件只能前台录音，点击返回键录音就自动停止了。<br/>
+        <font color="#000000"><br/>3、电话录音<br/></font>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您可以设置是否开启来电自动录音功能。如果开启自动来电录音，当有电话呼入，该软件会自动记录通过过程，通话结束，自动停止录音。方便快速保留依据。<br/>
+        <font color="#000000"><br/>4、录音路径和录音格式设置<br/></font>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您可以方便的设置录音文件保存的位置。您也可以设置音频文件的存储格式。<br/>
+        <font color="#000000"><br/>5、录音文件浏览<br/></font>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您可以快速的查阅所有的录音文件，默认以开始录音的时间先后倒叙排列。方便查看。<br/>
+        <font color="#000000"><br/>6、录音文件的回放、查看和删除<br/></font>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您可以对所有的录音文件进行实时的浏览回放、详情查看和删除等操作。
+        <br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;感谢您使用该软件，您的支持是我们前进的动力！
+        <br/><br/><br/>]]></string>
+    <string name="sms_setting_about">关于我们</string>
+    <string name="sms_setting_about_us">1、关于我们</string>
+    <string name="sms_setting_about_us_content">项目团队是由多年从事JavaEE开发和Android移动物联网开发的资深技术专家组成。拥有丰富的基于Android平台开发经营，能高效、快速完成Android定制开发。</string>
+    <string name="sms_setting_about_contact">2、联系我们</string>
+    <string name="sms_setting_about_contact_content">地址：杭州市西湖区天目山路160号国际花园写字楼
+        \nHome:<a href="http://www.davmb.com">http://www.davmb.com</a>
+        \nTel:<a href="tel:15068885227">15068885227</a>
+        \nQQ:513518064</string>
+    <string name="sms_setting_about_cooperation">3、项目合作</string>
+    <string name="sms_setting_about_cooperation_content">Email: <a href="mailto:sky.xctc@163.com">sky.xctc@163.com</a></string>
+
+    <!-- pull to refresh -->
+    <string name="pull_to_refresh_pull_label">下拉可以刷新</string>
+    <string name="pull_to_refresh_release_label">松开可以刷新</string>
+    <string name="pull_to_refresh_refreshing_label">加载中\.\.\.</string>
+    <string name="pull_to_refresh_tap_label">下拉可以刷新</string>
+    <string name="pull_to_refresh_update">最近更新：</string>
+
+    <string name="load_more">更多</string>
+    <string name="load_ing">加载中···</string>
+    <string name="load_full">已加载全部。每天更新，记得下拉刷新哦！</string>
+    <string name="load_empty">暂无数据</string>
+    <string name="load_error">加载数据出错</string>
+
+    <string name="load_alumb">加载</string>
+
+    <string name="network_not_connected">网络连接失败，请检查网络设置</string>
+    <string name="xml_parser_failed">数据解析异常</string>
+    <string name="io_exception_error">文件流异常</string>
+    <string name="http_status_code_error">网络异常，错误码：%d</string>
+    <string name="http_exception_error">网络异常，请求超时</string>
+    <string name="socket_exception_error">网络异常，读取数据超时</string>
+    <string name="app_run_code_error">应用程序运行时异常</string>
+    <string name="no_network_connection_toast">无网络连接</string>
+
+    <string name="drovik_head_label_msg">本机</string>
+    <string name="drovik_frame_local_image_str">图片</string>
+    <string name="drovik_frame_local_video_str">视频</string>
+    <string name="drovik_frame_local_audio_str">音频</string>
+    <string name="drovik_frame_local_other_str">其他</string>
+
+    <string name="drovik_frame_remote_image_str">图片</string>
+    <string name="drovik_frame_remote_video_str">视频</string>
+    <string name="drovik_frame_remote_audio_str">音频</string>
+    <string name="drovik_frame_remote_other_str">其他</string>
+
+    <!-- find -->
+    <string name="find_friend">朋友圈</string>
+
+    <!-- friend circle resource -->
+    <string name="friend_circle_message_time_year_ago">年前</string>
+    <string name="friend_circle_message_time_month_ago">月前</string>
+    <string name="friend_circle_message_time_week_ago">周前</string>
+    <string name="friend_circle_message_time_day_ago">天前</string>
+    <string name="friend_circle_message_time_yestorday">昨天</string>
+    <string name="friend_circle_message_time_days_ago">天前</string>
+    <string name="friend_circle_message_time_hours_ago">小时前</string>
+    <string name="friend_circle_message_time_minute_ago">分钟前</string>
+    <string name="friend_circle_message_time_second_ago">刚刚</string>
+    <string name="friend_circle_message_delete">删除</string>
+    <string name="friend_circle_message_create_owner">作者</string>
+    <string name="friend_circle_message_create_memo">分享了一段文字</string>
+    <string name="friend_circle_message_text_content">我发布了一段文字</string>
+    <string name="friend_circle_message_link_description">这是一个 神奇的，很神奇的\n事件</string>
+    <string name="friend_circle_message_create_time">发布时间</string>
+    <string name="friend_circle_message_favout_name">点赞的昵称</string>
+    <string name="friend_circle_reply_more">更多</string>
+    <string name="friend_circle_active_comment_reply">回复</string>
+    <string name="friend_circle_message_reply_name">作者</string>
+    <string name="friend_circle_message_reply_del">:</string>
+    <string name="friend_circle_message_reply_content">内容</string>
+
+    <!-- 通用弹窗 -->
+    <string name="friend_circle_common_dialog_title">标题</string>
+    <string name="friend_circle_common_dialog_content">内容</string>
+    <string name="friend_circle_common_dialog_left_button">取消</string>
+    <string name="friend_circle_common_dialog_right_button">确定</string>
+
+    <!-- 回复输入框 -->
+    <string name="friend_circle_reply_send">发送</string>
+
+    <!-- 发布动态 -->
+    <string name="friend_circle_active_publish_title">写动态</string>
+    <string name="friend_circle_active_publish_commit">发送</string>
+    <string name="friend_circle_active_publish_content_hint">说点什么吧\.\.\.</string>
+    <string name="friend_circle_active_publish_commit_success">发送成功</string>
+    <string name="friend_circle_active_publish_commit_fail">发送失败</string>
+
+    <!-- 个人动态 -->
+    <string name="friend_circle_active_new">动态</string>
+    <string name="friend_circle_person_active_time_date">今天</string>
+    <string name="friend_circle_person_active_thumbnail_size">共%d张</string>
+
+    <!-- 动态删除 -->
+    <string name="friend_circle_active_delete_title">删除提示</string>
+    <string name="friend_circle_active_delete_content">确定删除吗?</string>
+    <string name="friend_circle_active_delete_cancel">取消</string>
+    <string name="friend_circle_active_delete_ok">确定</string>
+
+    <!-- video -->
+    <string name="file_not_exist">File not exists</string>
+
+    <!-- record -->
+    <string name="phone_record_in_call">In</string>
+    <string name="phone_record_out_call">Out</string>
+    <string name="phone_record_list_title">PHone Record</string>
 </resources>

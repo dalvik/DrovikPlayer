@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:background="@color/base_content_background"
+    android:padding="0.0dip" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:padding="3dip" >
+
+        <com.android.library.ui.checklist.LibCheckListHorizontalListView
+            android:id="@+id/lib_id_checkedlist_image_list"
+            android:layout_width="0dip"
+            android:layout_height="40dip"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/lib_id_checkedlist_sure_button"
+            android:layout_width="80dip"
+            android:layout_height="35dip"
+            android:gravity="center"
+            android:layout_gravity="right|center_vertical"
+            android:text="@string/lib_string_checkedlist_sure_button" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lib_id_checklist_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" >
+    </ListView>
+
+</LinearLayout>

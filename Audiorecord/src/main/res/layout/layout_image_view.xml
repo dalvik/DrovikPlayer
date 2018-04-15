@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <com.android.audiorecorder.ui.view.RotateLayout
+        android:id="@+id/picture_view_root"
+        android:layoutAnimation="@anim/anim_layout_fade"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <com.android.audiorecorder.gallery.widget.GalleryViewPager
+            android:id="@+id/viewer"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </com.android.audiorecorder.ui.view.RotateLayout>
+
+</RelativeLayout>

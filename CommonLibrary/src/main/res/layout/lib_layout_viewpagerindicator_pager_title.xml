@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="40dip"
+    android:minWidth="80dip"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_marginTop="5dip"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/lib_id_viewpagerindicator_pager_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:text="TextView" />
+
+        <ImageView
+            android:id="@+id/lib_id_viewpagerindicator_pager_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingTop="2dip"
+            android:src="@mipmap/vpi_detail_title_line" />
+
+        <ImageView
+            android:id="@+id/lib_id_viewpagerindicator_pager_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/lib_id_viewpagerindicator_pager_title"
+            android:layout_toRightOf="@+id/lib_id_viewpagerindicator_pager_title"
+            android:src="@mipmap/vpi_detail_cirle"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/pager_underLine"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="0dp"
+        android:src="@drawable/lib_drawable_viewpagerindicator_current_pager_selector"
+        android:visibility="visible" />
+
+</LinearLayout>

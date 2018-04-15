@@ -1,3 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">CommonLibrary</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="ok">确定</string>
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="select">选择</string>
+    <string name="finish">完成</string>
+    <string name="back">返回</string>
+    <string name="processing">正在处理...</string>
+    <string name="loading">正在载入...</string>
+    <string name="tip">温馨提示</string>
+    <string name="default_tip_content">您确认要进行此项操作吗?</string>
+    <string name="committing">正在提交...</string>
+    <string name="no_net">当前无网络 , 请检查网络环境</string>
+    <string name="no_more_data">数据加载完成 , 没有更多数据</string>
+    <string name="no_data">暂无数据</string>
+    <string name="loading_error">加载异常 , 请重试</string>
+    <string name="inner_error_tip">出错啦!</string>
+    <string name="inner_error_refresh">重新加载</string>
+    <string name="data_parse_err">数据解析错误 , 请重试</string>
+    <string name="system_err">系统内部错误</string>
+    <string name="intent_err">Intent 参数错误</string>
+    <string name="client_err">客户端错误</string>
+
+    <string name="select_time_text">选择时间</string>
+
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="gorget_pwd">找回密码</string>
+    <string name="thirdRegister">绑定账号</string>
+    <string name="submit">提交</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="birthday">%1$d年%2$d月%3$d日</string>
+    <string name="confirm">确定</string>
+    <string name="update">更新</string>
+    <string name="update_tip">有新版本更新.</string>
+    <string name="download">下载</string>
+    <string name="install">安装</string>
+
+    <string name="take_photo">拍照</string>
+    <string name="choose_photo">从手机相册选择</string>
+    <string name="delete_photo">要删除这张照片吗</string>
+    <string name="crop_error">图片裁剪失败</string>
+    <string name="delete_tip">确认删除?</string>
+    <!-- 引导页 -->
+    <string name="guide_enter">立&#160;即&#160;体&#160;验</string>
+
 </resources>

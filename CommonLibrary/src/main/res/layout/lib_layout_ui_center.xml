@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="DuplicateIds">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_main"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="15dp"
+                android:paddingLeft="80dp"
+                android:paddingRight="80dp"
+                android:paddingTop="15dp">
+
+                <com.android.library.ui.view.RoundImageView
+                    android:id="@+id/headerIconIv"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp" />
+
+                <TextView
+                    android:id="@+id/nicknameTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="123"
+                    android:textColor="#FF73717F"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/signatureTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:drawableRight="@drawable/center_pen"
+                    android:textColor="#FF9B9AA3"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/center"
+                android:layout_alignTop="@+id/center"
+                android:layout_centerVertical="true"
+                android:background="#FF262432"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/crownTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/center_crown"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/center"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/center"
+                android:layout_centerVertical="true"
+                android:background="#FF262432"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/allureTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/center_allure"
+                    android:gravity="center" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- 账户 -->
+        <RelativeLayout style="@style/UI.Center.ItemLayout"
+            android:id="@+id/centerAcountRl">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_account"
+                android:text="@string/center_account" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView style="@style/UI.Center.RightItemTV" />
+        </RelativeLayout>
+
+        <!-- <include layout="@layout/line_treat" />-->
+        <!-- 奖励 -->
+        <RelativeLayout
+            style="@style/UI.Center.ItemLayout"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_rewards"
+                android:text="@string/center_rewards" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView style="@style/UI.Center.RightItemIV" />
+        </RelativeLayout>
+
+
+        <!-- 活动 -->
+        <RelativeLayout
+            android:id="@+id/treatRl"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_space">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_activity"
+                android:text="@string/center_activity" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView style="@style/UI.Center.RightItemTV" />
+        </RelativeLayout>
+
+        <include layout="@layout/lib_layout_ui_setting_splite_line" />
+
+
+        <!-- 关注 -->
+        <RelativeLayout
+            android:id="@+id/collectRl"
+            style="@style/UI.Center.ItemLayout">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_favorite"
+                android:text="@string/center_attention" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView style="@style/UI.Center.RightItemTV" />
+        </RelativeLayout>
+
+        <!-- <include layout="@layout/line_treat" />-->
+
+
+        <!-- 待请 -->
+        <RelativeLayout
+            style="@style/UI.Center.ItemLayout"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_treat"
+                android:text="@string/center_treat" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView style="@style/UI.Center.RightItemIV" />
+        </RelativeLayout>
+
+
+        <!-- 礼物 -->
+        <RelativeLayout
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_space">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_gift"
+                android:text="@string/center_gift" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+
+            <TextView style="@style/UI.Center.RightItemTV" />
+        </RelativeLayout>
+
+        <!-- 动态 -->
+        <RelativeLayout
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_space"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_relative"
+                android:text="@string/center_relative" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView style="@style/UI.Center.RightItemTV" />
+        </RelativeLayout>
+
+
+        <!-- 设置 -->
+        <RelativeLayout
+            android:id="@+id/settingRL"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_space">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_setting"
+                android:text="@string/center_setting" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView style="@style/UI.Center.RightItemTV" />
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

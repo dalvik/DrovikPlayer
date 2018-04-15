@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blue">#0000ff</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="grid_state_pressed">#BB7dbcd3</color>
+    <color name="grid_state_focused">#777dbcd3</color>
+    <color name="text_gray">#ff333333</color>
+    <color name="text_black">#ff000000</color>
+    <color name="bg_white">#ffffffff</color>
+    <color name="color_select_file_bg">#ffff0000</color>
+    
+    <color name="frame_button_text_nor">#033a5c</color>
+    <color name="frame_button_text_select">#FFFFFF</color>
+    <color name="listitem_transparent">#00000000</color>
+	<color name="alpha_00">#00000000</color>
+	<color name="alpha">#FF000000</color>
+	<color name="black">#000000</color>
+	<color name="red">#FF0000</color>
+	<color name="darkgray">#938192</color>
+    <color name="lightgreen">#7cd12e</color>
+    <color name="lightdark">#666666</color>
+    <color name="welcome_bottom_tips">#a0a0a0</color>
+    
+    <!-- button select -->
+    <color name="highlight_button_start_color">#0606eb</color>
+    <color name="highlight_button_middle_color">#e2c5f2</color>
+    <color name="highlight_button_end_color">#a0a0a0</color>
+    
+    <color name="tencent_video_color">#7B5521</color>
+    
+   	<!-- 透明 -->
+	<color name="transparent">#00000000</color>
+	<color name="popnoselectedfontcolor">#ff734908</color>
+
+    <drawable name="nofocus">#363533</drawable>
+    <drawable name="lib_drawable_common_actionbar_background">#FFFFFFFF</drawable>
+    <drawable name="title_background">#FFFFFFFF</drawable>
+    <drawable name="ic_category_select">#22211F</drawable>
+	<!-- 白色 -->
+	<drawable name="white">#FFFFFF</drawable>
+	<!-- 红色 -->
+	<drawable name="red">#FF0000</drawable>
+	<!-- 橙色 -->
+	<drawable name="orange">#FFA500</drawable>
+	<!-- 黑色 -->
+	<drawable name="black">#000000</drawable>
+	<!-- 深粉红色 -->
+	<drawable name="deeppink">#FF1493</drawable>
+	<!-- 雪白色 -->
+	<drawable name="snow">#FFFAFA</drawable>
+	<!-- 桔黄色 -->
+	<drawable name="bisque">#FFE4C4</drawable>
+	<!-- 热粉红色 --> 
+	<drawable name="hotpink">#FF69B4</drawable>
+	<!-- 淡灰色 -->
+	<drawable name="gainsboro">#DCDCDC</drawable>
+	<!-- 草绿色 -->
+	<drawable name="lawngreen">#7CFC00</drawable>
+	
+	<drawable name="lightyellow">#FFFFE0</drawable>
+	
+	<drawable name="azure">#F0FFFF</drawable>
+	
+	<drawable name="violet">#EE82EE</drawable><!-- 紫罗兰色  -->
+	
+	<drawable name="powderblue">#B0E0E6</drawable><!-- 粉蓝色 -->
+	
+	<drawable name="darkblue">#191970</drawable><!-- 深蓝色 -->
+	
+	<drawable name="aliceblue">#F0F8FF</drawable><!-- 艾利斯兰 -->
+	
+	<drawable name="alice">#FF4500</drawable>
+	
+	<drawable name="lightcoral">#F08080</drawable><!-- 亮珊瑚色 -->
+	
+	<drawable name="lightgreen">#90EE90</drawable><!-- 亮绿色 -->
+	
+	<item type="drawable" name="main_background">#fff6f6f6</item>
+	<color name="half_transparent">#aa000000</color>
+	
+	<color name="grid_border">#ffd0bd92</color>
+	
+	<color name="bg_headerbar_spinner_normal">@color/transparent</color>
+    <color name="bg_headerbar_spinner_selected">#5f000000</color>
+    <color name="bg_headerbar_spinner_press">#7f000000</color>
+
+    <color name="text_color">#ff434343</color>
+    <color name="text_color_blue">#ff6699cc</color>
+    <color name="text_selected_color">#ffff9f08</color>
+    <color name="text_press_color">#ffff4b08</color>
+    <color name="background_normal">#fffffbf0</color>
+    <color name="font_value">#ff888271</color>
+    <color name="notes_color">#ff777777</color>
+    <color name="dialog_divider">#ffbfcbd3</color>
+    <color name="devideline">#ffd0c9b8</color>
+    <color name="devideline_listview">#ffe5e2d4</color>
+    <color name="devideline_undercard">#ffc7c2b0</color>
+    
+    <item type="drawable" name="draw_temp">#fff4f4f4</item>
+    <drawable name="list_backgroud_normal">@color/white</drawable>
+    <drawable name="transparent">@color/transparent</drawable>
+    
+    <color name="thumb_cover_info">#45000000</color>
+    <color name="bg_pull_to_refresh_header">#22000000</color>
+    
+    <!-- publish active -->
+    <color name="light_gray">#99a4b7</color>
+    <color name="deep_gray">#394257</color>
+    <color name="border_gray">#d9dfe5</color>
+    <color name="bg_gray">#e1e1e1</color>
+    <color name="btn_gray">#d1d1d1</color>
+    <color name="glass_gall">#c2ebef</color>
+    <color name="light_blue">#87d0f2</color>
+    <color name="reply_gray">#697fb1</color>
+    
+    <color name="gray0">#464646</color>
+    <color name="gray1">#7e7e7e</color>
+    <color name="gray2">#969696</color>
+    <color name="gray3">#c8969696</color>
+    <color name="gray4">#F5F5F5</color>
+    <color name="gray5">#EBEBEB</color>
+    <color name="gray6">#FBFBFB</color>
+    <color name="gray7">#999999</color>
+    <color name="gray8">#D9D9D9</color>
+    <color name="gray9">#DBDFE0</color>
+
+    <color name="red0">#ff0000</color>
+    <color name="red1">#D84E43</color>
+    <color name="red2">#F08B88</color>
+    <color name="red3">#FFFAF5</color>
+    <color name="red4">#823026</color>
+    <color name="red5">#FA6F5F</color>
+    <color name="red6">#D54A47</color>
+    <color name="red7">#E64340</color>
+
+    <color name="green0">#45C01A</color>
+    <color name="green1">#45C01A</color>
+    <color name="green2">#A3DEA3</color>
+    <color name="green3">#1AAD19</color>
+    <color name="green4">#2BAD49</color>
+</resources>

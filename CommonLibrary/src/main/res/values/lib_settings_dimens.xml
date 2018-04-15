@@ -1,0 +1,17 @@
+<resources>
+    <dimen name="wheel_item_height">46dp</dimen>
+    <dimen name="item_space">10dp</dimen>
+    <dimen name="item_interval">20dp</dimen>
+
+    <dimen name="find_item_height">65dp</dimen>
+    <dimen name="center_acount_top_spacing">30dp</dimen>
+    <dimen name="center_treat_title_spacing">35dp</dimen>
+    <dimen name="center_acount_topacount_size">50sp</dimen>
+    <dimen name="center_treat_headimg_height">80dp</dimen>
+    <dimen name="findshows_dimen_middle_size">16sp</dimen>
+    <dimen name="findshows_dimen_small_size">14sp</dimen>
+    <dimen name="findshows_dimen_wee_size">12sp</dimen>
+    <dimen name="findshows_dimen_middle_spacing">10dp</dimen>
+    <dimen name="findshows_dimen_large_text">18sp</dimen>
+    <dimen name="findshows_dimen_large_spacing">15dp</dimen>
+</resources>

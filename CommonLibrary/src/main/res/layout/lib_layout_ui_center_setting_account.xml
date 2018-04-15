@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="DuplicateIds">
+        <!-- QQ号 -->
+        <RelativeLayout
+            android:id="@+id/qqRL"
+            style="@style/UI.Center.ItemLayout">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_setting_account_qqs"
+                android:text="@string/center_setting_account_qq" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView
+                android:id="@+id/qqTv"
+                style="@style/UI.Center.RightItemTV"
+                android:text="@string/center_setting_account_unbounded" />
+        </RelativeLayout>
+
+        <include layout="@layout/lib_layout_ui_setting_splite_line" />
+
+        <!-- 微信号 -->
+        <RelativeLayout
+            android:id="@+id/wxRL"
+            style="@style/UI.Center.ItemLayout">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_setting_account_wxs"
+                android:text="@string/center_setting_account_wx" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView
+                android:id="@+id/wxTv"
+                style="@style/UI.Center.RightItemTV"
+                android:text="@string/center_setting_account_unbounded" />
+        </RelativeLayout>
+
+        <include layout="@layout/lib_layout_ui_setting_splite_line" />
+
+        <!-- 手机 -->
+        <RelativeLayout
+            android:id="@+id/mobileRL"
+            style="@style/UI.Center.ItemLayout">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_setting_renewal"
+                android:text="@string/center_setting_account_mobile" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView
+                android:id="@+id/mobileTv"
+                style="@style/UI.Center.RightItemTV"
+                android:text="@string/center_setting_account_unbounded" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="30dp">
+
+    <!-- 热销商品列表 -->
+    <LinearLayout
+        android:id="@+id/IconLl"
+        android:layout_weight="1.0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingBottom="10dp"
+        android:paddingLeft="45dp"
+        android:paddingRight="10dp"
+        android:visibility="gone">
+
+        <com.android.library.ui.view.MeasureHorizontalScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@android:color/white"
+            android:scrollbars="none" >
+
+            <LinearLayout
+                android:id="@+id/iconsLl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </com.android.library.ui.view.MeasureHorizontalScrollView>
+
+    </LinearLayout>
+
+    <!-- 支付明细 -->
+    <RelativeLayout
+        android:id="@+id/detailRl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pay_detail"
+            android:textColor="@color/font_normal"
+            android:textSize="18sp" />
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail"
+            android:background="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10dp"
+            android:listSelector="@android:color/transparent"
+            android:persistentDrawingCache="none" />
+
+        <ImageView
+            android:id="@id/line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/listView"
+            android:background="@drawable/lib_drawable_ui_line" />
+
+        <TextView
+            android:id="@+id/priceTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="bottom"
+            android:layout_below="@id/line"
+            android:text="¥"
+            android:textColor="@color/font_normal"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line"
+            android:gravity="bottom"
+            android:layout_toLeftOf="@id/priceTv"
+            android:layout_alignBaseline="@id/priceTv"
+            android:text="@string/pay_total"
+            android:textColor="@color/font_normal"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <!-- 支付方式 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailRl"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/white"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/payWays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pay_ways"
+            android:textColor="@color/font_normal"
+            android:textSize="14sp" />
+
+
+        <RadioGroup
+            android:id="@+id/payWayRg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/payWays"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/weChatRb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_selector"
+                android:button="@null"
+                android:paddingBottom="5dp"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:text="@string/pay_wechat"
+                android:textColor="@color/btn_selector"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/aliPayRb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:checked="true"
+                android:gravity="center"
+                android:background="@drawable/btn_selector"
+                android:button="@null"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:text="@string/pay_alipay"
+                android:textColor="@color/btn_selector"
+                android:textSize="16sp" />
+        </RadioGroup>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:padding="20dp">
+
+        <Button
+            android:id="@+id/payBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_selector"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:text="@string/pay_submit"
+            android:textColor="@color/btn_selector"
+            android:textSize="18sp" />
+    </LinearLayout>
+</RelativeLayout>

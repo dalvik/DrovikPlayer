@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_contacts">通讯录</string>
+    <string name="add_gifts">送礼</string>
+
+    <string name="de_plugins_image">图片</string>
+    <string name="de_plugins_camera">相机</string>
+    <string name="de_save">"保存"</string>
+    <string name="de_dialog_item_message_delete">删除消息</string>
+    <string name="de_actionbar_sub_group">群组</string>
+    <string name="de_actionbar_sub_system">系统消息</string>
+    <string name="de_actionbar_sub_defult">聊天</string>
+    <string name="de_actionbar_sub_private">私人会话</string>
+</resources>

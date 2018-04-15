@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+ 	
+ 	<!-- 支付-->
+    <string name="pay_title">确认订单</string>
+    <string name="pay_detail">支付明细</string>
+    <string name="pay_total">共计&#160;&#160;:&#160;&#160;</string>
+    <string name="pay_total_price">¥%1$s元</string>
+    <string name="pay_ways">选择支付方式</string>
+    <string name="pay_wechat">微信支付</string>
+    <string name="pay_alipay">支付宝支付</string>
+    <string name="pay_submit">确定付款</string>
+    <string name="pay_count">x%1$d</string>
+    <string name="pay_price">¥%1$s</string>
+    <string name="pay_confirm_title">警告</string>
+    <string name="pay_confirm_content">订单尚未支付,强制退出后,无法发布活动,是否退出?</string>
+    <string name="pay_confirm_cancel">放弃付款</string>
+    <string name="pay_confirm_ok">付款</string>
+    
+    <!-- 打赏 -->
+    <string name="pay_donate_max_value">单次打赏金额不可超过%1$s元</string>
+ 	<string name="pay_donate_submit">打赏</string>
+    <string name="pay_donate_title">服务打赏</string>
+    <string name="pay_donate_header">打赏金额</string>
+    <string name="pay_donate_hint">0.00</string>
+    <string name="pay_donate_footer">元</string>
+    <string name="pay_donate_help">您的支持是我们前进的动力！</string>
+    <string name="pay_donate_message_header">留言</string>
+    <string name="pay_donate_message_hint">再接再厉，继续努力！</string>
+    
+    <string name="pay_donate_pay_title">打赏确认</string>
+    <string name="pay_donate_detail">打赏明细</string>
+    <string name="pay_donate_total">共&#160;&#160;:&#160;&#160;</string>
+    <string name="pay_donate_total_price">¥%1$s元</string>
+    
+    <string name="pay_donate_confirm_content">打赏尚未支付,是否强制退出?</string>
+    <string name="pay_donate_confirm_title">小贴士^_^</string>
+    <string name="pay_donate_confirm_cancel">放弃打赏</string>
+    <string name="pay_donate_confirm_ok">继续打赏</string>
+    <string name="pay_donate_result_success">打赏成功，感谢支持！</string>
+    <string name="pay_donate_result_process">支付结果确认中\.\.\.</string>
+    <string name="pay_donate_result_fail">打赏失败！</string>
+    
+</resources>

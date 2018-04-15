@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/choosedListViewLayout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:visibility="gone"
+            android:background="@color/show_list_bg">
+            
+            <com.android.library.ui.view.HorizontalListView
+                android:id="@+id/choosedListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@android:color/transparent"
+                android:fadingEdge="none"
+                android:layout_centerVertical="true"
+                android:listSelector="@drawable/lv_item_selector"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:layout_marginLeft="10dp"
+                android:visibility="gone"/>
+
+
+            <TextView
+                android:id="@+id/noCheckedTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/not_checked_contacts"
+                android:singleLine="true"
+                android:textColor="@color/font_title"
+                android:textSize="13sp"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/choosedListViewLayout"
+            android:clipToPadding="false"
+            android:descendantFocusability="blocksDescendants"
+            android:divider="@android:color/transparent"
+            android:fadingEdge="none"
+            android:listSelector="@drawable/lv_item_selector"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+        <TextView
+            android:id="@+id/tipUpdateTv"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/sidebar_bg"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/choosedListViewLayout"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:clickable="true"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical">
+
+            <com.android.library.ui.sidebar.az.SideBar
+                android:id="@+id/sidebar"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

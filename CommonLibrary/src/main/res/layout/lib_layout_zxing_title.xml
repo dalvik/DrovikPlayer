@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/base_content_background" >
+
+    <Button
+        android:id="@+id/lib_id_zxing_title_button_back"
+        android:layout_width="75.0dip"
+        android:layout_height="wrap_content"
+        android:background="@drawable/base_actionbar_back_selector"
+        android:textColor="@color/lib_common_actionbar_text_color"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="2dip" />
+
+    <TextView
+        android:id="@+id/lib_id_zxing_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lib_id_zxing_title_button_back"
+        android:layout_alignBottom="@+id/lib_id_zxing_title_button_back"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical"
+        android:text="@string/lib_string_code_scan_title"
+        android:textColor="@color/lib_common_actionbar_text_color"
+        android:textSize="18sp" />
+
+</RelativeLayout>

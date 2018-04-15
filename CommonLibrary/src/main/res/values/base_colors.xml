@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- base common color resource-->
+
+    <!-- top actionbar color -->
+    <color name="actionbar_bg">@android:color/white</color>
+    <color name="base_actionbar_background">@android:color/white</color>
+    <color name="base_content_background">#ffededed</color>
+
+    <!--base common font color resource -->
+    <!--font -->
+    <color name="base_main_title">#394163</color>
+    <color name="base_sub_title">#9598a7</color>
+    <color name="font_focus">@android:color/white</color>
+    <color name="font_normal">#FF373447</color>
+    <color name="font_gray">#FF9B99A3</color>
+    <color name="font_title">#FF38354A</color>
+
+    <!-- base color -->
+    <color name="transparent">@android:color/transparent</color>
+    <color name="white">#ffffffff</color>
+    <color name="black">@android:color/black</color>
+    <color name="red">#ffff0000</color>
+    <color name="green">#ff00ff00</color>
+    <color name="blue">#ff0000ff</color>
+    <color name="yellow">#ffffff00</color>
+    <color name="gray">#808080</color>
+    <color name="reply_gray">#808080</color>
+    <color name="black_harf">#10000000</color>
+    <color name="black_gray">#333333</color>
+    <color name="white_gray">#F0F0F0</color>
+
+    <!-- external color -->
+    <color name="splite_grey">#33ffffff</color>
+    <color name="left_menu_press_bg">#26ffffff</color>
+
+    <!--bg-->
+    <color name="lib_common_actionbar_background">@android:color/white</color>
+    <color name="lib_common_content_background">#FFEDEDED</color>
+    <color name="lib_common_actionbar_text_color">@android:color/black</color>
+    <color name="lib_common_content_text_color">@android:color/black</color>
+    <color name="base_bg">#FFEDEDED</color>
+    <color name="bg_btn_normal">@android:color/white</color>
+    <color name="bg_btn_disable">#FFEDEDED</color>
+    <color name="bg_btn_focus">#FF373447</color>
+
+    <color name="bg_main">#FF373447</color>
+
+    <!-- type -->
+    <color name="type_food">#FFF2A021</color>
+    <color name="type_ktv">#FFF94E4B</color>
+    <color name="type_bar">#FFB13266</color>
+    <color name="type_coffee">#FFA9877D</color>
+    <color name="type_movie">#FFC5CD46</color>
+    <color name="type_other">#FF4AB8B5</color>
+
+    <!-- zxing -->
+    <color name="result_image_border">#ffffffff</color>
+    <color name="result_points">#c000ff00</color>
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_frame">#ff000000</color>
+    <color name="viewfinder_laser">#ffff0000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="lib_color_zxing_capture_title">#ffffffff</color>
+    <color name="possible_result_points">#c0ffff00</color>
+    
+    <color name="weibo_listtab_off">#8d8d8d</color>
+
+    <color name="FF8C00">#CD661D</color>
+    <color name="EFEFEF">#EFEFEF</color>
+    <color name="gold">#b89766</color>
+
+</resources>

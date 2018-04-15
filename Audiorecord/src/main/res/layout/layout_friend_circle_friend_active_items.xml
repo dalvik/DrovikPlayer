@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dip" >
+
+    <com.android.library.ui.view.RoundImageView
+        android:id="@+id/friend_circle_message_create_headicon_id"
+        android:layout_width="50dip"
+        android:layout_height="50dip" />
+
+    <LinearLayout
+        android:id="@+id/friend_circle_user_info_linearlayout_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/friend_circle_message_create_headicon_id"
+        android:layout_marginLeft="5dip"
+        android:layout_toRightOf="@+id/friend_circle_message_create_headicon_id"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/friend_circle_message_create_owner_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="5dip"
+            android:textColor="@color/lightslategray"
+            android:text="@string/friend_circle_message_create_memo"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/friend_circle_message_share_type_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/friend_circle_message_create_memo"
+            android:textColor="@color/font_gray" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/friend_circle_message_content_linearlayout_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/friend_circle_user_info_linearlayout_id"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="10dip"
+        android:layout_toRightOf="@+id/friend_circle_message_create_headicon_id"
+        android:orientation="vertical" >
+
+        <!-- 文字内容 -->
+
+        <LinearLayout
+            android:id="@+id/friend_circle_message_text_content_linearlayout_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/friend_circle_message_text_content_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/friend_circle_message_text_content"
+                android:textColor="@color/font_black" />
+        </LinearLayout>
+
+        <!-- 图片内容 -->
+
+        <com.android.library.ui.view.FriendCircleGridView
+            android:id="@+id/friend_circle_message_image_content_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:horizontalSpacing="3dp"
+            android:numColumns="3"
+            android:scrollbars="none"
+            android:verticalSpacing="3dip" />
+
+        <!-- 链接内容 -->
+
+        <LinearLayout
+            android:id="@+id/friend_circle_message_link_content_linearlayout_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:background="#EDEEEE"
+            android:orientation="horizontal"
+            android:padding="5dip" >
+
+            <ImageView
+                android:id="@+id/friend_circle_message_link_icon_id"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:src="@drawable/head_icon" />
+
+            <TextView
+                android:id="@+id/friend_circle_message_link_description_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="2dip"
+                android:text="@string/friend_circle_message_link_description"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <!-- 发表时间 -->
+
+        <RelativeLayout
+            android:id="@+id/friend_circle_message_date_content_linearlayout_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/friend_circle_message_create_time_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/friend_circle_message_create_time"
+                android:textColor="#C6C6C6" />
+
+            <TextView
+                android:id="@+id/friend_circle_message_delete_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dip"
+                android:layout_toRightOf="@+id/friend_circle_message_create_time_id"
+                android:text="@string/friend_circle_message_delete"
+                android:textColor="#959ba9"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/friend_circle_message_feed_icon_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/feed_more" />
+        </RelativeLayout>
+
+        <!-- 回复 -->
+
+        <LinearLayout
+            android:id="@+id/friend_circle_message_reply_content_linearlayout_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/detail"
+            android:orientation="vertical" >
+
+            <!-- 点赞列表 -->
+            <LinearLayout
+                android:id="@+id/friend_circle_message_favout_linearlayout_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/friend_circle_reply_favout_linearlayout_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1.0" >
+
+                    <TextView
+                        android:id="@+id/friend_circle_message_favout_icon_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="4dip"
+                        android:paddingLeft="4dip"
+                        android:layout_gravity="center"
+                        android:drawableLeft="@drawable/s_msg_icon_praise" />
+                    
+                    <!-- 点赞昵称列表 -->
+                    <com.android.library.ui.view.FriendCircleGridView
+                        android:id="@+id/friend_circle_message_favout_gridview_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:numColumns="8"
+                        android:scrollbars="none"
+                        android:verticalSpacing="2dip"
+                        android:layout_weight="1.0" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/praise_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dip"
+                    android:background="#cccccc" />
+            </LinearLayout>
+            
+            <!-- 评论列表 -->
+            <com.android.library.ui.view.FriendCircleListView
+               android:id="@+id/friend_circle_reply_content_listview_id"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@null"
+               android:divider="@null" />
+                    
+            <TextView
+                android:id="@+id/friend_circle_reply_more_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/friend_circle_reply_more"
+                android:textColor="@color/blue"
+                android:visibility="gone"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

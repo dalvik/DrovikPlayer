@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- friend circle resource -->
+    <string name="friend_circle_message_time_days_ago">天前</string>
+    <string name="friend_circle_message_time_hours_ago">小时前</string>
+    <string name="friend_circle_message_time_minute_ago">分钟前</string>
+    <string name="friend_circle_message_time_second_ago">刚刚</string>
+    <string name="friend_circle_message_delete">删除</string>
+    <string name="friend_circle_message_create_owner">作者</string>
+    <string name="friend_circle_message_create_memo">分享了一段文字</string>
+    <string name="friend_circle_message_text_content">我发布了一段文字</string>
+    <string name="friend_circle_message_link_description">这是一个 神奇的，很神奇的\n事件</string>
+    <string name="friend_circle_message_create_time">发布时间</string>
+    <string name="friend_circle_message_favout_name">点赞的昵称</string>
+    <string name="friend_circle_reply_more">更多</string>
+    <string name="friend_circle_message_reply_type">回复</string>
+    <string name="friend_circle_message_reply_name">作者</string>
+    <string name="friend_circle_message_reply_del">:</string>
+    <string name="friend_circle_message_reply_content">内容</string>
+    
+    <!-- 通用弹窗 -->
+    <string name="friend_circle_common_dialog_title">标题</string>
+    <string name="friend_circle_common_dialog_content">内容</string>
+    <string name="friend_circle_common_dialog_left_button">取消</string>
+    <string name="friend_circle_common_dialog_right_button">确定</string>
+    
+    <!-- 回复输入框 -->
+    <string name="friend_circle_reply_send">发送</string>
+    
+    <!-- 发布动态 -->
+    <string name="friend_circle_active_publish_content_hint">说点什么吧\.\.\.</string>
+    
+    <!-- 动态删除 -->
+    <string name="friend_circle_active_delete_title">删除提示</string>
+    <string name="friend_circle_active_delete_content">确定删除吗?</string>
+    <string name="friend_circle_active_delete_cancel">取消</string>
+    <string name="friend_circle_active_delete_ok">确定</string>
+    
+    <string name="friend_circle_active_loding">正在加载\.\.\.</string>
+    
+</resources>

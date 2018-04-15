@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HFRecyclerView">
+         <!--HFRecyclerView的类型-->
+        <attr name="hfr_type" format="integer">
+            <enum name="grid" value="0"/>
+            <enum name="stagger" value="1"/>
+        </attr>
+        <!--HFRecyclerView的方向-->
+        <attr name="hfr_orientation">
+            <enum name="vertical" value="0"/>
+            <enum name="horizontal" value="1"/>
+        </attr>
+        <!--HFRecyclerView网格或瀑布流的列数-->
+        <attr name="hfr_column" format="integer"/>
+        <!--HFRecyclerView下划线高度-->
+        <attr name="hfr_divider_height" format="dimension"/>
+        <!--HFRecyclerView下划线颜色-->
+        <attr name="hfr_divider_color" format="color"/>
+        <!--HFRecyclerView下划线图片-->
+        <attr name="hfr_divider_drawable" format="reference"/>
+        <!--HFRecyclerView是否开启默认动画-->
+        <attr name="hfr_default_animator_open" format="boolean"/>
+    </declare-styleable>
+</resources>

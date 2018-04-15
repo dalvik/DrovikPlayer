@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/action_bar_LL"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/base_actionbar_background"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="0dp">
+
+    <!-- Tab 的标题栏 -->
+
+    <RelativeLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="0dp"/>
+
+</LinearLayout>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:id="@+id/centercount_toplayout"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:background="@color/centercount_top_bg">
+
+        <TextView
+            android:id="@+id/centerCountTipTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/findshows_dimen_large_spacing"
+            android:layout_marginTop="@dimen/center_acount_top_spacing"
+            android:gravity="center|top"
+            android:text="@string/center_acountinfo_allcount"
+            android:textColor="@color/white"
+            android:textSize="@dimen/findshows_dimen_small_size" />
+
+        <TextView
+            android:id="@+id/centerCountContentTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/centerCountTipTv"
+            android:layout_marginLeft="@dimen/findshows_dimen_large_spacing"
+            android:layout_marginTop="5dp"
+            android:gravity="center|top"
+            android:text="0.00"
+            android:textColor="@color/white"
+            android:textSize="@dimen/center_acount_topacount_size" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/centerCountContentTv"
+            android:layout_marginTop="20dp">
+
+            <LinearLayout
+                android:id="@+id/centerAcountFreezeLayout"
+                android:layout_width="95dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="55dp"
+                android:visibility="gone"
+                android:background="@drawable/centeracount_freeze_common"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/centerAcountFreezeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:textColor="@color/findshows_color_87_black"
+                    android:textSize="@dimen/findshows_dimen_middle_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/centerAcountCashLayout"
+                android:layout_width="95dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="55dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="@drawable/centeracount_freeze_common">
+
+                <TextView
+                    android:id="@+id/centerAcountCashTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:drawablePadding="3dp"
+                    android:drawableLeft="@drawable/centeracount_crash_btnbg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:text="@string/center_acountinfo_crash_btn"
+                    android:textColor="@color/findshows_color_87_black"
+                    android:textSize="@dimen/findshows_dimen_middle_size" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/centercount_tiplayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/centeracount_freeze_btnbg"
+        android:layout_below="@+id/centercount_toplayout">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/findshows_dimen_large_spacing"
+            android:gravity="center|left"
+            android:text="@string/center_acountinfo_detailtip"
+            android:textColor="@color/findshows_color_87_black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/centercount_tiplayout"
+        android:clipToPadding="false"
+        android:descendantFocusability="blocksDescendants"
+        android:divider="@color/line"
+        android:dividerHeight="1px"
+        android:fadingEdge="none"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:listSelector="@null"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+</RelativeLayout>

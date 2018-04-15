@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/show_list_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/contacts_add_icon" />
+        <!-- 分割线-->
+        <ImageView
+            android:id="@+id/linev"
+            android:layout_width="1px"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/icon"
+            android:background="@color/line" />
+        <!-- 搜索Et-->
+        <EditText
+            android:id="@+id/searchEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
+            android:layout_toRightOf="@id/linev"
+            android:background="@android:color/transparent"
+            android:hint="@string/contacts_search_hint"
+            android:maxLength="15"
+            android:padding="10dp"
+            android:singleLine="true" />
+        <!-- 搜索IV-->
+        <ImageView
+            android:id="@+id/searchIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/contacts_search" />
+
+        <!-- 分割线-->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/icon"
+            android:layout_marginTop="10dp"
+            android:background="@color/line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/userRl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:visibility="gone">
+
+        <com.android.library.ui.view.RoundImageView
+            android:id="@+id/iconIv"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/nicknameTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iconIv"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/font_normal"
+            android:textSize="16sp" />
+
+
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_selector"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:text="@string/contacts_local_add"
+            android:textColor="@color/btn_selector"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tipUpdateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:text="@string/contacts_add_friend"
+            android:textColor="@color/font_gray"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/wayLl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <!-- 感应 -->
+        <RelativeLayout
+            android:id="@+id/sceneRl"
+            style="@style/UI.Find.ItemLayout"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/UI.Find.ItemTV"
+                android:drawableLeft="@drawable/contacts_scene_icon"
+                android:text="@string/contacts_scene" />
+
+            <ImageView style="@style/UI.Find.ItemIV" />
+
+        </RelativeLayout>
+
+
+            <!--<include layout="@layout/line_treat" />-->
+
+
+        <!-- 通讯录 -->
+        <RelativeLayout
+            android:id="@+id/contactRl"
+            style="@style/UI.Find.ItemLayout">
+
+            <TextView
+                style="@style/UI.Find.ItemTV"
+                android:drawableLeft="@drawable/contacts_contact_icon"
+                android:text="@string/contacts_contact" />
+
+            <ImageView style="@style/UI.Find.ItemIV" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/lib_layout_ui_setting_splite_line" />
+        <!-- QQ -->
+        <RelativeLayout
+            android:id="@+id/qqRl_addContacts"
+            style="@style/UI.Find.ItemLayout">
+
+            <TextView
+                style="@style/UI.Find.ItemTV"
+                android:drawableLeft="@drawable/contacts_qq_icon"
+                android:text="@string/contacts_qq" />
+
+            <ImageView style="@style/UI.Find.ItemIV" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/lib_layout_ui_setting_splite_line" />
+        <!-- 通讯录 -->
+        <RelativeLayout
+            android:id="@+id/wxRl_addContacts"
+            style="@style/UI.Find.ItemLayout">
+
+            <TextView
+                style="@style/UI.Find.ItemTV"
+                android:drawableLeft="@drawable/contacts_weixin_icon"
+                android:text="@string/contacts_weixin" />
+
+            <ImageView style="@style/UI.Find.ItemIV" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/lib_layout_ui_setting_splite_line" />
+
+    </LinearLayout>
+</LinearLayout>

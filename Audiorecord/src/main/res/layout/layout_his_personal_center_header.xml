@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/his_personal_center_header_bg">
+
+
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/his_personal_center_header_btn_act"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_his_personal_center_selecter"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:text="@string/his_personal_center_act"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/his_personal_center_header_tv_act_count"
+            style="@style/UI.His.Personal.Center.TextStyle.Gray_Little"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/his_personal_center_actcount" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/his_personal_center_header_btn_pocket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_his_personal_center_selecter"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:text="口袋"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/his_personal_center_header_tv_rp"
+            style="@style/UI.His.Personal.Center.TextStyle.Gray_Little"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:text="@string/his_personal_center_rp"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/his_personal_center_header_layout1"
+        android:layout_width="wrap_content"
+        android:layout_height="106dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp">
+
+        <org.commonui.selfui.view.RoundImageView
+            android:id="@+id/his_personal_center_header_iv_headerIcon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/treat_list_item_icon_female" />
+
+
+        <ImageView
+            android:id="@+id/his_personal_center_header_iv_diamond"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/his_personal_center_diamond" />
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/his_personal_center_header_layout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/his_personal_center_header_layout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <!-- 皇冠 -->
+        <TextView
+            android:id="@+id/his_personal_center_header_tv_crown_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="4dp"
+            android:textColor="@color/font_normal"
+            android:textSize="9sp" />
+
+        <!---->
+        <!--android:paddingRight="4dp"-->
+        <!--android:paddingTop="2dp"-->
+        <!--android:paddingBottom="2dp"-->
+        <TextView
+            android:id="@+id/his_personal_center_header_tv_charm_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="4dp"
+            android:textColor="@color/font_normal"
+            android:textSize="9sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/his_personal_center_header_layout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/his_personal_center_header_layout2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/his_personal_center_header_tv_nick"
+            style="@style/UI.His.Personal.Center.TextStyle.Gray_Little"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+        <ImageView
+            android:id="@+id/his_personal_center_header_iv_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="4dp" />
+
+        <TextView
+            android:id="@+id/his_personal_center_header_tv_age"
+            style="@style/UI.His.Personal.Center.TextStyle.Gray_Little"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/his_personal_center_header_tv_star"
+            style="@style/UI.His.Personal.Center.TextStyle.Gray_Little"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="" />
+
+    </LinearLayout>
+
+    <!-- 本版本不包含以下部分-->
+    <!--
+        <TextView
+            android:id="@+id/his_personal_center_header_tv_job"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/his_personal_center_header_layout3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:text="互联网/阿里巴巴"
+            android:textColor="@android:color/white"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/his_personal_center_header_tv_hobby"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/his_personal_center_header_tv_job"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:text="爱好{运动/没事/旅行}"
+            android:textColor="@android:color/white"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/his_personal_center_header_tv_technical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/his_personal_center_header_tv_hobby"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:text="技能{钢琴}"
+            android:textColor="@android:color/white"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/his_personal_center_header_tv_mutual_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/his_personal_center_header_tv_technical"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:textSize="16sp"
+            android:text="8个共同好友"
+            android:textColor="@android:color/white"
+            android:visibility="gone"/>
+    -->
+    <LinearLayout
+        android:id="@+id/his_personal_center_header_layout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/his_personal_center_header_layout3"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <View style="@style/UI.Dashed.Style" />
+
+        <TextView
+            android:id="@+id/his_personal_center_header_tv_offline_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:text="@string/his_personal_center_offline_rate"
+            android:textColor="@android:color/white" />
+
+        <View style="@style/UI.Dashed.Style" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/his_personal_center_header_layout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/his_personal_center_header_layout4"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+
+        <!--评价列表 动态添加-->
+        <LinearLayout
+            android:id="@+id/his_personal_center_header_layout_appraise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"></LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/his_personal_center_header_tv_noappraise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/his_personal_center_header_layout4"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <!-- 标签 -->
+            <ImageView
+                android:id="@+id/lableTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/treat_online_no_rate" />
+            <!-- 数量 -->
+            <TextView
+                style="@style/UI.Treat.Detail.LableNumber"
+                android:layout_gravity="center"
+                android:text="@string/treat_online_detail_no_rate" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/his_personal_center_header_tv_signature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/his_personal_center_header_layout5"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@color/bg"
+        android:gravity="center"
+        android:lines="2"
+        android:text="@string/center_signature"
+        android:textColor="@color/font_title"
+        android:textSize="16sp" />
+
+
+</RelativeLayout>

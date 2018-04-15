@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="NNNtrackscount">
+        <item quantity="other">%d records</item>
+        <item quantity="one">One record</item>
+    </plurals>
+    <plurals name="NNNtracksmulticount">
+        <item quantity="other">%d records selected</item>
+        <item quantity="one">One record selected</item>
+    </plurals>
+    <plurals name="NNNtracksdeleted">
+        <item quantity="other">%d records were deleted.</item>
+        <item quantity="one">One record was deleted.</item>
+    </plurals>
+    <plurals name="NNNtrackswilldelete">
+        <item quantity="other">%d records will be deleted.</item>
+        <item quantity="one">one record will be deleted.</item>
+    </plurals>
+</resources>

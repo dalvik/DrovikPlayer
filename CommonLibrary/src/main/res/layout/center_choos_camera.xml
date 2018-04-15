@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/pop_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="@dimen/item_interval"
+            android:layout_marginRight="@dimen/item_interval"
+            android:background="@drawable/btn_center_corners"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <Button
+                    android:id="@+id/photoBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="@dimen/item_interval"
+                    android:layout_marginRight="@dimen/item_interval"
+                    android:background="@drawable/btn_center_corners"
+                    android:text="@string/center_phoot" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/item_interval"
+                android:layout_marginRight="@dimen/item_interval"
+                android:background="#CCCCCC" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <Button
+                    android:id="@+id/shootBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="@dimen/item_interval"
+                    android:layout_marginRight="@dimen/item_interval"
+                    android:background="@drawable/btn_center_corners"
+                    android:text="@string/center_shoot" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="@dimen/item_interval"
+            android:layout_marginRight="@dimen/item_interval"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/btn_center_corners"
+            android:text="@string/center_cancel" />
+    </LinearLayout>
+</RelativeLayout>

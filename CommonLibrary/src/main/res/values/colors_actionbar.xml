@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--title-->
+    <color name="actionbar_font_title">#FF38354A</color>
+
+    <!-- actionbar bg drawable -->
+    <drawable name="lib_drawable_common_actionbar_background">@android:color/white</drawable>
+</resources>

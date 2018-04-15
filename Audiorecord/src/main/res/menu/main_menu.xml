@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- 
+    <item
+        android:id="@id/menu_item_storage"
+        android:icon="@drawable/icon_storage_location"
+        android:title="@string/storage_setting"/>
+     -->
+    <item
+        android:id="@id/menu_item_filetype"
+        android:icon="@drawable/icon_filetype"
+        android:visible="false"
+        android:title="@string/format_setting"/>
+    <item
+        android:id="@id/list"
+        android:icon="@drawable/center_file_list"
+        android:showAsAction="always"
+        android:title="@string/list"/>
+    <!-- 
+    <item
+        android:id="@id/menu_item_setting"
+        android:icon="@drawable/center_setting"
+        android:showAsAction="always"
+        android:title="@string/setting_setting"/>
+     -->
+
+</menu>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- 键盘 -->
+    <string name="im_1">1</string>
+    <string name="im_2">2</string>
+    <string name="im_3">3</string>
+    <string name="im_4">4</string>
+    <string name="im_5">5</string>
+    <string name="im_6">6</string>
+    <string name="im_7">7</string>
+    <string name="im_8">8</string>
+    <string name="im_9">9</string>
+    <string name="im_0">0</string>
+    <string name="im_done">Done</string>
+    <string name="im_del">DEL</string>
+    
+</resources>

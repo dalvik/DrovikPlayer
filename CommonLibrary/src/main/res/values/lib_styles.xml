@@ -1,0 +1,14 @@
+<resources>
+
+    <style name="Widget">
+    </style>
+    
+    <style name="Widget_Lib_TitleBackground" parent="Widget">
+        <item name="android:background">@color/base_content_background</item>
+    </style>
+    
+    <style name="Widget_Lib_TitleColor" parent="Widget">
+        <item name="android:background">@color/base_content_background</item>
+    </style>
+    
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+ 	<!-- 发现 -->
+    <string name="find_scene">现场</string>
+    <string name="find_goods">商品</string>
+    <string name="find_date">极速约</string>
+    <string name="find_shows">秀场</string>
+    <string name="find_users">附近的用户</string>
+    <string name="find_shows_publish">秀场发布</string>
+    <string name="find_publish_btn">发布</string>
+    <string name="find_publish_txtcontent">发布内容不能为空!</string>
+    <string name="find_publish_txtcontenttoobig">发布内容文字不能超过2000个字符!</string>
+    <string name="find_publish_piccontent">发布图片不能为空!</string>
+    <string name="find_shows_exit">退出</string>
+    <string name="find_shows_sureexit">退出此次编辑！</string>
+    <string name="find_shows_takephoto">拍照</string>
+    <string name="find_shows_choosephoto">从手机相册选择</string>
+    <string name="find_shows_delebigphototip">要删除这张照片吗</string>
+</resources>

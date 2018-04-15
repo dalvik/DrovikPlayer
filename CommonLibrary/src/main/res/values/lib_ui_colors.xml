@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--category-->
+    <color name="category_yellow">#FFF2A021</color>
+    <color name="category_red">#FFF94E4B</color>
+    <color name="category_purple">#FFB13266</color>
+    <color name="category_brown">#FFA9877D</color>
+    <color name="category_orange">#FFC5CD46</color>
+    <color name="category_other">#FF4AB8B5</color>
+    <!--tab-->
+    <color name="main_tab_text_focus_color">#FFFF007A</color>
+    <color name="main_tab_text_normal_color">#FF80737B</color>
+
+    <!-- input method -->
+    <color name="im_number">#FFFCFCFC</color>
+    <color name="im_opt">#FFBABEC2</color>
+
+    <!-- bg-->
+    <color name="bg">#FFF2F2F2</color>
+    <!-- 他的个人中心-->
+    <color name="his_personal_center_header_bg">#363345</color>
+    <color name="his_personal_center_gray">#9A9A9A</color>
+    <!-- 秀场列表-->
+    <color name="show_list_operation_btn">#373447</color>
+    <color name="show_list_bg">#F2F2F2</color>
+</resources>

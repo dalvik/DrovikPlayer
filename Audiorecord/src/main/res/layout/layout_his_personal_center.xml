@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:descendantFocusability="blocksDescendants"
+        android:divider="@android:color/transparent"
+        android:fadingEdge="none"
+        android:listSelector="@android:color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+
+    <RelativeLayout
+        android:id="@+id/his_personal_center_layout_speeddata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg"
+        android:padding="10dp"
+        android:visibility="visible">
+
+
+        <TextView
+            android:id="@+id/his_personal_center_tv_speeddata_treatonline"
+            style="@style/UI.His.Personal.Center.Treat.Btn"
+            android:layout_alignParentRight="true"
+            android:text="@string/his_personal_center_online_treat"
+
+            />
+
+        <TextView
+            android:id="@+id/his_personal_center_tv_speeddata_treatoffline"
+            style="@style/UI.His.Personal.Center.Treat.Btn"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/his_personal_center_tv_speeddata_treatonline"
+            android:text="@string/his_personal_center_offline_treat" />
+
+
+        <TextView
+            android:id="@+id/his_personal_center_tv_speeddata_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/his_personal_center_tv_speeddata_treatoffline"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:textColor="@color/font_title"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/his_personal_center_layout_chat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bg"
+        android:padding="10dp"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/his_personal_center_more_chat"
+            style="@style/UI.His.Personal.Center.Treat.Btn"
+            android:layout_alignParentRight="true"
+            android:text="@string/his_personal_center_more_chat" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

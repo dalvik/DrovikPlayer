@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dip" >
+
+    <!--
+    <LinearLayout
+        android:id="@+id/friend_circle_user_info_linearlayout_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/friend_circle_message_share_type_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginRight="10dip"
+            android:text="@string/friend_circle_person_active_time_date"
+            android:textColor="@color/font_black" />
+        
+        <ImageView
+            android:id="@+id/friend_circle_message_create_headicon_id"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:background="@drawable/user_logo" />
+        
+    </LinearLayout>
+    -->
+
+    <TextView
+        android:id="@+id/friend_circle_person_center_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dip"
+        android:text="@string/friend_circle_person_active_time_date"
+        android:textColor="@color/font_black"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/friend_circle_active_center_content_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="10dip"
+        android:layout_toRightOf="@+id/friend_circle_person_center_id"
+        android:orientation="horizontal" >
+
+        <!-- 发布的相册列表 -->
+        <LinearLayout
+            android:id="@+id/friend_circle_active_center_thumbnail_id"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:visibility="gone"
+            android:orientation="horizontal" >
+
+            <!-- top -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:paddingRight="1dip"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/friend_circle_active_center_thumbnail_image0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dip"
+                    android:paddingBottom="1dip"
+                    android:layout_weight="1.0"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/friend_circle_active_center_thumbnail_image1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dip"
+                    android:paddingTop="1dip"
+                    android:layout_weight="1.0"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- 相册描述 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:paddingLeft="1dip"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/friend_circle_active_center_thumbnail_image2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dip"
+                    android:padding="1dip" 
+                    android:layout_weight="1.0"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/friend_circle_active_center_thumbnail_image3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dip"
+                    android:padding="1dip" 
+                    android:scaleType="centerCrop"
+                    android:layout_weight="1.0"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- transmit active -->
+        <LinearLayout
+            android:id="@+id/friend_circle_active_transmit_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dip"
+            android:visibility="gone"
+            android:background="@color/gray9"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/friend_circle_active_transmit_comment_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="aa"
+                android:paddingBottom="2dip"
+                android:maxLines="3"/>
+            
+            <!-- transmit content -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/friend_circle_active_transmit_thumbnail_id"
+                    android:layout_width="100dip"
+                    android:layout_height="100dip"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/head_icon"
+                     />
+
+                <TextView
+                    android:id="@+id/friend_circle_active_transmit_content_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="3dip"
+                    android:textColor="@color/font_gray"
+                    android:gravity="left|center"
+                    android:text="aa"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        
+        <!-- 相册描述 -->
+        <LinearLayout
+            android:id="@+id/friend_circle_active_center_message_id"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dip"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:padding="5dip" >
+
+            <TextView
+                android:id="@+id/friend_circle_active_center_message_content_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="a"
+                android:gravity="left|top"
+                android:maxLines="3"
+                android:layout_weight="1.0" />
+
+            <TextView
+                android:id="@+id/friend_circle_active_center_image_size_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:gravity="left|bottom"
+                android:text="a"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

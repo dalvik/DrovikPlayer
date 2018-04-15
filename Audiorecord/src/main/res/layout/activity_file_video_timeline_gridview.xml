@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:background="@color/base_content_background"
+				android:orientation="vertical">
+
+	<com.scwang.smartrefresh.layout.SmartRefreshLayout
+		android:id="@+id/refreshLayout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/transparent" >
+
+		<com.scwang.smartrefresh.layout.header.ClassicsHeader
+			android:id="@+id/refreshLayout_header"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+
+		<com.tonicartos.widget.stickygridheaders.StickyGridHeadersGridView
+			android:id="@+id/listView"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:clipToPadding="false"
+			android:columnWidth="90dip"
+			android:numColumns="auto_fit"
+			android:horizontalSpacing="3dip"
+			android:verticalSpacing="3dip" />"
+		<com.scwang.smartrefresh.layout.footer.ClassicsFooter
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+	</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+	<RelativeLayout
+		android:id="@+id/activity_nocontent"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:layout_centerInParent="true"
+		android:layout_centerVertical="true"
+		android:gravity="center"
+		android:visibility="invisible">
+
+		<ImageView
+			android:id="@+id/no_content_img_download"
+			android:layout_width="@dimen/common_84_dp"
+			android:layout_height="@dimen/common_70_dp"
+			android:src="@drawable/common_body_no_content" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/no_content_img_download"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="@dimen/common_16_dp"
+			android:text="@string/no_data"
+			android:textColor="@color/base_main_title" />
+	</RelativeLayout>
+</RelativeLayout>

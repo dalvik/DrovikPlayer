@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/register_vcode" />
+
+    <TextView
+        android:id="@+id/tipUpdateTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/logo"
+        android:gravity="center"
+        android:padding="20dp"
+        android:textColor="@color/font_normal"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/VCodeLL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+
+        <TextView
+            style="@style/UI.Register.VCode"
+            android:imeOptions="actionNext" />
+
+        <TextView
+            style="@style/UI.Register.VCode"
+            android:imeOptions="actionNext" />
+
+        <TextView
+            style="@style/UI.Register.VCode"
+            android:imeOptions="actionNext" />
+
+        <TextView
+            style="@style/UI.Register.VCode"
+            android:imeOptions="actionDone" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/submitBtn"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/VCodeLL"
+        android:layout_centerHorizontal="true"
+        style="@style/Button.Common"
+        android:enabled="false"
+        android:text="@string/login" />
+
+    <com.android.library.ui.view.InputMethod
+        android:id="@+id/im"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

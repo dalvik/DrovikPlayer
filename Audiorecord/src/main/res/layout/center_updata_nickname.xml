@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 昵称 -->
+    <RelativeLayout
+        android:id="@+id/numberRl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/item_space"
+        android:layout_marginRight="@dimen/item_space"
+        android:layout_marginTop="@dimen/item_space"
+        android:padding="@dimen/item_space">
+
+        <ImageView
+            android:id="@+id/nicknameIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/center_nickname"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/item_space"
+            android:layout_marginRight="@dimen/item_space"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/nicknameIv"
+            android:background="@color/line" />
+
+        <EditText
+            android:id="@+id/nicknameTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dp"
+            android:layout_toRightOf="@+id/line"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:maxLength="8"
+            android:textColor="#9b99a3"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/delBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/login_del" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_alignBottom="@+id/numberRl"
+        android:layout_marginLeft="@dimen/item_interval"
+        android:layout_marginRight="@dimen/item_interval"
+        android:background="@color/line" />
+</RelativeLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="256dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center"
+        android:background="@color/base_actionbar_background">
+
+        <TextView
+            android:id="@+id/dialog_delete_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_60_dp"
+            android:gravity="center_horizontal"
+            android:text="@string/delete_tip"
+            android:textColor="@color/red"
+            android:textSize="@dimen/base_dafault_size"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="228dp"
+            android:layout_height="@dimen/base_splite_line_hight"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="52dp"
+            android:background="@color/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dialog_delete_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textSize="@dimen/base_sencond_title_size" />
+
+            <View
+                android:layout_width="@dimen/base_splite_line_width"
+                android:layout_height="@dimen/common_30_dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/line" />
+
+            <TextView
+                android:id="@+id/dialog_delete_confirm"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/confirm"
+                android:textSize="@dimen/base_sencond_title_size"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

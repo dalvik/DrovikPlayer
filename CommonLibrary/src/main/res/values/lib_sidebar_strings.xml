@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- sidebar -->
+    <string name="lib_string_sidebar_search_bar_hint">请输入关键字</string>
+    
+</resources>

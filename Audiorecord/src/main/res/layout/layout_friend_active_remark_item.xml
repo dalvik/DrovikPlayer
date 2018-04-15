@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#EDEEEE"
+    android:orientation="vertical"
+    android:padding="2dip" >
+
+    <TextView
+        android:id="@+id/friend_circle_message_favout_name_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#697fb1"
+        android:visibility="gone"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/friend_circle_message_favout_icon_id"
+        android:layout_width="20dip"
+        android:layout_height="20dip"
+        android:visibility="gone" />
+
+</LinearLayout>

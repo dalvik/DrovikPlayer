@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!-- 123 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- 1 -->
+        <TextView
+            android:id="@+id/im_1"
+            style="@style/UI.InputMethod.Number"
+            android:text="@string/im_1" />
+
+        <include layout="@layout/lib_layout_ui_linev" />
+        
+        <!-- 2 -->
+        <TextView
+            android:id="@+id/im_2"
+            style="@style/UI.InputMethod.Number"
+            android:text="@string/im_2" />
+
+        <include layout="@layout/lib_layout_ui_linev" />
+        <!-- 3 -->
+        <TextView
+            android:id="@+id/im_3"
+            style="@style/UI.InputMethod.Number"
+            android:text="@string/im_3" />
+    </LinearLayout>
+    <!-- line -->
+    <include layout="@layout/lib_layout_ui_line" />
+
+    <!-- 456 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- 4 -->
+        <TextView
+            android:id="@+id/im_4"
+            style="@style/UI.InputMethod.Number"
+            android:text="@string/im_4" />
+
+        <include layout="@layout/lib_layout_ui_linev" />
+        <!-- 5 -->
+        <TextView
+            android:id="@+id/im_5"
+            style="@style/UI.InputMethod.Number"
+            android:text="@string/im_5" />
+
+        <include layout="@layout/lib_layout_ui_linev" />
+        <!-- 6 -->
+        <TextView
+            android:id="@+id/im_6"
+            style="@style/UI.InputMethod.Number"
+            android:text="@string/im_6" />
+    </LinearLayout>
+    <!-- line -->
+    <include layout="@layout/lib_layout_ui_line" />
+
+    <!-- 789 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- 7 -->
+        <TextView
+            android:id="@+id/im_7"
+            style="@style/UI.InputMethod.Number"
+            android:text="@string/im_7" />
+
+        <include layout="@layout/lib_layout_ui_linev" />
+        <!-- 8 -->
+        <TextView
+            android:id="@+id/im_8"
+            style="@style/UI.InputMethod.Number"
+            android:text="@string/im_8" />
+
+        <include layout="@layout/lib_layout_ui_linev" />
+        <!-- 9 -->
+        <TextView
+            android:id="@+id/im_9"
+            style="@style/UI.InputMethod.Number"
+            android:text="@string/im_9" />
+    </LinearLayout>
+    <!-- line -->
+    <include layout="@layout/lib_layout_ui_line" />
+
+    <!-- d0d -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- done -->
+        <TextView
+            android:id="@+id/im_done"
+            style="@style/UI.InputMethod.Opt"
+            android:text="@string/im_done" />
+
+        <include layout="@layout/lib_layout_ui_linev" />
+        <!-- 0 -->
+        <TextView
+            android:id="@+id/im_0"
+            style="@style/UI.InputMethod.Number"
+            android:text="@string/im_0" />
+
+        <include layout="@layout/lib_layout_ui_linev" />
+        <!-- del -->
+        <ImageView
+            android:id="@+id/im_del"
+            style="@style/UI.InputMethod.Opt"
+            android:src="@drawable/im_del"
+            android:text="@string/im_del" />
+    </LinearLayout>
+    <!-- line -->
+    <include layout="@layout/lib_layout_ui_line" />
+</LinearLayout>

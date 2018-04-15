@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <bitmap android:gravity="center" android:src="@drawable/ic_seekbar_playing_bk" android:filter="true" android:tileMode="repeat" />
+    </item>
+    <item android:id="@android:id/progress">
+        <bitmap android:src="@drawable/ic_seekbar_playing_fill" />
+    </item>
+</layer-list>

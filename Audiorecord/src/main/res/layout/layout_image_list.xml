@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent">
+
+	<com.handmark.pulltorefresh.library.PullToRefreshGridView
+	    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+	  	android:id="@+id/list_view_image"
+	  	style="@style/widget_gridview"
+        ptr:ptrMode="pullFromStart"
+        ptr:ptrDrawable="@drawable/widget_video_normal"/>
+	
+	
+</LinearLayout>

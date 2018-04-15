@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginRight="15dp"
+    android:layout_marginLeft="15dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="生活"/>
+
+    <include layout="@layout/lib_layout_ui_line"/>
+
+    <com.android.library.ui.view.ChoosInterest
+        android:id="@+id/choosInterestLifeView"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.android.library.ui.view.ChoosInterest>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="运动"/>
+
+    <include layout="@layout/lib_layout_ui_line"/>
+
+    <com.android.library.ui.view.ChoosInterest
+        android:id="@+id/choosInterestSportView"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.android.library.ui.view.ChoosInterest>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="艺术"/>
+
+    <include layout="@layout/lib_layout_ui_line"/>
+
+    <com.android.library.ui.view.ChoosInterest
+        android:id="@+id/choosInterestArtView"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.android.library.ui.view.ChoosInterest>
+
+</LinearLayout>

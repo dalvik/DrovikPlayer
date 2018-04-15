@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="lib_string_zxing_back">返回</string>
+    <string name="lib_string_code_scan_title">二维码扫描</string>
+    <string name="lib_string_code_scan_failed">扫描失败</string>
+    
+    <!-- zxing -->
+    <string name="loadTitle"><strong>正在更新数据</strong></string>
+    <string name="loadContent"><strong>请稍候……</strong></string>
+	<string name="login_login">登陆</string>
+    <string name="login_hint_password">输入密码</string>
+    <string name="login_hint_name">输入用户名</string>
+    <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
+    <string name="device_group">设备组</string>
+</resources>

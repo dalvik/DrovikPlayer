@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="DuplicateIds">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.android.library.ui.view.RoundImageView
+                    android:id="@+id/headerIconIv"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="25dp" />
+
+                <ImageView
+                    android:id="@+id/cameraIv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/center_camery" />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- 请客号 -->
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/numberRl"
+            style="@style/UI.Center.ItemLayout">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_number"
+                android:text="@string/center_number" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView
+                android:id="@+id/numberTv"
+                style="@style/UI.Center.LfetItemTV" />
+
+        </RelativeLayout>
+
+        <!-- 昵称 -->
+        <RelativeLayout
+            android:id="@+id/nicknameRl"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_space">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_nickname"
+                android:text="@string/center_nickname" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView
+                android:id="@+id/nicknameTv"
+                style="@style/UI.Center.LfetItemTV" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/lib_layout_ui_setting_splite_line" />
+        
+        <!-- 性别 -->
+        <RelativeLayout style="@style/UI.Center.ItemLayout">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_gender"
+                android:text="@string/center_gender" />
+
+            <TextView
+                android:id="@+id/sexTv"
+                style="@style/UI.Center.LfetItemTV" />
+
+            <TextView style="@style/UI.Center.RightItemTV" />
+        </RelativeLayout>
+
+        <include layout="@layout/lib_layout_ui_setting_splite_line" />
+        
+        <!-- 生日 -->
+        <RelativeLayout
+            android:id="@+id/birthdayRl"
+            style="@style/UI.Center.ItemLayout">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_birthday"
+                android:text="@string/center_birthday" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView
+                android:id="@+id/birthdayTv"
+                style="@style/UI.Center.LfetItemTV" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/lib_layout_ui_setting_splite_line" />
+
+        <!-- 居住 -->
+        <RelativeLayout
+            android:id="@+id/addressRl"
+            style="@style/UI.Center.ItemLayout">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_address"
+                android:text="@string/center_address" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView
+                android:id="@+id/addressTv"
+                style="@style/UI.Center.LfetItemTV" />
+
+        </RelativeLayout>
+
+
+        <!-- 兴趣 -->
+        <RelativeLayout
+            android:id="@+id/interestRl"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_space">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_interest"
+                android:text="@string/center_interest" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+
+            <TextView
+                android:id="@+id/interestTv"
+                style="@style/UI.Center.LfetItemTV" />
+        </RelativeLayout>
+
+        <!-- <include layout="@layout/lib_layout_ui_setting_splite_line" />-->
+        <!-- 技能 -->
+        <RelativeLayout
+            android:id="@+id/skillRl"
+            style="@style/UI.Center.ItemLayout"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_skill"
+                android:text="@string/center_skill" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView
+                android:id="@+id/skillTv"
+                style="@style/UI.Center.LfetItemTV" />
+        </RelativeLayout>
+
+
+        <!-- 学校 -->
+        <RelativeLayout
+            android:id="@+id/schoolRL"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_space"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_school"
+                android:text="@string/center_school" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView
+                android:id="@+id/schoolTV"
+                style="@style/UI.Center.LfetItemTV" />
+        </RelativeLayout>
+
+        <!-- 行业 -->
+        <RelativeLayout
+            android:id="@+id/industryRl"
+            style="@style/UI.Center.ItemLayout"
+            android:layout_marginTop="@dimen/item_space"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_industry"
+                android:text="@string/center_industry" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView
+                android:id="@+id/industryTv"
+                style="@style/UI.Center.LfetItemTV" />
+        </RelativeLayout>
+
+        <!--<include layout="@layout/line_treat" />-->
+        <!-- 公司 -->
+        <RelativeLayout
+            android:id="@+id/companyRl"
+            style="@style/UI.Center.ItemLayout"
+            android:visibility="gone">
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:drawableLeft="@drawable/center_company"
+                android:text="@string/center_company" />
+
+            <ImageView
+                android:id="@+id/arraw"
+                style="@style/UI.Find.ItemIV" />
+
+            <TextView
+                android:id="@+id/companyTv"
+                style="@style/UI.Center.LfetItemTV" />
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

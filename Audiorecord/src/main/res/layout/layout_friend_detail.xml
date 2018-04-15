@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/base_bg"
+        android:orientation="vertical"
+        tools:ignore="DuplicateIds" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/selector_option_item"
+            android:orientation="horizontal"
+            android:padding="10dp" >
+
+            <com.android.library.ui.view.RoundImageView
+                android:id="@+id/personal_detail_header_iv_headerIcon"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1.5"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/his_personal_center_user_name_memo_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left|center"
+                        android:layout_marginRight="10dip"
+                        android:singleLine="true"
+                        android:text="@string/personal_detail_nickname"
+                        android:textColor="@color/gray0"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/personal_detail_header_iv_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/his_personal_center_user_count_tv"
+                    style="@style/UI.His.Personal.Center.TextStyle.Gray_Little"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/personal_detail_user_code"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/personal_detail_user_nickname_tv"
+                    style="@style/UI.His.Personal.Center.TextStyle.Gray_Little"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_weight="0.5"
+                    android:text="@string/personal_detail_nickname"
+                    android:textSize="13sp"
+                    android:visibility="invisible" />
+            </LinearLayout>
+        </LinearLayout>
+
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/selector_option_item"
+            android:layout_marginTop="@dimen/item_space" >
+
+            <TextView
+                android:id="@+id/personal_detail_memo"
+                style="@style/UI.Center.ItemTV"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/black0"
+                android:text="@string/personal_detail_memo" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/selector_option_item"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/personal_detail_address"
+                android:textColor="@color/black0"
+                android:textSize="16sp"/>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/personal_detail_address"
+                android:textColor="@color/black0"
+                android:visibility="invisible"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/personal_detail_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/gray1"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+        
+        <include layout="@layout/layout_ui_split_line" />
+
+
+        <LinearLayout
+            android:id="@+id/llSignature"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/selector_option_item"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="@string/personal_detail_signature"
+                android:textColor="@color/black0"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/personal_detail_signature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/gray1"
+                android:singleLine="true"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <include layout="@layout/layout_ui_split_line" />
+
+        <LinearLayout
+            android:id="@+id/persoinal_news_thunb_listview_id"
+            android:layout_width="match_parent"
+            android:layout_height="80dip"
+            android:background="@drawable/selector_option_item"
+            android:clickable="true"
+            android:padding="5dip"
+            android:gravity="center_vertical" >
+
+            <TextView
+                style="@style/UI.Center.ItemTV"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="15dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:textColor="@color/black0"
+                android:text="@string/personal_detail_message" />
+
+            <com.android.library.ui.view.HorizontalListView
+                android:id="@+id/personalDetailMessageListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:divider="@android:color/transparent"
+                android:fadingEdge="none"
+                android:listSelector="@drawable/lv_item_selector"
+                android:clickable="false"
+                android:focusable="false"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+        </LinearLayout>
+
+        <include layout="@layout/layout_ui_split_line" />
+        
+        <Button
+            android:id="@+id/personal_detail_send_message_id"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:text="@string/personal_detail_send_message"
+            android:textColor="@color/white"
+            android:layout_height="45dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/shape_btn_send"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</FrameLayout>

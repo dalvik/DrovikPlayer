@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="270dp" >
+
+    <ImageView
+        android:id="@+id/friend_circle_active_top_bg_id"
+        android:layout_width="match_parent"
+        android:layout_height="230dip"
+        android:background="@color/bg_main"
+        android:scaleType="fitXY" />
+
+    <View
+        android:id="@+id/friend_circle_active_split_id"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:focusableInTouchMode="true"
+        android:layout_below="@+id/friend_circle_active_top_bg_id" >
+    </View>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="175dip"
+        android:id="@+id/friend_circle_top_header"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/friend_circle_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+            android:orientation="horizontal"
+            android:padding="2dp" >
+
+            <com.android.library.ui.view.RoundImageView
+                android:id="@+id/friend_circle_head_icon"
+                android:scaleType="fitXY"
+                android:layout_width="80dip"
+                android:layout_height="80dip" />
+        </LinearLayout>
+        
+    </LinearLayout>
+    <TextView
+        android:id="@+id/friend_circle_signature"
+        android:layout_below="@+id/friend_circle_top_header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginRight="10dip"
+        style="@style/UI.His.Personal.Center.TextStyle.Gray_Little"/>
+
+</RelativeLayout>

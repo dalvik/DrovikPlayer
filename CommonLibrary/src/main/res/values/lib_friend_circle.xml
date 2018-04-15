@@ -1,0 +1,18 @@
+<resources>
+    <style name="list_dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item> 
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item><!-- 背景图片的大小也影响窗口的大小 -->
+        <item name="android:windowIsTranslucent">true</item><!-- 是否半透明 -->
+    </style>
+    <style name="dialog_anim" parent="android:Animation" mce_bogus="1">  
+        <item name="android:windowEnterAnimation">@anim/lib_common_dialog_enter</item>  
+        <item name="android:windowExitAnimation">@anim/lib_common_dialog_exit</item>  
+    </style>
+     <style name="reply_window_anim" parent="android:Animation" mce_bogus="1">  
+        <item name="android:windowEnterAnimation">@anim/friend_circle_reply_window_enter</item>  
+        <item name="android:windowExitAnimation">@anim/firend_circle_reply_window_exit</item>  
+    </style> 
+</resources>

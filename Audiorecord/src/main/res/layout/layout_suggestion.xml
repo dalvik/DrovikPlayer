@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+       <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:paddingTop="25dip" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/suggestion_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_default"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:focusableInTouchMode="true"
+                    android:maxLength="70"
+                    android:maxLines="3" />
+                
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" 
+                android:paddingTop="15dip">
+
+                <Button
+                    android:id="@+id/suggestion_commit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+            		android:paddingLeft="20dp"
+            		android:paddingRight="20dp"
+            		android:paddingTop="5dp"
+                    android:gravity="center"
+                    android:text="@string/sms_setting_suggestion_commit"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"/>
+
+                <LinearLayout
+                    android:id="@+id/reg_phone_layout_note"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/suggestion_commit"
+                    android:orientation="vertical" >
+
+                    <com.android.audiorecorder.ui.view.HandyTextView
+                        android:id="@+id/reg_phone_htv_note"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="8dip"
+                        android:layout_marginRight="8dip"
+                        android:layout_marginTop="8dip"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:minLines="2"
+                        android:text="@string/sms_setting_suggestion_notice"
+                        android:textColor="@color/notes_color"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+</LinearLayout>
