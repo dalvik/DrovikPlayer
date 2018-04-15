@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':RongIMKit', ':ijkplayer-java', ':CommonLibrary', ':Audiorecord'
