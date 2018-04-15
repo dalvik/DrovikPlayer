@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@android:id/background"
+        android:drawable="@color/black_gray" />
+    <item
+        android:id="@android:id/secondaryProgress"
+        android:drawable="@drawable/video_body_play_progress_n" />
+    <item
+        android:id="@android:id/progress"
+        android:drawable="@drawable/video_body_play_progress_h" />
+</layer-list>

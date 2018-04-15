@@ -3,4 +3,34 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+
+    <color name="image_bg">#353535</color>
+    <color name="music_sub">#a2a4ac</color>
+    <color name="edittext_hint">#b3b5bd</color>
+    <color name="edittext_bg">#dadadd</color>
+    <color name="default_color">#3c3c3c</color>
+    <color name="subtitle_color">#aaaaaa</color>
+    <color name="text_gray">#959595</color>
+    <color name="delete_menu">#FE3839</color>
+    <color name="colorEditHint">#bcbcbc</color>
+    <color name="image_backgroud_color">#EFEFF4</color>
+    <color name="common_splite_color">#d6d6d6</color>
+    <color name="divider_line">#d9dbe1</color>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="black_harf">#88000000</color>
+    <color name="ijk_color_blue_main">@color/ijk_color_blue_500</color>
+    <color name="ijk_color_blue_50">#E3F2FD</color>
+    <color name="ijk_color_blue_100">#BBDEFB</color>
+    <color name="ijk_color_blue_200">#90CAF9</color>
+    <color name="ijk_color_blue_300">#64B5F6</color>
+    <color name="ijk_color_blue_400">#42A5F5</color>
+    <color name="ijk_color_blue_500">#2196F3</color>
+    <color name="ijk_color_blue_600">#1E88E5</color>
+    <color name="ijk_color_blue_700">#1976D2</color>
+    <color name="ijk_color_blue_800">#1565C0</color>
+    <color name="ijk_color_blue_900">#0D47A1</color>
+
+    <color name="ijk_transparent_dark">#77000000</color>
 </resources>

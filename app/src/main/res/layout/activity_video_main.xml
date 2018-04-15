@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:anroid="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_file_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base_bg">
+
+    <RelativeLayout
+        android:id="@+id/activity_file_head_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/common_bg"
+        android:gravity="center_vertical">
+
+        <RelativeLayout
+            android:id="@+id/activity_all_file_rl"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/common_45_dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/file_top_meun_icon_height"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/common_14_dp"
+                android:gravity="center"
+                android:text="@string/video_all_file" />
+
+            <ImageView
+                android:id="@+id/activity_file_search"
+                android:layout_width="@dimen/file_top_meun_icon_width"
+                android:layout_height="@dimen/file_top_meun_icon_height"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/common_10_dp"
+                android:src="@drawable/selector_file_list_search" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/activity_file_search_rl"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/common_45_dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/common_bg"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/activity_file_search_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/common_10_dp"
+                android:background="@color/transparent"
+                android:text="@string/cancel"
+                android:textColor="@color/base_main_title"
+                android:textSize="@dimen/base_dafault_size" />
+
+            <RelativeLayout
+                android:id="@+id/activity_file_search_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/common_5_dp"
+                android:layout_marginLeft="@dimen/common_14_dp"
+                android:layout_marginRight="@dimen/common_10_dp"
+                android:layout_marginTop="@dimen/common_5_dp"
+                android:layout_toLeftOf="@+id/activity_file_search_cancel"
+                android:background="@drawable/search_shape_bg">
+
+                <ImageView
+                    android:id="@+id/activity_file_search_icon"
+                    android:layout_width="@dimen/common_28_dp"
+                    android:layout_height="@dimen/common_28_dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/common_10_dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:src="@drawable/common_list_box_search_n" />
+
+                <EditText
+                    android:id="@+id/dialog_file_search_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/activity_file_search_icon"
+                    android:background="@null"
+                    android:hint="@string/input_sear_file_name"
+                    android:inputType="none"
+                    android:maxLength="40"
+                    android:paddingLeft="@dimen/common_small_padding"
+                    android:singleLine="true"
+                    android:textColorHint="@color/text_gray"
+                    android:textSize="@dimen/base_subtitle_size" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/file_list_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/activity_file_head_rl"
+        android:background="@color/transparent" >
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+            <com.android.library.ui.view.HFRecyclerView
+                android:id="@+id/fragment_file_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:cacheColorHint="#00000000"
+                android:divider="@color/divider_line"
+                android:dividerHeight="1dp"
+                android:footerDividersEnabled="true" />
+
+            <TextView
+                android:id="@+id/fragment_file_tv_nothing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:drawableTop="@drawable/common_body_no_content"
+                android:gravity="center"
+                android:text="@string/no_exist_file"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</RelativeLayout>

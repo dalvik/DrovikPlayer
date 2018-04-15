@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_video_covery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_launcher_recorder" />
+
+        <TextView
+            android:id="@+id/item_video_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:textColor="@color/white"
+            android:background="@color/black_harf"
+            android:layout_marginLeft="@dimen/common_5_dp"
+            android:singleLine="true" />
+
+        <ImageView
+            android:id="@+id/item_video_selected"
+            android:layout_width="@dimen/common_25_dp"
+            android:layout_height="@dimen/common_25_dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="@dimen/common_5_dp"
+            android:layout_marginRight="@dimen/common_5_dp"/>
+    </FrameLayout>
+
+
+    <RelativeLayout
+        android:padding="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/item_video_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="7dp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/item_video_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:layout_gravity="center"
+            android:textColor="@color/color_device"
+            android:ellipsize="middle"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/item_video_download"
+            android:singleLine="true" />
+    </RelativeLayout>
+</LinearLayout>

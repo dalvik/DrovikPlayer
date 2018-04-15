@@ -1,0 +1,30 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="common_14_dp">14dp</dimen>
+
+    <!-- file list padding -->
+    <dimen name="file_top_meun_icon_width">35dp</dimen>
+    <dimen name="file_top_meun_icon_height">35dp</dimen>
+    <dimen name="common_padding">15dp</dimen>
+    <dimen name="common_main_splite_line">2dp</dimen>
+    <dimen name="common_small_padding">10dp</dimen>
+    <color name="color_device">#3c3c3c</color>
+    <dimen name="menu_size">15sp</dimen>
+    <dimen name="common_hight">30dp</dimen>
+    <dimen name="common_high_hight">50dp</dimen>
+    <dimen name="common_xlhigh_hight">60dp</dimen>
+    <dimen name="common_divider_hight">1dp</dimen>
+    <dimen name="list_item_padding">12dp</dimen>
+    <dimen name="edittext_hight">40dp</dimen>
+    <dimen name="edittext_magin_top">15dp</dimen>
+    <dimen name="dialog_button_text_size">15sp</dimen>
+    <dimen name="dialog_title_size">17dp</dimen>
+    <dimen name="fixed_width_length">80dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="ijk_horizontal_margin">@dimen/activity_horizontal_margin</dimen>
+    <dimen name="ijk_vertical_margin">@dimen/activity_vertical_margin</dimen>
+</resources>
