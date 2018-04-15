@@ -1,0 +1,14 @@
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/.idea
+/build
+CommonLibrary/build
+RongIMKit/build
+Audiorecord/build
+ijkplayer-java/build
+/captures
+.externalNativeBuild
