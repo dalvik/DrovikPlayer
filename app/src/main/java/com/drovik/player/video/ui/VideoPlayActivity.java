@@ -13,9 +13,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.android.drovik.R;
-import com.android.drovik.video.VideoBean;
-import com.android.drovik.video.mediaplayer.SuperPlayer;
+import com.drovik.player.R;
+import com.drovik.player.video.VideoBean;
+import com.drovik.player.video.mediaplayer.SuperPlayer;
 import com.android.library.utils.PreferenceUtils;
 
 import java.net.MalformedURLException;

@@ -17,8 +17,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.android.drovik.R;
-import com.android.drovik.video.VideoBean;
+import com.drovik.player.R;
+import com.drovik.player.video.VideoBean;
 import com.android.library.player.video.OnPlayerBackListener;
 import com.android.library.player.video.OnShowThumbnailListener;
 import com.android.library.player.video.PlayStateParams;

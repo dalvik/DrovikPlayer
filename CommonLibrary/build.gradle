@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 27
-
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
@@ -12,34 +11,42 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildToolsVersion '27.0.3'
+}
 
+repositories{
+    flatDir{
+        dirs 'libs'
+    }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //testImplementation 'junit:junit:4.12'
+    //androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation files('libs/ksoap2-android-assembly-3.0.0.jar')
-    implementation files('libs/Acadiatech_JSON.jar')
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:preference-v7:27.1.1'
-    implementation project(':ijkplayer-java')
-    implementation files('libs/Acadiatech_JSON.jar')
-    implementation project(':RongIMKit')
-    implementation 'com.google.code.gson:gson:2.2.4'
-    implementation files('libs/universal-image-loader-1.9.5.jar')
-    implementation files('libs/xutils-3.3.34.jar')
-    implementation files('libs/qczxing.jar')
+    api 'com.android.support:recyclerview-v7:27.1.1'
+    api 'com.android.support:preference-v7:27.1.1'
+    api project(':ijkplayer-java')
+    api files('libs/Acadiatech_JSON.jar')
+    api 'com.google.code.gson:gson:2.2.4'
+    api files('libs/universal-image-loader-1.9.5.jar')
+    api files('libs/xutils-3.3.34.jar')
+    api files('libs/afinal_0.5.1_bin.jar')
+    api files('libs/commons-httpclient-3.1.jar')
+    api files('libs/httpcore-4.3.jar')
+    api files('libs/utils.jar')
+    api files('libs/nineoldandroids-2.4.0.jar')
+    api files('libs/glide-3.7.0.jar')
+    api files('libs/qczxing.jar')
     implementation files('libs/picasso-2.5.2.jar')
+    implementation project(':RongIMKit')
 }

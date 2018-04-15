@@ -9,9 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.drovik.R;
-import com.android.drovik.audio.MusicBean;
-import com.android.library.net.utils.LogUtil;
+import com.drovik.player.R;
+import com.drovik.player.audio.MusicBean;
+import com.android.audiorecorder.utils.LogUtil;
 
 import java.util.ArrayList;
 

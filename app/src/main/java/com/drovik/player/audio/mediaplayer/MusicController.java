@@ -2,12 +2,11 @@ package com.drovik.player.audio.mediaplayer;
 
 import android.os.AsyncTask;
 import android.view.View;
-
-import com.android.drovik.AppApplication;
-import com.android.drovik.R;
-import com.android.drovik.audio.MusicBean;
-import com.android.drovik.audio.ui.IMusicView;
-import com.android.library.net.utils.LogUtil;
+import com.drovik.player.R;
+import com.drovik.player.AppApplication;
+import com.drovik.player.audio.MusicBean;
+import com.drovik.player.audio.ui.IMusicView;
+import com.android.audiorecorder.utils.LogUtil;
 
 import java.util.ArrayList;
 

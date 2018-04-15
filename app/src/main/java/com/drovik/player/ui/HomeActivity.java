@@ -12,9 +12,9 @@ import android.widget.FrameLayout;
 
 import com.android.audiorecorder.engine.MultiMediaService;
 import com.android.audiorecorder.provider.FileProviderService;
-import com.android.drovik.R;
-import com.android.drovik.ui.fragment.HomeFragment;
-import com.android.drovik.ui.fragment.LeftFragment;
+import com.drovik.player.R;
+import com.drovik.player.ui.fragment.HomeFragment;
+import com.drovik.player.ui.fragment.LeftFragment;
 import com.android.library.ui.activity.BaseCompatActivity;
 import com.nineoldandroids.view.ViewHelper;
 

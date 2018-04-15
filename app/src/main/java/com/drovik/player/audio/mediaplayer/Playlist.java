@@ -1,7 +1,7 @@
 package com.drovik.player.audio.mediaplayer;
 
-import com.android.drovik.audio.MusicBean;
-import com.android.library.net.utils.LogUtil;
+import com.drovik.player.audio.MusicBean;
+import com.android.audiorecorder.utils.LogUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;

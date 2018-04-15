@@ -1,6 +1,6 @@
 package com.drovik.player.audio.ui;
 
-import com.android.drovik.audio.MusicBean;
+import com.drovik.player.audio.MusicBean;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,6 @@
 package com.drovik.player.audio.mediaplayer;
 
-import com.android.drovik.audio.MusicBean;
+import com.drovik.player.audio.MusicBean;
 
 public interface IMusicPlayView {
 

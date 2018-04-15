@@ -3,10 +3,10 @@ package com.drovik.player.audio.mediaplayer;
 import android.content.Context;
 import android.view.View;
 
-import com.android.drovik.AppApplication;
-import com.android.drovik.R;
-import com.android.drovik.audio.MusicBean;
-import com.android.library.net.utils.LogUtil;
+import com.drovik.player.AppApplication;
+import com.drovik.player.R;
+import com.drovik.player.audio.MusicBean;
+import com.android.audiorecorder.utils.LogUtil;
 
 public class MusicPlayController implements View.OnClickListener, PlayerEngineListener {
     private Context mContext;

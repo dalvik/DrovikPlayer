@@ -14,7 +14,6 @@ import com.android.library.ui.activity.BaseSubListActivity;
 public class CenterAcountInfoActivity extends BaseSubListActivity implements View.OnClickListener{
 
     private int whatList;
-
     //private CenterMyCountManager centerMyCountManager;
 
     //private CenterAcountInfoAdapter centerAcountInfoAdapter;

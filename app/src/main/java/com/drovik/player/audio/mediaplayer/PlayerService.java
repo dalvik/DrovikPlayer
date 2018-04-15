@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.android.drovik.AppApplication;
-import com.android.drovik.audio.MusicBean;
-import com.android.library.net.utils.LogUtil;
+import com.drovik.player.AppApplication;
+import com.drovik.player.audio.MusicBean;
+import com.android.audiorecorder.utils.LogUtil;
 
 
 public class PlayerService extends Service {

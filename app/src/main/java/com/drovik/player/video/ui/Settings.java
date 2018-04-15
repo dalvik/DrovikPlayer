@@ -20,7 +20,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.android.drovik.R;
+import com.drovik.player.R;
 
 public class Settings {
     private Context mAppContext;

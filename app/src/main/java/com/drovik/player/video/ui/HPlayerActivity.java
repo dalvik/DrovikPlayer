@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
-import com.android.drovik.R;
+import com.drovik.player.R;
 import com.android.library.player.video.MediaUtils;
 import com.android.library.player.video.OnShowThumbnailListener;
 import com.android.library.player.video.PlayStateParams;

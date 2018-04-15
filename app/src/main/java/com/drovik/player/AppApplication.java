@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 
 import com.android.audiorecorder.engine.MultiMediaService;
-import com.android.drovik.audio.MusicBean;
-import com.android.drovik.audio.mediaplayer.PlayerEngine;
-import com.android.drovik.audio.mediaplayer.PlayerEngineListener;
-import com.android.drovik.audio.mediaplayer.PlayerService;
-import com.android.drovik.audio.mediaplayer.Playlist;
-import com.android.library.BaseApplication;
-import com.android.library.net.utils.LogUtil;
+import com.drovik.player.audio.MusicBean;
+import com.drovik.player.audio.mediaplayer.PlayerEngine;
+import com.drovik.player.audio.mediaplayer.PlayerEngineListener;
+import com.drovik.player.audio.mediaplayer.PlayerService;
+import com.drovik.player.audio.mediaplayer.Playlist;
+import com.drovik.player.BaseApplication;
+import com.android.audiorecorder.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;

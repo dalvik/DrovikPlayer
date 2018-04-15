@@ -29,7 +29,7 @@
         <activity
             android:name="io.rong.imkit.MainActivity"
             android:screenOrientation="portrait" />
-
+        
         <activity
             android:name="io.rong.imkit.activity.PictureSelectorActivity"
             android:screenOrientation="portrait" />
@@ -111,7 +111,7 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
-
+        
         <!--必选： SDK 核心功能-->
 
         <!-- end -->

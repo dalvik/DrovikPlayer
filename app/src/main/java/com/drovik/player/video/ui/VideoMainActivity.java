@@ -17,9 +17,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.drovik.R;
-import com.android.drovik.video.VideoBean;
-import com.android.drovik.video.ui.adapter.VideoListAdpater;
+import com.drovik.player.R;
+import com.drovik.player.video.VideoBean;
+import com.drovik.player.video.ui.adapter.VideoListAdpater;
 import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.activity.BaseCompatActivity;
 import com.android.library.ui.view.HFLoadMoreWrapper;

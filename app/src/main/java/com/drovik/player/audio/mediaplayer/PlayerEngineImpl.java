@@ -8,8 +8,8 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.android.drovik.audio.MusicBean;
-import com.android.library.net.utils.LogUtil;
+import com.drovik.player.audio.MusicBean;
+import com.android.audiorecorder.utils.LogUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
