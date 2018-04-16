@@ -31,8 +31,8 @@ dependencies {
     //testImplementation 'junit:junit:4.12'
     //androidTestImplementation 'com.android.support.test:runner:1.0.1'
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation files('libs/ksoap2-android-assembly-3.0.0.jar')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    api files('libs/ksoap2-android-assembly-3.0.0.jar')
+    api 'com.android.support:appcompat-v7:27.1.1'
     api 'com.android.support:recyclerview-v7:27.1.1'
     api 'com.android.support:preference-v7:27.1.1'
     api project(':ijkplayer-java')
@@ -47,6 +47,6 @@ dependencies {
     api files('libs/nineoldandroids-2.4.0.jar')
     api files('libs/glide-3.7.0.jar')
     api files('libs/qczxing.jar')
-    implementation files('libs/picasso-2.5.2.jar')
-    implementation project(':RongIMKit')
+    api files('libs/picasso-2.5.2.jar')
+    api project(':RongIMKit')
 }

@@ -26,8 +26,4 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     api project(':CommonLibrary')
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation files('libs/universal-image-loader-1.9.5.jar')
-    implementation project(':RongIMKit')
-    implementation files('libs/Acadiatech_JSON.jar')
 }
