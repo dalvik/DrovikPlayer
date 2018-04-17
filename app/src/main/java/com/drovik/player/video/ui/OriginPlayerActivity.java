@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
-import com.android.drovik.R;
+import com.drovik.player.R;
 import com.android.library.player.video.MediaUtils;
 import com.android.library.player.video.OnShowThumbnailListener;
 import com.android.library.player.video.PlayStateParams;
@@ -34,7 +34,7 @@ public class OriginPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_h);
         /**常亮*/
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "liveTAG");
+        //wakeLock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "liveTAG");
         wakeLock.acquire();
         String url = "http://183.6.245.249/v.cctv.com/flash/mp4video6/TMS/2011/01/05/cf752b1c12ce452b3040cab2f90bc265_h264818000nero_aac32-1.mp4";
         player = new PlayerView(this)

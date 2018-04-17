@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.drovik.R;
-import com.android.drovik.video.VideoBean;
+import com.drovik.player.R;
+import com.drovik.player.video.VideoBean;
 
 import java.util.List;
 

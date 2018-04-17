@@ -10,7 +10,7 @@ import com.drovik.player.audio.mediaplayer.PlayerEngine;
 import com.drovik.player.audio.mediaplayer.PlayerEngineListener;
 import com.drovik.player.audio.mediaplayer.PlayerService;
 import com.drovik.player.audio.mediaplayer.Playlist;
-import com.drovik.player.BaseApplication;
+import com.android.library.BaseApplication;
 import com.android.audiorecorder.utils.LogUtil;
 
 import java.util.ArrayList;

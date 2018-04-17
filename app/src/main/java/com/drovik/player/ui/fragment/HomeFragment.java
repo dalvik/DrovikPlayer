@@ -19,11 +19,11 @@ import android.widget.TextView;
 import com.android.audiorecorder.ui.FileExplorerActivity;
 import com.android.audiorecorder.ui.SoundRecorder;
 import com.android.audiorecorder.ui.activity.LoginActivity;
-import com.android.drovik.AppApplication;
-import com.android.drovik.R;
-import com.android.drovik.audio.ui.MusicActivity;
-import com.android.drovik.ui.HomeActivity;
-import com.android.drovik.video.ui.VideoMainActivity;
+import com.drovik.player.AppApplication;
+import com.drovik.player.R;
+import com.drovik.player.audio.ui.MusicActivity;
+import com.drovik.player.ui.HomeActivity;
+import com.drovik.player.video.ui.VideoMainActivity;
 import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.pager.BasePager;
 

@@ -28,7 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.android.drovik.R;
+import com.drovik.player.R;
 import com.android.library.ui.view.VerticalSeekBar;
 import com.android.library.utils.NetWorkUtils;
 
