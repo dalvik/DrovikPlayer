@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="storage_setting_array">
+        <item>話機</item>
+        <item>SD卡</item>
+    </string-array>
+    <string-array name="format_setting_array">
+        <item>AMR</item>
+        <item>3GPP</item>
+    </string-array>
+     <string-array name="head_titles">
+	    <item>录音列表</item>
+	    <item>远程</item>
+    </string-array>
+</resources>

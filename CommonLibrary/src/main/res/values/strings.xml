@@ -52,4 +52,8 @@
     <!-- 引导页 -->
     <string name="guide_enter">立&#160;即&#160;体&#160;验</string>
 
+    <!-- permission -->
+    <string name="permission_not_granted_write_storage">存储卡读写权限未授权</string>
+    <string name="permission_not_granted_audio_record">录音权限未授权</string>
+    <string name="permission_should_granted">您已禁止该权限，需要重新开启。</string>
 </resources>

@@ -83,6 +83,9 @@ public class MediaFileProducer {
     
     private void putFilePathToList(List<String> filePaths, File file){
         File[] files = file.listFiles();
+        if(files == null) {
+            return ;
+        }
         for(File f:files){
             if(f.isFile()){
                 if(!f.getParent().contains(FileProviderService.THUMBNAIL) && !f.getName().contains(".nomedia")){

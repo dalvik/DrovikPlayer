@@ -46,9 +46,11 @@ dependencies {
     api files('libs/utils.jar')
     api files('libs/nineoldandroids-2.4.0.jar')
     api files('libs/glide-3.7.0.jar')
+    api files('libs/nineoldandroids-2.4.0.jar')
     api files('libs/qczxing.jar')
     api files('libs/picasso-2.5.2.jar')
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
+    api 'com.lovedise:permissiongen:0.0.6'
     api project(':RongIMKit')
 }

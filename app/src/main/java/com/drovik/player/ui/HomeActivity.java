@@ -1,8 +1,12 @@
 package com.drovik.player.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -12,6 +16,7 @@ import android.widget.FrameLayout;
 
 import com.android.audiorecorder.engine.MultiMediaService;
 import com.android.audiorecorder.provider.FileProviderService;
+import com.android.library.ui.utils.ToastUtils;
 import com.drovik.player.R;
 import com.drovik.player.ui.fragment.HomeFragment;
 import com.drovik.player.ui.fragment.LeftFragment;
@@ -51,6 +56,13 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         setActionBarVisiable(View.GONE);
         initData();
         initView();
+        if(!hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                showToast(com.android.audiorecorder.R.string.permission_should_granted);
+            } else {
+                requestPermission(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, EXTERNAL_STORAGE_REQ_CODE);
+            }
+        }
     }
 
     private void initData() {
@@ -175,5 +187,19 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case EXTERNAL_STORAGE_REQ_CODE:
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    ToastUtils.showToast(com.android.library.R.string.permission_not_granted_write_storage);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

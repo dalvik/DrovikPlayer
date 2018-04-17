@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="NNNtrackscount">
+        <item quantity="other">%d 首录音</item>
+        <item quantity="one">1 首录音</item>
+    </plurals>
+    <plurals name="NNNtracksmulticount">
+        <item quantity="other">已选择 %d 首录音</item>
+        <item quantity="one">已选择 1 首录音</item>
+    </plurals>
+    <plurals name="NNNtracksdeleted">
+        <item quantity="other">已删除 %d 首录音。</item>
+        <item quantity="one">已删除 1 首录音。</item>
+    </plurals>
+    <plurals name="NNNtrackswilldelete">
+        <item quantity="other">将会删除 %d 首录音。</item>
+        <item quantity="one">将会删除 1 首录音</item>
+    </plurals>
+</resources>

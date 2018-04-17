@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">藍牙答錄機</string>
+    <string name="record_your_message">錄下您的留言</string>
+    <string name="message_recorded">訊息已錄製</string>
+    <string name="review_message">檢視簡訊</string>
+    <string name="recording">正在錄音</string>
+    <string name="recording_stopped">停止</string>
+    <string name="recording_paused">暫停</string>
+    <string name="internal_storage_is_full">話機卡存储空间已满</string>
+    <string name="external_storage_is_full">SD卡存储空间已满</string>
+    <string name="max_length_reached">已達到長度上限</string>
+    <string name="insert_sd_card">Please insert SD card firstly or change memory location to phone.</string>
+    <string name="min_available">還剩約 %d 分鐘</string>
+    <string name="sec_available">還剩 %d 秒</string>
+    <string name="min_sec_available">%d 秒</string>
+    <string name="accept">儲存</string>
+    <string name="discard">取消</string>
+    <string name="button_ok">確定</string>
+    <string name="timer_format" formatted="false">%02d:%02d</string>
+    <string name="press_record">準備</string>
+    <string name="audio_db_title_format">yyyyMMddHHmmss</string>
+    <string name="audio_db_artist_name">您的錄音</string>
+    <string name="audio_db_album_name">錄音</string>
+    <string name="audio_db_playlist_name">我的錄音</string>
+    <string name="error_sdcard_access">儲存失敗</string>
+    <string name="error_app_internal">內部應用程式錯誤</string>
+    <string name="error_mediadb_new_record">無法儲存音訊至音訊資料庫</string>
+    <string name="record">錄音</string>
+    <string name="pause">暫停</string>
+    <string name="stop">停止</string>
+    <string name="play">播放</string>
+    <string name="save">Save</string>
+    <string name="cancle">取消</string>
+    <string name="ask_to_save">是否儲存錄音文件？</string>
+    <string name="files_browse">瀏覽錄音文件</string>
+    <string name="sdcard_toast">請插入SD卡</string>
+    <string name="settings">設定</string>
+    <string name="to_file_manager">瀏覽</string>
+    <string name="recoring_inCall">通話中，請稍候</string>
+    <string name="information">詳情</string>
+    <string name="rename_item">重新命名</string>
+    <string name="record_list_title">錄音清單</string>
+    <string name="delete_song_desc">將刪除此錄音。</string>
+    <string name="upload_item">上传</string>
+    <string name="delete_item">刪除</string>
+    <string name="no_records_title">無錄音</string>
+    <string name="zero_time">0:00</string>
+    <string name="path">路徑：</string>
+    <string name="size">大小：</string>
+    <string name="type">類型：</string>
+    <string name="duration">時長：</string>
+    <string name="menu_search">搜尋</string>
+    <string name="select_all">全部選擇</string>
+    <string name="unselect_all">全部取消</string>
+    <string name="unknown">未知</string>
+    <string name="records_title">錄音</string>
+    <string name="record_rename">請輸入錄音新名稱:</string>
+    <string name="storage_setting">儲存位置</string>
+    <string name="storage_setting_sdcard_item">SD卡</string>
+    <string name="storage_setting_local_item">話機</string>
+    <string name="format_setting">錄音類型</string>
+    <string name="setting_setting">设置</string>
+    <string name="format_setting_3GPP_item">3GPP</string>
+    <string name="format_setting_AMR_item">WAV</string>
+    <string name="record_saved">錄音已儲存</string>
+    <string name="record_name_cannot_empty">新錄音名不能為空</string>
+    <string name="FileRename_ERR_NAMEINV">"File name include invalid character "</string>
+    <string name="durationformatshort" formatted="false">%2$d:%5$02d</string>
+    <string name="durationformatlong" formatted="false">%1$d:%3$02d:%5$02d</string>
+    <string name="no_phonestorage">手機內儲存被卸載</string>
+    <string name="file_exists">文件名重複</string>
+    <string name="list_changed">清單已改变，請重新加載</string>
+    <string name="list">Record list</string>
+    
+    <string name="audio_bind_error">服务绑定失败</string>
+    <string name="service_open_error_msg" msgid="7061754255330276478">"文件打开失败"</string>
+    <string name="select_delete_file" msgid="7061754255330276478">请先点击欲删除的文件</string>
+    
+    <string-array name="external_sd_path">
+        <item>/storage/extSdCard</item>
+        <item>/storage/sdcard1</item>
+        <item>/mnt/sdcard2</item>
+        <item>/mnt/sdcard-ext</item>
+        <item>/mnt/ext_sdcard</item>
+        <item>/mnt/sdcard/SD_CARD</item>
+        <item>/mnt/sdcard/extra_sd</item>
+        <item>/mnt/extrasd_bind</item>
+        <item>/mnt/sdcard/ext_sd</item>
+        <item>/mnt/sdcard/external_SD</item>
+    </string-array>
+    
+    <!-- update -->
+    <string name="_check_version_str">正在檢查更新，請稍等。。。</string>
+    <string name="_check_version_result_title_str">升級提示</string>
+    <string name="_check_version_result_success_message_str">您當前已經是最新版本</string>
+    <string name="_check_version_result_error_message_str">您當前已經是最新版本</string>
+    <string name="_check_version_result_ok_str">確定</string>
+    <string name="_check_version_dialog_title_str">軟體版本更新</string>
+    <string name="_check_version_dialog_ok_button_str">立即更新</string>
+    <string name="_check_version_dialog_cancle_button_str">以後再說</string>
+    <string name="_loading_new_str">正在下載新版本</string>
+    <string name="_loading_new_cancle_str">取消</string>
+    <string name="_loading_str">下載</string>
+    
+    <!-- setting -->
+    <string name="sms_setting_title">設置</string>
+    <string name="sms_list_back">返回</string>
+    <string name="sms_setting_update">升級軟體：</string>
+    <string name="sms_setting_newer">可更新至 <xliff:g id="number">%1$s</xliff:g></string>
+    <string name="sms_setting_newest">當前已是最新版本</string>
+    <string name="sms_setting_suggestion">投訴建議</string>
+    <string name="sms_setting_suggestion_notice">大家的建議為提高軟體品質已經起到作用，在此深表感謝。對於大家提出的問題給與解答，歡迎查閱。希望大家繼續提出寶貴的意見和建議！</string>
+    <string name="sms_setting_suggestion_null">請輸入投訴或者建議內容</string>
+    <string name="sms_setting_suggestion_long">輸入的投訴或者建議內容太長</string>
+    <string name="sms_setting_suggestion_success">回饋成功，感謝參與！</string>
+    <string name="sms_setting_suggestion_commit">提交</string>
+    <string name="sms_setting_help">幫助中心</string>
+    <string name="sms_setting_help_software">1、軟體介紹</string>
+    <string name="sms_setting_help_software_content"><![CDATA[<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;藍牙答錄機是一款羽量級的藍牙錄音軟體，主要是為了解決藍牙耳機種類眾多，而藍牙錄音軟體嚴重不足的問題。本軟體能夠適配市面上大部分的藍牙耳機，錄音音質細膩、清晰，悅耳動聽。同時支援後臺不間斷錄音，軟體小巧、輕便，運行高效、省點，適合長時間錄音。<br/>]]></string>
+    <string name="sms_setting_help_function">2、功能介紹</string>
+    <string name="sms_setting_help_function_content"><![CDATA[<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;藍牙答錄機軟體介面設計簡單，操作靈活方便，功能穩定。其中主要包括以下功能：<br/>
+        <font color="#000000"><br/>1、藍牙錄音<br/></font>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;藍牙錄音是該軟體的特功能。市場上大部分的錄音軟體都不支援藍牙錄音。但該軟體支援A2DP和非A2DP兩種類型的藍牙耳機。錄音過程當初如果有藍牙耳機成功連接，該軟體會強制開啟藍牙錄音功能。<br/>
+        <font color="#000000"><br/>2、後臺錄音<br/></font>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在錄音過程當中，您可以點擊home鍵或者返回鍵去做其他事情。錄音不會停止。方便用戶。一般的錄音軟體只能前臺錄音，點擊返回鍵錄音就自動停止了。<br/>
+        <font color="#000000"><br/>3、電話錄音<br/></font>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您可以設置是否開啟來電自動錄音功能。如果開啟自動來電錄音，當有電話呼入，該軟體會自動記錄通過過程，通話結束，自動停止錄音。方便快速保留依據。<br/>
+        <font color="#000000"><br/>4、錄音路徑和錄音格式設置<br/></font>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您可以方便的設置錄音檔保存的位置。您也可以設置音頻檔的存儲格式。<br/>
+        <font color="#000000"><br/>5、錄音檔流覽<br/></font>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您可以快速的查閱所有的錄音檔，默認以開始錄音的時間先後倒敍排列。方便查看。<br/>
+        <font color="#000000"><br/>6、錄音檔的重播、查看和刪除<br/></font>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您可以對所有的錄音檔進行即時的流覽重播、詳情查看和刪除等操作。
+        <br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;感謝您使用該軟體，您的支援是我們前進的動力！
+        <br/><br/><br/>]]></string>
+    <string name="sms_setting_about">關於我們</string>
+    <string name="sms_setting_about_us">1、關於我們</string>
+    <string name="sms_setting_about_us_content">專案團隊是由多年從事JavaEE開發和Android移動物聯網開發的資深技術專家組成。擁有豐富的基於Android平臺開發經營，能高效、快速完成Android定制開發。</string>
+    <string name="sms_setting_about_contact">2、聯繫我們</string>
+    <string name="sms_setting_about_contact_content">地址：杭州市西湖區天目山路160號國際花園寫字樓
+        \nHome:<a href="http://www.davmb.com">http://www.davmb.com</a>
+        \nTel:<a href="tel:15068885227">15068885227</a>
+        \nQQ:513518064</string>
+    <string name="sms_setting_about_cooperation">3、項目合作</string>
+    <string name="sms_setting_about_cooperation_content">Email: <a href="mailto:sky.xctc@163.com">sky.xctc@163.com</a></string>
+</resources>

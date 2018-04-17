@@ -9,11 +9,14 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,6 +42,7 @@ import com.android.audiorecorder.utils.ActivityUtil;
 import com.android.audiorecorder.utils.LogUtil;
 import com.android.audiorecorder.utils.UIHelper;
 import com.android.library.ui.activity.BaseCompatActivity;
+import com.android.library.ui.utils.ToastUtils;
 import com.android.library.utils.IntentUtils;
 
 public class SoundRecorder extends BaseCompatActivity implements View.OnClickListener {
@@ -102,7 +106,6 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
         super.onCreate(paramBundle);
         startService(new Intent(this, MultiMediaService.class));
         startService(new Intent(this, FileProviderService.class));
-        requestPermission(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         if(bindService(IntentUtils.createExplicitFromImplicitIntent(this, new Intent(MultiMediaService.Action_Audio_Record)), mServiceConnection, Context.BIND_AUTO_CREATE)){
             this.mPreferences = getSharedPreferences(SettingsActivity.class.getName(), Context.MODE_PRIVATE);
             setContentView(R.layout.layout_sound_record);
@@ -283,12 +286,50 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
                     iRecorderService.stopRecord();
                     showToast(R.string.record_saved);
                 } else  if(iRecorderService.getAudioRecordState() == MultiMediaService.STATE_IDLE){
-                    requestPermission(new String[]{Manifest.permission.RECORD_AUDIO}, 1);
-                    iRecorderService.startRecord();
+                    if(!hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            showToast(R.string.permission_should_granted);
+                        } else {
+                            requestPermission(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, EXTERNAL_STORAGE_REQ_CODE);
+                        }
+                    } else {
+                        if(hasPermission(Manifest.permission.RECORD_AUDIO)) {
+                            iRecorderService.startRecord();
+                        } else {
+                            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO)) {
+                                showToast(R.string.permission_should_granted);
+                            } else {
+                                requestPermission(new String[]{ Manifest.permission.RECORD_AUDIO }, AUDIO_RECORD_REQ_CODE);
+                            }
+                        }
+                    }
                 }
             }
         } catch (RemoteException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case AUDIO_RECORD_REQ_CODE:
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    ToastUtils.showToast(com.android.library.R.string.permission_not_granted_audio_record);
+                } else {
+                    recordOperation();
+                }
+                break;
+            case EXTERNAL_STORAGE_REQ_CODE:
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    ToastUtils.showToast(com.android.library.R.string.permission_not_granted_write_storage);
+                } else {
+                    recordOperation();
+                }
+                break;
+            default:
+                break;
         }
     }
 

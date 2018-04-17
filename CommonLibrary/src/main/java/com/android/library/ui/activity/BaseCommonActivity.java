@@ -1,12 +1,15 @@
 package com.android.library.ui.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ScrollView;
@@ -34,6 +37,13 @@ import com.android.library.ui.utils.ToastUtils;
  * 8、处理数据业务。
  */
 public abstract class BaseCommonActivity extends FragmentActivity implements IDataCallback {
+
+    public static final int BASE_REQ_CODE = 1;
+    public static final int EXTERNAL_STORAGE_REQ_CODE = BASE_REQ_CODE + 1 ;
+    public static final int AUDIO_RECORD_REQ_CODE = EXTERNAL_STORAGE_REQ_CODE + 1;
+    public static final int PHONE_CALL_REQ_CODE = AUDIO_RECORD_REQ_CODE + 1;
+
+
     public static final String TAG = "CommonBaseActivity";
     public static final String INTENT_CLOSE = "activity.close";
 
@@ -46,7 +56,7 @@ public abstract class BaseCommonActivity extends FragmentActivity implements IDa
     private ConfirmDialog confirmDialog = null;
     //private TipDialog tipDialog = null;
     private BaseDialog customDialog;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -321,6 +331,16 @@ public abstract class BaseCommonActivity extends FragmentActivity implements IDa
     public void  requestPermission(String[] permission, int requestCode) {
         ActivityCompat.requestPermissions(this, permission, requestCode);
     }
+
+    public boolean hasPermission(String... permissions) {
+        for (String permission : permissions) {
+            if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * 回话超时
      */
