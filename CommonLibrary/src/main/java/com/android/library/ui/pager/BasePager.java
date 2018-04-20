@@ -23,6 +23,9 @@ import com.android.library.ui.utils.ToastUtils;
 
 public abstract class BasePager extends Fragment implements IDataCallback {
 
+    public static final int SUCESS = 1;
+    public static final int FAIL = 2;
+
     public static final String TAG = "BasePager";
     protected BaseCommonActivity activity;
     private LinearLayout rootView = null;
@@ -139,6 +142,7 @@ public abstract class BasePager extends Fragment implements IDataCallback {
      * @author Sean.xie
      */
     public abstract void reload();
+
 
     /**
      * 加载失败

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
     android:background="@color/base_bg">
     
     <RelativeLayout
@@ -29,14 +29,84 @@
 
 
         <CheckedTextView
-            android:id="@+id/rightTv"
+            android:id="@+id/rightChooseTv"
             style="@style/MainActivity.Text.Action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="3dip"
-            android:background="@drawable/main_right" />
+            android:background="@drawable/common_title_choice_selector"/>
+
+        <CheckedTextView
+            android:id="@+id/searchTv"
+            style="@style/MainActivity.Text.Action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dip"
+            android:layout_toLeftOf="@+id/rightChooseTv"
+            android:background="@drawable/selector_file_list_search"/>
+
+        <RelativeLayout
+            android:id="@+id/activity_file_search_rl"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/common_50_dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/common_bg"
+            android:gravity="center_vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/activity_file_search_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/common_10_dp"
+                android:background="@color/transparent"
+                android:text="@string/cancel" />
+
+            <RelativeLayout
+                android:id="@+id/activity_file_search_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_5_dp"
+                android:layout_marginLeft="@dimen/common_14_dp"
+                android:layout_marginRight="@dimen/common_10_dp"
+                android:layout_marginTop="@dimen/common_5_dp"
+                android:layout_toLeftOf="@+id/activity_file_search_cancel"
+                android:background="@drawable/search_shape_bg">
+
+                <ImageView
+                    android:id="@+id/activity_file_search_icon"
+                    android:layout_width="@dimen/common_28_dp"
+                    android:layout_height="@dimen/common_28_dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/common_8_dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:src="@drawable/common_list_box_search_n" />
+
+                <EditText
+                    android:id="@+id/dialog_file_search_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/activity_file_search_icon"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="@string/input_sear_file_name"
+                    android:inputType="none"
+                    android:maxLength="40"
+                    android:paddingLeft="10dp"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@drawable/device_inputbox_input"
+                    android:textColorHint="@color/text_gray" />
+            </RelativeLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
     <android.support.v4.view.ViewPager

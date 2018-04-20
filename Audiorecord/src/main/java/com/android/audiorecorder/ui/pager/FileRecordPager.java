@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +16,23 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.audiorecorder.R;
 import com.android.audiorecorder.engine.MultiMediaService;
+import com.android.audiorecorder.ui.FileExplorerActivity;
 import com.android.library.ui.pager.BasePager;
 import com.android.library.viewpager.scrolltab.SyncHorizontalScrollView;
 
-public class FileRecordPager extends BasePager {
+public class FileRecordPager extends BasePager{
 
     public static final String ARGUMENTS_NAME = "args";
     private RelativeLayout mScrollLayout;
@@ -57,6 +64,10 @@ public class FileRecordPager extends BasePager {
         initView();
         setListener();
         return view;
+    }
+
+    public int getmSelectIndex() {
+        return mSelectIndex;
     }
 
     private void findViewById(View view) {

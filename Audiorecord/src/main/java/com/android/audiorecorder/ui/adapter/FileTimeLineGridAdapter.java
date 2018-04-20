@@ -166,7 +166,9 @@ public class FileTimeLineGridAdapter extends BaseAdapter implements
 		} else {
 			mHeaderHolder = (HeaderViewHolder) convertView.getTag();
 		}
-		mHeaderHolder.mTextView.setText(list.get(position).getTime());
+		if(position < list.size()) {
+			mHeaderHolder.mTextView.setText(list.get(position).getTime());
+		}
 		return convertView;
 	}
 

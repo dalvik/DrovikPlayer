@@ -14,6 +14,7 @@
     <dimen name="common_10_dp">10dp</dimen>
     <dimen name="common_11_dp">11dp</dimen>
     <dimen name="common_12_dp">12dp</dimen>
+    <dimen name="common_14_dp">14dp</dimen>
     <dimen name="common_15_dp">15dp</dimen>
     <dimen name="common_16_dp">16dp</dimen>
     <dimen name="common_20_dp">20dp</dimen>

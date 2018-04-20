@@ -29,8 +29,8 @@
             android:maxLength="12"
             android:singleLine="true"
             android:text="@string/app_name"
-            android:textColor="@color/black"
-            android:textSize="@dimen/base_sencond_title_size" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/base_title_size" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -74,12 +74,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
-            android:weightSum="2">
+            android:weightSum="1">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/base_splite_line_width"
-                android:layout_marginBottom="@dimen/common_10_dp"
                 android:background="@color/splite_grey" />
 
             <LinearLayout
@@ -93,7 +92,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:paddingBottom="16dp">
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
                     <!-- local file: record, image, video,record  -->
                     <ImageView
                         android:id="@+id/home_file_iv"
@@ -114,7 +114,7 @@
 
                 <View
                     android:layout_width="@dimen/base_splite_line_width"
-                    android:layout_height="100dp"
+                    android:layout_height="match_parent"
                     android:background="@color/splite_grey" />
 
                 <RelativeLayout
@@ -124,7 +124,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:visibility="visible"
-                    android:paddingBottom="16dp">
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
                     <!-- bluetooth recorder -->
                     <ImageView
                         android:id="@+id/home_recorder_iv"
