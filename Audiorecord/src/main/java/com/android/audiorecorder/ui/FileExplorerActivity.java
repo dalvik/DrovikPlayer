@@ -34,6 +34,12 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class FileExplorerActivity extends BaseCommonActivity {
 
+
+    public static final int INDEX_IMAGE = 0;
+    public static final int INDEX_VIDEO = 1;
+    public static final int INDEX_AUDIO = 2;
+    public static final int INDEX_TELRECORD = 3;
+
     private static final int SUCESS = 1;
     private static final int FAIL = 2;
 
@@ -51,6 +57,7 @@ public class FileExplorerActivity extends BaseCommonActivity {
     private TextView mCancelSearchButton;
     private View mSearchView;
     private EditText mSearchEditText;
+    private boolean mChooseMode;
 
     private OnFileSearchListener mFileImageListener;
     private OnFileSearchListener mFileVideoListener;
@@ -71,6 +78,7 @@ public class FileExplorerActivity extends BaseCommonActivity {
         rightTv = (CheckedTextView) findViewById(R.id.rightChooseTv);
         mSearchView = findViewById(R.id.activity_file_search_rl);
         mCancelSearchButton = (TextView) findViewById(R.id.activity_file_search_cancel);
+        mCancelSearchButton.setOnClickListener(mOnClick);
         mSearchEditText = (EditText) findViewById(R.id.dialog_file_search_edittext);
         mSearchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -90,8 +98,11 @@ public class FileExplorerActivity extends BaseCommonActivity {
         });
         adapter = new MainAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
+        FileRecordPager recordPager = (FileRecordPager) adapter.getItem(0);
+        recordPager.setOnPageListener(mPageListener);
         titleTv.setText(mTitle[0]);
         setMainButton(0);
+        mChooseMode = false;
     }
 
     private void setMainButton(int position){
@@ -104,61 +115,37 @@ public class FileExplorerActivity extends BaseCommonActivity {
         @Override
         public void onClick(View view) {
             if(view.getId() == R.id.searchTv){
-                checkTopMenu(false);
+                rightTv.setVisibility(View.INVISIBLE);
+                hideSearchMode(false);
+                if(mChooseMode) {
+                    setChoolseMode(!mChooseMode);
+                }
+            } else if(view.getId() == R.id.activity_file_search_cancel) {
+                rightTv.setVisibility(View.VISIBLE);
+                hideSearchMode(true);
             } else if(view.getId() == R.id.rightChooseTv) {
-                checkTopMenu(true);
+                hideSearchMode(true);
+                setChoolseMode(!mChooseMode);
             }
         }
     };
 
-    private Handler mHandler = new Handler() {
+    private OnPageListener mPageListener = new OnPageListener() {
         @Override
-        public void handleMessage(Message msg) {
-            /*super.handleMessage(msg);
-            switch (msg.what) {
-                case SUCESS:
-                    Log.d(TAG, "==> search list length: " + searchElementInfos.size());
-                    mRv.setVisibility(View.VISIBLE);
-                    mNoFiles.setVisibility(View.GONE);
-                    mRv.getRecycledViewPool().clear();
-                    mLoadMoreWrapper.setLoadMoreView(0);
-                    mLoadMoreWrapper.notifyDataSetChanged();
-                    break;
-                case FAIL:
-                    Log.d(TAG, "==> search list length: " + searchElementInfos.size());
-                    mRv.setVisibility(View.INVISIBLE);
-                    mNoFiles.setVisibility(View.VISIBLE);
-                    break;
-                case CHECK_DOWNLOAD:
-                    FileBean path = (FileBean) msg.obj;
-                    DownloadInfo info = checkDownLoadStatus(path);
-                    Log.d(TAG, "download status; " + info + " " + path);
-                    if(info != null && info.getStatus() == DownloadInfo.status_downloaded){
-                        mIsDownload = false;
-                        path.setOrigpath(info.getPath());
-                        choiceApp(path);
-                        hideWaitingDialog();
-                    } else {
-                        mHandler.removeMessages(CHECK_DOWNLOAD);
-                        Message message = mHandler.obtainMessage(CHECK_DOWNLOAD);
-                        message.obj = path;
-                        sendMessageDelayed(message, 800);
-                    }
-                    break;
-                case IGNORE_TIP:
-                    mIsIgonreTip = true;
-                    break;
-                default:
-                    break;
-            }*/
+        public void onPageChange(int oldPage, int newPage) {
+            if(mSearchView.isShown()) {
+                hideSearchMode(true);
+            }
+            if(mChooseMode) {
+                setChoolseMode(!mChooseMode);
+            }
         }
     };
-    private void checkTopMenu(boolean hideSearch) {
+
+    private void hideSearchMode(boolean hideSearch) {
         if(hideSearch) {
             mSearchView.setVisibility(View.GONE);
-            if(mSearchView.isShown()){
-                mSearchEditText.setText("");
-            }
+            mSearchEditText.setText("");
         } else {
             mSearchView.setVisibility(View.VISIBLE);
         }
@@ -166,25 +153,49 @@ public class FileExplorerActivity extends BaseCommonActivity {
         imm.hideSoftInputFromWindow(mSearchEditText.getWindowToken(), 0);
     }
 
+    private void setChoolseMode(boolean mode) {
+        this.mChooseMode = mode;
+        FileRecordPager recordPager = (FileRecordPager) adapter.getItem(0);
+        if(recordPager != null) {
+            int index = recordPager.getmSelectIndex();
+            if(index == INDEX_IMAGE) {
+                if(mFileImageListener != null) {
+                    mFileImageListener.onMode(mChooseMode);
+                }
+            } else if(index == INDEX_VIDEO) {
+                if(mFileVideoListener != null) {
+                    mFileVideoListener.onMode(mChooseMode);
+                }
+            } else if(index == INDEX_AUDIO) {
+                if(mFileAudioListener != null) {
+                    mFileAudioListener.onMode(mChooseMode);
+                }
+            } else if(index == INDEX_TELRECORD) {
+                if(mFileTelRecordListener != null) {
+                    mFileTelRecordListener.onMode(mChooseMode);
+                }
+            }
+        }
+    }
     private void search() {
         String key = mSearchEditText.getText().toString().trim();
         Log.d(TAG, "search key:" + key);
         FileRecordPager recordPager = (FileRecordPager) adapter.getItem(0);
         if(recordPager != null) {
             int index = recordPager.getmSelectIndex();
-            if(index == 0) {
+            if(index == INDEX_IMAGE) {
                 if(mFileImageListener != null) {
                     mFileImageListener.onSearch(key.toLowerCase());
                 }
-            } else if(index == 1) {
+            } else if(index == INDEX_VIDEO) {
                 if(mFileVideoListener != null) {
                     mFileVideoListener.onSearch(key.toLowerCase());
                 }
-            } else if(index == 2) {
+            } else if(index == INDEX_AUDIO) {
                 if(mFileAudioListener != null) {
                     mFileAudioListener.onSearch(key.toLowerCase());
                 }
-            } else if(index == 3) {
+            } else if(index == INDEX_TELRECORD) {
                 if(mFileTelRecordListener != null) {
                     mFileTelRecordListener.onSearch(key.toLowerCase());
                 }
@@ -213,7 +224,11 @@ public class FileExplorerActivity extends BaseCommonActivity {
          * 设置是否是选择模式
          * @param mode
          */
-        public void onMode(int mode);
+        public void onMode(boolean mode);
+    }
+
+    public interface OnPageListener {
+        void onPageChange(int oldPage, int newPage);
     }
 
     private static class MainAdapter extends FragmentPagerAdapter implements SelectableViewAdapter, IconPagerAdapter {

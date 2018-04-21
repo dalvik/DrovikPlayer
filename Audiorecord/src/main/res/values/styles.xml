@@ -242,4 +242,16 @@
         <item name="android:textSize">15sp</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
+
+    <style name="custom_checck_style">
+        <item name="android:layout_width">@dimen/common_23_dp</item>
+        <item name="android:layout_height">@dimen/common_23_dp</item>
+        <item name="android:layout_alignLeft">@dimen/common_10_dp</item>
+        <item name="android:layout_alignRight">@dimen/common_10_dp</item>
+        <item name="android:layout_marginRight">@dimen/common_10_dp</item>
+        <item name="android:layout_marginTop">@dimen/common_15_dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:src">@drawable/selector_file_check</item>
+    </style>
 </resources>

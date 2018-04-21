@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.audiorecorder.R;
@@ -36,6 +37,7 @@ public class FileTimeLineGridAdapter extends BaseAdapter implements
 	private ImageFetcher mImageFetcher;
 	private DisplayImageOptions options;
 	private ImageLoader imageLoader;
+	private boolean mChooseMode;
 	private String TAG = "FileTimeLineGridAdapter";
 
 	public FileTimeLineGridAdapter(Context context, List<FileDetail> list,
@@ -83,6 +85,7 @@ public class FileTimeLineGridAdapter extends BaseAdapter implements
 			mViewHolder = new ViewHolder();
 			convertView = mInflater.inflate(R.layout.grid_item, parent, false);
 			mViewHolder.mImageView = (MyImageView) convertView.findViewById(R.id.grid_item);
+			mViewHolder.mCheckImageView = (ImageView) convertView.findViewById(R.id.item_file_list_iv_choose);
 			mViewHolder.mExtraTextView = (TextView) convertView.findViewById(R.id.grid_item_extra);
 			convertView.setTag(mViewHolder);
 			
@@ -131,6 +134,16 @@ public class FileTimeLineGridAdapter extends BaseAdapter implements
 				mViewHolder.mExtraTextView.setVisibility(View.VISIBLE);
 				mViewHolder.mImageView.setImageResource(R.drawable.ic_default_sound_record_thumb);
 			}
+			if(mChooseMode) {
+				mViewHolder.mCheckImageView.setVisibility(View.VISIBLE);
+				if(detail.isChecked()) {
+					mViewHolder.mCheckImageView.setImageResource(R.drawable.common_list_select_h);
+				} else {
+					mViewHolder.mCheckImageView.setImageResource(R.drawable.common_list_select_n);
+				}
+			} else {
+				mViewHolder.mCheckImageView.setVisibility(View.GONE);
+			}
 			/*mViewHolder.mImageView.setTag(path);
 			if(!TextUtils.isEmpty(path)) {
 				bitmap = NativeImageLoader.getInstance().loadNativeImage(path, mPoint,
@@ -174,11 +187,20 @@ public class FileTimeLineGridAdapter extends BaseAdapter implements
 
 	public static class ViewHolder {
 		public MyImageView mImageView;
+		public ImageView mCheckImageView;
 		public TextView mExtraTextView;
 	}
 
 	public static class HeaderViewHolder {
 		public TextView mTextView;
+	}
+
+	public void setMode(boolean choose) {
+		this.mChooseMode = choose;
+	}
+
+	public boolean isChooseMode() {
+		return mChooseMode;
 	}
 
 	@Override

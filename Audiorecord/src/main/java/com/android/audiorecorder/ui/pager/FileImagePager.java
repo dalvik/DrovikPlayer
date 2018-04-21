@@ -103,10 +103,18 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
         mLocalImageGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), ImageViewActvity.class);
-                intent.putExtra("TAG_GRID_INDEX", position);
-                intent.putExtra("TAG_PATH_LIST_SIZE", mLocalImageListViewData.size());
-                startActivity(intent);
+                if(mFileTimeLineGridAdapter.isChooseMode()) {
+                    FileDetail detail = mFileTimeLineGridAdapter.getItem(position);
+                    if(detail != null) {
+                        detail.setChecked(!detail.isChecked());
+                        mFileTimeLineGridAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    Intent intent = new Intent(getActivity(), ImageViewActvity.class);
+                    intent.putExtra("TAG_GRID_INDEX", position);
+                    intent.putExtra("TAG_PATH_LIST_SIZE", mLocalImageListViewData.size());
+                    startActivity(intent);
+                }
             }
         });
         loadThumbByCatalog(AppContext.CATALOG_GALLERY_IMAGE, 0, mHandler, UIHelper.LISTVIEW_ACTION_INIT, UIHelper.LISTVIEW_DATATYPE_GALLERY_IMAGE);
@@ -135,6 +143,8 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
     @Override
     public void onSearch(final String content) {
         Log.d(TAG, "search key:" + content);
+        mRefreshLayout.setEnableRefresh(TextUtils.isEmpty(content));
+        mRefreshLayout.setEnableLoadmore(TextUtils.isEmpty(content));
         if (!TextUtils.isEmpty(content)) {
             new Thread(new Runnable() {
                 @Override
@@ -143,13 +153,11 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
                     for (int i = 0; i < mLocalImageListViewData.size(); i++) {
                             FileDetail fileDetail = mLocalImageListViewData.get(i);
                             if(fileDetail != null) {
-                                String path = fileDetail.getFilePath();
                                 String name = fileDetail.getFileName();
                                 String phoneNumber = fileDetail.getPhoneNumber();
                                 String displayName = fileDetail.getDisplayName();
-                                if(path != null && path.toLowerCase().contains(content)) {
-                                    searchElementInfos.add(mLocalImageListViewData.get(i));
-                                } else if(name != null && name.toLowerCase().contains(content)) {
+                                Log.d(TAG, "==>: " + name + " " + phoneNumber + " " + displayName);
+                                if(name != null && name.toLowerCase().contains(content)) {
                                     searchElementInfos.add(mLocalImageListViewData.get(i));
                                 } else if(phoneNumber != null && phoneNumber.toLowerCase().contains(content)) {
                                     searchElementInfos.add(mLocalImageListViewData.get(i));
@@ -179,7 +187,9 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
     }
 
     @Override
-    public void onMode(int mode) {
+    public void onMode(boolean mode) {
+        mFileTimeLineGridAdapter.setMode(mode);
+        mFileTimeLineGridAdapter.notifyDataSetInvalidated();
     }
 
     private Handler mHandler = new Handler(){

@@ -62,6 +62,9 @@ public class FileDetail {
     private int mCount;//record count
     private Bitmap mHeader;
 
+    //use for ui
+    private boolean mIsChecked;
+
     public FileDetail(){
     }
     
@@ -390,5 +393,13 @@ public class FileDetail {
 
     public Bitmap getHeader() {
         return this.mHeader;
+    }
+
+    public void setChecked(boolean checked) {
+        this.mIsChecked = checked;
+    }
+
+    public boolean isChecked() {
+        return mIsChecked;
     }
 }

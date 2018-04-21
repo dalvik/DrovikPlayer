@@ -49,6 +49,7 @@ public class FileRecordPager extends BasePager{
     private TabFragmentPagerAdapter mAdapter;
     private int currentIndicatorLeft = 0;
     private int mSelectIndex;
+    private FileExplorerActivity.OnPageListener mPageListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,10 @@ public class FileRecordPager extends BasePager{
 
     public int getmSelectIndex() {
         return mSelectIndex;
+    }
+
+    public void setOnPageListener(FileExplorerActivity.OnPageListener listener) {
+        this.mPageListener = listener;
     }
 
     private void findViewById(View view) {
@@ -90,6 +95,9 @@ public class FileRecordPager extends BasePager{
                                 && mRadioContent.getChildCount() > position) {
                             ((RadioButton) mRadioContent.getChildAt(position))
                                     .performClick();
+                            if(mPageListener != null) {
+                                mPageListener.onPageChange(mSelectIndex, position);
+                            }
                             mSelectIndex = position;
                         }
                     }
@@ -172,10 +180,10 @@ public class FileRecordPager extends BasePager{
         Bundle bundle2 = new Bundle();
         bundle2.putInt("mode", MultiMediaService.LUNCH_MODE_CALL);
         FragmentInfo info2 = new FragmentInfo(FileTelRecordPager.class, bundle2);
-        mPagers[0] = infoImage;
-        mPagers[1] = infoVideo;
-        mPagers[2] = info1;
-        mPagers[3] = info2;
+        mPagers[FileExplorerActivity.INDEX_IMAGE] = infoImage;
+        mPagers[FileExplorerActivity.INDEX_VIDEO] = infoVideo;
+        mPagers[FileExplorerActivity.INDEX_AUDIO] = info1;
+        mPagers[FileExplorerActivity.INDEX_TELRECORD] = info2;
         mSelectIndex = 0;
     }
 
