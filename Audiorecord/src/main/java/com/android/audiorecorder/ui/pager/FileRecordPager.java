@@ -67,7 +67,7 @@ public class FileRecordPager extends BasePager{
         return view;
     }
 
-    public int getmSelectIndex() {
+    public int getSelectIndex() {
         return mSelectIndex;
     }
 

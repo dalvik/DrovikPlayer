@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/activity_file_bottom_rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_47_dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/lib_common_actionbar_background"
+        android:visibility="gone"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0">
+
+            <ImageView
+                android:id="@+id/activity_file_copy_iv"
+                android:layout_width="@dimen/common_47_dp"
+                android:layout_height="@dimen/common_47_dp"
+                android:gravity="center"
+                android:layout_weight="1.0"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/activity_file_detail_iv"
+                android:layout_width="@dimen/common_47_dp"
+                android:layout_height="@dimen/common_47_dp"
+                android:gravity="center"
+                android:layout_weight="1.0"
+                android:src="@drawable/file_body_list_detail"
+                 />
+
+            <ImageView
+                android:id="@+id/activity_file_delete_iv"
+                android:layout_width="@dimen/common_47_dp"
+                android:layout_height="@dimen/common_47_dp"
+                android:gravity="center"
+                android:layout_weight="1.0"
+                android:src="@drawable/common_softkey_delete_selector" />
+            <ImageView
+                android:id="@+id/activity_file_rename_iv"
+                android:layout_width="@dimen/common_47_dp"
+                android:layout_height="@dimen/common_47_dp"
+                android:gravity="center"
+                android:layout_weight="1.0"
+                android:src="@drawable/file_softkey_rename_selector" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</merge>

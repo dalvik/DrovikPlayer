@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,9 +20,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.audiorecorder.R;
 import com.android.audiorecorder.engine.MultiMediaService;
+import com.android.audiorecorder.provider.FileDetail;
 import com.android.audiorecorder.provider.FileProviderService;
 import com.android.audiorecorder.ui.pager.FileAudioRecordPager;
 import com.android.audiorecorder.ui.pager.FileImagePager;
@@ -28,13 +32,20 @@ import com.android.audiorecorder.ui.pager.FileRecordPager;
 import com.android.audiorecorder.ui.pager.FileTelRecordPager;
 import com.android.audiorecorder.ui.pager.FileVideoPager;
 import com.android.library.ui.activity.BaseCommonActivity;
+import com.android.library.ui.dialog.CustomDialog;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.SelectableViewAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class FileExplorerActivity extends BaseCommonActivity {
 
-
+    private final static int MAX_INPUT_LENGTH = 40;
     public static final int INDEX_IMAGE = 0;
     public static final int INDEX_VIDEO = 1;
     public static final int INDEX_AUDIO = 2;
@@ -64,6 +75,11 @@ public class FileExplorerActivity extends BaseCommonActivity {
     private OnFileSearchListener mFileAudioListener;
     private OnFileSearchListener mFileTelRecordListener;
 
+    private View mFileBottomMenuRelativeLayout;
+    private CustomDialog deleteFileDialog;
+    private CustomDialog createFileDialog;
+    private CustomDialog renameFileDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +96,11 @@ public class FileExplorerActivity extends BaseCommonActivity {
         mCancelSearchButton = (TextView) findViewById(R.id.activity_file_search_cancel);
         mCancelSearchButton.setOnClickListener(mOnClick);
         mSearchEditText = (EditText) findViewById(R.id.dialog_file_search_edittext);
+        mFileBottomMenuRelativeLayout = findViewById(R.id.activity_file_bottom_rl);
+        mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_copy_iv).setOnClickListener(mOnClick);
+        mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_detail_iv).setOnClickListener(mOnClick);
+        mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_delete_iv).setOnClickListener(mOnClick);
+        mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_rename_iv).setOnClickListener(mOnClick);
         mSearchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -105,6 +126,79 @@ public class FileExplorerActivity extends BaseCommonActivity {
         mChooseMode = false;
     }
 
+    public void setOnFileSearchListener(OnFileSearchListener listener) {
+        if(listener instanceof FileImagePager) {
+            this.mFileImageListener = listener;
+        } else  if(listener instanceof FileVideoPager) {
+            this.mFileVideoListener = listener;
+        } else if(listener instanceof FileAudioRecordPager) {
+            this.mFileAudioListener = listener;
+        } else if(listener instanceof FileTelRecordPager) {
+            this.mFileTelRecordListener = listener;
+        }
+    }
+
+    /**
+     * 选择的文件个数变化
+     * @param count
+     */
+    public void onFileChecked(OnFileSearchListener listener, int count) {
+        int index = INDEX_IMAGE;
+        if(listener instanceof FileImagePager) {
+            this.mFileImageListener = listener;
+            index = INDEX_IMAGE;;
+        } else  if(listener instanceof FileVideoPager) {
+            this.mFileVideoListener = listener;
+            index = INDEX_VIDEO;
+        } else if(listener instanceof FileAudioRecordPager) {
+            this.mFileAudioListener = listener;
+            index = INDEX_AUDIO;
+        } else if(listener instanceof FileTelRecordPager) {
+            index = INDEX_TELRECORD;
+            this.mFileTelRecordListener = listener;
+        }
+        updateBottomMeun(count);
+    }
+
+    public interface OnFileSearchListener {
+        /**
+         * 根据输入内容动态显示列表
+         * @param content
+         */
+        public void onSearch(String content);
+        /**
+         * 设置是否是选择模式
+         * @param mode
+         */
+        public void onMode(boolean mode);
+
+        /**
+         * 移除选中的文件
+         */
+        public void deleteFile(List<FileDetail> fileList);
+
+        /**
+         * 文件重命名
+         * @param detail
+         * @param newName
+         */
+        public void renameFile(FileDetail detail, String newName);
+
+        /**
+         * 获取选中的文件
+         * @return
+         */
+        public List<FileDetail> getCheckFileDetail();
+    }
+
+    public interface OnPageListener {
+        void onPageChange(int oldPage, int newPage);
+    }
+
+
+    private void deleteFiles() {
+    }
+
     private void setMainButton(int position){
         leftTv.setVisibility(View.GONE);
         mSeachTextView.setOnClickListener(mOnClick);
@@ -126,9 +220,153 @@ public class FileExplorerActivity extends BaseCommonActivity {
             } else if(view.getId() == R.id.rightChooseTv) {
                 hideSearchMode(true);
                 setChoolseMode(!mChooseMode);
+                updateBottomMeun(0);
+            } else if(view.getId() == R.id.activity_file_copy_iv) {
+            } else if(view.getId() == R.id.activity_file_detail_iv) {
+
+            } else if(view.getId() == R.id.activity_file_delete_iv) {
+                showDeleteFileDialog();
+            } else if(view.getId() == R.id.activity_file_rename_iv) {
+                showRenameFileDialog();
             }
         }
     };
+
+    private void updateBottomMeun(int checkCount) {
+        mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_detail_iv).setEnabled(!(checkCount != 1));
+        mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_delete_iv).setEnabled(checkCount>0);
+        mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_rename_iv).setEnabled(!(checkCount != 1));
+    }
+    private void showDeleteFileDialog() {
+        View createFile = View.inflate(this, R.layout.dialog_file_delete, null);
+        TextView confirm_createFile = (TextView) createFile.findViewById(R.id.dialog_create_file_confirm);
+        TextView cancel_createFile = (TextView) createFile.findViewById(R.id.dialog_create_file_cancel);
+        deleteFileDialog = new CustomDialog(this, 0, 0, createFile, R.style.settings_style);
+        deleteFileDialog.setCanceledOnTouchOutside(true);
+        confirm_createFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteFileDialog.dismiss();
+                deleteFiles();
+            }
+        });
+        cancel_createFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (deleteFileDialog != null) {
+                    deleteFileDialog.dismiss();
+                }
+            }
+        });
+        deleteFileDialog.show();
+    }
+
+    private void showRenameFileDialog() {
+        String abstractFilePath = null;
+        FileRecordPager recordPager = (FileRecordPager) adapter.getItem(0);
+        if(recordPager != null) {
+            int index = recordPager.getSelectIndex();
+            if(index == INDEX_IMAGE) {
+                if(mFileImageListener != null) {
+                    List<FileDetail> list  = mFileImageListener.getCheckFileDetail();
+                    if(list != null && list.size()>0) {
+                        abstractFilePath = list.get(0).getFilePath();
+                    }
+                }
+            } else if(index == INDEX_VIDEO) {
+                if(mFileVideoListener != null) {
+                    List<FileDetail> list  = mFileVideoListener.getCheckFileDetail();
+                    if(list != null && list.size()>0) {
+                        abstractFilePath = list.get(0).getFilePath();
+                    }
+                }
+            } else if(index == INDEX_AUDIO) {
+                if(mFileAudioListener != null) {
+                    List<FileDetail> list  = mFileAudioListener.getCheckFileDetail();
+                    if(list != null && list.size()>0) {
+                        abstractFilePath = list.get(0).getFilePath();
+                    }
+                }
+            } else if(index == INDEX_TELRECORD) {
+                if(mFileTelRecordListener != null) {
+                    List<FileDetail> list  = mFileTelRecordListener.getCheckFileDetail();
+                    if(list != null && list.size()>0) {
+                        abstractFilePath = list.get(0).getFilePath();
+                    }
+                }
+            }
+        }
+        if(abstractFilePath != null) {
+            String filePath = "";
+            final String tempFilePath;
+            String fileName = "";
+            View createFile = View.inflate(this, R.layout.dialog_file_rename, null);
+            TextView cancelButton = (TextView) createFile.findViewById(R.id.dialog_button_cancel);
+            final TextView confirmButton = (TextView) createFile.findViewById(R.id.dialog_button_confirm);
+            final EditText renameFileName = (EditText) createFile.findViewById(R.id.dialog_rename_file_name);
+            int indexSeparator = abstractFilePath.lastIndexOf(File.separator);
+            if(indexSeparator>0){
+                filePath = abstractFilePath.substring(0, indexSeparator);
+                fileName = abstractFilePath.substring(indexSeparator+1);
+            }
+            Log.w(TAG, "=> rename file: " + abstractFilePath + " " + filePath + " fileName: " +  fileName + " indexSeparator: " + indexSeparator);
+            final String tempFileName = fileName;
+            tempFilePath = filePath;
+            renameFileName.setText(fileName);
+            renameFileName.setFilters(new InputFilter[]{mInputFilter,new InputFilter.LengthFilter(MAX_INPUT_LENGTH)});
+            renameFileName.setSelection(renameFileName.length());
+            renameFileName.addTextChangedListener(new TextWatcher() {
+                int cou = 0;
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    cou = before + count;
+                    String editable = renameFileName.getText().toString();
+                    if(cou>0 && cou<MAX_INPUT_LENGTH){
+                        confirmButton.setEnabled(!tempFileName.equalsIgnoreCase(editable));
+                    } else {
+                        confirmButton.setEnabled(false);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    confirmButton.setEnabled(cou>0);
+                }
+            });
+            renameFileDialog = new CustomDialog(this, 0, 0, createFile, R.style.custom_dialog_style);
+            renameFileDialog.setCanceledOnTouchOutside(true);
+            final String temp = abstractFilePath;
+            confirmButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String newFileName = renameFileName.getText().toString().trim();
+                    if (newFileName == null || newFileName.isEmpty()) {
+                        Toast.makeText(FileExplorerActivity.this, R.string.file_name_null, Toast.LENGTH_SHORT).show();
+                    } else {
+                        renameFileDialog.dismiss();
+                        renameFile(temp, tempFilePath + File.separator + newFileName);
+                    }
+                }
+            });
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (renameFileDialog != null) {
+                        renameFileDialog.dismiss();
+                    }
+                }
+            });
+            confirmButton.setEnabled(false);
+            renameFileDialog.show();
+            renameFileName.requestFocus();
+        }
+    }
 
     private OnPageListener mPageListener = new OnPageListener() {
         @Override
@@ -155,9 +393,10 @@ public class FileExplorerActivity extends BaseCommonActivity {
 
     private void setChoolseMode(boolean mode) {
         this.mChooseMode = mode;
+        mFileBottomMenuRelativeLayout.setVisibility(mChooseMode ? View.VISIBLE : View.GONE);
         FileRecordPager recordPager = (FileRecordPager) adapter.getItem(0);
         if(recordPager != null) {
-            int index = recordPager.getmSelectIndex();
+            int index = recordPager.getSelectIndex();
             if(index == INDEX_IMAGE) {
                 if(mFileImageListener != null) {
                     mFileImageListener.onMode(mChooseMode);
@@ -177,12 +416,13 @@ public class FileExplorerActivity extends BaseCommonActivity {
             }
         }
     }
+
     private void search() {
         String key = mSearchEditText.getText().toString().trim();
         Log.d(TAG, "search key:" + key);
         FileRecordPager recordPager = (FileRecordPager) adapter.getItem(0);
         if(recordPager != null) {
-            int index = recordPager.getmSelectIndex();
+            int index = recordPager.getSelectIndex();
             if(index == INDEX_IMAGE) {
                 if(mFileImageListener != null) {
                     mFileImageListener.onSearch(key.toLowerCase());
@@ -203,33 +443,29 @@ public class FileExplorerActivity extends BaseCommonActivity {
         }
     }
 
-    public void setOnFileSearchListener(OnFileSearchListener listener) {
-        if(listener instanceof FileImagePager) {
-            this.mFileImageListener = listener;
-        } else  if(listener instanceof FileVideoPager) {
-            this.mFileVideoListener = listener;
-        } else if(listener instanceof FileAudioRecordPager) {
-            this.mFileAudioListener = listener;
-        } else if(listener instanceof FileTelRecordPager) {
-            this.mFileTelRecordListener = listener;
+    private void renameFile(String oldName, String newName) {
+        Log.d(TAG, "==> renameFile oldName: " + oldName + " newName: " + newName);
+        boolean result = true;//getDataManager.rename(oldName, newName);
+        if(result) {
+            Toast.makeText(FileExplorerActivity.this, R.string.file_rename_success, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(FileExplorerActivity.this, R.string.file_rename_fail, Toast.LENGTH_SHORT).show();
         }
     }
-    public interface OnFileSearchListener {
-        /**
-         * 根据输入内容动态显示列表
-         * @param content
-         */
-        public void onSearch(String content);
-        /**
-         * 设置是否是选择模式
-         * @param mode
-         */
-        public void onMode(boolean mode);
-    }
 
-    public interface OnPageListener {
-        void onPageChange(int oldPage, int newPage);
-    }
+    private InputFilter mInputFilter = new InputFilter() {
+        String regEx = "[^a-zA-Z0-9\\u4E00-\\u9FA5!#$%&'()+-,-.;=@\\[\\]{}^_` ~]";
+        Pattern p = Pattern.compile(regEx);
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            Matcher m = p.matcher(source);
+            if(m.find()){
+                return  "";
+            }
+            return null;
+        }
+    };
 
     private static class MainAdapter extends FragmentPagerAdapter implements SelectableViewAdapter, IconPagerAdapter {
 

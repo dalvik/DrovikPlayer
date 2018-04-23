@@ -53,8 +53,13 @@
     <dimen name="base_title_size">18sp</dimen>
     <dimen name="base_subtitle_size">12sp</dimen>
     <dimen name="base_sencond_title_size">16sp</dimen>
+    <dimen name="common_15_sp">15sp</dimen>
 
     <!-- menu -->
     <dimen name="base_splite_line_width">0.5dp</dimen>
     <dimen name="base_splite_line_hight">0.5dp</dimen>
+    <dimen name="common_size">30dp</dimen>
+    <dimen name="edittext_magin_top">15dp</dimen>
+
+
 </resources>

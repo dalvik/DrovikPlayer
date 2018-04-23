@@ -243,6 +243,17 @@
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
+    <style name="custom_dialog_style" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:alpha">60</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
+
     <style name="custom_checck_style">
         <item name="android:layout_width">@dimen/common_23_dp</item>
         <item name="android:layout_height">@dimen/common_23_dp</item>

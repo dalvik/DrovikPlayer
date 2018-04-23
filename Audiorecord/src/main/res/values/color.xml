@@ -138,4 +138,7 @@
     <color name="green2">#A3DEA3</color>
     <color name="green3">#1AAD19</color>
     <color name="green4">#2BAD49</color>
+
+    <color name="divider_line">#d9dbe1</color>
+    <color name="error_tips">#FF0000</color>
 </resources>
