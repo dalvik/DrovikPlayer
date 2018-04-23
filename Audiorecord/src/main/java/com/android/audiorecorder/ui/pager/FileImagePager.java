@@ -21,6 +21,7 @@ import com.android.audiorecorder.dao.FileManagerFactory;
 import com.android.audiorecorder.dao.IFileManager;
 import com.android.audiorecorder.engine.MultiMediaService;
 import com.android.audiorecorder.provider.FileDetail;
+import com.android.audiorecorder.provider.FileProvider;
 import com.android.audiorecorder.ui.FileExplorerActivity;
 import com.android.audiorecorder.ui.ImageViewActvity;
 import com.android.audiorecorder.ui.adapter.FileTimeLineGridAdapter;
@@ -60,7 +61,7 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FileExplorerActivity context = (FileExplorerActivity) getActivity();
-        context.setOnFileSearchListener(this);
+        context.setOnFileSearchListener(FileImagePager.this);
     }
 
     @Override
@@ -109,6 +110,8 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
                         detail.setChecked(!detail.isChecked());
                         mFileTimeLineGridAdapter.notifyDataSetChanged();
                     }
+                    FileExplorerActivity context = (FileExplorerActivity) getActivity();
+                    context.onFileChecked(FileImagePager.this, getCheckedCount());
                 } else {
                     Intent intent = new Intent(getActivity(), ImageViewActvity.class);
                     intent.putExtra("TAG_GRID_INDEX", position);
@@ -191,6 +194,27 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
         mFileTimeLineGridAdapter.setMode(mode);
         mFileTimeLineGridAdapter.notifyDataSetInvalidated();
     }
+
+    public void deleteFile(List<FileDetail> fileList) {
+        if(fileList != null && fileList.size()>0) {
+            for(FileDetail detail: fileList) {
+                mFileManager.delete(FileProvider.FILE_GALLERY_IMAGE, detail.getId());
+            }
+            onRefresh = true;
+            mOffset = 0;
+            mPageIndex = 0;
+            loadThumbByCatalog(AppContext.CATALOG_GALLERY_IMAGE, mPageIndex, mHandler, UIHelper.LISTVIEW_ACTION_REFRESH, UIHelper.LISTVIEW_DATATYPE_GALLERY_IMAGE);
+        }
+    }
+
+    public void renameFile(FileDetail detail, String newName) {
+
+    }
+
+    public List<FileDetail> getCheckFileDetail() {
+        return getCheckedFileList();
+    }
+
 
     private Handler mHandler = new Handler(){
       public void handleMessage(Message msg) {
@@ -290,5 +314,25 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
             }
             break;
         }
+    }
+
+    private int getCheckedCount() {
+        int count = 0;
+        for(FileDetail detail:searchElementInfos) {
+            if(detail.isChecked()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private List<FileDetail> getCheckedFileList() {
+        List<FileDetail> mCheckFileList = new ArrayList<FileDetail>();
+        for(FileDetail detail:searchElementInfos) {
+            if(detail.isChecked()) {
+                mCheckFileList.add(detail);
+            }
+        }
+        return mCheckFileList;
     }
 }

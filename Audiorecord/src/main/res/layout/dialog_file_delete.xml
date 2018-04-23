@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/common_42_dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_white_round"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/activity_add_title_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_30_dp"
+        android:layout_marginTop="@dimen/common_20_dp"
+        android:layout_marginBottom="@dimen/common_20_dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/confirm_delete_file"
+        android:textColor="@color/black_gray"
+        android:textSize="@dimen/edittext_magin_top" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/text_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/common_8_dp"
+        android:layout_marginBottom="@dimen/common_8_dp"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/dialog_create_file_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:padding="@dimen/list_item_padding"
+            android:textSize="@dimen/subtitle_size"
+            android:text="@string/cancel" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/text_gray" />
+
+        <TextView
+            android:id="@+id/dialog_create_file_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:textColor="@color/black_gray"
+            android:padding="@dimen/list_item_padding"
+            android:textSize="@dimen/subtitle_size"
+            android:text="@string/confirm" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -18,9 +18,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.audiorecorder.R;
 import com.android.audiorecorder.engine.MultiMediaService;
+import com.android.audiorecorder.provider.FileDetail;
 import com.android.audiorecorder.provider.FileProviderService;
 import com.android.audiorecorder.ui.pager.FileAudioRecordPager;
 import com.android.audiorecorder.ui.pager.FileImagePager;
@@ -28,9 +30,13 @@ import com.android.audiorecorder.ui.pager.FileRecordPager;
 import com.android.audiorecorder.ui.pager.FileTelRecordPager;
 import com.android.audiorecorder.ui.pager.FileVideoPager;
 import com.android.library.ui.activity.BaseCommonActivity;
+import com.android.library.ui.dialog.CustomDialog;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.SelectableViewAdapter;
 import com.viewpagerindicator.TabPageIndicator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileExplorerActivity extends BaseCommonActivity {
 
@@ -64,6 +70,9 @@ public class FileExplorerActivity extends BaseCommonActivity {
     private OnFileSearchListener mFileAudioListener;
     private OnFileSearchListener mFileTelRecordListener;
 
+    private View mFileBottomMenuRelativeLayout;
+    private CustomDialog deleteFileDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +89,11 @@ public class FileExplorerActivity extends BaseCommonActivity {
         mCancelSearchButton = (TextView) findViewById(R.id.activity_file_search_cancel);
         mCancelSearchButton.setOnClickListener(mOnClick);
         mSearchEditText = (EditText) findViewById(R.id.dialog_file_search_edittext);
+        mFileBottomMenuRelativeLayout = findViewById(R.id.activity_file_bottom_rl);
+        mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_copy_iv).setOnClickListener(mOnClick);
+        mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_detail_iv).setOnClickListener(mOnClick);
+        mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_delete_iv).setOnClickListener(mOnClick);
+        mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_rename_iv).setOnClickListener(mOnClick);
         mSearchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -105,6 +119,96 @@ public class FileExplorerActivity extends BaseCommonActivity {
         mChooseMode = false;
     }
 
+    public void setOnFileSearchListener(OnFileSearchListener listener) {
+        if(listener instanceof FileImagePager) {
+            this.mFileImageListener = listener;
+        } else  if(listener instanceof FileVideoPager) {
+            this.mFileVideoListener = listener;
+        } else if(listener instanceof FileAudioRecordPager) {
+            this.mFileAudioListener = listener;
+        } else if(listener instanceof FileTelRecordPager) {
+            this.mFileTelRecordListener = listener;
+        }
+    }
+
+    /**
+     * 选择的文件个数变化
+     * @param count
+     */
+    public void onFileChecked(OnFileSearchListener listener, int count) {
+        if(listener instanceof FileImagePager) {
+            this.mFileImageListener = listener;
+        } else  if(listener instanceof FileVideoPager) {
+            this.mFileVideoListener = listener;
+        } else if(listener instanceof FileAudioRecordPager) {
+            this.mFileAudioListener = listener;
+        } else if(listener instanceof FileTelRecordPager) {
+            this.mFileTelRecordListener = listener;
+        }
+    }
+
+    public interface OnFileSearchListener {
+        /**
+         * 根据输入内容动态显示列表
+         * @param content
+         */
+        public void onSearch(String content);
+        /**
+         * 设置是否是选择模式
+         * @param mode
+         */
+        public void onMode(boolean mode);
+
+        /**
+         * 移除选中的文件
+         */
+        public void deleteFile(List<FileDetail> fileList);
+
+        /**
+         * 文件重命名
+         * @param detail
+         * @param newName
+         */
+        public void renameFile(FileDetail detail, String newName);
+
+        /**
+         * 获取选中的文件
+         * @return
+         */
+        public List<FileDetail> getCheckFileDetail();
+    }
+
+    public interface OnPageListener {
+        void onPageChange(int oldPage, int newPage);
+    }
+
+    private void showDeleteFileDialog() {
+        View createFile = View.inflate(this, R.layout.dialog_file_delete, null);
+        TextView confirm_createFile = (TextView) createFile.findViewById(R.id.dialog_create_file_confirm);
+        TextView cancel_createFile = (TextView) createFile.findViewById(R.id.dialog_create_file_cancel);
+        //deleteFileDialog = new CustomDialog(this, 0, 0, createFile, R.style.settings_style);
+        deleteFileDialog.setCanceledOnTouchOutside(true);
+        confirm_createFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteFileDialog.dismiss();
+                deleteFiles();
+            }
+        });
+        cancel_createFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (deleteFileDialog != null) {
+                    deleteFileDialog.dismiss();
+                }
+            }
+        });
+        deleteFileDialog.show();
+    }
+
+    private void deleteFiles() {
+    }
+
     private void setMainButton(int position){
         leftTv.setVisibility(View.GONE);
         mSeachTextView.setOnClickListener(mOnClick);
@@ -126,6 +230,13 @@ public class FileExplorerActivity extends BaseCommonActivity {
             } else if(view.getId() == R.id.rightChooseTv) {
                 hideSearchMode(true);
                 setChoolseMode(!mChooseMode);
+            } else if(view.getId() == R.id.activity_file_copy_iv) {
+            } else if(view.getId() == R.id.activity_file_detail_iv) {
+
+            } else if(view.getId() == R.id.activity_file_delete_iv) {
+
+            } else if(view.getId() == R.id.activity_file_rename_iv) {
+
             }
         }
     };
@@ -155,6 +266,7 @@ public class FileExplorerActivity extends BaseCommonActivity {
 
     private void setChoolseMode(boolean mode) {
         this.mChooseMode = mode;
+        mFileBottomMenuRelativeLayout.setVisibility(mChooseMode ? View.VISIBLE : View.GONE);
         FileRecordPager recordPager = (FileRecordPager) adapter.getItem(0);
         if(recordPager != null) {
             int index = recordPager.getmSelectIndex();
@@ -177,6 +289,7 @@ public class FileExplorerActivity extends BaseCommonActivity {
             }
         }
     }
+
     private void search() {
         String key = mSearchEditText.getText().toString().trim();
         Log.d(TAG, "search key:" + key);
@@ -201,34 +314,6 @@ public class FileExplorerActivity extends BaseCommonActivity {
                 }
             }
         }
-    }
-
-    public void setOnFileSearchListener(OnFileSearchListener listener) {
-        if(listener instanceof FileImagePager) {
-            this.mFileImageListener = listener;
-        } else  if(listener instanceof FileVideoPager) {
-            this.mFileVideoListener = listener;
-        } else if(listener instanceof FileAudioRecordPager) {
-            this.mFileAudioListener = listener;
-        } else if(listener instanceof FileTelRecordPager) {
-            this.mFileTelRecordListener = listener;
-        }
-    }
-    public interface OnFileSearchListener {
-        /**
-         * 根据输入内容动态显示列表
-         * @param content
-         */
-        public void onSearch(String content);
-        /**
-         * 设置是否是选择模式
-         * @param mode
-         */
-        public void onMode(boolean mode);
-    }
-
-    public interface OnPageListener {
-        void onPageChange(int oldPage, int newPage);
     }
 
     private static class MainAdapter extends FragmentPagerAdapter implements SelectableViewAdapter, IconPagerAdapter {

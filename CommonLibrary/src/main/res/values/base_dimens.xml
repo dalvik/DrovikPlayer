@@ -22,7 +22,6 @@
     <dimen name="common_24_dp">24dp</dimen>
     <dimen name="common_25_dp">25dp</dimen>
     <dimen name="common_28_dp">28dp</dimen>
-    <dimen name="common_30_dp">30dp</dimen>
     <dimen name="common_34_dp">34dp</dimen>
     <dimen name="common_35_dp">35dp</dimen>
     <dimen name="common_38_dp">38dp</dimen>
@@ -57,4 +56,7 @@
     <!-- menu -->
     <dimen name="base_splite_line_width">0.5dp</dimen>
     <dimen name="base_splite_line_hight">0.5dp</dimen>
+    <dimen name="common_hight">30dp</dimen>
+    <dimen name="edittext_magin_top">15dp</dimen>
+
 </resources>
