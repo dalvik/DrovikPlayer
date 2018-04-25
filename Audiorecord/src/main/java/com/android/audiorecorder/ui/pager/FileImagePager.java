@@ -75,6 +75,41 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
         mRefreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
         refreshLayoutHeader = (ClassicsHeader) view.findViewById(R.id.refreshLayout_header);
         mLocalImageGridView = (GridView) view.findViewById(R.id.listView);
+        mLocalImageGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if(mFileTimeLineGridAdapter.isChooseMode()) {
+                    for(FileDetail detail:searchElementInfos) {
+                        if(detail != null) {
+                            detail.setChecked(false);
+                        }
+                    }
+                    mFileTimeLineGridAdapter.notifyDataSetChanged();
+                    FileExplorerActivity context = (FileExplorerActivity) getActivity();
+                    context.onFileChecked(FileImagePager.this, -1);
+                } else {
+                    FileDetail detail = mFileTimeLineGridAdapter.getItem(position);
+                    if(detail != null) {
+                        detail.setChecked(true);
+                        mFileTimeLineGridAdapter.notifyDataSetChanged();
+                    }
+                    FileExplorerActivity context = (FileExplorerActivity) getActivity();
+                    context.onFileChecked(FileImagePager.this, getCheckedCount());
+                }
+                return true;
+            }
+        });
+        mLocalImageGridView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+
+                if(mFileTimeLineGridAdapter.isChooseMode()) {
+
+                }
+                return true;
+            }
+        });
         mNoContent = (RelativeLayout) view.findViewById(R.id.activity_nocontent);
         mLocalImageGridView.setEmptyView(mNoContent);
         mNoContent.setVisibility(View.GONE);

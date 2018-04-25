@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
-    tools:ignore="MissingTranslation">
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">BlueRecorder</string>
     <string name="app_name_image_card" >ImageCard</string>
     <string name="app_name_video_card">VideoCard</string>
@@ -347,4 +346,11 @@
     <string name="delete_file_fail">删除文件夹失败</string>
     <string name="file_input_new_name_title">重命名</string>
     <string name="file_input_new_name_hint">输入新文件名</string>
+    <string name="file_input_detail_title">详细信息</string>
+    <string name="file_input_detail_name">名称 : </string>
+    <string name="file_input_detail_time">时间 : </string>
+    <string name="file_input_detail_size">大小 : </string>
+    <string name="file_input_detail_path">路径 : </string>
+    <string name="file_input_detail_duration">时长 : </string>
+
 </resources>
