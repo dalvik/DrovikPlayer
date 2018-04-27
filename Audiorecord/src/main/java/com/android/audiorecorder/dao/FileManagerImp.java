@@ -268,8 +268,7 @@ public class FileManagerImp extends MediaFileManager {
                     // 获取图片的路径
                     String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
                     long time = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED));
-                    FileDetail detail = new FileDetail();
-                    detail.setFilePath(path);
+                    FileDetail detail = new FileDetail(path);
                     String ymd = DateUtil.paserTimeToYMD(time * 1000);
                     detail.setTime(ymd);
                     detail.setFileType(FileProvider.FILE_TYPE_JEPG);
@@ -311,8 +310,7 @@ public class FileManagerImp extends MediaFileManager {
                     long id = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media._ID));
                     String title = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.TITLE));
                     long size = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.SIZE));
-                    FileDetail detail = new FileDetail();
-                    detail.setFilePath(path);
+                    FileDetail detail = new FileDetail(path);
                     detail.setFileName(displayName);
                     String ymd = DateUtil.paserTimeToYMD(time * 1000);
                     detail.setDuration(duration);
@@ -513,9 +511,10 @@ public class FileManagerImp extends MediaFileManager {
         if(cursor != null) {
             while(cursor.moveToNext()) {
                 int index = 0;
-                FileDetail fileDetail = new FileDetail();
-                fileDetail.setId(cursor.getInt(index++));
+                int id = cursor.getInt(index++);
                 String path = cursor.getString(index++);
+                FileDetail fileDetail = new FileDetail(path);
+                fileDetail.setId(id);
                 fileDetail.setLength(cursor.getInt(index++));
                 fileDetail.setDuration(cursor.getInt(index++));
                 fileDetail.setMimeType(cursor.getString(index++));
@@ -535,7 +534,6 @@ public class FileManagerImp extends MediaFileManager {
                     fileDetail.setCount(cursor.getInt(callCountColumnIndex));
                 }
                 fileDetail.setFileType(fileType);
-                fileDetail.setFilePath(path);
                 String ymd = DateUtil.paserTimeToYMD(fileDetail.getDownLoadTime());
                 fileDetail.setTime(ymd);
                 if(!mSectionMap.containsKey(ymd)) {
@@ -558,9 +556,10 @@ public class FileManagerImp extends MediaFileManager {
         if(cursor != null) {
             while(cursor.moveToNext()) {
                 int index = 0;
-                FileDetail fileDetail = new FileDetail();
-                fileDetail.setId(cursor.getInt(index++));
+                int id = cursor.getInt(index++);
                 String path = cursor.getString(index++);
+                FileDetail fileDetail = new FileDetail(path);
+                fileDetail.setId(id);
                 fileDetail.setLength(cursor.getInt(index++));
                 fileDetail.setDuration(cursor.getInt(index++));
                 fileDetail.setMimeType(cursor.getString(index++));

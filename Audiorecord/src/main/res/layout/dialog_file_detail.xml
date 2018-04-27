@@ -16,15 +16,16 @@
         android:gravity="center"
         android:text="@string/file_input_detail_title"
         android:textColor="@color/black_gray"
-        android:textSize="@dimen/base_subtitle_size" />
+        android:textSize="@dimen/base_sencond_title_size" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/common_20_dp"
-        android:layout_marginLeft="@dimen/common_20_dp"
+        android:layout_marginRight="@dimen/common_10_dp"
+        android:layout_marginLeft="@dimen/common_10_dp"
         android:layout_toLeftOf="@+id/activity_search_action_cancel"
         android:layout_marginBottom="@dimen/common_28_dp"
+        android:paddingBottom="@dimen/list_item_padding"
         android:layout_weight="1.0"
         android:orientation="vertical"
         android:background="@drawable/common_body_input_bg">
@@ -33,13 +34,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/list_item_padding"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/list_item_padding"
-                android:textSize="@dimen/base_subtitle_size"
+                android:textSize="@dimen/common_15_sp"
+                android:paddingLeft="@dimen/padding_medium"
                 android:text="@string/file_input_detail_name" />
             <TextView
                 android:id="@+id/file_detail_name"
@@ -47,22 +49,23 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
+                android:paddingLeft="@dimen/padding_medium"
                 android:gravity="center|left"
-                android:padding="@dimen/list_item_padding"
-                android:textSize="@dimen/base_subtitle_size" />
+                android:textSize="@dimen/common_15_sp" />
         </LinearLayout>
 
         <!-- time -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/list_item_padding"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/list_item_padding"
-                android:textSize="@dimen/base_subtitle_size"
+                android:textSize="@dimen/common_15_sp"
+                android:paddingLeft="@dimen/padding_medium"
                 android:text="@string/file_input_detail_time" />
             <TextView
                 android:id="@+id/file_detail_time"
@@ -71,21 +74,22 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center|left"
-                android:padding="@dimen/list_item_padding"
-                android:textSize="@dimen/base_subtitle_size" />
+                android:paddingLeft="@dimen/padding_medium"
+                android:textSize="@dimen/common_15_sp" />
         </LinearLayout>
 
         <!-- size -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/list_item_padding"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/list_item_padding"
-                android:textSize="@dimen/base_subtitle_size"
+                android:textSize="@dimen/common_15_sp"
+                android:paddingLeft="@dimen/padding_medium"
                 android:text="@string/file_input_detail_size" />
             <TextView
                 android:id="@+id/file_detail_size"
@@ -94,21 +98,22 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center|left"
-                android:padding="@dimen/list_item_padding"
-                android:textSize="@dimen/base_subtitle_size" />
+                android:paddingLeft="@dimen/padding_medium"
+                android:textSize="@dimen/common_15_sp" />
         </LinearLayout>
 
         <!-- path -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/list_item_padding"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/list_item_padding"
-                android:textSize="@dimen/base_subtitle_size"
+                android:textSize="@dimen/common_15_sp"
+                android:paddingLeft="@dimen/padding_medium"
                 android:text="@string/file_input_detail_path" />
             <TextView
                 android:id="@+id/file_detail_path"
@@ -117,8 +122,8 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center|left"
-                android:padding="@dimen/list_item_padding"
-                android:textSize="@dimen/base_subtitle_size" />
+                android:paddingLeft="@dimen/padding_medium"
+                android:textSize="@dimen/common_15_sp" />
         </LinearLayout>
 
         <!-- duration -->
@@ -127,13 +132,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            android:paddingTop="@dimen/list_item_padding"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="@dimen/list_item_padding"
-                android:textSize="@dimen/base_subtitle_size"
+                android:textSize="@dimen/common_15_sp"
+                android:paddingLeft="@dimen/padding_medium"
                 android:text="@string/file_input_detail_time" />
             <TextView
                 android:id="@+id/file_detail_duration"
@@ -142,8 +148,8 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center|left"
-                android:padding="@dimen/list_item_padding"
-                android:textSize="@dimen/base_subtitle_size" />
+                android:paddingLeft="@dimen/padding_medium"
+                android:textSize="@dimen/common_15_sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -158,7 +164,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/common_8_dp"
         android:layout_marginBottom="@dimen/common_8_dp"
-        android:weightSum="2">
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/dialog_button_cancel"
@@ -169,6 +175,7 @@
             android:gravity="center"
             android:padding="@dimen/list_item_padding"
             android:textSize="@dimen/base_subtitle_size"
+            android:visibility="gone"
             android:text="@string/cancel" />
 
         <View

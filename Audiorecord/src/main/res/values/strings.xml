@@ -336,7 +336,7 @@
     <string name="phone_record_in_call">In</string>
     <string name="phone_record_out_call">Out</string>
     <string name="phone_record_list_title">PHone Record</string>
-
+    <string name="phone_record_check">已选择( %1$d )</string>
     <string name="input_sear_file_name">请输入搜索内容</string>
 
     <!-- remove file -->

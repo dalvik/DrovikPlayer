@@ -85,6 +85,8 @@ public class FileExplorerActivity extends BaseCommonActivity {
     private CustomDialog createFileDialog;
     private CustomDialog renameFileDialog;
 
+    public static final String TAG = "FileExplorerActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,8 +167,10 @@ public class FileExplorerActivity extends BaseCommonActivity {
         updateBottomMeun(count);
         if(count == -1) {
             setChoolseMode(false);
+            titleTv.setText(mTitle[0]);
         } else {
             setChoolseMode(true);
+            titleTv.setText(getString(R.string.phone_record_check, count));
         }
     }
 
@@ -339,7 +343,7 @@ public class FileExplorerActivity extends BaseCommonActivity {
             }
             TextView cancelButton = (TextView) detailFile.findViewById(R.id.dialog_button_cancel);
             final TextView confirmButton = (TextView) detailFile.findViewById(R.id.dialog_button_confirm);
-            Log.w(TAG, "=> rename file: " + abstractFilePath + " " + " fileName: ");
+            Log.i(TAG, "=> detail file: " + abstractFilePath.toString());
             final CustomDialog detailFileDialog = new CustomDialog(this, 0, 0, detailFile, R.style.custom_dialog_style);
             detailFileDialog.setCanceledOnTouchOutside(true);
             confirmButton.setOnClickListener(new View.OnClickListener() {
