@@ -165,12 +165,11 @@ public class FileExplorerActivity extends BaseCommonActivity {
             this.mFileTelRecordListener = listener;
         }
         updateBottomMeun(count);
-        if(count == -1) {
-            setChoolseMode(false);
-            titleTv.setText(mTitle[0]);
-        } else {
+        if(count>=0) {
             setChoolseMode(true);
             titleTv.setText(getString(R.string.phone_record_check, count));
+        } else {
+            setChoolseMode(false);
         }
     }
 
@@ -212,6 +211,7 @@ public class FileExplorerActivity extends BaseCommonActivity {
         mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_delete_iv).setEnabled(checkCount>0);
         mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_rename_iv).setEnabled(!(checkCount != 1));
     }
+
     private void showDeleteFileDialog() {
         View createFile = View.inflate(this, R.layout.dialog_file_delete, null);
         TextView confirm_createFile = (TextView) createFile.findViewById(R.id.dialog_create_file_confirm);
@@ -409,6 +409,9 @@ public class FileExplorerActivity extends BaseCommonActivity {
                     mFileTelRecordListener.onMode(mChooseMode);
                 }
             }
+            if(!mode) {
+                titleTv.setText(mTitle[0]);
+            }
         }
     }
 
@@ -440,8 +443,29 @@ public class FileExplorerActivity extends BaseCommonActivity {
 
     private void renameFile(String oldName, String newName) {
         Log.d(TAG, "==> renameFile oldName: " + oldName + " newName: " + newName);
-        boolean result = true;//getDataManager.rename(oldName, newName);
-        if(result) {
+        FileRecordPager recordPager = (FileRecordPager) adapter.getItem(0);
+        int result = -1;
+        if(recordPager != null) {
+            int index = recordPager.getSelectIndex();
+            if(index == INDEX_IMAGE) {
+                if(mFileImageListener != null) {
+                    result = mFileImageListener.renameFile(oldName, newName);
+                }
+            } else if(index == INDEX_VIDEO) {
+                if(mFileVideoListener != null) {
+                    result = mFileVideoListener.renameFile(oldName, newName);
+                }
+            } else if(index == INDEX_AUDIO) {
+                if(mFileAudioListener != null) {
+                    result = mFileAudioListener.renameFile(oldName, newName);
+                }
+            } else if(index == INDEX_TELRECORD) {
+                if(mFileTelRecordListener != null) {
+                    result = mFileTelRecordListener.renameFile(oldName, newName);
+                }
+            }
+        }
+        if(result>0) {
             Toast.makeText(FileExplorerActivity.this, R.string.file_rename_success, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(FileExplorerActivity.this, R.string.file_rename_fail, Toast.LENGTH_SHORT).show();
@@ -451,25 +475,31 @@ public class FileExplorerActivity extends BaseCommonActivity {
 
     private void deleteFiles(List<FileDetail> fileList) {
         FileRecordPager recordPager = (FileRecordPager) adapter.getItem(0);
+        int result = -1;
         if(recordPager != null) {
             int index = recordPager.getSelectIndex();
             if(index == INDEX_IMAGE) {
                 if(mFileImageListener != null) {
-                    mFileImageListener.deleteFile(fileList);
+                    result = mFileImageListener.deleteFile(fileList);
                 }
             } else if(index == INDEX_VIDEO) {
                 if(mFileVideoListener != null) {
-                    mFileVideoListener.deleteFile(fileList);
+                    result = mFileVideoListener.deleteFile(fileList);
                 }
             } else if(index == INDEX_AUDIO) {
                 if(mFileAudioListener != null) {
-                    mFileAudioListener.deleteFile(fileList);
+                    result = mFileAudioListener.deleteFile(fileList);
                 }
             } else if(index == INDEX_TELRECORD) {
                 if(mFileTelRecordListener != null) {
-                    mFileTelRecordListener.deleteFile(fileList);
+                    result = mFileTelRecordListener.deleteFile(fileList);
                 }
             }
+        }
+        if(result>0) {
+            Toast.makeText(FileExplorerActivity.this, R.string.file_delete_success, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(FileExplorerActivity.this, R.string.file_delete_fail, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -528,14 +558,14 @@ public class FileExplorerActivity extends BaseCommonActivity {
         /**
          * 移除选中的文件
          */
-        public void deleteFile(List<FileDetail> fileList);
+        public int deleteFile(List<FileDetail> fileList);
 
         /**
          * 文件重命名
-         * @param detail
+         * @param oldPath
          * @param newName
          */
-        public void renameFile(FileDetail detail, String newName);
+        public int renameFile(String oldPath, String newName);
 
         /**
          * 获取选中的文件

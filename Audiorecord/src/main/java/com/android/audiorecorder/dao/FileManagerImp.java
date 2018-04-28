@@ -50,7 +50,18 @@ public class FileManagerImp extends MediaFileManager {
         mSectionMap = new HashMap<String, Integer>();
         mThumbCache = mContext.getSharedPreferences(FileProviderService.THUMBNAIL, Context.MODE_PRIVATE);
     }
-    
+
+
+    @Override
+    public boolean removeFile(int category, String path) {
+        deleteFile(category, path);
+        return true;
+    }
+
+    public int renameFile(int category, String oldPath, String newPath){
+        return rename(category, oldPath, newPath);
+    }
+
     @Override
     public long delete(int mimeType, long id) {
         //dbHelper.delete(id);
@@ -194,7 +205,72 @@ public class FileManagerImp extends MediaFileManager {
         String[] columns = {"count(*) as a_count"};
         return queryFileCountFromDb(uri, columns, where != null?where.toString():null, args, null);
     }
-    
+
+    /**
+     * 删除文件
+     * 录音文件和本地图片和视频文件
+     * @param path
+     */
+    private void deleteFile(int category, String path) {
+        File file = new File(path);
+        if(file.exists()) {
+            file.delete();
+        }
+        int fileType = getFileType(category);//获取文件类型
+        Uri uri = getUri(fileType);//获取指定类型的URI
+        String where = null;
+        if(fileType == FileProvider.FILE_GALLERY_IMAGE){//remove image from system gallery db
+            where = MediaStore.Images.Media.DATA + " = '" + path + "'";
+        } else if(fileType == FileProvider.FILE_GALLERY_VIDEO){//remove image from system gallery db
+            where = MediaStore.Video.Media.DATA + " = '" + path + "'";
+        } else if(fileType == FileProvider.FILE_TYPE_AUDIO) {//remove image from audio record db
+            where = FileColumn.COLUMN_LOCAL_PATH + " = '" + path + "'";
+        } else if(fileType == FileProvider.FILE_TYPE_TEL) {//remove image from phone record db
+            where = FileColumn.COLUMN_LOCAL_PATH + " = '" + path + "'";
+        } else if(fileType == FileProvider.FILE_TYPE_TEL_LIST) {
+            where = FileColumn.COLUMN_LOCAL_PATH + " = '" + path + "'";
+        } else {
+            where = FileColumn.COLUMN_LOCAL_PATH + " = '" + path + "'";
+        }
+        Log.d(TAG, "==> removeFile category: " + category + " fileType: " +  fileType + " where: " + where);
+        mContext.getContentResolver().delete(uri, where, null);
+    }
+
+    private int rename(int category, String path, String newPath) {
+        int fileType = getFileType(category);//获取文件类型
+        Uri uri = getUri(fileType);//获取指定类型的URI
+        String where = null;
+        ContentValues values = new ContentValues();
+        if(fileType == FileProvider.FILE_GALLERY_IMAGE){//remove image from system gallery db
+            where = MediaStore.Images.Media.DATA + " = '" + path + "'";
+            values.put(MediaStore.Images.Media.DATA, newPath);
+        } else if(fileType == FileProvider.FILE_GALLERY_VIDEO){//remove image from system gallery db
+            where = MediaStore.Video.Media.DATA + " = '" + path + "'";
+            values.put(MediaStore.Video.Media.DATA, newPath);
+        } else if(fileType == FileProvider.FILE_TYPE_AUDIO) {//remove image from audio record db
+            where = FileColumn.COLUMN_LOCAL_PATH + " = '" + path + "'";
+            values.put(FileColumn.COLUMN_LOCAL_PATH, newPath);
+        } else if(fileType == FileProvider.FILE_TYPE_TEL) {//remove image from phone record db
+            where = FileColumn.COLUMN_LOCAL_PATH + " = '" + path + "'";
+            values.put(FileColumn.COLUMN_LOCAL_PATH, newPath);
+        } else if(fileType == FileProvider.FILE_TYPE_TEL_LIST) {
+            where = FileColumn.COLUMN_LOCAL_PATH + " = '" + path + "'";
+            values.put(FileColumn.COLUMN_LOCAL_PATH, newPath);
+        } else {
+            where = FileColumn.COLUMN_LOCAL_PATH + " = '" + path + "'";
+            values.put(FileColumn.COLUMN_LOCAL_PATH, newPath);
+        }
+        File file = new File(path);
+        int result = -1;
+        if(file.exists()) {
+            File target = new File(newPath);
+            if(file.renameTo(target)) {
+                Log.d(TAG, "==> rename File category: " + category + " fileType: " +  fileType + " path: " + path + " to: " + target);
+                result = mContext.getContentResolver().update(uri, values, where, null);
+            }
+        }
+        return result;
+    }
     private long deleteItem(int fileType, long id){
         return mContext.getContentResolver().delete(getUri(fileType), FileColumn.COLUMN_ID + "=?", new String[]{ String.valueOf(id) });
     }

@@ -58,6 +58,8 @@
     <string name="permission_should_granted">您已禁止该权限，需要重新开启。</string>
 
     <string name="file_name_null">文件名不能为空</string>
+    <string name="file_delete_success">删除成功</string>
+    <string name="file_delete_fail">删除失败</string>
     <string name="file_rename_success">重命名成功</string>
     <string name="file_rename_fail">重命名失败</string>
 </resources>

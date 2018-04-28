@@ -34,6 +34,7 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,12 +80,6 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if(mFileTimeLineGridAdapter.isChooseMode()) {
-                    for(FileDetail detail:searchElementInfos) {
-                        if(detail != null) {
-                            detail.setChecked(false);
-                        }
-                    }
-                    mFileTimeLineGridAdapter.notifyDataSetChanged();
                     FileExplorerActivity context = (FileExplorerActivity) getActivity();
                     context.onFileChecked(FileImagePager.this, -1);
                 } else {
@@ -95,17 +90,6 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
                     }
                     FileExplorerActivity context = (FileExplorerActivity) getActivity();
                     context.onFileChecked(FileImagePager.this, getCheckedCount());
-                }
-                return true;
-            }
-        });
-        mLocalImageGridView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-
-                if(mFileTimeLineGridAdapter.isChooseMode()) {
-
                 }
                 return true;
             }
@@ -226,24 +210,59 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
 
     @Override
     public void onMode(boolean mode) {
+        if(!mode){//clear checked files
+            for(FileDetail detail:searchElementInfos) {
+                if(detail != null) {
+                    detail.setChecked(false);
+                }
+            }
+        }
         mFileTimeLineGridAdapter.setMode(mode);
         mFileTimeLineGridAdapter.notifyDataSetInvalidated();
     }
 
-    public void deleteFile(List<FileDetail> fileList) {
+    public int deleteFile(List<FileDetail> fileList) {
         if(fileList != null && fileList.size()>0) {
             for(FileDetail detail: fileList) {
-                mFileManager.delete(FileProvider.FILE_GALLERY_IMAGE, detail.getId());
+                mFileManager.removeFile(UIHelper.LISTVIEW_DATATYPE_GALLERY_IMAGE, detail.getFilePath());
+                int length = searchElementInfos.size();
+                for(int i=length-1; i>=0; i--) {
+                    FileDetail temp = searchElementInfos.get(i);
+                    if(temp.getFilePath().equals(detail.getFilePath())) {
+                        searchElementInfos.remove(i);
+                    }
+                }
             }
-            onRefresh = true;
-            mOffset = 0;
-            mPageIndex = 0;
-            loadThumbByCatalog(AppContext.CATALOG_GALLERY_IMAGE, mPageIndex, mHandler, UIHelper.LISTVIEW_ACTION_REFRESH, UIHelper.LISTVIEW_DATATYPE_GALLERY_IMAGE);
+            mLocalImageListViewData.clear();
+            mLocalImageListViewData.addAll(searchElementInfos);
+            mSearchHandler.sendEmptyMessage(SUCESS);
         }
+        return 1;
     }
 
-    public void renameFile(FileDetail detail, String newName) {
-
+    public int renameFile(String oldPath, String newName) {
+        if(oldPath != null) {
+            int length = searchElementInfos.size();
+            for(int i=length-1; i>=0; i--) {
+                FileDetail temp = searchElementInfos.get(i);
+                if(temp.getFilePath().equals(oldPath)) {
+                    temp.setFilePath(newName);
+                    int indexSeparator = newName.lastIndexOf(File.separator);
+                    if(indexSeparator>0){
+                        String fileName = newName.substring(indexSeparator+1);
+                        temp.setFileName(fileName);
+                    }
+                    break;
+                }
+            }
+            mLocalImageListViewData.clear();
+            mLocalImageListViewData.addAll(searchElementInfos);
+            mSearchHandler.sendEmptyMessage(SUCESS);
+            return mFileManager.renameFile(UIHelper.LISTVIEW_DATATYPE_GALLERY_IMAGE, oldPath, newName);
+        } else {
+            Log.w(TAG, "==> oldPath null." );
+            return -1;
+        }
     }
 
     public List<FileDetail> getCheckFileDetail() {

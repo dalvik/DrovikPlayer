@@ -13,7 +13,8 @@ public interface IFileManager{
     public abstract void createDiretory(String directory);
     public abstract boolean createFile(String path);
     public abstract boolean isExists(String path);
-    public abstract boolean removeFile(String path);
+    public abstract boolean removeFile(int category, String path);
+    public abstract int renameFile(int category, String oldPath, String newPath);
     
     public void insertRecorderFile(RecorderFile file);
     public List<RecorderFile> queryAllFileList(int mimeType, int page, int pageNumber);
