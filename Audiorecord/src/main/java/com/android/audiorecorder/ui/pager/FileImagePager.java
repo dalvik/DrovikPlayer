@@ -43,13 +43,13 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
     public final static String EXTRA_THUMB_NAME = "thumb_name";
     
     private GridView mLocalImageGridView;
-    private FileTimeLineGridAdapter mFileTimeLineGridAdapter;
+    private FileTimeLineGridAdapter mStickyGridAdapter;
     private RelativeLayout mNoContent;
     private RefreshLayout mRefreshLayout;
     private ClassicsHeader refreshLayoutHeader;
     private boolean onRefresh;
     private boolean isLoadMore = false;
-    public static List<FileDetail> mLocalImageListViewData;
+    public static List<FileDetail> mLocalListViewData;
     private List<FileDetail> searchElementInfos;
     private IFileManager mFileManager;
     private int mOffset;
@@ -76,32 +76,14 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
         mRefreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
         refreshLayoutHeader = (ClassicsHeader) view.findViewById(R.id.refreshLayout_header);
         mLocalImageGridView = (GridView) view.findViewById(R.id.listView);
-        mLocalImageGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if(mFileTimeLineGridAdapter.isChooseMode()) {
-                    FileExplorerActivity context = (FileExplorerActivity) getActivity();
-                    context.onFileChecked(FileImagePager.this, -1);
-                } else {
-                    FileDetail detail = mFileTimeLineGridAdapter.getItem(position);
-                    if(detail != null) {
-                        detail.setChecked(true);
-                        mFileTimeLineGridAdapter.notifyDataSetChanged();
-                    }
-                    FileExplorerActivity context = (FileExplorerActivity) getActivity();
-                    context.onFileChecked(FileImagePager.this, getCheckedCount());
-                }
-                return true;
-            }
-        });
         mNoContent = (RelativeLayout) view.findViewById(R.id.activity_nocontent);
         mLocalImageGridView.setEmptyView(mNoContent);
         mNoContent.setVisibility(View.GONE);
-        mLocalImageListViewData = new ArrayList<FileDetail>();
+        mLocalListViewData = new ArrayList<FileDetail>();
         searchElementInfos = new ArrayList<FileDetail>();
         mFileManager = FileManagerFactory.getFileManagerInstance(getActivity());
-        mFileTimeLineGridAdapter = new FileTimeLineGridAdapter(getActivity(), searchElementInfos, mLocalImageGridView, null);
-        mLocalImageGridView.setAdapter(mFileTimeLineGridAdapter);
+        mStickyGridAdapter = new FileTimeLineGridAdapter(getActivity(), searchElementInfos, mLocalImageGridView, null);
+        mLocalImageGridView.setAdapter(mStickyGridAdapter);
         mOffset = 0;
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -120,21 +102,39 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
                 loadThumbByCatalog(AppContext.CATALOG_GALLERY_IMAGE, mPageIndex, mHandler, UIHelper.LISTVIEW_ACTION_SCROLL, UIHelper.LISTVIEW_DATATYPE_GALLERY_IMAGE);
             }
         });
+        mLocalImageGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if(mStickyGridAdapter.isChooseMode()) {
+                    FileExplorerActivity context = (FileExplorerActivity) getActivity();
+                    context.onFileChecked(FileImagePager.this, -1);
+                } else {
+                    FileDetail detail = mStickyGridAdapter.getItem(position);
+                    if(detail != null) {
+                        detail.setChecked(true);
+                        mStickyGridAdapter.notifyDataSetChanged();
+                    }
+                    FileExplorerActivity context = (FileExplorerActivity) getActivity();
+                    context.onFileChecked(FileImagePager.this, getCheckedCount());
+                }
+                return true;
+            }
+        });
         mLocalImageGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(mFileTimeLineGridAdapter.isChooseMode()) {
-                    FileDetail detail = mFileTimeLineGridAdapter.getItem(position);
+                if(mStickyGridAdapter.isChooseMode()) {
+                    FileDetail detail = mStickyGridAdapter.getItem(position);
                     if(detail != null) {
                         detail.setChecked(!detail.isChecked());
-                        mFileTimeLineGridAdapter.notifyDataSetChanged();
+                        mStickyGridAdapter.notifyDataSetChanged();
                     }
                     FileExplorerActivity context = (FileExplorerActivity) getActivity();
                     context.onFileChecked(FileImagePager.this, getCheckedCount());
                 } else {
                     Intent intent = new Intent(getActivity(), ImageViewActvity.class);
                     intent.putExtra("TAG_GRID_INDEX", position);
-                    intent.putExtra("TAG_PATH_LIST_SIZE", mLocalImageListViewData.size());
+                    intent.putExtra("TAG_PATH_LIST_SIZE", mLocalListViewData.size());
                     startActivity(intent);
                 }
             }
@@ -156,8 +156,8 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
     }
 
     public static String getFilePath(int position) {
-        if(mLocalImageListViewData != null && mLocalImageListViewData.size()>position){
-            return mLocalImageListViewData.get(position).getFilePath();
+        if(mLocalListViewData != null && mLocalListViewData.size()>position){
+            return mLocalListViewData.get(position).getFilePath();
         }
         return "";
     }
@@ -172,19 +172,19 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
                 @Override
                 public void run() {
                     searchElementInfos.clear();
-                    for (int i = 0; i < mLocalImageListViewData.size(); i++) {
-                            FileDetail fileDetail = mLocalImageListViewData.get(i);
+                    for (int i = 0; i < mLocalListViewData.size(); i++) {
+                            FileDetail fileDetail = mLocalListViewData.get(i);
                             if(fileDetail != null) {
                                 String name = fileDetail.getFileName();
                                 String phoneNumber = fileDetail.getPhoneNumber();
                                 String displayName = fileDetail.getDisplayName();
                                 Log.d(TAG, "==>: " + name + " " + phoneNumber + " " + displayName);
                                 if(name != null && name.toLowerCase().contains(content)) {
-                                    searchElementInfos.add(mLocalImageListViewData.get(i));
+                                    searchElementInfos.add(mLocalListViewData.get(i));
                                 } else if(phoneNumber != null && phoneNumber.toLowerCase().contains(content)) {
-                                    searchElementInfos.add(mLocalImageListViewData.get(i));
+                                    searchElementInfos.add(mLocalListViewData.get(i));
                                 } else if(displayName != null && displayName.toLowerCase().contains(content)) {
-                                    searchElementInfos.add(mLocalImageListViewData.get(i));
+                                    searchElementInfos.add(mLocalListViewData.get(i));
                                 }
                             }
                     }
@@ -201,7 +201,7 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
             }).start();
         } else {
             searchElementInfos.clear();
-            searchElementInfos.addAll(mLocalImageListViewData);
+            searchElementInfos.addAll(mLocalListViewData);
             Message msg = mSearchHandler.obtainMessage();
             msg.what = SUCESS;
             msg.sendToTarget();
@@ -209,7 +209,7 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
     }
 
     @Override
-    public void onMode(boolean mode) {
+    public void setMode(boolean mode) {
         if(!mode){//clear checked files
             for(FileDetail detail:searchElementInfos) {
                 if(detail != null) {
@@ -217,10 +217,11 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
                 }
             }
         }
-        mFileTimeLineGridAdapter.setMode(mode);
-        mFileTimeLineGridAdapter.notifyDataSetInvalidated();
+        mStickyGridAdapter.setMode(mode);
+        mStickyGridAdapter.notifyDataSetInvalidated();
     }
 
+    @Override
     public int deleteFile(List<FileDetail> fileList) {
         if(fileList != null && fileList.size()>0) {
             for(FileDetail detail: fileList) {
@@ -233,13 +234,14 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
                     }
                 }
             }
-            mLocalImageListViewData.clear();
-            mLocalImageListViewData.addAll(searchElementInfos);
+            mLocalListViewData.clear();
+            mLocalListViewData.addAll(searchElementInfos);
             mSearchHandler.sendEmptyMessage(SUCESS);
         }
         return 1;
     }
 
+    @Override
     public int renameFile(String oldPath, String newName) {
         if(oldPath != null) {
             int length = searchElementInfos.size();
@@ -255,8 +257,8 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
                     break;
                 }
             }
-            mLocalImageListViewData.clear();
-            mLocalImageListViewData.addAll(searchElementInfos);
+            mLocalListViewData.clear();
+            mLocalListViewData.addAll(searchElementInfos);
             mSearchHandler.sendEmptyMessage(SUCESS);
             return mFileManager.renameFile(UIHelper.LISTVIEW_DATATYPE_GALLERY_IMAGE, oldPath, newName);
         } else {
@@ -265,6 +267,7 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
         }
     }
 
+    @Override
     public List<FileDetail> getCheckFileDetail() {
         return getCheckedFileList();
     }
@@ -276,13 +279,13 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
           if(msg.what>=0) {
               handleImageListData(msg.what, msg.obj, msg.arg1, msg.arg2);
           }
-          if(mLocalImageListViewData.size() == 0){
+          if(mLocalListViewData.size() == 0){
               mNoContent.setVisibility(View.VISIBLE);
           } else {
               mNoContent.setVisibility(View.GONE);
           }
-          mOffset = mLocalImageListViewData.size() % IFileManager.PERPAGE_NUMBER;
-          mPageIndex = mLocalImageListViewData.size() / IFileManager.PERPAGE_NUMBER;
+          mOffset = mLocalListViewData.size() % IFileManager.PERPAGE_NUMBER;
+          mPageIndex = mLocalListViewData.size() / IFileManager.PERPAGE_NUMBER;
           onRefresh = false;
       };
     };
@@ -296,10 +299,10 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
                     Log.d(TAG, "==> search list length: " + searchElementInfos.size());
                     mLocalImageGridView.setVisibility(View.VISIBLE);
                     mNoContent.setVisibility(View.GONE);
-                    mOffset = mLocalImageListViewData.size() % IFileManager.PERPAGE_NUMBER;
-                    mPageIndex = mLocalImageListViewData.size() / IFileManager.PERPAGE_NUMBER;
+                    mOffset = mLocalListViewData.size() % IFileManager.PERPAGE_NUMBER;
+                    mPageIndex = mLocalListViewData.size() / IFileManager.PERPAGE_NUMBER;
                     mRefreshLayout.finishRefresh();
-                    mFileTimeLineGridAdapter.notifyDataSetChanged();
+                    mStickyGridAdapter.notifyDataSetChanged();
                     onRefresh = false;
                     break;
                 case FAIL:
@@ -343,12 +346,12 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
             switch (objtype) {
                 case UIHelper.LISTVIEW_DATATYPE_GALLERY_IMAGE:
                     List<FileDetail> localAudioList = (List<FileDetail>)obj;
-                    mLocalImageListViewData.clear();
-                    mLocalImageListViewData.addAll(localAudioList);
+                    mLocalListViewData.clear();
+                    mLocalListViewData.addAll(localAudioList);
                     searchElementInfos.clear();
-                    searchElementInfos.addAll(mLocalImageListViewData);
+                    searchElementInfos.addAll(mLocalListViewData);
                     mRefreshLayout.finishRefresh();
-                    mFileTimeLineGridAdapter.notifyDataSetChanged();
+                    mStickyGridAdapter.notifyDataSetChanged();
                     break;
                     default:
                         break;
@@ -358,9 +361,9 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
             switch (objtype) {
             case UIHelper.LISTVIEW_DATATYPE_GALLERY_IMAGE:
                 List<FileDetail> localImageFileList = (List<FileDetail>)obj;
-                mLocalImageListViewData.addAll(localImageFileList);
+                mLocalListViewData.addAll(localImageFileList);
                 searchElementInfos.addAll(localImageFileList);
-                mFileTimeLineGridAdapter.notifyDataSetChanged();
+                mStickyGridAdapter.notifyDataSetChanged();
                 mRefreshLayout.finishLoadmore();
                 break;
                 default:

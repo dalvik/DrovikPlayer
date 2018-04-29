@@ -15,6 +15,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckedTextView;
@@ -133,6 +134,18 @@ public class FileExplorerActivity extends BaseCommonActivity {
         mChooseMode = false;
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            if(mChooseMode) {
+                hideSearchMode(true);
+                setChoolseMode(!mChooseMode);
+                return true;
+            }
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
     public void setOnFileSearchListener(OnFileSearchListener listener) {
         if(listener instanceof FileImagePager) {
             this.mFileImageListener = listener;
@@ -178,33 +191,6 @@ public class FileExplorerActivity extends BaseCommonActivity {
         mSeachTextView.setOnClickListener(mOnClick);
         rightTv.setOnClickListener(mOnClick);
     }
-
-    private View.OnClickListener mOnClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if(view.getId() == R.id.searchTv){
-                rightTv.setVisibility(View.INVISIBLE);
-                hideSearchMode(false);
-                if(mChooseMode) {
-                    setChoolseMode(!mChooseMode);
-                }
-            } else if(view.getId() == R.id.activity_file_search_cancel) {
-                rightTv.setVisibility(View.VISIBLE);
-                hideSearchMode(true);
-            } else if(view.getId() == R.id.rightChooseTv) {
-                hideSearchMode(true);
-                setChoolseMode(!mChooseMode);
-                updateBottomMeun(0);
-            } else if(view.getId() == R.id.activity_file_copy_iv) {
-            } else if(view.getId() == R.id.activity_file_detail_iv) {
-                showFileDetailDialog();
-            } else if(view.getId() == R.id.activity_file_delete_iv) {
-                showDeleteFileDialog();
-            } else if(view.getId() == R.id.activity_file_rename_iv) {
-                showRenameFileDialog();
-            }
-        }
-    };
 
     private void updateBottomMeun(int checkCount) {
         mFileBottomMenuRelativeLayout.findViewById(R.id.activity_file_detail_iv).setEnabled(!(checkCount != 1));
@@ -362,7 +348,6 @@ public class FileExplorerActivity extends BaseCommonActivity {
         }
     }
 
-
     private OnPageListener mPageListener = new OnPageListener() {
         @Override
         public void onPageChange(int oldPage, int newPage) {
@@ -386,6 +371,10 @@ public class FileExplorerActivity extends BaseCommonActivity {
         imm.hideSoftInputFromWindow(mSearchEditText.getWindowToken(), 0);
     }
 
+    /**
+     * change mode, clear checked
+     * @param mode
+     */
     private void setChoolseMode(boolean mode) {
         this.mChooseMode = mode;
         mFileBottomMenuRelativeLayout.setVisibility(mChooseMode ? View.VISIBLE : View.GONE);
@@ -394,19 +383,19 @@ public class FileExplorerActivity extends BaseCommonActivity {
             int index = recordPager.getSelectIndex();
             if(index == INDEX_IMAGE) {
                 if(mFileImageListener != null) {
-                    mFileImageListener.onMode(mChooseMode);
+                    mFileImageListener.setMode(mChooseMode);
                 }
             } else if(index == INDEX_VIDEO) {
                 if(mFileVideoListener != null) {
-                    mFileVideoListener.onMode(mChooseMode);
+                    mFileVideoListener.setMode(mChooseMode);
                 }
             } else if(index == INDEX_AUDIO) {
                 if(mFileAudioListener != null) {
-                    mFileAudioListener.onMode(mChooseMode);
+                    mFileAudioListener.setMode(mChooseMode);
                 }
             } else if(index == INDEX_TELRECORD) {
                 if(mFileTelRecordListener != null) {
-                    mFileTelRecordListener.onMode(mChooseMode);
+                    mFileTelRecordListener.setMode(mChooseMode);
                 }
             }
             if(!mode) {
@@ -529,6 +518,33 @@ public class FileExplorerActivity extends BaseCommonActivity {
         return list;
     }
 
+    private View.OnClickListener mOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(view.getId() == R.id.searchTv){
+                rightTv.setVisibility(View.INVISIBLE);
+                hideSearchMode(false);
+                if(mChooseMode) {
+                    setChoolseMode(!mChooseMode);
+                }
+            } else if(view.getId() == R.id.activity_file_search_cancel) {
+                rightTv.setVisibility(View.VISIBLE);
+                hideSearchMode(true);
+            } else if(view.getId() == R.id.rightChooseTv) {
+                hideSearchMode(true);
+                setChoolseMode(!mChooseMode);
+                updateBottomMeun(0);
+            } else if(view.getId() == R.id.activity_file_copy_iv) {
+            } else if(view.getId() == R.id.activity_file_detail_iv) {
+                showFileDetailDialog();
+            } else if(view.getId() == R.id.activity_file_delete_iv) {
+                showDeleteFileDialog();
+            } else if(view.getId() == R.id.activity_file_rename_iv) {
+                showRenameFileDialog();
+            }
+        }
+    };
+
     private InputFilter mInputFilter = new InputFilter() {
         String regEx = "[^a-zA-Z0-9\\u4E00-\\u9FA5!#$%&'()+-,-.;=@\\[\\]{}^_` ~]";
         Pattern p = Pattern.compile(regEx);
@@ -553,7 +569,7 @@ public class FileExplorerActivity extends BaseCommonActivity {
          * 设置是否是选择模式
          * @param mode
          */
-        public void onMode(boolean mode);
+        public void setMode(boolean mode);
 
         /**
          * 移除选中的文件

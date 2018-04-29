@@ -6,6 +6,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +21,8 @@ import com.android.audiorecorder.dao.FileManagerFactory;
 import com.android.audiorecorder.dao.IFileManager;
 import com.android.audiorecorder.engine.MultiMediaService;
 import com.android.audiorecorder.provider.FileDetail;
+import com.android.audiorecorder.ui.FileExplorerActivity;
+import com.android.audiorecorder.ui.ImageViewActvity;
 import com.android.audiorecorder.ui.MainThumbList;
 import com.android.audiorecorder.ui.PhoneRecordList;
 import com.android.audiorecorder.ui.adapter.FileTimeLineGridAdapter;
@@ -35,7 +40,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileTelRecordPager extends BasePager {
+public class FileTelRecordPager extends BasePager implements FileExplorerActivity.OnFileSearchListener{
 
     public final static String EXTRA_THUMB_NAME = "thumb_name";
 
@@ -52,7 +57,17 @@ public class FileTelRecordPager extends BasePager {
     private int mPageIndex;
     private int mMode = MultiMediaService.LUNCH_MODE_MANLY;
 
+    private List<FileDetail> searchElementInfos;
+
+
     private String TAG = "FileTelRecordPager";
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FileExplorerActivity context = (FileExplorerActivity) getActivity();
+        context.setOnFileSearchListener(FileTelRecordPager.this);
+    }
 
     @Override
     protected View createView(LayoutInflater inflater, Bundle savedInstanceState) {
@@ -69,8 +84,9 @@ public class FileTelRecordPager extends BasePager {
         mLocalImageGridView.setEmptyView(mNoContent);
         mNoContent.setVisibility(View.GONE);
         mLocalListViewData = new ArrayList<FileDetail>();
+        searchElementInfos = new ArrayList<FileDetail>();
         mFileManager = FileManagerFactory.getFileManagerInstance(getActivity());
-        mStickyGridAdapter = new FileTimeLineGridAdapter(getActivity(), mLocalListViewData, mLocalImageGridView, null);
+        mStickyGridAdapter = new FileTimeLineGridAdapter(getActivity(), searchElementInfos, mLocalImageGridView, null);
         mLocalImageGridView.setAdapter(mStickyGridAdapter);
         mOffset = 0;
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -90,18 +106,46 @@ public class FileTelRecordPager extends BasePager {
                 loadThumbByCatalog(AppContext.CATALOG_TEL_AUDIO, mPageIndex, mHandler, UIHelper.LISTVIEW_ACTION_SCROLL, UIHelper.LISTVIEW_DATATYPE_TEL_AUDIO);
             }
         });
+        mLocalImageGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if(mStickyGridAdapter.isChooseMode()) {
+                    FileExplorerActivity context = (FileExplorerActivity) getActivity();
+                    context.onFileChecked(FileTelRecordPager.this, -1);
+                } else {
+                    FileDetail detail = mStickyGridAdapter.getItem(position);
+                    if(detail != null) {
+                        detail.setChecked(true);
+                        mStickyGridAdapter.notifyDataSetChanged();
+                    }
+                    FileExplorerActivity context = (FileExplorerActivity) getActivity();
+                    context.onFileChecked(FileTelRecordPager.this, 1);
+                }
+                return true;
+            }
+        });
         mLocalImageGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FileDetail info = mLocalListViewData.get(position);
-                File file = new File(info.getFilePath());
-                if(file.exists()){
-                    Intent intent = new Intent(getActivity(), PhoneRecordList.class);
-                    intent.putExtra(MainThumbList.EXTRA_THUMB_NAME, info.getPhoneNumber());
-                    intent.putExtra("mode", mMode);
-                    startActivity(intent);
-                }else {
-                    ToastUtils.showToast(R.string.file_not_exist);
+                if(mStickyGridAdapter.isChooseMode()) {
+                    FileDetail detail = mStickyGridAdapter.getItem(position);
+                    if(detail != null) {
+                        detail.setChecked(!detail.isChecked());
+                        mStickyGridAdapter.notifyDataSetChanged();
+                    }
+                    FileExplorerActivity context = (FileExplorerActivity) getActivity();
+                    context.onFileChecked(FileTelRecordPager.this, getCheckedCount());
+                } else {
+                    FileDetail info = mLocalListViewData.get(position);
+                    File file = new File(info.getFilePath());
+                    if(file.exists()){
+                        Intent intent = new Intent(getActivity(), PhoneRecordList.class);
+                        intent.putExtra(MainThumbList.EXTRA_THUMB_NAME, info.getPhoneNumber());
+                        intent.putExtra("mode", mMode);
+                        startActivity(intent);
+                    }else {
+                        ToastUtils.showToast(R.string.file_not_exist);
+                    }
                 }
             }
         });
@@ -120,6 +164,116 @@ public class FileTelRecordPager extends BasePager {
         LogUtil.d(TAG, "==> reload.");
     }
 
+    @Override
+    public void onSearch(final String content) {
+        Log.d(TAG, "search key:" + content);
+        mRefreshLayout.setEnableRefresh(TextUtils.isEmpty(content));
+        mRefreshLayout.setEnableLoadmore(TextUtils.isEmpty(content));
+        if (!TextUtils.isEmpty(content)) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    searchElementInfos.clear();
+                    for (int i = 0; i < mLocalListViewData.size(); i++) {
+                        FileDetail fileDetail = mLocalListViewData.get(i);
+                        if(fileDetail != null) {
+                            String name = fileDetail.getFileName();
+                            String phoneNumber = fileDetail.getPhoneNumber();
+                            String displayName = fileDetail.getDisplayName();
+                            Log.d(TAG, "==>: " + name + " " + phoneNumber + " " + displayName);
+                            if(name != null && name.toLowerCase().contains(content)) {
+                                searchElementInfos.add(mLocalListViewData.get(i));
+                            } else if(phoneNumber != null && phoneNumber.toLowerCase().contains(content)) {
+                                searchElementInfos.add(mLocalListViewData.get(i));
+                            } else if(displayName != null && displayName.toLowerCase().contains(content)) {
+                                searchElementInfos.add(mLocalListViewData.get(i));
+                            }
+                        }
+                    }
+                    if (searchElementInfos.size() > 0) {
+                        Message msg = mSearchHandler.obtainMessage();
+                        msg.what = SUCESS;
+                        msg.sendToTarget();
+                    } else {
+                        Message msg = mSearchHandler.obtainMessage();
+                        msg.what = FAIL;
+                        msg.sendToTarget();
+                    }
+                }
+            }).start();
+        } else {
+            searchElementInfos.clear();
+            searchElementInfos.addAll(mLocalListViewData);
+            Message msg = mSearchHandler.obtainMessage();
+            msg.what = SUCESS;
+            msg.sendToTarget();
+        }
+    }
+
+    @Override
+    public void setMode(boolean mode) {
+        if(!mode){//clear checked files
+            for(FileDetail detail:searchElementInfos) {
+                if(detail != null) {
+                    detail.setChecked(false);
+                }
+            }
+        }
+        mStickyGridAdapter.setMode(mode);
+        mStickyGridAdapter.notifyDataSetInvalidated();
+    }
+
+    @Override
+    public int deleteFile(List<FileDetail> fileList) {
+        if(fileList != null && fileList.size()>0) {
+            for(FileDetail detail: fileList) {
+                mFileManager.removeFile(UIHelper.LISTVIEW_DATATYPE_GALLERY_IMAGE, detail.getFilePath());
+                int length = searchElementInfos.size();
+                for(int i=length-1; i>=0; i--) {
+                    FileDetail temp = searchElementInfos.get(i);
+                    if(temp.getFilePath().equals(detail.getFilePath())) {
+                        searchElementInfos.remove(i);
+                    }
+                }
+            }
+            mLocalListViewData.clear();
+            mLocalListViewData.addAll(searchElementInfos);
+            mSearchHandler.sendEmptyMessage(SUCESS);
+        }
+        return 1;
+    }
+
+    @Override
+    public int renameFile(String oldPath, String newName) {
+        if(oldPath != null) {
+            int length = searchElementInfos.size();
+            for(int i=length-1; i>=0; i--) {
+                FileDetail temp = searchElementInfos.get(i);
+                if(temp.getFilePath().equals(oldPath)) {
+                    temp.setFilePath(newName);
+                    int indexSeparator = newName.lastIndexOf(File.separator);
+                    if(indexSeparator>0){
+                        String fileName = newName.substring(indexSeparator+1);
+                        temp.setFileName(fileName);
+                    }
+                    break;
+                }
+            }
+            mLocalListViewData.clear();
+            mLocalListViewData.addAll(searchElementInfos);
+            mSearchHandler.sendEmptyMessage(SUCESS);
+            return mFileManager.renameFile(UIHelper.LISTVIEW_DATATYPE_GALLERY_IMAGE, oldPath, newName);
+        } else {
+            Log.w(TAG, "==> oldPath null." );
+            return -1;
+        }
+    }
+
+    @Override
+    public List<FileDetail> getCheckFileDetail() {
+        return getCheckedFileList();
+    }
+
     private Handler mHandler = new Handler(){
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -135,6 +289,32 @@ public class FileTelRecordPager extends BasePager {
             mPageIndex = mLocalListViewData.size() / IFileManager.PERPAGE_NUMBER;
             onRefresh = false;
         };
+    };
+
+    private Handler mSearchHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case SUCESS:
+                    Log.d(TAG, "==> search list length: " + searchElementInfos.size());
+                    mLocalImageGridView.setVisibility(View.VISIBLE);
+                    mNoContent.setVisibility(View.GONE);
+                    mOffset = mLocalListViewData.size() % IFileManager.PERPAGE_NUMBER;
+                    mPageIndex = mLocalListViewData.size() / IFileManager.PERPAGE_NUMBER;
+                    mRefreshLayout.finishRefresh();
+                    mStickyGridAdapter.notifyDataSetChanged();
+                    onRefresh = false;
+                    break;
+                case FAIL:
+                    Log.d(TAG, "==> search list length: " + searchElementInfos.size());
+                    mLocalImageGridView.setVisibility(View.GONE);
+                    mNoContent.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    break;
+            }
+        }
     };
 
     private void loadThumbByCatalog(final int catalog, final int pageIndex, final Handler handler, final int action, final int objType){
@@ -169,6 +349,8 @@ public class FileTelRecordPager extends BasePager {
                         List<FileDetail> localAudioList = (List<FileDetail>)obj;
                         mLocalListViewData.clear();
                         mLocalListViewData.addAll(localAudioList);
+                        searchElementInfos.clear();
+                        searchElementInfos.addAll(mLocalListViewData);
                         mRefreshLayout.finishRefresh();
                         mStickyGridAdapter.notifyDataSetChanged();
                         break;
@@ -181,6 +363,7 @@ public class FileTelRecordPager extends BasePager {
                     case UIHelper.LISTVIEW_DATATYPE_TEL_AUDIO:
                         List<FileDetail> localImageFileList = (List<FileDetail>)obj;
                         mLocalListViewData.addAll(localImageFileList);
+                        searchElementInfos.addAll(localImageFileList);
                         mStickyGridAdapter.notifyDataSetChanged();
                         mRefreshLayout.finishLoadmore();
                         break;
@@ -189,5 +372,25 @@ public class FileTelRecordPager extends BasePager {
                 }
                 break;
         }
+    }
+
+    private int getCheckedCount() {
+        int count = 0;
+        for(FileDetail detail:searchElementInfos) {
+            if(detail.isChecked()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private List<FileDetail> getCheckedFileList() {
+        List<FileDetail> mCheckFileList = new ArrayList<FileDetail>();
+        for(FileDetail detail:searchElementInfos) {
+            if(detail.isChecked()) {
+                mCheckFileList.add(detail);
+            }
+        }
+        return mCheckFileList;
     }
 }
