@@ -25,6 +25,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mobstat.StatService;
 import com.drovik.player.AppApplication;
 import com.drovik.player.R;
 import com.drovik.player.audio.MusicBean;
@@ -64,6 +65,7 @@ public class MusicPlayActivity extends BaseCommonActivity implements IMusicPlayV
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatService.start(this);
         setContentView(R.layout.activity_music_play);
         mMusicPlayController = new MusicPlayController(MusicPlayActivity.this, MusicPlayActivity.this);
         initView();

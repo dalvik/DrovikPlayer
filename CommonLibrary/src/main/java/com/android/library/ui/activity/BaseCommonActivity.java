@@ -24,6 +24,7 @@ import com.android.library.ui.dialog.WaitingDialog;
 import com.android.library.ui.utils.DialogUtils;
 import com.android.library.ui.utils.PriorityRunnable;
 import com.android.library.ui.utils.ToastUtils;
+import com.baidu.mobstat.StatService;
 
 /**
  * 公共基类特性：
@@ -61,6 +62,7 @@ public abstract class BaseCommonActivity extends FragmentActivity implements IDa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = this;
+        StatService.start(this);
         if (!initIntent()) {
             ToastUtils.showToast(R.string.intent_err);
             finish();

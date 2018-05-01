@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mobstat.StatService;
 import com.drovik.player.AppApplication;
 import com.drovik.player.R;
 import com.drovik.player.audio.MusicBean;
@@ -92,6 +93,7 @@ public class MusicActivity extends BaseCompatActivity implements IMusicView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music);
+        StatService.start(this);
         setTitle(R.string.home_music);
         mMusciController = new MusicController(MusicActivity.this);
         initView();
