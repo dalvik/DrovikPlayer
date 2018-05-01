@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_dialog">
+
+        <TextView
+            android:id="@+id/dialog_update_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_30_dp"
+            android:gravity="center_horizontal"
+            android:text="@string/_check_version_dialog_title_str"
+            android:textSize="@dimen/base_dafault_size" />
+
+        <RelativeLayout
+            android:id="@+id/dialog_update_content_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dialog_update_title"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="@dimen/common_28_dp"
+            android:layout_marginTop="@dimen/common_30_dp"
+            android:layout_weight="1.0"
+            android:orientation="horizontal"
+            android:background="@drawable/common_body_input_bg">
+
+            <TextView
+                android:id="@+id/dialog_update_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="@dimen/common_15_sp"
+                android:text="aaaa"
+                android:gravity="left"/>
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/dialog_update_split"
+            android:layout_below="@+id/dialog_update_content_rl"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/text_gray" />
+
+        <LinearLayout
+            android:layout_below="@+id/dialog_update_split"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dialog_update_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/_check_version_dialog_cancle_button_str"
+                android:textSize="@dimen/common_15_sp" />
+
+            <View
+                android:layout_width="@dimen/base_splite_line_hight"
+                android:layout_height="@dimen/common_30_dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/divider_line" />
+
+            <TextView
+                android:id="@+id/dialog_update_confirm"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/_check_version_dialog_ok_button_str"
+                android:textSize="@dimen/common_15_sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

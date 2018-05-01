@@ -17,13 +17,17 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.Html;
+import android.text.InputFilter;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +36,13 @@ import com.android.audiorecorder.DebugConfig;
 import com.android.audiorecorder.R;
 import com.android.audiorecorder.dao.UpdateInfo;
 import com.android.audiorecorder.provider.FileColumn;
+import com.android.audiorecorder.provider.FileDetail;
 import com.android.audiorecorder.provider.FileProvider;
+import com.android.audiorecorder.ui.FileExplorerActivity;
 import com.android.audiorecorder.ui.SettingsActivity;
 import com.android.audiorecorder.ui.view.DownLoadProgressBar;
 import com.android.audiorecorder.utils.NetworkUtil;
+import com.android.library.ui.dialog.CustomDialog;
 import com.drovik.utils.FileUtil;
 import com.drovik.utils.URLs;
 
@@ -54,6 +61,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 
 public class UpdateManager {
@@ -189,7 +197,8 @@ public class UpdateManager {
 						if(curVersionCode < updateInfo.getVersionCode()) {
 							apkUrl = updateInfo.getDownloadUrl();
 							updateMsg = updateInfo.getUpdateLog();
-							showNoticeDialog();
+							//showNoticeDialog();
+							showUpdateDialog();
 						} else if(isShowMsg) {
 							new Builder(context)
 									.setTitle(context.getText(R.string._check_version_result_title_str))
@@ -299,6 +308,31 @@ public class UpdateManager {
 		noticeDialog.show();
 	}
 
+	private void showUpdateDialog() {
+		View updateView = View.inflate(context, R.layout.dialog_update, null);
+		final TextView updateContentMessage = (TextView) updateView.findViewById(R.id.dialog_update_content);
+		Spanned spaned = Html.fromHtml(updateMsg);
+		updateContentMessage.setText(spaned);
+		TextView cancelButton = (TextView) updateView.findViewById(R.id.dialog_update_cancel);
+		final TextView confirmButton = (TextView) updateView.findViewById(R.id.dialog_update_confirm);
+		final CustomDialog updpateDialog = new CustomDialog(context, 0, 0, updateView, R.style.custom_dialog_style);
+		updpateDialog.setCanceledOnTouchOutside(true);
+		confirmButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				updpateDialog.dismiss();
+				showDownloadDialog();
+			}
+		});
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				updpateDialog.dismiss();
+			}
+		});
+		updpateDialog.show();
+	}
+
 	private InputStream http_get(String url) throws IOException {
 		if(DEBUG) {
 			Log.d(TAG, "### update url = " + url);
@@ -372,7 +406,7 @@ public class UpdateManager {
 			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			curVersionCode = packageInfo.versionCode;
 			curVersionName = packageInfo.versionName;
-		} catch (NameNotFoundException e) {
+		} catch (NameNotFoundException e) {E
 			e.printStackTrace();
 		}
 	}

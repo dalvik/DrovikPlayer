@@ -240,8 +240,8 @@ public class AudioRecordSystem extends AbstractAudioRecordSystem implements OnRe
         mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
         mTelephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
         mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        PowerManager mPowerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-        mRecorderWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AudioRecordService");
+        PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+        mRecorderWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AudioRecordService_"+ powerManager.toString());
         fileManager = FileManagerFactory.getFileManagerInstance(mContext);
 
         mAudioRecordHandlerThread = new HandlerThread("MediaAudioThread", HandlerThread.MAX_PRIORITY);
@@ -702,16 +702,21 @@ public class AudioRecordSystem extends AbstractAudioRecordSystem implements OnRe
     private void updateNotifiaction(){
     	if(mCurMode != LUNCH_MODE_AUTO && mCurMode != LUNCH_MODE_IDLE) {
     		int icon = R.drawable.ic_launcher_soundrecorder;
-    		Notification notification = new Notification();
+    		Notification.Builder builder = new Notification.Builder(mContext);
     		RemoteViews contentView = new RemoteViews(mContext.getPackageName(), R.layout.recorder_notification);
     		contentView.setImageViewResource(R.id.image, R.drawable.ic_launcher_soundrecorder);
-    		notification.contentView = contentView;
-    		notification.icon = icon;
-    		notification.flags |= Notification.FLAG_NO_CLEAR;
-    		notification.contentIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext, SoundRecorder.class), 0);
+            builder.setContent(contentView);
+    		//notification.contentView = contentView;
+            builder.setSmallIcon(icon);
+    		//notification.icon = icon;
+            builder.setAutoCancel(false);
+    		//notification.flags |= Notification.FLAG_NO_CLEAR;
+            builder.setContentIntent(PendingIntent.getActivity(mContext, 0, new Intent(mContext, SoundRecorder.class), 0));
+    		//notification.contentIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext, SoundRecorder.class), 0);
     		contentView.setTextViewText(R.id.title, mContext.getString(R.string.recording));
     		int time = new BigDecimal(getRecorderDuration()).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
     		contentView.setTextViewText(R.id.text, getTimerString(time));
+            Notification notification = builder.build();
     		mNotificationManager.notify(CUSTOM_VIEW_ID, notification);
     	} else {
     		mNotificationManager.cancel(CUSTOM_VIEW_ID);

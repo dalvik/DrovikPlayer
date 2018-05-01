@@ -30,7 +30,7 @@
                 android:layout_height="@dimen/common_47_dp"
                 android:gravity="center"
                 android:layout_weight="1.0"
-                android:src="@drawable/file_body_list_detail"
+                android:src="@drawable/selector_file_softkey_detail"
                  />
 
             <ImageView
