@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/common_42_dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_white_round"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/activity_add_title_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_hight"
+        android:layout_marginTop="@dimen/common_20_dp"
+        android:layout_marginBottom="@dimen/common_20_dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/_loading_new_str"
+        android:textColor="@color/black_gray"
+        android:textSize="@dimen/base_subtitle_size" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_20_dp"
+        android:layout_marginRight="@dimen/common_20_dp"
+        android:layout_marginLeft="@dimen/common_20_dp"
+        android:layout_toLeftOf="@+id/activity_search_action_cancel"
+        android:layout_marginBottom="@dimen/common_28_dp"
+        android:layout_weight="1.0"
+        android:orientation="horizontal"
+        android:background="@drawable/common_body_input_bg">
+
+        <com.android.audiorecorder.ui.view.DownLoadProgressBar
+            android:id="@+id/update_progress"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            style="?android:attr/progressBarStyleHorizontal"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/text_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/common_8_dp"
+        android:layout_marginBottom="@dimen/common_8_dp"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/dialog_button_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:padding="@dimen/list_item_padding"
+            android:textSize="@dimen/base_subtitle_size"
+            android:text="@string/cancel" />
+
+    </LinearLayout>
+</LinearLayout>

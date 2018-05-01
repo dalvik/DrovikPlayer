@@ -38,6 +38,7 @@ import com.android.audiorecorder.dao.UpdateInfo;
 import com.android.audiorecorder.provider.FileColumn;
 import com.android.audiorecorder.provider.FileDetail;
 import com.android.audiorecorder.provider.FileProvider;
+import com.android.audiorecorder.provider.FileProviderService;
 import com.android.audiorecorder.ui.FileExplorerActivity;
 import com.android.audiorecorder.ui.SettingsActivity;
 import com.android.audiorecorder.ui.view.DownLoadProgressBar;
@@ -406,7 +407,7 @@ public class UpdateManager {
 			PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			curVersionCode = packageInfo.versionCode;
 			curVersionName = packageInfo.versionName;
-		} catch (NameNotFoundException e) {E
+		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
@@ -414,7 +415,7 @@ public class UpdateManager {
 	/**
 	 * 显示下载对话框
 	 */
-	private void showDownloadDialog(){
+	/*private void showDownloadDialog(){
 		Builder builder = new Builder(context);
 		builder.setTitle(context.getText(R.string._loading_new_str));
 
@@ -435,6 +436,25 @@ public class UpdateManager {
 		downloadDialog.show();
 
 		downloadApk();
+	}*/
+
+	private void showDownloadDialog() {
+		View downloadView = View.inflate(context, R.layout.dialog_update_progress, null);
+		downLoadProgressBar = (DownLoadProgressBar)downloadView.findViewById(R.id.update_progress);
+		downLoadProgressBar.init(context.getText(R.string._loading_str).toString());
+		downLoadProgressBar.setProgress(0);
+		TextView cancelButton = (TextView) downloadView.findViewById(R.id.dialog_button_cancel);
+		final CustomDialog downloadDialog = new CustomDialog(context, 0, 0, downloadView, R.style.custom_dialog_style);
+		downloadDialog.setCanceledOnTouchOutside(true);
+		cancelButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				downloadDialog.dismiss();
+				interceptFlag = true;
+			}
+		});
+		downloadDialog.show();
+		downloadApk();
 	}
 
 	private void downloadApk(){
@@ -446,11 +466,12 @@ public class UpdateManager {
 		@Override
 		public void run() {
 			try {
-				String apkName = context.getString(R.string.app_name) + "_"+updateInfo.getVersionName()+".apk";
+				String apkName = updateInfo.getVersionName()+".apk";//context.getString(R.string.app_name) + "_"+
 				//判断是否挂载了SD卡
 				String storageState = Environment.getExternalStorageState();
 				if(storageState.equals(Environment.MEDIA_MOUNTED)){
-					savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + FileUtil.parentPath + "update" + File.separator;
+					String midPath = FileProviderService.ROOT + File.separator + FileProviderService.CATE_DOWNLOAD + File.separator;
+					savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + midPath;
 					File file = new File(savePath);
 					if(DEBUG) {
 						Log.d(TAG, "### save path = " + savePath);
@@ -479,12 +500,13 @@ public class UpdateManager {
 				File ApkFile = new File(apkFilePath);
 				//是否已下载更新文件
 				if(ApkFile.exists()){
-					downloadDialog.dismiss();
+					ApkFile.delete();
+					/*downloadDialog.dismiss();
 					if(DEBUG) {
 						Log.d(TAG, "### installApk");
 					}
 					installApk();
-					return;
+					return;*/
 				}
 
 				FileOutputStream fos = new FileOutputStream(ApkFile);

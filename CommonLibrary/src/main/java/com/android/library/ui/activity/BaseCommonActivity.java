@@ -91,6 +91,7 @@ public abstract class BaseCommonActivity extends FragmentActivity implements IDa
         BaseApplication.curContext = this;
         PriorityRunnable.decreaseBase();
         //MobclickAgent.onResume(this);
+        StatService.onResume(this);
     }
 
     @Override
@@ -129,6 +130,7 @@ public abstract class BaseCommonActivity extends FragmentActivity implements IDa
     protected void onPause() {
         super.onPause();
         //MobclickAgent.onPause(this);
+        StatService.onPause(this);
     }
 
     @Override
