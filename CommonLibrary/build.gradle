@@ -20,14 +20,15 @@ android {
     buildToolsVersion '27.0.3'
 }
 
-repositories{
-    flatDir{
+repositories {
+    flatDir {
         dirs 'libs'
     }
 }
 
 dependencies {
-    //implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     //testImplementation 'junit:junit:4.12'
     //androidTestImplementation 'com.android.support.test:runner:1.0.1'
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -53,5 +54,7 @@ dependencies {
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     api 'com.lovedise:permissiongen:0.0.6'
+    //implementation(name: 'glide-transformations-2.0.1', ext: 'aar')
+    implementation (name: 'YoumiSdk_v7.5.1_2018-04-23', ext: 'aar')
     api project(':RongIMKit')
 }

@@ -20,6 +20,12 @@ android {
     }
 }
 
+repositories{
+    flatDir{
+        dirs 'libs', '../CommonLibrary/libs'
+    }
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
