@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -15,13 +16,22 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.android.audiorecorder.engine.MultiMediaService;
+import com.android.audiorecorder.engine.UpdateManager;
 import com.android.audiorecorder.provider.FileProviderService;
+import com.android.library.net.utils.LogUtil;
+import com.android.library.ui.activity.BaseCompatActivity;
 import com.android.library.ui.utils.ToastUtils;
+import com.android.library.utils.PermissionHelper;
 import com.drovik.player.R;
 import com.drovik.player.ui.fragment.HomeFragment;
 import com.drovik.player.ui.fragment.LeftFragment;
-import com.android.library.ui.activity.BaseCompatActivity;
 import com.nineoldandroids.view.ViewHelper;
+
+import asdf.jwe.gh.AdManager;
+import asdf.jwe.gh.nm.cm.ErrorCode;
+import asdf.jwe.gh.nm.sp.SpotListener;
+import asdf.jwe.gh.nm.sp.SpotManager;
+import asdf.jwe.gh.nm.sp.SpotRequestListener;
 
 public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnFolderChangeListener {
 
@@ -46,6 +56,10 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
     private int device_id;
     private String device_name;
 
+    private PermissionHelper mPermissionHelper;
+
+    private final String TAG = "HomeActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +70,7 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         setActionBarVisiable(View.GONE);
         initData();
         initView();
+        UpdateManager.getUpdateManager().checkAppUpdate(this, false);
         if(!hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 showToast(com.android.audiorecorder.R.string.permission_should_granted);
@@ -63,6 +78,20 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
                 requestPermission(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, EXTERNAL_STORAGE_REQ_CODE);
             }
         }
+
+        initYouMi();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SpotManager.getInstance(this).onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SpotManager.getInstance(this).onDestroy();
     }
 
     private void initData() {
@@ -201,5 +230,116 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
             default:
                 break;
         }
+    }
+
+    private void initYouMi() {
+        // 当系统为6.0以上时，需要申请权限
+        mPermissionHelper = new PermissionHelper(activity);
+        mPermissionHelper.setOnApplyPermissionListener(new PermissionHelper.OnApplyPermissionListener() {
+            @Override
+            public void onAfterApplyAllPermission() {
+                com.android.audiorecorder.utils.LogUtil.i(TAG, "All of requested permissions has been granted, so run app logic.");
+                initSDK();
+            }
+        });
+        if (Build.VERSION.SDK_INT < 23) {
+            // 如果系统版本低于23，直接跑应用的逻辑
+            com.android.audiorecorder.utils.LogUtil.d(TAG, "The api level of system is lower than 23, so run app logic directly.");
+            initSDK();
+        } else {
+            // 如果权限全部申请了，那就直接跑应用逻辑
+            if (mPermissionHelper.isAllRequestedPermissionGranted()) {
+                com.android.audiorecorder.utils.LogUtil.d(TAG, "All of requested permissions has been granted, so run app logic directly.");
+                initSDK();
+            } else {
+                // 如果还有权限为申请，而且系统版本大于23，执行申请权限逻辑
+                com.android.audiorecorder.utils.LogUtil.i(TAG, "Some of requested permissions hasn't been granted, so apply permissions first.");
+                mPermissionHelper.applyPermissions();
+            }
+        }
+
+    }
+    private void initSDK() {
+        //初始化SDK
+        AdManager.getInstance(activity).init("da88c11617dad28f", "d8cdfdb2eb696a0b", true);
+        SpotManager.getInstance(activity).setImageType(SpotManager.IMAGE_TYPE_HORIZONTAL);
+        SpotManager.getInstance(activity).setAnimationType(SpotManager.ANIMATION_TYPE_ADVANCED);
+        preloadAd();
+        //setupSplashAd(); // 如果需要首次展示开屏，请注释掉本句代码
+    }
+
+    private void preloadAd() {
+        // 注意：不必每次展示插播广告前都请求，只需在应用启动时请求一次
+        SpotManager.getInstance(activity).requestSpot(new SpotRequestListener() {
+            @Override
+            public void onRequestSuccess() {
+                LogUtil.d(TAG, "请求插播广告成功.");
+                //preloadAd2();
+                setupNativeSpotAd();
+                //				// 应用安装后首次展示开屏会因为本地没有数据而跳过
+                //              // 如果开发者需要在首次也能展示开屏，可以在请求广告成功之前展示应用的logo，请求成功后再加载开屏
+                //				setupSplashAd();
+            }
+
+            @Override
+            public void onRequestFailed(int errorCode) {
+                switch (errorCode) {
+                    case ErrorCode.NON_NETWORK:
+                        LogUtil.d(TAG, "网络异常.");
+                        break;
+                    case ErrorCode.NON_AD:
+                        LogUtil.d(TAG, "暂无视频广告.");
+                        break;
+                    default:
+                        LogUtil.d(TAG, "请稍后再试.");
+                        break;
+                }
+            }
+        });
+    }
+
+    public void setupNativeSpotAd() {
+        SpotManager.getInstance(this)
+                .showSlideableSpot(this, new SpotListener() {
+
+                    @Override
+                    public void onShowSuccess() {
+                        LogUtil.d(TAG, "轮播插屏展示成功");
+                    }
+
+                    @Override
+                    public void onShowFailed(int errorCode) {
+                        LogUtil.d(TAG, "轮播插屏展示失败");
+                        switch (errorCode) {
+                            case ErrorCode.NON_NETWORK:
+                                LogUtil.d(TAG, "网络异常");
+                                break;
+                            case ErrorCode.NON_AD:
+                                LogUtil.d(TAG, "暂无轮播插屏广告");
+                                break;
+                            case ErrorCode.RESOURCE_NOT_READY:
+                                LogUtil.d(TAG, "轮播插屏资源还没准备好");
+                                break;
+                            case ErrorCode.SHOW_INTERVAL_LIMITED:
+                                LogUtil.d(TAG, "请勿频繁展示");
+                                break;
+                            case ErrorCode.WIDGET_NOT_IN_VISIBILITY_STATE:
+                                LogUtil.d(TAG, "请设置插屏为可见状态");
+                                break;
+                            default:
+                                LogUtil.d(TAG, "请稍后再试");
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onSpotClosed() {
+                        LogUtil.d(TAG, "轮播插屏被关闭");
+                    }
+
+                    @Override
+                    public void onSpotClicked(boolean isWebPage) {
+                    }
+                });
     }
 }

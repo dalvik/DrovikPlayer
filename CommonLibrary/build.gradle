@@ -54,7 +54,7 @@ dependencies {
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     api 'com.lovedise:permissiongen:0.0.6'
-    //implementation(name: 'glide-transformations-2.0.1', ext: 'aar')
-    implementation (name: 'YoumiSdk_v7.5.1_2018-04-23', ext: 'aar')
+    api(name: 'glide-transformations-2.0.1', ext: 'aar')
+    api (name: 'YoumiSdk_v7.5.1_2018-04-23', ext: 'aar')
     api project(':RongIMKit')
 }

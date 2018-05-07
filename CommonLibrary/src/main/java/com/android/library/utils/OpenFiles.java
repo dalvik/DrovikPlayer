@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class OpenFiles {
 
-    private static String BASE_PROVIDER_PACKGE = "com.android.drovik.fileprovider";
+    private static String BASE_PROVIDER_PACKGE = "com.drovik.player";
 
     //android获取一个用于打开HTML文件的intent
     public static Intent getHtmlFileIntent(Context context, File file) {

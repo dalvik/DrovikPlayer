@@ -134,7 +134,7 @@ public class FileImagePager extends BasePager implements FileExplorerActivity.On
                 } else {
                     Intent intent = new Intent(getActivity(), ImageViewActvity.class);
                     intent.putExtra("TAG_GRID_INDEX", position);
-                    intent.putExtra("TAG_PATH_LIST_SIZE", mLocalListViewData.size());
+                    intent.putExtra("TAG_PATH_LIST_SIZE", searchElementInfos.size());
                     startActivity(intent);
                 }
             }

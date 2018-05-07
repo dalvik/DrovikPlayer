@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.library.utils.OpenFiles;
 import com.drovik.player.R;
 import com.drovik.player.video.VideoBean;
 import com.drovik.player.video.ui.adapter.VideoListAdpater;
@@ -30,6 +31,7 @@ import com.android.library.utils.PreferenceUtils;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -164,9 +166,16 @@ public class VideoMainActivity extends BaseCompatActivity implements View.OnClic
                     if(mFileSearchRelativeLayout.getVisibility() == View.VISIBLE) {
                         cancelSearchMode();
                     }
-                    Intent intent = new Intent(VideoMainActivity.this, VideoPlayActivity.class);
-                    intent.putExtra(VideoPlayActivity.VIDEO, mFileNames.get(position));
-                    startActivity(intent);
+                    if(position< mFileNames.size()){
+                        VideoBean bean = mFileNames.get(position);
+                        if(bean != null) {
+                            File file = new File(bean.origpath);
+                            OpenFiles.getVideoFileIntent(VideoMainActivity.this, file);
+                        }
+                    }
+                    //Intent intent = new Intent(VideoMainActivity.this, VideoPlayActivity.class);
+                    //intent.putExtra(VideoPlayActivity.VIDEO, mFileNames.get(position));
+                    //startActivity(intent);
                     //String path = Utils.getPrePath() + mFileNames.get(position).origpath;
                     //startActivity(OpenFiles.getVideoUrlIntent(path));
                 }

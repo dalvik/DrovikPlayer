@@ -26,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.android.audiorecorder.DebugConfig;
+import com.android.audiorecorder.R;
 import com.android.audiorecorder.gallery.bitmapfun.AsyncTask;
 import com.android.audiorecorder.gallery.bitmapfun.ImageCache;
 import com.android.audiorecorder.gallery.bitmapfun.ImageFetcher;
@@ -69,6 +70,7 @@ public class FileTouchImageView extends RelativeLayout {
     protected void init() {
         mImageView = new TouchImageView(mContext);
         mImageView.setRecycler(mCache);
+        mImageView.setBackgroundColor(mContext.getResources().getColor(R.color.black));
         mImageView.setTag(0);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         mImageView.setLayoutParams(params);
@@ -78,7 +80,7 @@ public class FileTouchImageView extends RelativeLayout {
         mProgressBar = new ProgressBar(mContext, null, android.R.attr.progressBarStyleLarge);
         params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_VERTICAL);
-        params.setMargins(30, 0, 30, 0);
+        params.setMargins(0, 0, 0, 0);
         mProgressBar.setLayoutParams(params);
         mProgressBar.setIndeterminate(true);
         this.addView(mProgressBar);

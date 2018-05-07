@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -24,14 +25,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.android.library.net.utils.LogUtil;
+import com.android.library.utils.PermissionHelper;
 import com.drovik.player.R;
 import com.android.library.ui.view.VerticalSeekBar;
 import com.android.library.utils.NetWorkUtils;
 
+import asdf.jwe.gh.AdManager;
+import asdf.jwe.gh.nm.cm.ErrorCode;
+import asdf.jwe.gh.nm.sp.SpotListener;
+import asdf.jwe.gh.nm.sp.SpotManager;
+import asdf.jwe.gh.nm.sp.SpotRequestListener;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
@@ -119,6 +128,9 @@ public class SuperPlayer extends RelativeLayout {
     private VerticalSeekBar mVolumeProgress;
     private SeekBar mBrightNessProgress;
 
+    private PermissionHelper mPermissionHelper;
+
+    private RelativeLayout mNativeSpotAdLayout;
     private String TAG = "SuperPlayer";
 
     public SuperPlayer(Context context) {
@@ -199,6 +211,7 @@ public class SuperPlayer extends RelativeLayout {
     }
 
     private void doPauseResume() {
+        Log.d(TAG, "==> doPauseResume: " + status);
         if (status == STATUS_COMPLETED) {
             if (isShowCenterControl) {
                 $.id(R.id.view_jky_player_center_control).visible();
@@ -208,7 +221,10 @@ public class SuperPlayer extends RelativeLayout {
         } else if (videoView.isPlaying()) {
             statusChange(STATUS_PAUSE);
             videoView.pause();
+            //showSpot();
+            showNativeSpot();
         } else {
+            hideSpot();
             videoView.start();
         }
         updatePausePlay();
@@ -364,6 +380,8 @@ public class SuperPlayer extends RelativeLayout {
         $ = new Query(activity);
         contentView = View.inflate(context, R.layout.view_super_player, this);
         videoView = (IjkVideoView) contentView.findViewById(R.id.video_view);
+        mNativeSpotAdLayout = (RelativeLayout) contentView.findViewById(R.id.view_jky_player_youmi_ad);
+        initNativeSpot();
         videoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(IMediaPlayer mp) {
@@ -1414,4 +1432,116 @@ public class SuperPlayer extends RelativeLayout {
         return activity.findViewById(ViewId);
     }
 
+
+    private void initNativeSpot() {
+        SpotManager.getInstance(activity).setImageType(SpotManager.IMAGE_TYPE_HORIZONTAL);
+        View nativeSpotView = SpotManager.getInstance(activity)
+                .getNativeSpot(activity, new SpotListener() {
+
+                    @Override
+                    public void onShowSuccess() {
+                        LogUtil.d(TAG, "插屏展示成功");
+                    }
+
+                    @Override
+                    public void onShowFailed(int errorCode) {
+                        LogUtil.d(TAG, "插屏展示失败");
+                        switch (errorCode) {
+                            case ErrorCode.NON_NETWORK:
+                                LogUtil.d(TAG, "网络异常");
+                                break;
+                            case ErrorCode.NON_AD:
+                                LogUtil.d(TAG, "暂无插屏广告");
+                                break;
+                            case ErrorCode.RESOURCE_NOT_READY:
+                                LogUtil.d(TAG, "插屏资源还没准备好");
+                                break;
+                            case ErrorCode.SHOW_INTERVAL_LIMITED:
+                                LogUtil.d(TAG, "请勿频繁展示");
+                                break;
+                            case ErrorCode.WIDGET_NOT_IN_VISIBILITY_STATE:
+                                LogUtil.d(TAG, "请设置插屏为可见状态");
+                                break;
+                            default:
+                                LogUtil.d(TAG, "请稍后再试");
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onSpotClosed() {
+                        LogUtil.d(TAG, "插屏关闭");
+                    }
+
+                    @Override
+                    public void onSpotClicked(boolean isWebPage) {
+                        LogUtil.d(TAG, "插屏被点击");
+                    }
+                });
+        if (nativeSpotView != null) {
+            if (mNativeSpotAdLayout != null) {
+                mNativeSpotAdLayout.removeAllViews();
+                // 添加原生插屏控件到容器中
+                mNativeSpotAdLayout.addView(nativeSpotView);
+            }
+        }
+    }
+
+    private void showSpot() {
+        SpotManager.getInstance(activity).showSpot(activity, new SpotListener() {
+
+            @Override
+            public void onShowSuccess() {
+                LogUtil.d(TAG, "插屏展示成功");
+            }
+
+            @Override
+            public void onShowFailed(int errorCode) {
+                LogUtil.d(TAG, "插屏展示失败");
+                switch (errorCode) {
+                    case ErrorCode.NON_NETWORK:
+                        LogUtil.d(TAG, "网络异常");
+                        break;
+                    case ErrorCode.NON_AD:
+                        LogUtil.d(TAG, "暂无插屏广告");
+                        break;
+                    case ErrorCode.RESOURCE_NOT_READY:
+                        LogUtil.d(TAG, "插屏资源还没准备好");
+                        break;
+                    case ErrorCode.SHOW_INTERVAL_LIMITED:
+                        LogUtil.d(TAG, "请勿频繁展示");
+                        break;
+                    case ErrorCode.WIDGET_NOT_IN_VISIBILITY_STATE:
+                        LogUtil.d(TAG, "请设置插屏为可见状态");
+                        break;
+                    default:
+                        LogUtil.d(TAG, "请稍后再试");
+                        break;
+                }
+            }
+
+            @Override
+            public void onSpotClosed() {
+                LogUtil.d(TAG, "插屏关闭");
+            }
+
+            @Override
+            public void onSpotClicked(boolean isWebPage) {
+                LogUtil.d(TAG, "插屏被点击");
+            }
+        });
+    }
+
+    private void showNativeSpot() {
+        if (mNativeSpotAdLayout != null && mNativeSpotAdLayout.getVisibility() != View.VISIBLE) {
+            mNativeSpotAdLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideSpot() {
+        if (mNativeSpotAdLayout != null) {
+            mNativeSpotAdLayout.setVisibility(View.GONE);
+        }
+        SpotManager.getInstance(activity).hideSlideableSpot();
+    }
 }

@@ -19,13 +19,13 @@ import android.widget.TextView;
 import com.android.audiorecorder.ui.FileExplorerActivity;
 import com.android.audiorecorder.ui.SoundRecorder;
 import com.android.audiorecorder.ui.activity.LoginActivity;
+import com.android.library.net.utils.LogUtil;
+import com.android.library.ui.pager.BasePager;
 import com.drovik.player.AppApplication;
 import com.drovik.player.R;
 import com.drovik.player.audio.ui.MusicActivity;
 import com.drovik.player.ui.HomeActivity;
 import com.drovik.player.video.ui.VideoMainActivity;
-import com.android.library.net.utils.LogUtil;
-import com.android.library.ui.pager.BasePager;
 
 public class HomeFragment extends BasePager implements View.OnClickListener, IHomeView {
 
@@ -47,6 +47,8 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
    // private Device mSelectDevice;//最后一个登陆的设备
     //private LoginHandle loginHandle;
     private boolean mLoginSucess;
+
+    private RelativeLayout mNativeSpotAdLayout;
 
     private String TAG = "HomeFragment";
 
@@ -143,7 +145,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
 
         mNoDevice = (LinearLayout) view.findViewById(R.id.home_no_device);
         mNoDevice.setOnClickListener(this);
-
+        mNativeSpotAdLayout = (RelativeLayout) view.findViewById(R.id.home_rl_native_spot_ad);
     }
 
     private void initHome() {
@@ -303,4 +305,5 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         }
         //mDeviceSize.setText(mContext.getApplicationContext().getString(R.string.device_free, free, device_total));
     }
+
 }

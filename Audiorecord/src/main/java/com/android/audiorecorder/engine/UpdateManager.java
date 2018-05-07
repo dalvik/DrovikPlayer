@@ -42,6 +42,7 @@ import com.android.audiorecorder.provider.FileProviderService;
 import com.android.audiorecorder.ui.FileExplorerActivity;
 import com.android.audiorecorder.ui.SettingsActivity;
 import com.android.audiorecorder.ui.view.DownLoadProgressBar;
+import com.android.audiorecorder.utils.DateUtil;
 import com.android.audiorecorder.utils.NetworkUtil;
 import com.android.library.ui.dialog.CustomDialog;
 import com.drovik.utils.FileUtil;
@@ -199,7 +200,9 @@ public class UpdateManager {
 							apkUrl = updateInfo.getDownloadUrl();
 							updateMsg = updateInfo.getUpdateLog();
 							//showNoticeDialog();
-							showUpdateDialog();
+							if(!settings.getBoolean(DateUtil.getYearMonthWeek(System.currentTimeMillis()), false)) {
+								showUpdateDialog();
+							}
 						} else if(isShowMsg) {
 							new Builder(context)
 									.setTitle(context.getText(R.string._check_version_result_title_str))
@@ -329,6 +332,8 @@ public class UpdateManager {
 			@Override
 			public void onClick(View v) {
 				updpateDialog.dismiss();
+				SharedPreferences settings = context.getSharedPreferences(SettingsActivity.class.getName(), Context.MODE_PRIVATE);
+				settings.edit().putBoolean(DateUtil.getYearMonthWeek(System.currentTimeMillis()), true).apply();
 			}
 		});
 		updpateDialog.show();

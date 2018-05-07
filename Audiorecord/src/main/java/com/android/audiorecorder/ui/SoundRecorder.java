@@ -110,7 +110,6 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
             this.mPreferences = getSharedPreferences(SettingsActivity.class.getName(), Context.MODE_PRIVATE);
             setContentView(R.layout.layout_sound_record);
             setTitle(R.string.records_title);
-            UpdateManager.getUpdateManager().checkAppUpdate(this, false);
             Intent localIntent = getIntent();
             String type = "";
             if (localIntent != null) {

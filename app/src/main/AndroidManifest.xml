@@ -147,7 +147,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.android.drovik.fileprovider"
+            android:authorities="com.drovik.player"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -215,6 +215,33 @@
             android:name="BaiduMobAd_WIFI_LOCATION"
             android:value="true" />
 
+        <!-- 有米SDK为了兼容Android N应用间共享文件行为变更而需要配置的FileProvider -->
+        <!--
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.youmi.android.addemo.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider" />
+        </provider >
+        -->
+        <!-- 视频组件 -->
+        <activity
+            android:name="asdf.jwe.gh.nm.vdo.VideoActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout"
+            android:resizeableActivity="false"
+            android:screenOrientation="landscape"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity >
+
+        <!-- 有米渠道号(可选配置) 渠道号不能带空格，类型为整数 -->
+        <meta-data
+            android:name="YOUMI_CHANNEL"
+            android:value="0" >
+        </meta-data >
         <!--
         <activity
             android:name="com.android.drovik.video.ui.PlayerActivity"

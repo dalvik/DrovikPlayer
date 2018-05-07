@@ -35,8 +35,18 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/home_header">
+
+        <RelativeLayout
+            android:id="@+id/home_rl_native_spot_ad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="7dp">
+
+
+        </RelativeLayout>
 
         <FrameLayout
             android:id="@+id/home_login"
