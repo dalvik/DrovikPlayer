@@ -267,7 +267,7 @@ public class UpdateManager {
 
 	public UpdateInfo checkVersion() throws IOException {
 		try {
-			InputStream s = http_get(URLs.getUpdateVersion(false, "BlueRecorder"));
+			InputStream s = http_get(URLs.getUpdateVersion(false, "DrovikPlayer"));
 			return UpdateInfo.parse(s);
 		} catch (IOException e) {
 			throw new IOException();
