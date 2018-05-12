@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#CC000000"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/player_bottom_control"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/player_panel_background_color"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+
+        <CheckBox
+            android:id="@+id/pause"
+            android:layout_width="60.0dip"
+            android:layout_height="60.0dip"
+            android:button="@drawable/player_playbtn_selector"
+            android:checked="true"
+        />
+
+        <View
+            android:layout_width="1.0px"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="15.0dip"
+            android:background="@color/game_related_title_color" />
+
+        <TextView
+            android:id="@+id/time_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5.0dip"
+            android:textColor="@color/white" />
+
+        <SeekBar
+            android:id="@+id/mediacontroller_progress"
+            style="@style/playerSeekBarStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:indeterminate="false"
+            android:max="100"
+            android:paddingLeft="5.0dip"
+            android:paddingRight="5.0dip"
+            android:progress="0"
+            android:thumbOffset="5.0dip" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5.0dip"
+            android:textColor="@color/white" />
+        <!--
+
+        <CheckBox
+            android:id="@id/playervolumebutton"
+            android:layout_width="60.0dip"
+            android:layout_height="60.0dip"
+            android:layout_gravity="center_vertical"
+            android:button="@drawable/player_sound_selector"
+            android:contentDescription="@string/image_description"
+            android:text="@string/volume" />
+            -->
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="SailorCast" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Material theme -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <!--
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="colorControlActivated">@color/color_control_activated</item>
+        <item name="colorControlHighlight">@color/color_control_highlight</item>
+
+        -->
+        <item name="android:windowBackground">@color/calypso_blue_light</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:seekBarStyle">@style/SeekBarAppTheme</item>
+        <item name="android:editTextStyle">@android:style/Widget.EditText</item>
+    </style>
+    <style name="playerSeekBarStyle" parent="@android:style/Widget.SeekBar">
+        <item name="android:maxHeight">3.0dip</item>
+        <item name="android:progressDrawable">@drawable/seekbar_progress_drawable</item>
+        <item name="android:minHeight">3.0dip</item>
+        <item name="android:thumb">@drawable/seekbar_thumb_selector</item>
+    </style>
+
+    <style name="liveSmallPlayerSeekBarStyle" parent="@android:style/Widget.SeekBar">
+        <item name="android:maxHeight">1.0dip</item>
+        <item name="android:progressDrawable">@drawable/seekbar_progress_drawable</item>
+        <item name="android:minHeight">1.0dip</item>
+        <item name="android:thumb">@drawable/seekbar_thumb_selector</item>
+    </style>
+
+    <style name="SeekBarAppTheme"
+        parent="android:Widget.Holo.Light.SeekBar">
+        <item name="android:progressDrawable">@drawable/apptheme_scrubber_progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/apptheme_scrubber_progress_horizontal_holo_light</item>
+        <item name="android:thumb">@drawable/apptheme_scrubber_control_selector_holo_light</item></style>
+	<!-- Drawer style -->
+	<style name="drawer">
+		<item name="android:background">@color/grey_medium_dark</item>
+	</style>
+
+	<style name="DrawerText" parent="@android:style/TextAppearance">
+		<item name="android:textColor">@android:color/white</item>
+	</style>
+
+	<style name="deviceListLabel">
+		<item name="android:textColor">@color/grey_medium_light</item>
+	</style>
+
+	<style name="deviceListSeparator">
+		<item name="android:background">@color/grey_medium_light</item>
+	</style>
+
+	<!-- Renderer style -->
+	<style name="renderer">
+		<item name="android:background">?android:attr/colorBackground</item>
+	</style>
+
+	<style name="rendererText">
+		<item name="android:textColor">@android:color/black</item>
+	</style>
+
+	<style name="rendererTitle" parent="rendererText">
+		<item name="android:textSize">18sp</item>
+	</style>
+
+	<style name="rendererSubtitle" parent="rendererText">
+		<item name="android:textStyle">italic</item>
+		<item name="android:textSize">15sp</item>
+	</style>
+
+    <!-- Dialog -->
+    <style name="SailorCast.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <!-- work around a bug that causes weird styling of the dialog title on Android 5 -->
+        <item name="android:windowNoTitle">false</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="CheckBoxStyle" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_style</item>
+    </style>
+
+    <style name="DemoButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">40dp</item>
+    </style>
+
+</resources>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/video_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:gravity="center_horizontal|center_vertical"
+    android:keepScreenOn="true"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/videoSurfaceContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.baidu.cyberplayer.core.BVideoView
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:textSize="@dimen/play_time_font_size"
+            android:textStyle="bold"
+            android:textColor="@color/text_color_pressed"
+            android:gravity="center"
+            android:id="@+id/dragProgressTextView"
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/black"
+            android:shadowDx="1.0"
+            android:shadowDy="1.0"
+            android:shadowRadius="1.0" />
+
+        <TextView
+            android:textSize="@dimen/play_time_font_size"
+            android:textStyle="bold"
+            android:textColor="@color/text_color_pressed"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:id="@+id/dragVerticalTextView"
+            android:background="@drawable/custom_toast_bg"
+            android:paddingLeft="50.0dip"
+            android:paddingTop="20.0dip"
+            android:paddingRight="50.0dip"
+            android:paddingBottom="20.0dip"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+        <LinearLayout
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/loading_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_medium" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/video_title_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/player_panel_background_color"
+            android:paddingBottom="10.0dip"
+            android:paddingTop="10.0dip"
+            android:scrollbarAlwaysDrawVerticalTrack="false"
+            android:scrollbars="none"
+            >
+
+            <LinearLayout
+                android:id="@+id/video_close_container"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/video_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="10.0dip"
+                android:paddingRight="15.0dip"
+                android:src="@drawable/player_titlebar_selector" />
+
+            <TextView
+                android:id="@+id/video_title"
+                android:layout_toRightOf="@id/video_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@drawable/titlebar_text_selector"
+                android:textSize="20.0sp" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/open_harddecode_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="@dimen/player_title_margin"
+                android:button="@drawable/open_hd_checkbox_selector"
+                android:checked="false"
+                android:paddingBottom="5.0dip"
+                android:paddingTop="5.0dip"
+                />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/pauseImage"
+            android:background="@drawable/player_pause_selector"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+        />
+    </FrameLayout>
+
+</LinearLayout>
