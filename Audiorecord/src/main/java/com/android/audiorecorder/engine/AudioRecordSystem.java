@@ -703,6 +703,7 @@ public class AudioRecordSystem extends AbstractAudioRecordSystem implements OnRe
     	if(mCurMode != LUNCH_MODE_AUTO && mCurMode != LUNCH_MODE_IDLE) {
     		int icon = R.drawable.ic_launcher_soundrecorder;
     		Notification.Builder builder = new Notification.Builder(mContext);
+            builder.setPriority(Notification.PRIORITY_HIGH);
     		RemoteViews contentView = new RemoteViews(mContext.getPackageName(), R.layout.recorder_notification);
     		contentView.setImageViewResource(R.id.image, R.drawable.ic_launcher_soundrecorder);
             builder.setContent(contentView);

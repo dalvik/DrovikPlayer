@@ -104,8 +104,6 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
 
     public void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
-        startService(new Intent(this, MultiMediaService.class));
-        startService(new Intent(this, FileProviderService.class));
         if(bindService(IntentUtils.createExplicitFromImplicitIntent(this, new Intent(MultiMediaService.Action_Audio_Record)), mServiceConnection, Context.BIND_AUTO_CREATE)){
             this.mPreferences = getSharedPreferences(SettingsActivity.class.getName(), Context.MODE_PRIVATE);
             setContentView(R.layout.layout_sound_record);
@@ -161,6 +159,8 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             iRecorderService = IAudioService.Stub.asInterface(service);
+            startService(new Intent(SoundRecorder.this, MultiMediaService.class));
+            startService(new Intent(SoundRecorder.this, FileProviderService.class));
             if(iRecorderService != null) {
                 try {
                     iRecorderService.regStateListener(iAudioStateListener);

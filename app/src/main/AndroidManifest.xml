@@ -48,6 +48,7 @@
 
     <application
         android:allowBackup="true"
+        android:persistent="true"
         android:icon="@drawable/ic_laucher_h"
         android:label="@string/app_name"
         android:name="com.drovik.player.AppApplication"

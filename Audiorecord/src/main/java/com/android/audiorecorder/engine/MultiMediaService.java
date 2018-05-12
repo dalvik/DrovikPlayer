@@ -1,6 +1,7 @@
 package com.android.audiorecorder.engine;
 
 import android.Manifest;
+import android.app.Notification;
 import android.app.Service;
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;
@@ -378,15 +379,16 @@ public class MultiMediaService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //startForeground(CUSTOM_VIEW_ID, new Notification());
-        //Notification note = new Notification(0, null, System.currentTimeMillis() );
-        //note.flags |= Notification.FLAG_NO_CLEAR;
-        //startForeground(42, note);
+        Notification note = new Notification(0, null, System.currentTimeMillis() );
+        note.flags |= Notification.FLAG_NO_CLEAR;
+        startForeground(42, note);
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        stopForeground(true);
         if (mStateChnageReceiver != null) {
             unregisterReceiver(mStateChnageReceiver);
             mStateChnageReceiver = null;
