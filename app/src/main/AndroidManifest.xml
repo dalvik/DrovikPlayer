@@ -47,6 +47,7 @@
         android:largeScreens="true" android:resizeable="true" />
 
     <application
+        tools:replace="android:icon"
         android:allowBackup="true"
         android:persistent="true"
         android:icon="@drawable/ic_laucher_h"
