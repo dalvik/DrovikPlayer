@@ -25,6 +25,7 @@ import com.drovik.player.AppApplication;
 import com.drovik.player.R;
 import com.drovik.player.audio.ui.MusicActivity;
 import com.drovik.player.ui.HomeActivity;
+import com.drovik.player.video.ui.MovieHomeActivity;
 import com.drovik.player.video.ui.VideoMainActivity;
 
 public class HomeFragment extends BasePager implements View.OnClickListener, IHomeView {
@@ -249,7 +250,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 startActivity(intentPhoto);
                 break;
             case R.id.home_video:
-                Intent intentVideo = new Intent(mContext, VideoMainActivity.class);
+                Intent intentVideo = new Intent(mContext, MovieHomeActivity.class);
                 startActivity(intentVideo);
                 break;
             case R.id.home_music:

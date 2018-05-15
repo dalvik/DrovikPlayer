@@ -28,7 +28,6 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     //testImplementation 'junit:junit:4.12'
     //androidTestImplementation 'com.android.support.test:runner:1.0.1'
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -55,6 +54,7 @@ dependencies {
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     api 'com.lovedise:permissiongen:0.0.6'
     api(name: 'glide-transformations-2.0.1', ext: 'aar')
-    api (name: 'YoumiSdk_v7.5.1_2018-04-23', ext: 'aar')
+    api(name: 'YoumiSdk_v7.5.1_2018-04-23', ext: 'aar')
     api project(':RongIMKit')
+    api project(':SailorCast')
 }

@@ -165,8 +165,9 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:visibility="gone"
-                    android:paddingBottom="16dp">
+                    android:visibility="visible"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
                     <!-- net video -->
                     <ImageView
                         android:id="@+id/home_video_iv"
@@ -181,7 +182,8 @@
                         android:layout_below="@+id/home_video_iv"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
-                        android:text="@string/home_video" />
+                        android:text="@string/home_video"
+                        android:textColor="@color/white"/>
                 </RelativeLayout>
             </LinearLayout>
 

@@ -40,6 +40,20 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/notice'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license'
+        exclude 'META-INF/license.txt'
+    }
+}
+
+repositories {
+    maven {url "http://4thline.org/m2"}
+    maven {url "https://raw.githubusercontent.com/umeng/mvn-repo-umeng/master/repository" }
 }
 
 repositories{
@@ -47,6 +61,8 @@ repositories{
         dirs 'libs', '../CommonLibrary/libs'
     }
 }
+
+
 
 dependencies {
     //implementation fileTree(include: ['*.jar'], dir: 'libs')
