@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+
+    <!-- material colors -->
+    <!--
+        colorPrimary            app branding color for the app bar
+        colorPrimaryDark        status bar and contextual app bars
+        colorControlNormal      (unused here) controls in their normal state (spinner arrow, scrollbars, unchecked checkboxes)
+        colorControlActivated   controls in their activated/checked state (search highlight, checked checkboxes)
+        colorControlHighlight   control highlights (ripples, list selectors)
+    -->
+    <color name="color_primary">@color/material_blue_grey_800</color>
+    <color name="color_primary_dark">@color/material_blue_grey_900</color>
+
+    <color name="colorSecondary">@color/material_deep_teal_200</color>
+    <color name="colorSecondaryDark">@color/material_deep_teal_500</color>
+
+    <color name="color_accent">@color/orange_medium</color>
+    <color name="color_control_activated">@color/blue_light</color>
+    <color name="color_control_highlight">@color/blue_extra_light</color>
+
+    <!-- Default colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="default_background">@color/grey_extra_light</color>
+
+    <color name="image_options_label">#CCCCCC</color>
+    <color name="pressed_wordpress">#CC78C8E6</color>
+    <color name="background_grey">@color/grey_extra_light</color>
+
+    <color name="wordpress_blue">#21759B</color>
+
+
+    <color name="blue_extra_light">#c8eefc</color>
+    <color name="blue_light">#78dcfa</color>
+    <color name="blue_new_kid">#2EA2CC</color>
+    <color name="blue_medium">#0087be</color>
+    <color name="blue_dark">#0074a2</color>
+    <color name="blue_extra_dark">#005082</color>
+    <color name="orange_medium">#f1831e</color>
+    <color name="orange_dark">#d54e21</color>
+    <color name="grey_extra_light">#eeeeee</color>
+    <color name="grey_light">#dddddd</color>
+    <color name="grey_medium_light">#bbbbbb</color>
+    <color name="grey_medium">#999999</color>
+    <color name="grey_medium_dark">#666666</color>
+    <color name="grey_dark">#333333</color>
+    <color name="grey_extra_dark">#222222</color>
+
+    <!-- native reader colors -->
+    <color name="reader_hyperlink">@color/blue_medium</color>
+
+    <color name="item_checked">#cd5c5c</color>
+
+
+    <color name="TransparentWhite">#11FFFFFF</color>
+    <color name="TransparentBlack">#B0111111</color>
+
+
+    <color name="bottom_text_hightlight">#009944</color>
+    <color name="bottom_text">#999999</color>
+
+    <!-- calypso colors -->
+    <!-- If you are changing these colors, please update them in NotificationsConstants as well -->
+    <color name="calypso_blue_unread">#00aadc</color>
+    <color name="calypso_blue_dark">#324155</color>
+    <color name="calypso_grey">#aac0cf</color>
+    <color name="calypso_blue">#90aec2</color>
+    <color name="calypso_blue_border">#d2dee6</color>
+    <color name="calypso_blue_light">#e8f0f5</color>
+    <color name="calypso_orange_light">#fff8e5</color>
+    <color name="calypso_orange">#ffba00</color>
+    <color name="calypso_orange_dark">#f0821e</color>
+
+    <color name="abc_input_method_navigation_guard">@android:color/black</color>
+    <color name="abc_search_url_text_normal">#7fa87f</color>
+    <color name="abc_search_url_text_pressed">@android:color/black</color>
+    <color name="abc_search_url_text_selected">@android:color/black</color>
+    <color name="accent_material_dark">@color/material_deep_teal_200</color>
+    <color name="accent_material_light">@color/material_deep_teal_500</color>
+    <color name="background_floating_material_dark">#ff424242</color>
+    <color name="background_floating_material_light">#ffeeeeee</color>
+    <color name="background_material_dark">#ff303030</color>
+    <color name="background_material_light">#ffeeeeee</color>
+    <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
+    <color name="bright_foreground_disabled_material_light">#80000000</color>
+    <color name="bright_foreground_inverse_material_dark">@color/bright_foreground_material_light</color>
+    <color name="bright_foreground_inverse_material_light">@color/bright_foreground_material_dark</color>
+    <color name="bright_foreground_material_dark">@android:color/white</color>
+    <color name="bright_foreground_material_light">@android:color/black</color>
+    <color name="button_material_dark">#ff5a595b</color>
+    <color name="button_material_light">#ffd6d7d7</color>
+    <color name="dim_foreground_disabled_material_dark">#80bebebe</color>
+    <color name="dim_foreground_disabled_material_light">#80323232</color>
+    <color name="dim_foreground_material_dark">#ffbebebe</color>
+    <color name="dim_foreground_material_light">#ff323232</color>
+    <color name="highlighted_text_material_dark">#6680cbc4</color>
+    <color name="highlighted_text_material_light">#66009688</color>
+    <color name="hint_foreground_material_dark">@color/bright_foreground_disabled_material_dark</color>
+    <color name="hint_foreground_material_light">@color/bright_foreground_disabled_material_light</color>
+    <color name="link_text_material_dark">@color/material_deep_teal_200</color>
+    <color name="link_text_material_light">@color/material_deep_teal_500</color>
+    <color name="material_blue_grey_800">#ff37474f</color>
+    <color name="material_blue_grey_900">#ff263238</color>
+    <color name="material_blue_grey_950">#ff21272b</color>
+    <color name="material_deep_teal_200">#ff80cbc4</color>
+    <color name="material_deep_teal_500">#ff009688</color>
+    <color name="primary_dark_material_dark">#ff000000</color>
+    <color name="primary_dark_material_light">#ff757575</color>
+    <color name="primary_material_dark">#ff212121</color>
+    <color name="primary_material_light">#ffbdbdbd</color>
+    <color name="primary_text_default_material_dark">#ffffffff</color>
+    <color name="primary_text_default_material_light">#de000000</color>
+    <color name="primary_text_disabled_material_dark">#4Dffffff</color>
+    <color name="primary_text_disabled_material_light">#39000000</color>
+    <color name="ripple_material_dark">#40ffffff</color>
+    <color name="ripple_material_light">#40000000</color>
+    <color name="secondary_text_default_material_dark">#b3ffffff</color>
+    <color name="secondary_text_default_material_light">#8a000000</color>
+    <color name="secondary_text_disabled_material_dark">#36ffffff</color>
+    <color name="secondary_text_disabled_material_light">#24000000</color>
+    <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
+    <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
+
+    <color name="apptheme_color">#33b5e5</color>
+
+    <color name="player_panel_background_color">#9f000000</color>
+    <color name="game_related_title_color">#ff333333</color>
+    <color name="yunpan_bottom_press_color">#ff666666</color>
+    <color name="popupwindow_pressed_bg_color">#ffcccccc</color>
+    <color name="title_select_color">#ff459e4a</color>
+    <color name="normal_gray_color">#ff999999</color>
+    <color name="text_color_pressed">#ffffffff</color>
+
+    <color name="half_channel_adapter_item_select_color">#ffc1ebff</color>
+
+</resources>
