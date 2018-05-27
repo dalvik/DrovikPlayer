@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" tools:ignore="MissingTranslation">
+
+    <string name="title_activity_album_list">AlbumListActivity</string>
+    <string name="title_activity_album_detail">AlbumDetailActivity</string>
+    <string name="title_activity_search_results">搜索结果</string>
+    <string name="site_sohu">搜狐视频</string>
+    <string name="site_youku">优酷视频</string>
+    <string name="site_letv">乐视视频</string>
+    <string name="site_iqiyi">爱奇艺视频</string>
+    <string name="fail_reason_no_results">对不起，没有搜索到任何结果...</string>
+    <string name="fail_reason_searching">努力搜索中...</string>
+    <string name="director">导演：</string>
+    <string name="btn_phone_super">超清\n播放</string>
+    <string name="btn_phone_normal">标清\n播放</string>
+    <string name="btn_phone_high">高清\n播放</string>
+    <string name="btn_dlna_super">超清\n投射</string>
+    <string name="btn_dlna_high">高清\n投射</string>
+    <string name="btn_dlna_normal">标清\n投射</string>
+    <string name="action_display_title">显示标题</string>
+    <string name="action_display_button">显示按钮</string>
+
+    <!-- Popup -->
+    <string name="OK">确定</string>
+    <string name="loading">加载中...</string>
+    <string name="selectRenderer">选择投射设备</string>
+    <string name="noRenderer">没有可用的投射设备,请稍后再试</string>
+    <string name="bookmark_button_text">收藏</string>
+    <string name="history_button_text">历史</string>
+    <string name="compass_button_text">发现</string>
+    <string name="action_unfav_button">收藏</string>
+    <string name="action_fav_button">已收藏</string>
+    <string name="action_delete">删除</string>
+    <string name="channel_show">电视剧</string>
+    <string name="channel_movie">电影</string>
+    <string name="channel_comic">动漫</string>
+    <string name="channel_ent">娱乐</string>
+    <string name="channel_documentary">纪录片</string>
+    <string name="channel_sport">体育</string>
+    <string name="channel_music">音乐</string>
+    <string name="channel_variety">综艺</string>
+    <string name="toast_bookmarked">已添加收藏</string>
+    <string name="toast_unbookmarked">已取消收藏</string>
+    <string name="alert_delete_message">确定删除？</string>
+    <string name="btn_ok">确定</string>
+    <string name="btn_cancel">取消</string>
+    <string name="action_filters">筛选</string>
+    <string name="album_from">来自：</string>
+    <string name="fail_reason_no_bookmark">您还没有添加任何书签！\n\n请点击剧集信息页面上方星标尽情收藏吧：)</string>
+    <string name="fail_reason_no_history">您还没有任何播放历史！\n\n寻找您喜欢的剧集播放吧：)</string>
+    <string name="action_search">搜索</string>
+    <string name="search_hint">输入搜索关键字</string>
+    <string name="home_button_text">首页</string>
+    <string name="channel_bookmark">我的收藏</string>
+    <string name="channel_history">播放历史</string>
+    <string name="title_activity_bookmark">我的收藏</string>
+    <string name="title_activity_history">播放历史</string>
+    <string name="actor">演员：</string>
+    <string name="album_no_videos">对不起，没有找到可供播放的影片...</string>
+    <string name="action_order_forward">顺序显示</string>
+    <string name="action_order_backward">倒序显示</string>
+    <string name="err_wrong_data">数据解析错误</string>
+    <string name="err_http_fail">网络请求失败</string>
+    <string name="share_thanks">感谢您对本软件的支持！</string>
+    <string name="share_title">《水手放映室》——电视盒的另一半</string>
+    <string name="share_content">《水手放映室》——最方便的DLNA网络视频投射应用，您家中电视盒的完美伴侣。</string>
+    <string name="app_website">http://www.sailorcast.com</string>
+    <string name="channel_share">感谢支持</string>
+    <string name="channel_feedback">意见反馈</string>
+    <string name="feedback_welcom">您好，欢迎您反馈使用的感受和建议！</string>
+    <string name="description">Media Controls</string>
+    <string name="hard_decode_info">正在开启硬件解码模式，如遇到播放问题请切换回软件解码模式</string>
+    <string name="soft_decode_info">切换至软件解码模式</string>
+    <string name="title_activity_live_stream">LiveStreamActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="channel_live">直播</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_live_stream_detail">LiveStreamDetailActivity</string>
+    <string name="live_stream_no_program">本日无直播节目数据</string>
+
+    <string name="error_drm_not_supported">Protected content not supported on API levels below 18</string>
+
+    <string name="error_drm_unsupported_scheme">This device does not support the required DRM scheme</string>
+
+    <string name="error_drm_unknown">An unknown DRM error occurred</string>
+
+    <string name="error_no_decoder">This device does not provide a decoder for <xliff:g id="mime_type">%1$s</xliff:g></string>
+
+    <string name="error_no_secure_decoder">This device does not provide a secure decoder for <xliff:g id="mime_type">%1$s</xliff:g></string>
+
+    <string name="error_querying_decoders">Unable to query device decoders</string>
+
+    <string name="error_instantiating_decoder">Unable to instantiate decoder <xliff:g id="decoder_name">%1$s</xliff:g></string>
+
+    <string name="storage_permission_denied">Permission to access storage was denied</string>
+    <string name="enable_background_audio">Play in background</string>
+    <string name="logging_normal">Normal</string>
+
+    <string name="logging_verbose">Verbose</string>
+    <string name="off">[off]</string>
+
+    <string name="application_name">SailorCast</string>
+
+    <string name="video">Video</string>
+
+    <string name="audio">Audio</string>
+
+    <string name="text">Text</string>
+
+    <string name="logging">Logging</string>
+
+</resources>

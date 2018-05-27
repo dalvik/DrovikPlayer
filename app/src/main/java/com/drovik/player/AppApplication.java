@@ -1,8 +1,10 @@
 package com.drovik.player;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.support.multidex.MultiDex;
 
 import com.android.audiorecorder.engine.MultiMediaService;
 import com.drovik.player.audio.MusicBean;
@@ -124,6 +126,11 @@ public class AppApplication extends BaseApplication {
         startService(new Intent(this, MultiMediaService.class));
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
+    }
 
     private class IntentPlayerEngine implements PlayerEngine {
 
