@@ -1,10 +1,12 @@
 package com.drovik.player.video.ui;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,6 +16,8 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.baidu.mobstat.StatService;
+import com.crixmod.sailorcast.model.SCLiveStream;
+import com.crixmod.sailorcast.model.SCVideo;
 import com.drovik.player.R;
 import com.drovik.player.video.VideoBean;
 import com.drovik.player.video.mediaplayer.SuperPlayer;
@@ -23,6 +27,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.OnNetChangeListener, View.OnClickListener {
+    public static final String SCMEDIA = "sc_media";
+    public static final String SCSTREAM = "sc_stream";
+    public static final String SCVIDEO = "sc_video";
     public final static String VIDEO = "video";
     private String mVideoPath;
     private String mVideoName = "";
@@ -30,6 +37,10 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
     private VideoBean data;
     private SuperPlayer player;
     private View mVideoGuideLL;
+
+    private SCVideo mVideo;
+    private SCLiveStream mStream;
+    private PowerManager.WakeLock mRecorderWakeLock;
 
     private String TAG = "VideoPlayActivity";
 
@@ -47,6 +58,12 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
             return;
         }
         initPlayer();
+        hideBottomUIMenu();
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        mRecorderWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DrovikVideoPlay_"+ powerManager.toString());
+        if(!mRecorderWakeLock.isHeld()){
+            mRecorderWakeLock.acquire();
+        }
     }
 
     /**
@@ -64,43 +81,59 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
                 Log.d(TAG, "initPlayer path:" + mVideoPath + " mVideoName: " + mVideoName);
                 result = true;
             } else {
-                String intentAction = intent.getAction();
-                if (!TextUtils.isEmpty(intentAction)) {
-                    if (intentAction.equals(Intent.ACTION_VIEW)) {
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            mVideoUri = intent.getData();
-                            Log.d(TAG, "==> mVideoUri: " + mVideoUri);
-                            if(mVideoUri != null) {
-                                String tempPath = mVideoUri.getPath();
-                                String temp = tempPath.substring(tempPath.lastIndexOf("/") + 1);
-                                mVideoName = temp.substring(0,temp.lastIndexOf("."));
-                                return true;
-                            } else{
-                                return false;
-                            }
-                        } else {
-                            mVideoPath = intent.getDataString();
-                            String temp = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
-                            mVideoName = temp.substring(0,temp.lastIndexOf("."));
-                            result = true;
-                        }
-                    } else if (intentAction.equals(Intent.ACTION_SEND)) {
-                        mVideoUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                        Log.d(TAG, "initPlayer mVideoUri:" + mVideoUri);
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                            String scheme = mVideoUri.getScheme();
-                            if (!TextUtils.isEmpty(scheme)) {
-                                if (scheme.equals(ContentResolver.SCHEME_ANDROID_RESOURCE)) {
-                                    mVideoPath = mVideoUri.getPath();
-                                    String temp = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
+                mVideo = intent.getParcelableExtra(SCVIDEO);
+                if(mVideo != null)  {
+                    mVideoPath = intent.getStringExtra(SCMEDIA);
+                    String mStreamString = intent.getStringExtra(SCSTREAM);
+                    if(mStreamString != null && !mStreamString.isEmpty()) {
+                        mStream = SCLiveStream.fromJson(mStreamString);
+                    }
+                    if(mVideo != null) {
+                        mVideoName = mVideo.getVideoTitle();
+                    }
+                    if(mStream != null) {
+                        mVideoName = mStream.getChannelName();
+                    }
+                    return true;
+                } else {
+                    String intentAction = intent.getAction();
+                    if (!TextUtils.isEmpty(intentAction)) {
+                        if (intentAction.equals(Intent.ACTION_VIEW)) {
+                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                mVideoUri = intent.getData();
+                                Log.d(TAG, "==> mVideoUri: " + mVideoUri);
+                                if(mVideoUri != null) {
+                                    String tempPath = mVideoUri.getPath();
+                                    String temp = tempPath.substring(tempPath.lastIndexOf("/") + 1);
                                     mVideoName = temp.substring(0,temp.lastIndexOf("."));
-                                    result = true;
-                                } else if (scheme.equals(ContentResolver.SCHEME_CONTENT)) {
-                                    Log.e(TAG, "Can not resolve content below Android-ICS\n");
-                                    result = false;
-                                } else {
-                                    Log.e(TAG, "Unknown scheme " + scheme + "\n");
-                                    result = false;
+                                    return true;
+                                } else{
+                                    return false;
+                                }
+                            } else {
+                                mVideoPath = intent.getDataString();
+                                String temp = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
+                                mVideoName = temp.substring(0,temp.lastIndexOf("."));
+                                result = true;
+                            }
+                        } else if (intentAction.equals(Intent.ACTION_SEND)) {
+                            mVideoUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                            Log.d(TAG, "initPlayer mVideoUri:" + mVideoUri);
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                                String scheme = mVideoUri.getScheme();
+                                if (!TextUtils.isEmpty(scheme)) {
+                                    if (scheme.equals(ContentResolver.SCHEME_ANDROID_RESOURCE)) {
+                                        mVideoPath = mVideoUri.getPath();
+                                        String temp = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
+                                        mVideoName = temp.substring(0,temp.lastIndexOf("."));
+                                        result = true;
+                                    } else if (scheme.equals(ContentResolver.SCHEME_CONTENT)) {
+                                        Log.e(TAG, "Can not resolve content below Android-ICS\n");
+                                        result = false;
+                                    } else {
+                                        Log.e(TAG, "Unknown scheme " + scheme + "\n");
+                                        result = false;
+                                    }
                                 }
                             }
                         }
@@ -156,13 +189,13 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
                 URL url = new URL(Uri.encode(mVideoPath, "-![.:/,%?&=]"));
                 Log.d(TAG,"==> play url2: " + url);
                 player.play(url.toString());
-                player.setScaleType(SuperPlayer.SCALETYPE_FITXY);
+                player.setScaleType(SuperPlayer.SCALETYPE_16_9);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
         } else if(mVideoUri != null){
             player.play(mVideoUri);
-            player.setScaleType(SuperPlayer.SCALETYPE_FITXY);
+            player.setScaleType(SuperPlayer.SCALETYPE_16_9);
         } else {
             finish();
         }
@@ -234,6 +267,22 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
         super.onDestroy();
         if (player != null) {
             player.onDestroy();
+        }
+        if(mRecorderWakeLock.isHeld()){
+            mRecorderWakeLock.release();
+        }
+    }
+
+    protected void hideBottomUIMenu() {
+        //隐藏虚拟按键，并且全屏
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
         }
     }
 

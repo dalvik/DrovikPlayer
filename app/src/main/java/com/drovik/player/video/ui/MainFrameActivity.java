@@ -1,5 +1,6 @@
 package com.drovik.player.video.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,18 +10,18 @@ import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
+import com.android.audiorecorder.R;
+import com.android.audiorecorder.engine.MultiMediaService;
+import com.android.audiorecorder.provider.FileProviderService;
+import com.android.audiorecorder.ui.pager.MainRecordPager;
+import com.android.audiorecorder.utils.ActivityUtil;
 import com.android.library.ui.activity.BaseCommonActivity;
-import com.drovik.player.R;
-import com.drovik.player.video.ui.pager.IqiyiPager;
-import com.drovik.player.video.ui.pager.LetvPager;
-import com.drovik.player.video.ui.pager.SohuPager;
-import com.drovik.player.video.ui.pager.TestPager;
-import com.drovik.player.video.ui.pager.YoukuPager;
+import com.drovik.player.video.ui.pager.SohuPager0;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.SelectableViewAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
-public class MovieHomeActivity extends BaseCommonActivity {
+public class MainFrameActivity extends BaseCommonActivity {
 
     private static final int POSITION_MAIN = 0;
     private static final int POSITION_MSG = 1;
@@ -33,7 +34,7 @@ public class MovieHomeActivity extends BaseCommonActivity {
     private TabPageIndicator indicator;
     private MainAdapter adapter;
     //private HttpClient httpClient = new DefaultHttpClient();
-    private int mTitle[] = {R.string.site_youku, R.string.site_letv, R.string.site_sohu, R.string.site_iqiyi};
+    private int mTitle[] = {R.string.main_tab_main, R.string.main_tab_msg, R.string.main_tab_find, R.string.main_tab_center};
     private TextView titleTv;// 标题
     private TextView leftTv;
     private CheckedTextView rightTv;
@@ -41,7 +42,9 @@ public class MovieHomeActivity extends BaseCommonActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_movie_viewpager);
+        startService(new Intent(this, MultiMediaService.class));
+        startService(new Intent(this, FileProviderService.class));
+        setContentView(R.layout.layout_main_viewpager);
         viewPager = (ViewPager) findViewById(R.id.lib_id_viewpager_viewpager);
         indicator = (TabPageIndicator) findViewById(R.id.indicator);
         // 标题
@@ -70,6 +73,8 @@ public class MovieHomeActivity extends BaseCommonActivity {
         });
         titleTv.setText(mTitle[0]);
         setMainButton(0);
+        //login();
+        //connect("SMe7A5D+t+Lyn7vQ5y1HOQuEIRygUVvyaA8L1xPxceLmeU+wR9AEUgbOhhA94msPtidhee8TQRC9DwYF99TLKg==");
     }
 
     private void setSelectedTab(int position) {
@@ -92,7 +97,7 @@ public class MovieHomeActivity extends BaseCommonActivity {
     }
 
     private void setMainButton(int position){
-        /*if (position == POSITION_MSG) {
+        if (position == POSITION_MSG) {
             leftTv.setVisibility(View.VISIBLE);
             leftTv.setBackgroundResource(R.drawable.msg_friends);
             leftTv.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +106,7 @@ public class MovieHomeActivity extends BaseCommonActivity {
                     ActivityUtil.gotoContactsActivity(activity);
                 }
             });
-            rightTv.setVisibility(View.GONE);*/
+            rightTv.setVisibility(View.GONE);
             /*rightTv.setBackgroundResource(R.drawable.msg_notify);
             rightTv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,22 +114,16 @@ public class MovieHomeActivity extends BaseCommonActivity {
                     ActivityUtil.gotoNotifyActivity(activity);
                 }
             });*/
-        /*} else {
+        } else {
             rightTv.setVisibility(View.GONE);
             rightTv.setOnClickListener(null);
 
             leftTv.setVisibility(View.GONE);
             leftTv.setOnClickListener(null);
+
             titleTv.setOnClickListener(null);
-        }*/
 
-        rightTv.setVisibility(View.GONE);
-        rightTv.setOnClickListener(null);
-
-        leftTv.setVisibility(View.GONE);
-        leftTv.setOnClickListener(null);
-
-        titleTv.setOnClickListener(null);
+        }
     }
     private static class MainAdapter extends FragmentPagerAdapter implements SelectableViewAdapter, IconPagerAdapter {
 
@@ -137,10 +136,10 @@ public class MovieHomeActivity extends BaseCommonActivity {
 
         public MainAdapter(FragmentManager fm) {
             super(fm);
-            pagers[POSITION_MAIN] = new YoukuPager();
-            pagers[POSITION_MSG] = new LetvPager();
-            pagers[POSITION_FIND] = new SohuPager();
-            pagers[POSITION_CENTER] = new IqiyiPager();
+            pagers[POSITION_MAIN] = new MainRecordPager();
+            pagers[POSITION_MSG] = new MainRecordPager();
+            pagers[POSITION_FIND] = new MainRecordPager();
+            pagers[POSITION_CENTER] = new SohuPager0();
         }
 
         @Override

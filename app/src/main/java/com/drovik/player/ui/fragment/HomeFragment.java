@@ -250,7 +250,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 startActivity(intentPhoto);
                 break;
             case R.id.home_video:
-                Intent intentVideo = new Intent(mContext, MovieHomeActivity.class);
+                Intent intentVideo = new Intent(mContext, com.drovik.player.video.ui.MovieHomeActivity.class);
                 startActivity(intentVideo);
                 break;
             case R.id.home_music:

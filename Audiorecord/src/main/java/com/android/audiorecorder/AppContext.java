@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
 import com.android.audiorecorder.utils.StringUtils;
+import com.android.library.BaseApplication;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,7 +31,7 @@ import io.rong.imkit.RongIM;
  * @version 1.0
  * @created 2012-3-21
  */
-public class AppContext extends Application {
+public class AppContext extends BaseApplication {
 
 	public static final int CATALOG_LOCAL_IMAGE = 0x00;
 	public static final int CATALOG_LOCAL_VIDEO = 0x01;

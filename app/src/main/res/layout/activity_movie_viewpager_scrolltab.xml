@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/lib_id_viewpager_scroll_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#F2F2F2" >
+
+        <com.android.library.viewpager.scrolltab.SyncHorizontalScrollView
+            android:id="@+id/lib_id_viewpager_scroll_tab_view"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:fadingEdge="none"
+            android:scrollbars="none" >
+
+            <RelativeLayout
+                android:id="@+id/lib_id_viewpager_scroll_tab_item_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:background="#5AB0EB" >
+
+                <RadioGroup
+                    android:id="@+id/lib_id_viewpager_scroll_tab_item_radio"
+                    android:layout_width="fill_parent"
+                    android:layout_height="38dip"
+                    android:layout_alignParentTop="true"
+                    android:background="#F2F2F2"
+                    android:orientation="horizontal" >
+                </RadioGroup>
+
+                <ImageView
+                    android:id="@+id/lib_id_viewpager_scroll_tab_item_indicator"
+                    android:layout_width="1dip"
+                    android:layout_height="5dip"
+                    android:layout_alignParentBottom="true"
+                    android:background="#5AB0EB"
+                    android:scaleType="matrix" />
+            </RelativeLayout>
+        </com.android.library.viewpager.scrolltab.SyncHorizontalScrollView>
+
+        <ImageView
+            android:id="@+id/lib_id_viewpager_scroll_tab_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="1dip"
+            android:src="@drawable/iv_navagation_scroll_left"
+            android:visibility="gone" >
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/lib_id_viewpager_scroll_tab_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="1dip"
+            android:src="@drawable/iv_navagation_scroll_right"
+            android:visibility="gone" >
+        </ImageView>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/lib_id_viewpager_scroll_tab_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/lib_id_viewpager_scroll_layout"
+        android:layout_gravity="center"
+        android:background="@color/base_content_background"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
+
+</RelativeLayout>

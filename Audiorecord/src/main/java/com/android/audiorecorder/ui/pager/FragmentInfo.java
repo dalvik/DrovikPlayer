@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 public class FragmentInfo {
-    final Class<?> clazz;
-    final Bundle bundle;
-    Fragment fragment;
+    public final Class<?> clazz;
+    public final Bundle bundle;
+    public Fragment fragment;
 
-    FragmentInfo(Class<?> clazz, Bundle bundle) {
+    public FragmentInfo(Class<?> clazz, Bundle bundle) {
         this.clazz = clazz;
         this.bundle = bundle;
     }

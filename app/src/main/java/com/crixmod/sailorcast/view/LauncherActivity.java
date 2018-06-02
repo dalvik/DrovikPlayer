@@ -1,18 +1,22 @@
 package com.crixmod.sailorcast.view;
 
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+
 import com.drovik.player.R;
 import com.crixmod.sailorcast.uiutils.BaseToolbarActivity;
 import com.crixmod.sailorcast.view.fragments.LauncherFragment;
+import com.umeng.update.UmengUpdateAgent;
 
 public class LauncherActivity extends BaseToolbarActivity {
 
     private LauncherFragment mFragment;
 
-    /*@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UmengUpdateAgent.update(this);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setTitle(getString(R.string.app_name));
         mFragment = LauncherFragment.newInstance();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -20,7 +24,7 @@ public class LauncherActivity extends BaseToolbarActivity {
         ft.commit();
         getFragmentManager().executePendingTransactions();
 
-    }*/
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -47,7 +51,7 @@ public class LauncherActivity extends BaseToolbarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     protected void onResume() {
@@ -57,6 +61,6 @@ public class LauncherActivity extends BaseToolbarActivity {
     @Override
     protected void onPause() {
         super.onPause();
-    }*/
+    }
 
 }

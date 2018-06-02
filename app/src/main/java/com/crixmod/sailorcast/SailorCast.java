@@ -1,6 +1,5 @@
 package com.crixmod.sailorcast;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -15,6 +14,7 @@ import com.crixmod.sailorcast.controller.cling.Factory;
 import com.crixmod.sailorcast.controller.upnp.IUpnpServiceController;
 import com.crixmod.sailorcast.model.upnp.IFactory;
 import com.crixmod.sailorcast.utils.M3UServer;
+import com.drovik.player.AppApplication;
 import com.google.gson.Gson;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * Created by fire3 on 14-12-26.
  */
-public class SailorCast extends Application {
+public class SailorCast extends AppApplication {
     private static Context mContext;
     private static OkHttpClient mHttpClient;
     private static Gson mGson;

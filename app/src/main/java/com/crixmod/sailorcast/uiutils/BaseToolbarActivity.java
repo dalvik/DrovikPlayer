@@ -16,24 +16,25 @@
 
 package com.crixmod.sailorcast.uiutils;
 
-import android.support.v4.app.ActivityCompat;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 
-public abstract class BaseToolbarActivity extends ActivityCompat {
+public abstract class BaseToolbarActivity extends FragmentActivity {
 
     //private Toolbar toolbar;
 
 
-    /*@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        *//*setContentView(getLayoutResource());
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(getLayoutResource());
+        /*toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             //setSupportActionBar(toolbar);
            // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }*//*
-    }*/
+        }*/
+    }
 
     protected abstract int getLayoutResource();
 

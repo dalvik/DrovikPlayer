@@ -3,6 +3,7 @@ package com.crixmod.sailorcast.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -30,7 +31,7 @@ implements AlbumFilterDialog.OnAlbumFilterDialogAction
     private static final String EXTRA_CHANNEL_ID = "channelID";
 
 
-    /*@Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
@@ -44,7 +45,7 @@ implements AlbumFilterDialog.OnAlbumFilterDialogAction
 
         SCChannel channel = new SCChannel(mChannelID);
         setTitle(channel.toString());
-    }*/
+    }
 
     @Override
     protected int getLayoutResource() {
@@ -52,7 +53,7 @@ implements AlbumFilterDialog.OnAlbumFilterDialogAction
     }
 
 
-    /*@Override
+    @Override
     protected void onDestroy() {
         super.onDestroy();
     }
@@ -65,7 +66,7 @@ implements AlbumFilterDialog.OnAlbumFilterDialogAction
     @Override
     protected void onPause() {
         super.onPause();
-    }*/
+    }
 
 
     /*@Override

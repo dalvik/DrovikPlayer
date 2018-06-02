@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.support.multidex.MultiDex;
 
+import com.android.audiorecorder.AppContext;
 import com.android.audiorecorder.engine.MultiMediaService;
 import com.drovik.player.audio.MusicBean;
 import com.drovik.player.audio.mediaplayer.PlayerEngine;
