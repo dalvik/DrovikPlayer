@@ -116,7 +116,6 @@ public class SiteApi {
     }
 
     public static void doGetChannelFilter(int siteID, int channelID, OnGetChannelFilterListener listener) {
-
         if(siteID == SCSite.LETV)
             new LetvApi().doGetChannelFilter(new SCChannel(channelID),listener);
         if(siteID == SCSite.YOUKU)

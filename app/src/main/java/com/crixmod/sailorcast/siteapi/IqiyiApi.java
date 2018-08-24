@@ -77,106 +77,6 @@ public class IqiyiApi extends BaseSiteApi {
 
     private final static String CHANNEL_FILTER_URL = "http://iface2.iqiyi.com/st/nav/1.2.json";
 
-    private String getDefaultChannelUrl(SCChannel channel, int pageNo, int pageSize) {
-        String url = null;
-        switch (channel.getChannelID()) {
-            case SCChannel.MOVIE:
-                url = String.format(CHANNEL_ALBUMS_FORMAT,"1,0~0~0~120002",pageNo,pageSize,genUUID());
-                break;
-            case SCChannel.SHOW:
-                url = String.format(CHANNEL_ALBUMS_FORMAT,"2,0~0~0",pageNo,pageSize,genUUID());
-                break;
-            case SCChannel.COMIC:
-                url = String.format(CHANNEL_ALBUMS_FORMAT,"4,0~0~0",pageNo,pageSize,genUUID());
-                break;
-            case SCChannel.VARIETY:
-                url = String.format(CHANNEL_ALBUMS_FORMAT,"6,0~0",pageNo,pageSize,genUUID());
-                break;
-            case SCChannel.DOCUMENTARY:
-                url = String.format(CHANNEL_ALBUMS_FORMAT,"3,0",pageNo,pageSize,genUUID());
-                break;
-            case SCChannel.MUSIC:
-                url = String.format(CHANNEL_ALBUMS_FORMAT,"5,0~0~0",pageNo,pageSize,genUUID());
-                break;
-        }
-        return url;
-    }
-
-    private  Hashtable<String, String> getSignedHeader(String paramString1, int paramInt, String paramString2)
-    {
-        long l1 = System.currentTimeMillis() / 1000L;
-        long l2 = l1 ^ paramInt;
-        String str = md5(l1 + paramString2 + paramString1 + "5.3.1");
-        Hashtable localHashtable = new Hashtable();
-        localHashtable.put("t", "" + l2);
-        localHashtable.put("sign", str);
-        return localHashtable;
-    }
-
-
-    private String md5(final String s) {
-        final String MD5 = "MD5";
-        try {
-            // Create MD5 Hash
-            MessageDigest digest = MessageDigest
-                    .getInstance(MD5);
-            digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
-
-            // Create Hex String
-            StringBuilder hexString = new StringBuilder();
-            for (byte aMessageDigest : messageDigest) {
-                String h = Integer.toHexString(0xFF & aMessageDigest);
-                while (h.length() < 2)
-                    h = "0" + h;
-                hexString.append(h);
-            }
-            return hexString.toString();
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    private SCFailLog makeHttpFailLog(String url, String functionName, Exception e) {
-        SCFailLog err = new SCFailLog(SCSite.IQIYI,SCFailLog.TYPE_HTTP_FAILURE);
-        err.setException(e);
-        err.setFunctionName(functionName);
-        err.setClassName("IqiyiApi");
-        err.setTag(TAG);
-        err.setUrl(url);
-        return err;
-    }
-
-    private SCFailLog makeFatalFailLog(String url, String functionName, Exception e) {
-        SCFailLog err = new SCFailLog(SCSite.IQIYI,SCFailLog.TYPE_FATAL_ERR);
-        err.setException(e);
-        err.setFunctionName(functionName);
-        err.setClassName("IqiyiApi");
-        err.setTag(TAG);
-        err.setUrl(url);
-        return err;
-    }
-
-    private SCFailLog makeFatalFailLog(String url, String functionName) {
-        SCFailLog err = new SCFailLog(SCSite.IQIYI,SCFailLog.TYPE_FATAL_ERR);
-        err.setFunctionName(functionName);
-        err.setClassName("IqiyiApi");
-        err.setTag(TAG);
-        err.setUrl(url);
-        return err;
-    }
-
-    private SCFailLog makeNoResultFailLog(String url, String functionName) {
-        SCFailLog err = new SCFailLog(SCSite.IQIYI,SCFailLog.TYPE_NO_RESULT);
-        err.setFunctionName(functionName);
-        err.setClassName("IqiyiApi");
-        err.setTag(TAG);
-        err.setUrl(url);
-        return err;
-    }
-
 
     @Override
     public void doSearch(String key, final OnGetAlbumsListener listener) {
@@ -496,6 +396,15 @@ public class IqiyiApi extends BaseSiteApi {
 
     }
 
+    @Override
+    public void doGetChannelAlbums(SCChannel channel, int pageNo, int pageSize, final OnGetAlbumsListener listener) {
+        String url = getDefaultChannelUrl(channel, pageNo, pageSize);
+        if(url == null) {
+            return;
+        }
+        getChannelAlbumsByUrl(url, listener);
+    }
+
     private String getRealM3U8(String m3u8Url) {
         String FORMAT = "http://cache.m.iqiyi.com/dc/dt/mobile/%s?qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887";
         return String.format(FORMAT,m3u8Url);
@@ -697,14 +606,6 @@ public class IqiyiApi extends BaseSiteApi {
             }
         });
     }
-    @Override
-    public void doGetChannelAlbums(SCChannel channel, int pageNo, int pageSize, final OnGetAlbumsListener listener) {
-        String url = getDefaultChannelUrl(channel, pageNo, pageSize);
-        if(url == null) {
-            return;
-        }
-        getChannelAlbumsByUrl(url, listener);
-    }
 
 
     private String getAlbumListUrlByFilter(SCChannel channel, int pageNo, int pageSize, SCChannelFilter filter) {
@@ -761,6 +662,19 @@ public class IqiyiApi extends BaseSiteApi {
         return 0;
     }
 
+
+    @Override
+    public void doGetChannelFilter(final SCChannel channel, final OnGetChannelFilterListener listener) {
+        final String url = CHANNEL_FILTER_URL;
+        InputStream ins = SailorCast.getContext().getResources().openRawResource(
+                SailorCast.getContext().getResources().getIdentifier("iqiyi",
+                        "raw", SailorCast.getContext().getPackageName()));
+
+        String ret = readTextFile(ins);
+        doParseChannelFilter(channel,ret,listener);
+    }
+
+    //获取分类
     private void doParseChannelFilter(final SCChannel channel, String ret, final OnGetChannelFilterListener listener) {
         try {
             JSONArray retJson =  new JSONArray(ret);
@@ -774,11 +688,8 @@ public class IqiyiApi extends BaseSiteApi {
                     if(catId == cid) {
                         JSONArray subList = cateJson.optJSONArray("subList");
                         SCChannelFilter filter = new SCChannelFilter();
-
                         for (int k = 0; k < subList.length(); k++) {
-
                             ArrayList<SCChannelFilterItem> items = new ArrayList<SCChannelFilterItem>();
-
                             String subID = subList.getJSONObject(k).getString("subId");
                             String subName = subList.getJSONObject(k).getString("subName");
 
@@ -801,9 +712,7 @@ public class IqiyiApi extends BaseSiteApi {
                                     item.setParentKey(""+k);
                                     items.add(item);
                                 }
-
                             }
-
                             filter.addFilter(""+k,items);
                         }
 
@@ -825,7 +734,6 @@ public class IqiyiApi extends BaseSiteApi {
 
     private String readTextFile(InputStream inputStream) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
         byte buf[] = new byte[1024];
         int len;
         try {
@@ -839,39 +747,105 @@ public class IqiyiApi extends BaseSiteApi {
         }
         return outputStream.toString();
     }
-    @Override
-    public void doGetChannelFilter(final SCChannel channel, final OnGetChannelFilterListener listener) {
-        final String url = CHANNEL_FILTER_URL;
-        InputStream ins = SailorCast.getContext().getResources().openRawResource(
-                SailorCast.getContext().getResources().getIdentifier("iqiyi",
-                        "raw", SailorCast.getContext().getPackageName()));
 
-        String ret = readTextFile(ins);
-        doParseChannelFilter(channel,ret,listener);
+    private String getDefaultChannelUrl(SCChannel channel, int pageNo, int pageSize) {
+        String url = null;
+        switch (channel.getChannelID()) {
+            case SCChannel.MOVIE:
+                url = String.format(CHANNEL_ALBUMS_FORMAT,"1,0~0~0~120002",pageNo,pageSize,genUUID());
+                break;
+            case SCChannel.SHOW:
+                url = String.format(CHANNEL_ALBUMS_FORMAT,"2,0~0~0",pageNo,pageSize,genUUID());
+                break;
+            case SCChannel.COMIC:
+                url = String.format(CHANNEL_ALBUMS_FORMAT,"4,0~0~0",pageNo,pageSize,genUUID());
+                break;
+            case SCChannel.VARIETY:
+                url = String.format(CHANNEL_ALBUMS_FORMAT,"6,0~0",pageNo,pageSize,genUUID());
+                break;
+            case SCChannel.DOCUMENTARY:
+                url = String.format(CHANNEL_ALBUMS_FORMAT,"3,0",pageNo,pageSize,genUUID());
+                break;
+            case SCChannel.MUSIC:
+                url = String.format(CHANNEL_ALBUMS_FORMAT,"5,0~0~0",pageNo,pageSize,genUUID());
+                break;
+        }
+        return url;
+    }
 
-        /*
-        http://iface2.iqiyi.com/st/nav/1.2.json has a bad HTTP header:   charset=utf-8
-        and will cause okhttp internal bug.
-         */
+    private  Hashtable<String, String> getSignedHeader(String paramString1, int paramInt, String paramString2)
+    {
+        long l1 = System.currentTimeMillis() / 1000L;
+        long l2 = l1 ^ paramInt;
+        String str = md5(l1 + paramString2 + paramString1 + "5.3.1");
+        Hashtable localHashtable = new Hashtable();
+        localHashtable.put("t", "" + l2);
+        localHashtable.put("sign", str);
+        return localHashtable;
+    }
 
-        /*
-        HttpUtils.asyncGet(url, new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
 
-                SCFailLog err = makeHttpFailLog(url, "doGetChannelFilter", e);
-                if(listener != null) {
-                    listener.onGetChannelFilterFailed(err);
-                }
+    private String md5(final String s) {
+        final String MD5 = "MD5";
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = MessageDigest
+                    .getInstance(MD5);
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                String h = Integer.toHexString(0xFF & aMessageDigest);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
             }
+            return hexString.toString();
 
-            @Override
-            public void onResponse(Response response) throws IOException {
-                String ret = response.body().string();
-                doParseChannelFilter(channel, ret,listener);
-            }
-        });
-        */
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private SCFailLog makeHttpFailLog(String url, String functionName, Exception e) {
+        SCFailLog err = new SCFailLog(SCSite.IQIYI,SCFailLog.TYPE_HTTP_FAILURE);
+        err.setException(e);
+        err.setFunctionName(functionName);
+        err.setClassName("IqiyiApi");
+        err.setTag(TAG);
+        err.setUrl(url);
+        return err;
+    }
+
+    private SCFailLog makeFatalFailLog(String url, String functionName, Exception e) {
+        SCFailLog err = new SCFailLog(SCSite.IQIYI,SCFailLog.TYPE_FATAL_ERR);
+        err.setException(e);
+        err.setFunctionName(functionName);
+        err.setClassName("IqiyiApi");
+        err.setTag(TAG);
+        err.setUrl(url);
+        return err;
+    }
+
+    private SCFailLog makeFatalFailLog(String url, String functionName) {
+        SCFailLog err = new SCFailLog(SCSite.IQIYI,SCFailLog.TYPE_FATAL_ERR);
+        err.setFunctionName(functionName);
+        err.setClassName("IqiyiApi");
+        err.setTag(TAG);
+        err.setUrl(url);
+        return err;
+    }
+
+    private SCFailLog makeNoResultFailLog(String url, String functionName) {
+        SCFailLog err = new SCFailLog(SCSite.IQIYI,SCFailLog.TYPE_NO_RESULT);
+        err.setFunctionName(functionName);
+        err.setClassName("IqiyiApi");
+        err.setTag(TAG);
+        err.setUrl(url);
+        return err;
     }
 
 }
