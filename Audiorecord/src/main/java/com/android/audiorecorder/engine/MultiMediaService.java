@@ -382,7 +382,8 @@ public class MultiMediaService extends Service {
         Notification note = new Notification(0, null, System.currentTimeMillis() );
         note.flags |= Notification.FLAG_NO_CLEAR;
         startForeground(42, note);
-        return super.onStartCommand(intent, flags, startId);
+        //return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     @Override

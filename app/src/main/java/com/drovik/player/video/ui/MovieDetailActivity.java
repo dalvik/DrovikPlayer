@@ -292,12 +292,12 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mDlnaHighButton.setVisibility(View.GONE);
-                mDlnaNorButton.setVisibility(View.GONE);
-                mDlnaSuperButton.setVisibility(View.GONE);
-                mPlayHighButton.setVisibility(View.GONE);
-                mPlayNorButton.setVisibility(View.GONE);
-                mPlaySuperButton.setVisibility(View.GONE);
+                mDlnaHighButton.setVisibility(View.VISIBLE);
+                mDlnaNorButton.setVisibility(View.VISIBLE);
+                mDlnaSuperButton.setVisibility(View.VISIBLE);
+                mPlayHighButton.setVisibility(View.VISIBLE);
+                mPlayNorButton.setVisibility(View.VISIBLE);
+                mPlaySuperButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -461,9 +461,11 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
     }
 
     private void launchDrovikPlayer(SCVideo video, String url) {
+        video = new SCVideo();
+        video.setIqiyiVideoURL("https://gaqoqingv.jongta.com/2018/07/12/MeJX0X1kkEDXGYVk/playlist.m3u8");
         Intent mpdIntent = new Intent(MovieDetailActivity.this, VideoPlayActivity.class)
                 .putExtra(VideoPlayActivity.SCVIDEO, video)
-                .putExtra(VideoPlayActivity.SCMEDIA, url);
+                .putExtra(VideoPlayActivity.SCMEDIA, "https://gaqoqingv.jongta.com/2018/07/12/MeJX0X1kkEDXGYVk/playlist.m3u8");
         startActivity(mpdIntent);
     }
 
@@ -472,7 +474,7 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
      * @param button
      */
     public void onPlayButtonClick(View button) {
-        final String url = (String) button.getTag(R.id.key_video_url);
+        final String url = "aaa";//(String) button.getTag(R.id.key_video_url);
         final SCVideo v = (SCVideo) button.getTag(R.id.key_video);
         boolean isWifi = SailorCast.isNetworkWifi();
         final Activity from = this;

@@ -39,6 +39,9 @@ android {
             //minifyEnabled false
             //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug{
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+        }
     }
     sourceSets {
         main {
@@ -95,4 +98,5 @@ dependencies {
     api 'com.google.android.gms:play-services-appindexing:8.1.0'
     api project(':Audiorecord')
     api project(':decapi')
+    implementation 'org.jsoup:jsoup:1.9.2'
 }

@@ -1,5 +1,7 @@
 package com.crixmod.sailorcast.siteapi;
 
+import android.text.TextUtils;
+
 import com.crixmod.sailorcast.SailorCast;
 import com.crixmod.sailorcast.model.SCAlbum;
 import com.crixmod.sailorcast.model.SCAlbums;
@@ -11,6 +13,8 @@ import com.crixmod.sailorcast.model.SCSite;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.model.SCVideos;
 import com.crixmod.sailorcast.utils.HttpUtils;
+import com.drovik.player.video.parser.BaseParser;
+import com.drovik.player.video.parser.IqiyiParser;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -77,6 +81,11 @@ public class IqiyiApi extends BaseSiteApi {
 
     private final static String CHANNEL_FILTER_URL = "http://iface2.iqiyi.com/st/nav/1.2.json";
 
+    private BaseParser mBaseParser;
+
+    public IqiyiApi() {
+        mBaseParser = new IqiyiParser();
+    }
 
     @Override
     public void doSearch(String key, final OnGetAlbumsListener listener) {
@@ -172,7 +181,7 @@ public class IqiyiApi extends BaseSiteApi {
     }
 
     private void doGetAlbumVideosPcMethod(final SCAlbum album, int pageNo, int pageSize, final OnGetVideosListener listener) {
-         final String url = String.format(ALBUM_VIDEOS_FORMAT, album.getAlbumId(), pageNo, pageSize, album.getAlbumId(), pageNo, pageSize);
+        final String url = String.format(ALBUM_VIDEOS_FORMAT, album.getAlbumId(), pageNo, pageSize, album.getAlbumId(), pageNo, pageSize);
 
         HttpUtils.asyncGet(url, new Callback() {
             @Override
@@ -399,6 +408,7 @@ public class IqiyiApi extends BaseSiteApi {
     @Override
     public void doGetChannelAlbums(SCChannel channel, int pageNo, int pageSize, final OnGetAlbumsListener listener) {
         String url = getDefaultChannelUrl(channel, pageNo, pageSize);
+        url = "http://list.iqiyi.com/www/1/----------0---11-1-1-iqiyi--.html";
         if(url == null) {
             return;
         }
@@ -516,7 +526,21 @@ public class IqiyiApi extends BaseSiteApi {
     public void getChannelAlbumsByUrl(final String url, final OnGetAlbumsListener listener) {
                 Hashtable<String, String> head = getGalaxyHeader();
 
-        Request request = new Request.Builder().url(url)
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String content = mBaseParser.loadHtml(url);
+                SCAlbums albums = null;
+                if(!TextUtils.isEmpty(content)) {
+                    albums = mBaseParser.parseAlbums(content);
+                }
+                if(listener != null) {
+                    listener.onGetAlbumsSuccess(albums);
+                }
+            }
+        }).start();
+
+        /*Request request = new Request.Builder().url(url)
                 //.addHeader("Accept-Encoding", "gzip")
                 .addHeader("t", head.get("t"))
                 .addHeader("sign",head.get("sign"))
@@ -604,7 +628,7 @@ public class IqiyiApi extends BaseSiteApi {
                 }
 
             }
-        });
+        });*/
     }
 
 

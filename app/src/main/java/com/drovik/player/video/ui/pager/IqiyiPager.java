@@ -39,7 +39,7 @@ public class IqiyiPager extends BaseMoviePager {
     private ImageView mScrollTabRight;
     private ViewPager mScrollTabViewContent;
     private int indicatorWidth;
-    public static int[] mTabTitle = {R.string.channel_show, R.string.channel_movie,R.string.channel_comic, R.string.channel_documentary,R.string.channel_variety };
+    public static int[] mTabTitle = {R.string.channel_movie, R.string.channel_show, R.string.channel_comic, R.string.channel_documentary,R.string.channel_variety };
     public static FragmentInfo[] mPagers = null;
     private LayoutInflater mInflater;
     private TabFragmentPagerAdapter mAdapter;
@@ -140,6 +140,8 @@ public class IqiyiPager extends BaseMoviePager {
         mScrollTabViewContent.setAdapter(mAdapter);
         RadioButton defaultRadio = (RadioButton)mRadioContent.getChildAt(0);
         defaultRadio.setChecked(true);
+        mScrollLayout.setVisibility(View.GONE);
+        mHsv.setVisibility(View.GONE);
     }
 
     private void initNavigationHSV() {

@@ -2,6 +2,7 @@ package com.drovik.player.video.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +18,11 @@ import com.crixmod.sailorcast.model.SCAlbum;
 import com.crixmod.sailorcast.model.SCAlbums;
 import com.crixmod.sailorcast.model.SCChannel;
 import com.crixmod.sailorcast.model.SCSite;
+import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
 import com.drovik.player.video.ui.MovieDetailActivity;
+import com.drovik.player.video.ui.VideoPlayActivity;
 
 public class MovieListAdapter extends BaseAdapter {
     private Context mContext;
@@ -127,9 +130,15 @@ public class MovieListAdapter extends BaseAdapter {
                         mChannel.getChannelID() == SCChannel.DOCUMENTARY ||
                         mChannel.getChannelID() == SCChannel.MOVIE ||
                         mChannel.getChannelID() == SCChannel.MUSIC
-                        )
-                    MovieDetailActivity.launch((Activity) mContext, album, 0,true);
-                else if(mChannel.getChannelID() == SCChannel.MOVIE && album.getSite().getSiteID() == SCSite.LETV) {
+                        ){
+                    //MovieDetailActivity.launch((Activity) mContext, album, 0,true);
+                    SCVideo video = new SCVideo();
+                    video.setVideoTitle(album.getTitle());
+                    Intent mpdIntent = new Intent(mContext, VideoPlayActivity.class)
+                            .putExtra(VideoPlayActivity.SCVIDEO, video)
+                            .putExtra(VideoPlayActivity.SCMEDIA, album.getAlbumId());
+                    mContext.startActivity(mpdIntent);
+                } else if(mChannel.getChannelID() == SCChannel.MOVIE && album.getSite().getSiteID() == SCSite.LETV) {
                     MovieDetailActivity.launch((Activity) mContext, album, 0,true);
                 } else
                     MovieDetailActivity.launch((Activity) mContext, album);

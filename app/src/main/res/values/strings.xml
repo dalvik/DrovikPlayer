@@ -6,9 +6,9 @@
     <string name="home">主页</string>
     <string name="home_file">文件</string>
     <string name="home_photo">相册</string>
-    <string name="home_video">视频</string>
+    <string name="home_video">电影</string>
     <string name="home_music">音乐</string>
-    <string name="home_recorder">录音</string>
+    <string name="home_recorder">蓝牙录音</string>
 
     <string name="home_no_login">未登录，请点击登录</string>
     <string name="exit_tip">再按一次退出程序</string>

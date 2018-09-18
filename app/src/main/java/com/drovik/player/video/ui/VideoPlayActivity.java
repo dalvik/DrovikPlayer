@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -22,6 +23,7 @@ import com.drovik.player.R;
 import com.drovik.player.video.VideoBean;
 import com.drovik.player.video.mediaplayer.SuperPlayer;
 import com.android.library.utils.PreferenceUtils;
+import com.drovik.player.video.parser.IqiyiParser;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -42,6 +44,7 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
     private SCLiveStream mStream;
     private PowerManager.WakeLock mRecorderWakeLock;
 
+    private IqiyiParser mIqiyiParser;
     private String TAG = "VideoPlayActivity";
 
     @Override
@@ -58,6 +61,10 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
             return;
         }
         initPlayer();
+        if(mVideo != null) {
+            mIqiyiParser = new IqiyiParser();
+            new ParseVideoSourceAysncTask().execute();
+        }
         hideBottomUIMenu();
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mRecorderWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DrovikVideoPlay_"+ powerManager.toString());
@@ -184,20 +191,22 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
             }
         });
         player.setTitle(mVideoName);//设置视频的titleName
-        if(mVideoPath != null){//开始播放视频
-            try {
-                URL url = new URL(Uri.encode(mVideoPath, "-![.:/,%?&=]"));
-                Log.d(TAG,"==> play url2: " + url);
-                player.play(url.toString());
+        if(mVideo == null) {
+            if(mVideoPath != null){//开始播放视频
+                try {
+                    URL url = new URL(Uri.encode(mVideoPath, "-![.:/,%?&=]"));
+                    Log.d(TAG,"==> play url2: " + url);
+                    player.play(url.toString());
+                    player.setScaleType(SuperPlayer.SCALETYPE_16_9);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            } else if(mVideoUri != null){
+                player.play(mVideoUri);
                 player.setScaleType(SuperPlayer.SCALETYPE_16_9);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+            } else {
+                finish();
             }
-        } else if(mVideoUri != null){
-            player.play(mVideoUri);
-            player.setScaleType(SuperPlayer.SCALETYPE_16_9);
-        } else {
-            finish();
         }
         mVideoGuideLL = findViewById(R.id.video_guide_ll);
         if(!PreferenceUtils.isInit()){
@@ -268,7 +277,7 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
         if (player != null) {
             player.onDestroy();
         }
-        if(mRecorderWakeLock.isHeld()){
+        if(mRecorderWakeLock != null && mRecorderWakeLock.isHeld()){
             mRecorderWakeLock.release();
         }
     }
@@ -286,4 +295,30 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
         }
     }
 
+    private class ParseVideoSourceAysncTask extends AsyncTask<Void, Void, String>{
+
+        @Override
+        protected String doInBackground(Void[] objects) {
+            String m3u8Path = mIqiyiParser.parseVideoSource(mVideoPath);
+            return m3u8Path;
+        }
+
+        @Override
+        protected void onPostExecute(String  path){
+            super.onPostExecute(path);
+            if(!TextUtils.isEmpty(path)) {
+                mVideoPath = path;
+                try {
+                    URL url = new URL(Uri.encode(mVideoPath, "-![.:/,%?&=]"));
+                    Log.d(TAG,"==> play url2: " + url);
+                    player.play(url.toString());
+                    player.setScaleType(SuperPlayer.SCALETYPE_16_9);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                VideoPlayActivity.this.finish();
+            }
+        }
+    }
 }

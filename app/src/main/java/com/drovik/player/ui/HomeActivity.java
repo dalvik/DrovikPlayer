@@ -264,7 +264,7 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         AdManager.getInstance(activity).init("da88c11617dad28f", "d8cdfdb2eb696a0b", true);
         SpotManager.getInstance(activity).setImageType(SpotManager.IMAGE_TYPE_HORIZONTAL);
         SpotManager.getInstance(activity).setAnimationType(SpotManager.ANIMATION_TYPE_ADVANCED);
-        preloadAd();
+        //preloadAd();
         //setupSplashAd(); // 如果需要首次展示开屏，请注释掉本句代码
     }
 

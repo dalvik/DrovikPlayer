@@ -27,13 +27,13 @@ public class MovieHomeActivity extends BaseCommonActivity {
     private static final int POSITION_FIND = 2;
     public static final int POSITION_CENTER = 3;
 
-    private static Fragment[] pagers = new Fragment[4];
+    private static Fragment[] pagers = new Fragment[1];
 
     private ViewPager viewPager;
     private TabPageIndicator indicator;
     private MainAdapter adapter;
     //private HttpClient httpClient = new DefaultHttpClient();
-    private int mTitle[] = {R.string.site_youku, R.string.site_letv, R.string.site_sohu, R.string.site_iqiyi};
+    private int mTitle[] = {R.string.site_iqiyi};//R.string.site_youku, R.string.site_letv, R.string.site_sohu,
     private TextView titleTv;// 标题
     private TextView leftTv;
     private CheckedTextView rightTv;
@@ -44,6 +44,7 @@ public class MovieHomeActivity extends BaseCommonActivity {
         setContentView(R.layout.layout_movie_viewpager);
         viewPager = (ViewPager) findViewById(R.id.lib_id_viewpager_viewpager);
         indicator = (TabPageIndicator) findViewById(R.id.indicator);
+        indicator.setVisibility(View.GONE);
         // 标题
         titleTv = (TextView) findViewById(R.id.title_tv);
 
@@ -137,10 +138,10 @@ public class MovieHomeActivity extends BaseCommonActivity {
 
         public MainAdapter(FragmentManager fm) {
             super(fm);
-            pagers[POSITION_MAIN] = new YoukuPager();
-            pagers[POSITION_MSG] = new LetvPager();
-            pagers[POSITION_FIND] = new SohuPager();
-            pagers[POSITION_CENTER] = new IqiyiPager();
+            //pagers[POSITION_MAIN] = new YoukuPager();
+            //pagers[POSITION_MSG] = new LetvPager();
+            //pagers[POSITION_FIND] = new SohuPager();
+            pagers[POSITION_MAIN] = new IqiyiPager();
         }
 
         @Override

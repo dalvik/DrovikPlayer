@@ -205,7 +205,7 @@ public class FileProviderService extends Service {
             msg.setData(bundle);
             mUpDownloadHandler.sendMessage(msg);
         }
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     @Override

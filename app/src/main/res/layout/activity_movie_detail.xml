@@ -95,9 +95,11 @@
                 android:visibility="gone"
                 android:background="@color/calypso_blue_light"
                 android:id="@+id/album_desc_container"
-                android:layout_width="fill_parent" android:layout_height="fill_parent">
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
                 <RelativeLayout android:orientation="vertical"
-                    android:layout_width="fill_parent" android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
                     android:padding="2dp">
                     <!-- Contents will go here..-->
                     <ScrollView
