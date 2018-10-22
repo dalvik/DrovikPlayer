@@ -95,8 +95,9 @@ dependencies {
     //api files('libs/umeng-update-v2.5.0.jar')
     //api files('libs/httpcore-4.3.jar')
     //api files('libs/Baidu_CyberPlayer_SDK_1.7s.jar')
-    api 'com.google.android.gms:play-services-appindexing:8.1.0'
+    api 'com.google.android.gms:play-services-appindexing:9.8.0'
     api project(':Audiorecord')
     api project(':decapi')
     implementation 'org.jsoup:jsoup:1.9.2'
+    api 'com.shuyu:GSYVideoPlayer:6.0.1'
 }

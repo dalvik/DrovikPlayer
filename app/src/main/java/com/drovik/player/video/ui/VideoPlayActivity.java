@@ -21,14 +21,14 @@ import com.crixmod.sailorcast.model.SCLiveStream;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.drovik.player.R;
 import com.drovik.player.video.VideoBean;
-import com.drovik.player.video.mediaplayer.SuperPlayer;
+//import com.drovik.player.video.mediaplayer.SuperPlayer;
 import com.android.library.utils.PreferenceUtils;
 import com.drovik.player.video.parser.IqiyiParser;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.OnNetChangeListener, View.OnClickListener {
+public class VideoPlayActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String SCMEDIA = "sc_media";
     public static final String SCSTREAM = "sc_stream";
     public static final String SCVIDEO = "sc_video";
@@ -37,7 +37,7 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
     private String mVideoName = "";
     private Uri mVideoUri;
     private VideoBean data;
-    private SuperPlayer player;
+    //private SuperPlayer player;
     private View mVideoGuideLL;
 
     private SCVideo mVideo;
@@ -155,38 +155,38 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
      * 初始化播放器
      */
     private void initPlayer() {
-        player = (SuperPlayer) findViewById(R.id.view_super_player);
+        /*player = (SuperPlayer) findViewById(R.id.view_super_player);
         player.setNetChangeListener(true)//设置监听手机网络的变化
                 .setOnNetChangeListener(this)//实现网络变化的回调
                 .onPrepared(new SuperPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared() {
-                        /**
+                        *//**
                          * 监听视频是否已经准备完成开始播放。（可以在这里处理视频封面的显示跟隐藏）
-                         */
+                         *//*
                     }
                 }).onComplete(new Runnable() {
             @Override
             public void run() {
                 VideoPlayActivity.this.finish();
-                /**
+                *//**
                  * 监听视频是否已经播放完成了。（可以在这里处理视频播放完成进行的操作）
-                 */
+                 *//*
             }
         }).onInfo(new SuperPlayer.OnInfoListener() {
             @Override
             public void onInfo(int what, int extra) {
-                /**
+                *//**
                  * 监听视频的相关信息。
-                 */
+                 *//*
 
             }
         }).onError(new SuperPlayer.OnErrorListener() {
             @Override
             public void onError(int what, int extra) {
-                /**
+                *//**
                  * 监听视频播放失败的回调
-                 */
+                 *//*
 
             }
         });
@@ -218,7 +218,7 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
             });
             mVideoGuideLL.setVisibility(View.VISIBLE);
             PreferenceUtils.setInit();
-        }
+        }*/
     }
 
     @Override
@@ -229,17 +229,17 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
     /**
      * 网络链接监听类
      */
-    @Override
+   // @Override
     public void onWifi() {
         //ToDo
     }
 
-    @Override
+   // @Override
     public void onMobile() {
         //ToDo
     }
 
-    @Override
+    /*@Override
     public void onDisConnect() {
         Toast.makeText(VideoPlayActivity.this, R.string.video_play_network_disconnect, Toast.LENGTH_SHORT).show();
         VideoPlayActivity.this.finish();
@@ -249,7 +249,7 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
     public void onNoAvailable() {
         Toast.makeText(VideoPlayActivity.this, R.string.video_play_network_unavailable, Toast.LENGTH_SHORT).show();
         VideoPlayActivity.this.finish();
-    }
+    }*/
 
 
     /**
@@ -258,25 +258,25 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
     @Override
     protected void onPause() {
         super.onPause();
-        if (player != null) {
+        /*if (player != null) {
             player.onPause();
-        }
+        }*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (player != null) {
+        /*if (player != null) {
             player.onResume();
-        }
+        }*/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (player != null) {
+        /*if (player != null) {
             player.onDestroy();
-        }
+        }*/
         if(mRecorderWakeLock != null && mRecorderWakeLock.isHeld()){
             mRecorderWakeLock.release();
         }
@@ -311,8 +311,8 @@ public class VideoPlayActivity extends AppCompatActivity implements SuperPlayer.
                 try {
                     URL url = new URL(Uri.encode(mVideoPath, "-![.:/,%?&=]"));
                     Log.d(TAG,"==> play url2: " + url);
-                    player.play(url.toString());
-                    player.setScaleType(SuperPlayer.SCALETYPE_16_9);
+                    //player.play(url.toString());
+                    //player.setScaleType(SuperPlayer.SCALETYPE_16_9);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
