@@ -12,3 +12,4 @@ Audiorecord/build
 ijkplayer-java/build
 /captures
 .externalNativeBuild
+app/release
