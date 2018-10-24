@@ -27,6 +27,7 @@ import com.android.library.ui.pager.BasePager;
 import com.android.library.viewpager.scrolltab.SyncHorizontalScrollView;
 import com.crixmod.sailorcast.model.SCSite;
 import com.drovik.player.R;
+import com.drovik.player.video.ui.MovieHomeActivity;
 
 public class IqiyiPager extends BaseMoviePager {
 
@@ -39,7 +40,7 @@ public class IqiyiPager extends BaseMoviePager {
     private ImageView mScrollTabRight;
     private ViewPager mScrollTabViewContent;
     private int indicatorWidth;
-    public static int[] mTabTitle = {R.string.channel_movie, R.string.channel_show, R.string.channel_comic, R.string.channel_documentary,R.string.channel_variety };
+    private static MovieHomeActivity.TitleInfo[] mTabTitle;//{R.string.channel_movie, R.string.channel_show, R.string.channel_comic, R.string.channel_documentary,R.string.channel_variety };
     public static FragmentInfo[] mPagers = null;
     private LayoutInflater mInflater;
     private TabFragmentPagerAdapter mAdapter;
@@ -49,6 +50,7 @@ public class IqiyiPager extends BaseMoviePager {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initTitle();
         initFragment();
     }
 
@@ -140,8 +142,6 @@ public class IqiyiPager extends BaseMoviePager {
         mScrollTabViewContent.setAdapter(mAdapter);
         RadioButton defaultRadio = (RadioButton)mRadioContent.getChildAt(0);
         defaultRadio.setChecked(true);
-        mScrollLayout.setVisibility(View.GONE);
-        mHsv.setVisibility(View.GONE);
     }
 
     private void initNavigationHSV() {
@@ -149,7 +149,7 @@ public class IqiyiPager extends BaseMoviePager {
         for (int i = 0; i < mTabTitle.length; i++) {
             RadioButton rb = (RadioButton) mInflater.inflate(R.layout.lib_layout_viewpager_radiogroup_item, null);
             rb.setId(i);
-            rb.setText(getString(mTabTitle[i]));
+            rb.setText(getString(mTabTitle[i].title));
             rb.setLayoutParams(new LayoutParams(indicatorWidth, LayoutParams.MATCH_PARENT));
             mRadioContent.addView(rb);
         }
@@ -159,7 +159,7 @@ public class IqiyiPager extends BaseMoviePager {
         mPagers = new FragmentInfo[mTabTitle.length];
         for(int i=0; i<mPagers.length; i++) {
             Bundle bundle0 = new Bundle();
-            bundle0.putInt(EXTRA_CHANNEL_ID, mChannel[i]);
+            bundle0.putInt(EXTRA_CHANNEL_ID, mTabTitle[i].index);
             bundle0.putInt(ARG_SITE_ID, SCSite.IQIYI);
             FragmentInfo info0 = new FragmentInfo(AlbumListFragment.class, bundle0);
             mPagers[i] = info0;
@@ -167,6 +167,31 @@ public class IqiyiPager extends BaseMoviePager {
         mSelectIndex = 0;
     }
 
+    private void initTitle() {
+        mTabTitle = new MovieHomeActivity.TitleInfo[11];
+        MovieHomeActivity.TitleInfo infoMovie = new MovieHomeActivity.TitleInfo(R.string.channel_movie, 1);
+        MovieHomeActivity.TitleInfo infoShow = new MovieHomeActivity.TitleInfo(R.string.channel_show, 2);
+        MovieHomeActivity.TitleInfo infoDocumentary = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_documentary, 3);
+        MovieHomeActivity.TitleInfo infoComic = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_comic, 4);
+        MovieHomeActivity.TitleInfo infoMusic = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_music, 5);
+        MovieHomeActivity.TitleInfo infoVariety = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_variety, 6);
+        MovieHomeActivity.TitleInfo infoEnt = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_ent, 7);
+        MovieHomeActivity.TitleInfo infoTravel = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_travel, 9);
+        MovieHomeActivity.TitleInfo infoTrailer = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_trailer, 10);
+        MovieHomeActivity.TitleInfo infoEducation = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_education, 12);
+        MovieHomeActivity.TitleInfo infoFashion = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_fashion, 13);
+        mTabTitle[0] =  infoMovie;
+        mTabTitle[1] =  infoShow;
+        mTabTitle[2] =  infoDocumentary;
+        mTabTitle[3] =  infoComic;
+        mTabTitle[4] =  infoMusic;
+        mTabTitle[5] =  infoVariety;
+        mTabTitle[6] =  infoEnt;
+        mTabTitle[7] =  infoTravel;
+        mTabTitle[8] =  infoTrailer;
+        mTabTitle[9] =  infoEducation;
+        mTabTitle[10] =  infoFashion;
+    }
     public static class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
         private Context mContext;

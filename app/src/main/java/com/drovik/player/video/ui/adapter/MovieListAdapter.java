@@ -21,6 +21,7 @@ import com.crixmod.sailorcast.model.SCSite;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
+import com.drovik.player.video.ui.GSYVideoPlayActivity;
 import com.drovik.player.video.ui.MovieDetailActivity;
 import com.drovik.player.video.ui.VideoPlayActivity;
 
@@ -126,7 +127,7 @@ public class MovieListAdapter extends BaseAdapter {
         viewHolder.resultContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mChannel.getChannelID() == SCChannel.VARIETY ||
+               /* if(mChannel.getChannelID() == SCChannel.VARIETY ||
                         mChannel.getChannelID() == SCChannel.DOCUMENTARY ||
                         mChannel.getChannelID() == SCChannel.MOVIE ||
                         mChannel.getChannelID() == SCChannel.MUSIC
@@ -140,8 +141,16 @@ public class MovieListAdapter extends BaseAdapter {
                     mContext.startActivity(mpdIntent);
                 } else if(mChannel.getChannelID() == SCChannel.MOVIE && album.getSite().getSiteID() == SCSite.LETV) {
                     MovieDetailActivity.launch((Activity) mContext, album, 0,true);
-                } else
+                } else {
                     MovieDetailActivity.launch((Activity) mContext, album);
+                }*/
+                SCVideo video = new SCVideo();
+                video.setVideoTitle(album.getTitle());
+                Intent mpdIntent = new Intent(mContext, GSYVideoPlayActivity.class)
+                        .putExtra(VideoPlayActivity.SCVIDEO, video)
+                        .putExtra(VideoPlayActivity.SCSTREAM, album.getSubTitle())//tvid
+                        .putExtra(VideoPlayActivity.SCMEDIA, album.getAlbumId());//vid
+                mContext.startActivity(mpdIntent);
             }
         });
     }

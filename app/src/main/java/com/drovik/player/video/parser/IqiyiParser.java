@@ -10,6 +10,8 @@ import com.crixmod.sailorcast.model.SCSite;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.model.SCVideos;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +19,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.MessageDigest;
 
 public class IqiyiParser extends BaseParser {
 
@@ -106,8 +109,11 @@ public class IqiyiParser extends BaseParser {
             String title   = picListPicDivDecument.select("a").attr("title").replace("\\", "").trim();
             String img   = picListPicDivDecument.select("a").attr("title").replace("\\", "").trim();
             String src = picListPicDivDecument.getElementsByTag("img").text();
+            String vid   = picListPicDivDecument.select("a").attr("data-qidanadd-albumid").trim();
+            String tvid   = picListPicDivDecument.select("a").attr("data-qidanadd-tvid").trim();
             Log.d(TAG, "==> imgSrc : " + imgSrc);// +  " durationElements" + durationDivElements
             Log.d(TAG, "==> title : " + title + ", link: " + link + " duration: " + duration.text().trim());
+            Log.d(TAG, "==> vid : " + vid + ", tvid: " + tvid);
             Elements picListInfoDiv = ele.select("div.site-piclist_info");
             Document picListInfoDocument = Jsoup.parse(picListInfoDiv.toString());
             Elements scoreElement = picListInfoDocument.select("div.mod-listTitle_left");
@@ -130,10 +136,12 @@ public class IqiyiParser extends BaseParser {
                     sb.append(name + " ");
                 }
                 index++;
-                Log.d(TAG, "==> roleEm : " + name);
             }
+            Log.d(TAG, "==> roleEm : " + sb.toString());
             album.setTitle(title);//video name
             album.setMainActor(sb.toString());
+            album.setAlbumId(vid);
+            album.setSubTitle(tvid);
             if(imgSrc.startsWith("//")) {
                 album.setHorImageUrl("http:" + imgSrc);
             } else {
@@ -144,18 +152,28 @@ public class IqiyiParser extends BaseParser {
             } else {
                 album.setVerImageUrl(imgSrc);
             }
-            album.setAlbumId(link);
+            //album.setAlbumId(link);
             albums.add(album);
         }
         return albums;
     }
 
     @Override
-    public String parseVideoSource(String url) {
+    public String parseVideoSource(String vid) {
         String videoPlaySource = null;
+        String time = System.currentTimeMillis()+"";
+        String tvid = vid;
+        //String vid = "913283400";
+        String src = "76f90cbd92f94a2e925d83e8ccd22cb7";
+        String key = "d5fb4bd9d50c4be6948c97edd7254b0e";
+        String sc = sc(time, vid, key);
+        videoPlaySource = "http://cache.m.iqiyi.com/tmts/"+ tvid +"/"+ vid +"/?t="+ time +"&sc=" + sc + "&src=" + src;//.format(tvid, vid, t, sc, src)
+        //75f4961d76dbea693270e632bfb7c88f
+        //75f4961d76dbea693270e632bfb7c88f
         if(DebugConfig.DEBUG){
-            Log.d(TAG, "==>parseVideoSource url: " + url);
+            Log.d(TAG, "==>parseVideoSource url: " + videoPlaySource);
         }
+        /*
         try {
             URL videoUrl = new URL("http://www.wq114.org/tong.php?url=" + url);
             String content = httpGet(videoUrl.toString(), "");
@@ -190,7 +208,92 @@ public class IqiyiParser extends BaseParser {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }*/
+        return videoPlaySource;
+    }
+
+    @Override
+    public String parseVideoSource(String vid, String tvid) {
+        String videoPlaySource = null;
+        String time = System.currentTimeMillis()+"";
+        //String vid = "913283400";
+        //tvid = "764778";
+        //vid = "624246";
+        String sc = sc(time, vid, key);
+        String targetTempVideoSource = "http://cache.m.iqiyi.com/tmts/"+ tvid +"/"+ vid +"/?t="+ time +"&sc=" + sc + "&src=" + src;//.format(tvid, vid, t, sc, src)
+        Log.d(TAG, "==> parseVideoS  ource url: " + targetTempVideoSource);
+        try {
+            String  videoLink = httpGet(targetTempVideoSource, "");
+            Log.d(TAG, "==>content: " + videoLink);
+            Document bodyContent = Jsoup.parse(videoLink);
+            Element elementBody = bodyContent.body();
+            Log.d(TAG, "==> videoLink body: " + elementBody.text());
+            JSONObject videoLinkObject = new JSONObject(elementBody.text());
+            JSONObject data = videoLinkObject.optJSONObject("data");
+            if(data != null){
+                JSONArray vidlArray = data.optJSONArray("vidl");
+                int videoWidth = 1280;
+                int videoHeight = 0;
+                if(vidlArray != null){
+                    int length = vidlArray.length();
+                    for(int i=0; i<length; i++) {
+                        JSONObject videoItem = vidlArray.getJSONObject(i);
+                        String fileFromat = videoItem.optString("fileFormat");//H265
+                        String screenSize = videoItem.optString("screenSize");//1280x544
+                        Log.d(TAG, "==> fileFromat: " + fileFromat + " screenSize: " + screenSize);
+                        if(!TextUtils.isEmpty(screenSize) && !"H265".equalsIgnoreCase(fileFromat)) {
+                            String[] screenArray = screenSize.split("x");
+                            if(screenArray != null && screenArray.length>=2) {
+                                int width = Integer.parseInt(screenArray[0]);
+                                int height = Integer.parseInt(screenArray[1]);
+                                Log.d(TAG, "==> videoWidth: " + width + " height: " + height);
+                                if(videoWidth==width) {
+                                    videoWidth = width;
+                                    videoHeight = height;
+                                    videoPlaySource = videoItem.optString("m3u");
+                                    Log.d(TAG, "==> videoPlaySource: " + videoPlaySource);
+                                }
+                            }
+                        }
+                    }
+                }
+                Log.d(TAG, "==> videoWidth: " + videoWidth + " videoHeight: " + videoHeight + " videoPlaySource: " + videoPlaySource);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return videoPlaySource;
     }
+
+
+    private static String sc(String time, String vid, String key) {
+        return MD5Encrypt(time + key + vid);
+    }
+
+    private static String MD5Encrypt(String sourceStr) {
+        String result = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(sourceStr.getBytes());
+            byte b[] = md.digest();
+            int i;
+            StringBuffer buf = new StringBuffer("");
+            for (int offset = 0; offset < b.length; offset++) {
+                i = b[offset];
+                if (i < 0) {
+                    i += 256;
+                }
+                if (i < 16) {
+                    buf.append("0");
+                }
+                buf.append(Integer.toHexString(i));
+            }
+            result = buf.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
 }

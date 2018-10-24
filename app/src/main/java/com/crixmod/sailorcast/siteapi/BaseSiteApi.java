@@ -22,4 +22,9 @@ abstract public class BaseSiteApi {
     abstract public void doGetChannelAlbumsByFilter(SCChannel channel, int pageNo, int pageSize, SCChannelFilter filter, OnGetAlbumsListener listener);
     abstract public void doGetChannelFilter(SCChannel channel, OnGetChannelFilterListener listener);
 
+    //add support jsoup
+    public void doGetChannelAlbums(SCChannel channel, int pageNo, int pageSize, String cat, String area, OnGetAlbumsListener listener){
+
+    }
+
 }

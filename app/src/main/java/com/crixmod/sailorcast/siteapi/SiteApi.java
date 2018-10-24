@@ -115,6 +115,18 @@ public class SiteApi {
 
     }
 
+    public static void doGetChannelAlbums(int siteID, int channelID, int pageNo, int pageSize, String cat, String area, OnGetAlbumsListener listener) {
+        if(siteID == SCSite.LETV)
+            new LetvApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,listener);
+        if(siteID == SCSite.YOUKU)
+            new YouKuApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,listener);
+        if(siteID == SCSite.SOHU)
+            new SohuApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,listener);
+        if(siteID == SCSite.IQIYI)
+            new IqiyiApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,cat, area, listener);
+
+    }
+
     public static void doGetChannelFilter(int siteID, int channelID, OnGetChannelFilterListener listener) {
         if(siteID == SCSite.LETV)
             new LetvApi().doGetChannelFilter(new SCChannel(channelID),listener);

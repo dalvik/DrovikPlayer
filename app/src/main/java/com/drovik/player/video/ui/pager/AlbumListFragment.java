@@ -40,6 +40,7 @@ public class AlbumListFragment extends Fragment implements
 
     private int mChannelID;
     private int mSiteID;
+    private int mIndex;
     private PagingGridView mGridView;
     private TextView mEmptyView;
     private int mPageNo = 0;
@@ -77,6 +78,7 @@ public class AlbumListFragment extends Fragment implements
             mPageNo = 0;
             mSiteID = getArguments().getInt(ARG_SITE_ID);
             mChannelID = getArguments().getInt(ARG_CHANNEL_ID);
+            mIndex = getArguments().getInt(BaseMoviePager.EXTRA_CHANNEL_ID);
             loadMoreAlbums();
             mAdapter = new MovieListAdapter(getActivity(), new SCChannel(mChannelID));
             if(mSiteID == SCSite.LETV) {
@@ -145,7 +147,7 @@ public class AlbumListFragment extends Fragment implements
         if(inFilterMode)
             SiteApi.doGetChannelAlbumsByFilter(mSiteID, mChannelID, mPageNo, mPageSize, mFilter, this);
         else
-            SiteApi.doGetChannelAlbums(mSiteID, mChannelID, mPageNo, mPageSize, this);
+            SiteApi.doGetChannelAlbums(mSiteID, mChannelID, mPageNo, mIndex, "", "", this);
     }
 
 

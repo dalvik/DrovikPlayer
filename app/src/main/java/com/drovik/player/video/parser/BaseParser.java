@@ -8,12 +8,15 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Map;
 
 public abstract class BaseParser {
 
     public final String userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36";
+
+    public final String src = "76f90cbd92f94a2e925d83e8ccd22cb7";
+
+    public final String key = "d5fb4bd9d50c4be6948c97edd7254b0e";
 
     public final int TIMEOUT = 10000;
 
@@ -24,6 +27,10 @@ public abstract class BaseParser {
     public abstract SCAlbums parseAlbums(String content);
 
     public abstract String parseVideoSource(String url);
+
+    public String parseVideoSource(String vid, String tvid) {
+        return "";
+    }
 
     public String httpGet(String url,String cookie) throws IOException {
         //获取请求连接

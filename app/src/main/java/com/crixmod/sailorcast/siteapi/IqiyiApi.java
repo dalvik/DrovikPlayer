@@ -79,6 +79,8 @@ public class IqiyiApi extends BaseSiteApi {
             "key=317e617581c95c3e8a996f8bff69607b&version=5.3.1&category_id=%s&" +
             "f_ps=10&s=6&pn=%d&ps=%d&pcat=2&hwd=1&v5=1&compat=1&platform=GPad&f=1&uniqid=%s";
 
+    //use jsoup
+    private final static String ALUMB_VIDEO_FORMAT_JSOUP = "http://list.iqiyi.com/www/%s/%s-%s-%s-%s-------%s-%s--%s-%s-1-iqiyi--.html";
     private final static String CHANNEL_FILTER_URL = "http://iface2.iqiyi.com/st/nav/1.2.json";
 
     private BaseParser mBaseParser;
@@ -415,6 +417,16 @@ public class IqiyiApi extends BaseSiteApi {
         getChannelAlbumsByUrl(url, listener);
     }
 
+    @Override
+    public void doGetChannelAlbums(SCChannel channel, int pageNo, int pageSize, String cat, String area, final OnGetAlbumsListener listener) {
+        String url = getAlbumListUrlByFilter(channel, pageNo, pageSize, cat, area);
+        //String url = getDefaultChannelUrl(channel, pageNo, pageSize);
+        if(url == null) {
+            return;
+        }
+        getChannelAlbumsByUrl(url, listener);
+    }
+
     private String getRealM3U8(String m3u8Url) {
         String FORMAT = "http://cache.m.iqiyi.com/dc/dt/mobile/%s?qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887";
         return String.format(FORMAT,m3u8Url);
@@ -657,16 +669,33 @@ public class IqiyiApi extends BaseSiteApi {
         if (filterString.length() > 0 && filterString.charAt(filterString.length()-1)=='~') {
             filterString = filterString.substring(0, filterString.length()-1);
         }
-
         return String.format(CHANNEL_ALBUMS_FORMAT,filterString,pageNo,pageSize,genUUID());
+    }
+
+    private String getAlbumListUrlByFilter(SCChannel channel, int pageNo, int pageSize, String cat, String area) {
+        // pageSize replace index
+        String c1 = getC1(pageSize, cat, area);
+        String c2 = getC2(pageSize, cat, area);
+        String c3 = getC3(pageSize, cat, area);
+        String c4 = getC4(pageSize, cat, area);
+        return String.format(ALUMB_VIDEO_FORMAT_JSOUP, String.valueOf(pageSize), c1, c2, c3, c4, "", "", String.valueOf(11), String.valueOf(pageNo));//index c1 c1 c3 c4 paytype year order page
     }
 
     @Override
     public void doGetChannelAlbumsByFilter(SCChannel channel, int pageNo, int pageSize, SCChannelFilter filter, OnGetAlbumsListener listener) {
+        // pageSize replace index
         String url = getAlbumListUrlByFilter(channel,pageNo,pageSize,filter);
         getChannelAlbumsByUrl(url,listener);
 
     }
+
+    /*@Override
+    public void doGetChannelAlbumsByFilter(SCChannel channel, int pageNo, int pageSize, OnGetAlbumsListener listener) {
+        // pageSize replace index
+        String url = getAlbumListUrlByFilter(channel,pageNo,pageSize, listener);
+        getChannelAlbumsByUrl(url,listener);
+
+    }*/
 
     private int channelToCateID(SCChannel channel) {
         switch (channel.getChannelID()) {
@@ -872,4 +901,35 @@ public class IqiyiApi extends BaseSiteApi {
         return err;
     }
 
+    private String getC1(int index, String cat, String area) {
+        if(index != 3) {//# 非纪录片
+            return area;
+        } else if(index >= 3 && index <= 9) {//旅游&片花
+            return cat;
+        }
+        return "";
+    }
+
+    private String getC2(int index, String cat, String area) {
+        if(index >= 9 && index <= 10) {//旅游&片花
+            return area;
+        }
+        return cat;
+    }
+
+    private String getC3(int index, String cat, String area) {
+        if(index == 7) {//娱乐
+            return area;
+        } else if(index == 12) {//# 教育
+            return cat;
+        }
+        return "";
+    }
+
+    private String getC4(int index, String cat, String area) {
+        if(index >= 5 && index <= 10) {//旅游&片花
+            return cat;
+        }
+        return "";
+    }
 }

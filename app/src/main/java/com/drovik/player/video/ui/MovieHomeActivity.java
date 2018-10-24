@@ -127,6 +127,11 @@ public class MovieHomeActivity extends BaseCommonActivity {
 
         titleTv.setOnClickListener(null);
     }
+
+    private void initTitle() {
+
+    }
+
     private static class MainAdapter extends FragmentPagerAdapter implements SelectableViewAdapter, IconPagerAdapter {
 
         private int[] ICONS = new int[]{
@@ -165,5 +170,14 @@ public class MovieHomeActivity extends BaseCommonActivity {
         }
     }
 
+    public static class TitleInfo{
 
+        public int title;
+        public int index;
+
+        public TitleInfo(int title, int index) {
+            this.title = title;
+            this.index = index;
+        }
+    }
 }

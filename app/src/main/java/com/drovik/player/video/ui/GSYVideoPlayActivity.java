@@ -3,6 +3,7 @@ package com.drovik.player.video.ui;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,21 +15,23 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
+import android.widget.ImageView;
 
+import com.android.library.utils.PreferenceUtils;
 import com.baidu.mobstat.StatService;
 import com.crixmod.sailorcast.model.SCLiveStream;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.drovik.player.R;
 import com.drovik.player.video.VideoBean;
-//import com.drovik.player.video.mediaplayer.SuperPlayer;
-import com.android.library.utils.PreferenceUtils;
 import com.drovik.player.video.parser.IqiyiParser;
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
+import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class VideoPlayActivity extends AppCompatActivity implements View.OnClickListener {
+public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String SCMEDIA = "sc_media";
     public static final String SCSTREAM = "sc_stream";
     public static final String SCVIDEO = "sc_video";
@@ -39,12 +42,15 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
     private String mVideoName = "";
     private Uri mVideoUri;
     private VideoBean data;
-    //private SuperPlayer player;
     private View mVideoGuideLL;
 
     private SCVideo mVideo;
     private SCLiveStream mStream;
     private PowerManager.WakeLock mRecorderWakeLock;
+
+    private StandardGSYVideoPlayer videoPlayer;
+
+    private OrientationUtils orientationUtils;
 
     private IqiyiParser mIqiyiParser;
     private String TAG = "VideoPlayActivity";
@@ -55,14 +61,14 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
         StatService.start(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_show_video);
+        setContentView(R.layout.activity_sample_play);
+        videoPlayer =  (StandardGSYVideoPlayer)findViewById(R.id.video_player);
         Log.d(TAG, "==> video play onCreate");
         PreferenceUtils.init(this);
         if(!initData()) {
             finish();
             return;
         }
-        initPlayer();
         if(mVideo != null) {
             mIqiyiParser = new IqiyiParser();
             new ParseVideoSourceAysncTask().execute();
@@ -94,12 +100,10 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
                 if(mVideo != null)  {
                     mVid = intent.getStringExtra(SCMEDIA);//vid
                     mTvid = intent.getStringExtra(SCSTREAM);//tvid
+                    mVideoName = mVideo.getVideoTitle();
                     /*String mStreamString = intent.getStringExtra(SCSTREAM);
                     if(mStreamString != null && !mStreamString.isEmpty()) {
                         mStream = SCLiveStream.fromJson(mStreamString);
-                    }
-                    if(mVideo != null) {
-                        mVideoName = mVideo.getVideoTitle();
                     }
                     if(mStream != null) {
                         mVideoName = mStream.getChannelName();
@@ -154,135 +158,81 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
         return result;
     }
 
-    /**
-     * 初始化播放器
-     */
-    private void initPlayer() {
-        /*player = (SuperPlayer) findViewById(R.id.view_super_player);
-        player.setNetChangeListener(true)//设置监听手机网络的变化
-                .setOnNetChangeListener(this)//实现网络变化的回调
-                .onPrepared(new SuperPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared() {
-                        *//**
-                         * 监听视频是否已经准备完成开始播放。（可以在这里处理视频封面的显示跟隐藏）
-                         *//*
-                    }
-                }).onComplete(new Runnable() {
-            @Override
-            public void run() {
-                VideoPlayActivity.this.finish();
-                *//**
-                 * 监听视频是否已经播放完成了。（可以在这里处理视频播放完成进行的操作）
-                 *//*
-            }
-        }).onInfo(new SuperPlayer.OnInfoListener() {
-            @Override
-            public void onInfo(int what, int extra) {
-                *//**
-                 * 监听视频的相关信息。
-                 *//*
+    private void init(String url) {
+        String source1 = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
+        source1 = url;
+        videoPlayer.setUp(source1, true, mVideoName);
 
-            }
-        }).onError(new SuperPlayer.OnErrorListener() {
+        //增加封面
+        ImageView imageView = new ImageView(this);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setImageResource(R.mipmap.ic_launcher);
+        videoPlayer.setThumbImageView(imageView);
+        //增加title
+        videoPlayer.getTitleTextView().setVisibility(View.VISIBLE);
+        //设置返回键
+        videoPlayer.getBackButton().setVisibility(View.VISIBLE);
+        //设置旋转
+        orientationUtils = new OrientationUtils(this, videoPlayer);
+        //设置全屏按键功能,这是使用的是选择屏幕，而不是全屏
+        videoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onError(int what, int extra) {
-                *//**
-                 * 监听视频播放失败的回调
-                 *//*
-
+            public void onClick(View v) {
+                orientationUtils.resolveByClick();
             }
         });
-        player.setTitle(mVideoName);//设置视频的titleName
-        if(mVideo == null) {
-            if(mVideoPath != null){//开始播放视频
-                try {
-                    URL url = new URL(Uri.encode(mVideoPath, "-![.:/,%?&=]"));
-                    Log.d(TAG,"==> play url2: " + url);
-                    player.play(url.toString());
-                    player.setScaleType(SuperPlayer.SCALETYPE_16_9);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            } else if(mVideoUri != null){
-                player.play(mVideoUri);
-                player.setScaleType(SuperPlayer.SCALETYPE_16_9);
-            } else {
-                finish();
+        //是否可以滑动调整
+        videoPlayer.setIsTouchWiget(true);
+        //设置返回按键功能
+        videoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
-        }
-        mVideoGuideLL = findViewById(R.id.video_guide_ll);
-        if(!PreferenceUtils.isInit()){
-            mVideoGuideLL.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mVideoGuideLL.setVisibility(View.GONE);
-                }
-            });
-            mVideoGuideLL.setVisibility(View.VISIBLE);
-            PreferenceUtils.setInit();
-        }*/
+        });
+        videoPlayer.startPlayLogic();
     }
 
-    @Override
-    public void onClick(View view) {
 
-    }
-
-    /**
-     * 网络链接监听类
-     */
-   // @Override
-    public void onWifi() {
-        //ToDo
-    }
-
-   // @Override
-    public void onMobile() {
-        //ToDo
-    }
-
-    /*@Override
-    public void onDisConnect() {
-        Toast.makeText(VideoPlayActivity.this, R.string.video_play_network_disconnect, Toast.LENGTH_SHORT).show();
-        VideoPlayActivity.this.finish();
-    }
-
-    @Override
-    public void onNoAvailable() {
-        Toast.makeText(VideoPlayActivity.this, R.string.video_play_network_unavailable, Toast.LENGTH_SHORT).show();
-        VideoPlayActivity.this.finish();
-    }*/
-
-
-    /**
-     * 下面的这几个Activity的生命状态很重要
-     */
     @Override
     protected void onPause() {
         super.onPause();
-        /*if (player != null) {
-            player.onPause();
-        }*/
+        videoPlayer.onVideoPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        /*if (player != null) {
-            player.onResume();
-        }*/
+        videoPlayer.onVideoResume();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /*if (player != null) {
-            player.onDestroy();
-        }*/
+        GSYVideoManager.releaseAllVideos();
+        if (orientationUtils != null) {
+            orientationUtils.releaseListener();
+        }
         if(mRecorderWakeLock != null && mRecorderWakeLock.isHeld()){
             mRecorderWakeLock.release();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //先返回正常状态
+        if (orientationUtils.getScreenType() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            videoPlayer.getFullscreenButton().performClick();
+            return;
+        }
+        //释放所有
+        videoPlayer.setVideoAllCallBack(null);
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 
     protected void hideBottomUIMenu() {
@@ -314,13 +264,12 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
                 try {
                     URL url = new URL(Uri.encode(mVideoPath, "-![.:/,%?&=]"));
                     Log.d(TAG,"==> play url2: " + url);
-                    //player.play(url.toString());
-                    //player.setScaleType(SuperPlayer.SCALETYPE_16_9);
+                    init(url.toString());
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
             } else {
-                VideoPlayActivity.this.finish();
+                GSYVideoPlayActivity.this.finish();
             }
         }
     }
