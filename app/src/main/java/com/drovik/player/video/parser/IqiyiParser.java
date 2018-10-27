@@ -234,14 +234,15 @@ public class IqiyiParser extends BaseParser {
                 JSONArray vidlArray = data.optJSONArray("vidl");
                 int videoWidth = 1280;
                 int videoHeight = 0;
+                String fileFormat = null;
                 if(vidlArray != null){
                     int length = vidlArray.length();
                     for(int i=0; i<length; i++) {
                         JSONObject videoItem = vidlArray.getJSONObject(i);
-                        String fileFromat = videoItem.optString("fileFormat");//H265
+                        fileFormat = videoItem.optString("fileFormat");//H265
                         String screenSize = videoItem.optString("screenSize");//1280x544
-                        Log.d(TAG, "==> fileFromat: " + fileFromat + " screenSize: " + screenSize);
-                        if(!TextUtils.isEmpty(screenSize) && !"H265".equalsIgnoreCase(fileFromat)) {
+                        Log.d(TAG, "==> screenSize: " + screenSize);
+                        if(!TextUtils.isEmpty(screenSize)) {
                             String[] screenArray = screenSize.split("x");
                             if(screenArray != null && screenArray.length>=2) {
                                 int width = Integer.parseInt(screenArray[0]);
@@ -250,14 +251,18 @@ public class IqiyiParser extends BaseParser {
                                 if(videoWidth==width) {
                                     videoWidth = width;
                                     videoHeight = height;
-                                    videoPlaySource = videoItem.optString("m3u");
+                                    videoPlaySource = videoItem.optString("m3utx");
                                     Log.d(TAG, "==> videoPlaySource: " + videoPlaySource);
+                                }
+                                if("H265".equalsIgnoreCase(fileFormat)) {
+                                    videoPlaySource = videoItem.optString("m3utx");
+                                    Log.d(TAG, "==> fileFormat: " + fileFormat + " videoPlaySource: " + videoPlaySource);
                                 }
                             }
                         }
                     }
                 }
-                Log.d(TAG, "==> videoWidth: " + videoWidth + " videoHeight: " + videoHeight + " videoPlaySource: " + videoPlaySource);
+                Log.d(TAG, "==> videoWidth: " + videoWidth + " videoHeight: " + videoHeight + " fileFromat: " + fileFormat + " videoPlaySource: " + videoPlaySource);
             }
         } catch (Exception e) {
             e.printStackTrace();

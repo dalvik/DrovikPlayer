@@ -46,7 +46,7 @@ public class SailorCast extends AppApplication {
         super.onCreate();
         //LeakCanary.install(this);
         //PlayerFactory.setPlayManager(Exo2PlayerManager.class);//EXO模式
-        CacheFactory.setCacheManager(ExoPlayerCacheManager.class);//exo缓存模式，支持m3u8，只支持exo
+        //CacheFactory.setCacheManager(ExoPlayerCacheManager.class);//exo缓存模式，支持m3u8，只支持exo
         mContext = this;
         mHttpClient = new OkHttpClient();
         mGson = new Gson();

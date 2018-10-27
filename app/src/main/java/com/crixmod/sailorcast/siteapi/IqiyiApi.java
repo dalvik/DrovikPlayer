@@ -678,7 +678,7 @@ public class IqiyiApi extends BaseSiteApi {
         String c2 = getC2(pageSize, cat, area);
         String c3 = getC3(pageSize, cat, area);
         String c4 = getC4(pageSize, cat, area);
-        return String.format(ALUMB_VIDEO_FORMAT_JSOUP, String.valueOf(pageSize), c1, c2, c3, c4, "", "", String.valueOf(11), String.valueOf(pageNo));//index c1 c1 c3 c4 paytype year order page
+        return String.format(ALUMB_VIDEO_FORMAT_JSOUP, String.valueOf(pageSize), c1, c2, c3, c4, "0", "", String.valueOf(11), String.valueOf(pageNo));//index c1 c1 c3 c4 paytype year order page
     }
 
     @Override
