@@ -62,14 +62,14 @@ public class IqiyiParser extends BaseParser {
             String title   = picListPicDivDecument.select("a").attr("title").replace("\\", "").trim();
             String img   = picListPicDivDecument.select("a").attr("title").replace("\\", "").trim();
             String src = picListPicDivDecument.getElementsByTag("img").text();
-            Log.d(TAG, "==> imgSrc : " + imgSrc);// +  " durationElements" + durationDivElements
-            Log.d(TAG, "==> title : " + title + ", link: " + link + " duration: " + duration.text().trim());
+            //Log.d(TAG, "==> imgSrc : " + imgSrc);// +  " durationElements" + durationDivElements
+            //Log.d(TAG, "==> title : " + title + ", link: " + link + " duration: " + duration.text().trim());
             Elements picListInfoDiv = ele.select("div.site-piclist_info");
             Document picListInfoDocument = Jsoup.parse(picListInfoDiv.toString());
             Elements scoreElement = picListInfoDocument.select("div.mod-listTitle_left");
             Document scoreSpanDocument = Jsoup.parse(picListInfoDiv.toString());
             Elements scor = scoreSpanDocument.getElementsByTag("span");
-            Log.d(TAG, "==> scor : " + scor.text());
+            //Log.d(TAG, "==> scor : " + scor.text());
 
             Elements roleInfoElement = picListInfoDocument.select("div.role_info");
             Document roleDocument = Jsoup.parse(roleInfoElement.toString());
@@ -77,7 +77,7 @@ public class IqiyiParser extends BaseParser {
             int index = 0;
             SCVideo video = new SCVideo();
             for(Element role:roleEm) {
-                Log.d(TAG, "==> roleEm : " + role.text());
+                //Log.d(TAG, "==> roleEm : " + role.text());
                 if(index == 0){
 
                 }
@@ -111,15 +111,15 @@ public class IqiyiParser extends BaseParser {
             String src = picListPicDivDecument.getElementsByTag("img").text();
             String vid   = picListPicDivDecument.select("a").attr("data-qidanadd-albumid").trim();
             String tvid   = picListPicDivDecument.select("a").attr("data-qidanadd-tvid").trim();
-            Log.d(TAG, "==> imgSrc : " + imgSrc);// +  " durationElements" + durationDivElements
-            Log.d(TAG, "==> title : " + title + ", link: " + link + " duration: " + duration.text().trim());
-            Log.d(TAG, "==> vid : " + vid + ", tvid: " + tvid);
+            //Log.d(TAG, "==> imgSrc : " + imgSrc);// +  " durationElements" + durationDivElements
+            //Log.d(TAG, "==> title : " + title + ", link: " + link + " duration: " + duration.text().trim());
+           // Log.d(TAG, "==> vid : " + vid + ", tvid: " + tvid);
             Elements picListInfoDiv = ele.select("div.site-piclist_info");
             Document picListInfoDocument = Jsoup.parse(picListInfoDiv.toString());
             Elements scoreElement = picListInfoDocument.select("div.mod-listTitle_left");
             Document scoreSpanDocument = Jsoup.parse(picListInfoDiv.toString());
             Elements scor = scoreSpanDocument.getElementsByTag("span");
-            Log.d(TAG, "==> scor : " + scor.text());
+            //Log.d(TAG, "==> scor : " + scor.text());
 
             Elements roleInfoElement = picListInfoDocument.select("div.role_info");
             Document roleDocument = Jsoup.parse(roleInfoElement.toString());
@@ -137,7 +137,7 @@ public class IqiyiParser extends BaseParser {
                 }
                 index++;
             }
-            Log.d(TAG, "==> roleEm : " + sb.toString());
+            //Log.d(TAG, "==> roleEm : " + sb.toString());
             album.setTitle(title);//video name
             album.setMainActor(sb.toString());
             album.setAlbumId(vid);
@@ -221,13 +221,13 @@ public class IqiyiParser extends BaseParser {
         //vid = "624246";
         String sc = sc(time, vid, key);
         String targetTempVideoSource = "http://cache.m.iqiyi.com/tmts/"+ tvid +"/"+ vid +"/?t="+ time +"&sc=" + sc + "&src=" + src;//.format(tvid, vid, t, sc, src)
-        Log.d(TAG, "==> parseVideoS  ource url: " + targetTempVideoSource);
+        if(DebugConfig.DEBUG){
+            Log.d(TAG, "==> parseVideoS  ource url: " + targetTempVideoSource);
+        }
         try {
             String  videoLink = httpGet(targetTempVideoSource, "");
-            Log.d(TAG, "==>content: " + videoLink);
             Document bodyContent = Jsoup.parse(videoLink);
             Element elementBody = bodyContent.body();
-            Log.d(TAG, "==> videoLink body: " + elementBody.text());
             JSONObject videoLinkObject = new JSONObject(elementBody.text());
             JSONObject data = videoLinkObject.optJSONObject("data");
             if(data != null){
@@ -241,7 +241,6 @@ public class IqiyiParser extends BaseParser {
                         JSONObject videoItem = vidlArray.getJSONObject(i);
                         fileFormat = videoItem.optString("fileFormat");//H265
                         String screenSize = videoItem.optString("screenSize");//1280x544
-                        Log.d(TAG, "==> screenSize: " + screenSize);
                         if(!TextUtils.isEmpty(screenSize)) {
                             String[] screenArray = screenSize.split("x");
                             if(screenArray != null && screenArray.length>=2) {
@@ -252,17 +251,20 @@ public class IqiyiParser extends BaseParser {
                                     videoWidth = width;
                                     videoHeight = height;
                                     videoPlaySource = videoItem.optString("m3utx");
-                                    Log.d(TAG, "==> videoPlaySource: " + videoPlaySource);
                                 }
                                 if("H265".equalsIgnoreCase(fileFormat)) {
                                     videoPlaySource = videoItem.optString("m3utx");
-                                    Log.d(TAG, "==> fileFormat: " + fileFormat + " videoPlaySource: " + videoPlaySource);
+                                    if(DebugConfig.DEBUG){
+                                        Log.d(TAG, "==> fileFormat: " + fileFormat + " videoPlaySource: " + videoPlaySource);
+                                    }
                                 }
                             }
                         }
                     }
                 }
-                Log.d(TAG, "==> videoWidth: " + videoWidth + " videoHeight: " + videoHeight + " fileFromat: " + fileFormat + " videoPlaySource: " + videoPlaySource);
+                if(DebugConfig.DEBUG){
+                    Log.d(TAG, "==> videoWidth: " + videoWidth + " videoHeight: " + videoHeight + " fileFromat: " + fileFormat + " videoPlaySource: " + videoPlaySource);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

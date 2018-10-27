@@ -3,4 +3,7 @@
     <root-path name="root-path" path="." />
     <cache-path name="google_plugin" path="." />
     <external-path name="hw_zImg" path="." />
+    <external-path
+        name="download"
+        path="." />
 </paths>

@@ -1,13 +1,11 @@
 package com.drovik.player.ui;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -27,14 +25,13 @@ import com.drovik.player.ui.fragment.HomeFragment;
 import com.drovik.player.ui.fragment.LeftFragment;
 import com.nineoldandroids.view.ViewHelper;
 
-import asdf.jwe.gh.AdManager;
-import asdf.jwe.gh.nm.cm.ErrorCode;
-import asdf.jwe.gh.nm.sp.SpotListener;
-import asdf.jwe.gh.nm.sp.SpotManager;
-import asdf.jwe.gh.nm.sp.SpotRequestListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnFolderChangeListener {
 
+    public final int PERMISSION_RESULT_CODE = 100;
+    public final int PERMISSION_STORAGE_CODE = 101;
     public final static int MENU_DEVICE = 1001;
     public final static int MENU_DOWNLOAD = 1002;
     public final static int MENU_TRANSPORT = 1003;
@@ -58,6 +55,14 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
 
     private PermissionHelper mPermissionHelper;
 
+    //android 6.0以上，需动态申请的权限
+    public static String permissionArray[] = {
+            "android.permission.READ_PHONE_STATE",
+            "android.permission.ACCESS_FINE_LOCATION",
+            "android.permission.WRITE_EXTERNAL_STORAGE",
+            "android.permission.RECORD_AUDIO"
+    };
+
     private final String TAG = "HomeActivity";
 
     @Override
@@ -71,27 +76,26 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         initData();
         initView();
         UpdateManager.getUpdateManager().checkAppUpdate(this, false);
-        if(!hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        //申请权限
+        requestPermission();
+        /*if(!hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 showToast(com.android.audiorecorder.R.string.permission_should_granted);
             } else {
                 requestPermission(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, EXTERNAL_STORAGE_REQ_CODE);
             }
-        }
-
+        }*/
         initYouMi();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        SpotManager.getInstance(this).onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SpotManager.getInstance(this).onDestroy();
     }
 
     private void initData() {
@@ -261,85 +265,25 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
     }
     private void initSDK() {
         //初始化SDK
-        AdManager.getInstance(activity).init("da88c11617dad28f", "d8cdfdb2eb696a0b", true);
-        SpotManager.getInstance(activity).setImageType(SpotManager.IMAGE_TYPE_HORIZONTAL);
-        SpotManager.getInstance(activity).setAnimationType(SpotManager.ANIMATION_TYPE_ADVANCED);
+        //AdManager.getInstance(activity).init("da88c11617dad28f", "d8cdfdb2eb696a0b", true);
+        //SpotManager.getInstance(activity).setImageType(SpotManager.IMAGE_TYPE_HORIZONTAL);
+        //SpotManager.getInstance(activity).setAnimationType(SpotManager.ANIMATION_TYPE_ADVANCED);
         //preloadAd();
         //setupSplashAd(); // 如果需要首次展示开屏，请注释掉本句代码
     }
 
-    private void preloadAd() {
-        // 注意：不必每次展示插播广告前都请求，只需在应用启动时请求一次
-        SpotManager.getInstance(activity).requestSpot(new SpotRequestListener() {
-            @Override
-            public void onRequestSuccess() {
-                LogUtil.d(TAG, "请求插播广告成功.");
-                //preloadAd2();
-                setupNativeSpotAd();
-                //				// 应用安装后首次展示开屏会因为本地没有数据而跳过
-                //              // 如果开发者需要在首次也能展示开屏，可以在请求广告成功之前展示应用的logo，请求成功后再加载开屏
-                //				setupSplashAd();
-            }
-
-            @Override
-            public void onRequestFailed(int errorCode) {
-                switch (errorCode) {
-                    case ErrorCode.NON_NETWORK:
-                        LogUtil.d(TAG, "网络异常.");
-                        break;
-                    case ErrorCode.NON_AD:
-                        LogUtil.d(TAG, "暂无视频广告.");
-                        break;
-                    default:
-                        LogUtil.d(TAG, "请稍后再试.");
-                        break;
+    private void requestPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            List<String> permissionList = new ArrayList<>();
+            for (String permission : permissionArray) {
+                LogUtil.d("==> And--M", permission);
+                if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                    permissionList.add(permission);
                 }
             }
-        });
-    }
-
-    public void setupNativeSpotAd() {
-        SpotManager.getInstance(this)
-                .showSlideableSpot(this, new SpotListener() {
-
-                    @Override
-                    public void onShowSuccess() {
-                        LogUtil.d(TAG, "轮播插屏展示成功");
-                    }
-
-                    @Override
-                    public void onShowFailed(int errorCode) {
-                        LogUtil.d(TAG, "轮播插屏展示失败");
-                        switch (errorCode) {
-                            case ErrorCode.NON_NETWORK:
-                                LogUtil.d(TAG, "网络异常");
-                                break;
-                            case ErrorCode.NON_AD:
-                                LogUtil.d(TAG, "暂无轮播插屏广告");
-                                break;
-                            case ErrorCode.RESOURCE_NOT_READY:
-                                LogUtil.d(TAG, "轮播插屏资源还没准备好");
-                                break;
-                            case ErrorCode.SHOW_INTERVAL_LIMITED:
-                                LogUtil.d(TAG, "请勿频繁展示");
-                                break;
-                            case ErrorCode.WIDGET_NOT_IN_VISIBILITY_STATE:
-                                LogUtil.d(TAG, "请设置插屏为可见状态");
-                                break;
-                            default:
-                                LogUtil.d(TAG, "请稍后再试");
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onSpotClosed() {
-                        LogUtil.d(TAG, "轮播插屏被关闭");
-                    }
-
-                    @Override
-                    public void onSpotClicked(boolean isWebPage) {
-                    }
-                });
+            if (permissionList.size() > 0) {
+                requestPermissions(permissionList.toArray(new String[permissionList.size()]), PERMISSION_RESULT_CODE);
+            }
+        }
     }
 }

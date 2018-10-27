@@ -8,15 +8,21 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.android.library.net.utils.LogUtil;
 import com.android.library.utils.PreferenceUtils;
 import com.baidu.mobstat.StatService;
 import com.crixmod.sailorcast.model.SCLiveStream;
@@ -24,12 +30,19 @@ import com.crixmod.sailorcast.model.SCVideo;
 import com.drovik.player.R;
 import com.drovik.player.video.VideoBean;
 import com.drovik.player.video.parser.IqiyiParser;
+import com.iflytek.voiceads.AdError;
+import com.iflytek.voiceads.IFLYVideoAd;
+import com.iflytek.voiceads.IFLYVideoAdListener;
+import com.iflytek.voiceads.VideoADDataRef;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String SCMEDIA = "sc_media";
@@ -53,6 +66,14 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     private OrientationUtils orientationUtils;
 
     private IqiyiParser mIqiyiParser;
+
+    //add IFLY video ad
+    private IFLYVideoAd videoAd;
+    private RelativeLayout adContainer;
+    private Timer cancelLoadTimer = new Timer();
+    private VideoADDataRef videoADDataRef;
+    private ViewGroup adView;
+    private boolean hasPlay, hasTimeUp;
     private String TAG = "VideoPlayActivity";
 
     @Override
@@ -62,6 +83,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_sample_play);
+        adContainer = (RelativeLayout) findViewById(R.id.rewarded_video_ad_view);
         videoPlayer =  (StandardGSYVideoPlayer)findViewById(R.id.video_player);
         Log.d(TAG, "==> video play onCreate");
         PreferenceUtils.init(this);
@@ -69,11 +91,8 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             finish();
             return;
         }
-        if(mVideo != null) {
-            mIqiyiParser = new IqiyiParser();
-            new ParseVideoSourceAysncTask().execute();
-        }
         hideBottomUIMenu();
+        createVideoAd();
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mRecorderWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DrovikVideoPlay_"+ powerManager.toString());
         if(!mRecorderWakeLock.isHeld()){
@@ -158,6 +177,15 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         return result;
     }
 
+    private void loadVideoSource() {
+        adContainer.setVisibility(View.GONE);
+        videoPlayer.setVisibility(View.VISIBLE);
+        if(mVideo != null) {
+            mIqiyiParser = new IqiyiParser();
+            new ParseVideoSourceAysncTask().execute();
+        }
+    }
+
     private void init(String url) {
         String source1 = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
         source1 = url;
@@ -197,13 +225,23 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onPause() {
         super.onPause();
-        videoPlayer.onVideoPause();
+        if(videoPlayer != null) {
+            videoPlayer.onVideoPause();
+        }
+        if (videoAd != null) {
+            videoAd.onResume();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        videoPlayer.onVideoResume();
+        if(videoPlayer != null) {
+            videoPlayer.onVideoResume();
+        }
+        if (videoAd != null) {
+            videoAd.onPause();
+        }
     }
 
     @Override
@@ -215,6 +253,11 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         }
         if(mRecorderWakeLock != null && mRecorderWakeLock.isHeld()){
             mRecorderWakeLock.release();
+        }
+        if (videoAd != null) {
+            videoAd.releaseVideo();
+            adView = null;
+            videoAd = null;
         }
     }
 
@@ -247,6 +290,105 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             decorView.setSystemUiVisibility(uiOptions);
         }
     }
+
+    private void createVideoAd() {
+        String adUnitId = "0280794B9383422CF59ADDF6448DA269";
+        videoAd = new IFLYVideoAd(this, adUnitId, mVideoAdListener, IFLYVideoAd.REWARDED_VIDEO_AD);
+        videoAd.loadAd(1);
+        cancelLoadTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                hasTimeUp = true;
+                if (!hasPlay) {
+                    handler.sendEmptyMessage(1);
+                }
+            }
+        }, 5000);
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    //Toast.makeText(GSYVideoPlayActivity.this, "5s内未播放广告 自动推出!", Toast.LENGTH_SHORT).show();
+                    //finish();
+                    loadVideoSource();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    private IFLYVideoAdListener mVideoAdListener = new IFLYVideoAdListener() {
+
+        @Override
+        public void onConfirm() {
+        }
+
+        @Override
+        public void onCancel() {
+        }
+
+        @Override
+        public void onAdLoaded(List<VideoADDataRef> list) {
+            if (list.size() > 0 && videoAd != null) {
+                videoADDataRef = list.get(0);
+                adView = videoAd.getAdView();
+                adView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                adContainer.addView(adView);
+                videoAd.showAd(0, 0);
+            }
+        }
+
+        @Override
+        public void onAdFailed(AdError error) {
+            LogUtil.d(TAG, "==> onAdFailed: " + error.getErrorCode());
+            loadVideoSource();
+        }
+
+        @Override
+        public void onAdClick() {
+            LogUtil.d(TAG, "==> onAdClick");
+            videoADDataRef.onClicked(adView, IFLYVideoAd.REWARDED_VIDEO_AD);
+        }
+
+        @Override
+        public void onAdStartPlay() {
+            //缓冲完成 开始播放
+            hasPlay = true;
+            if (!hasTimeUp) {
+                LogUtil.d(TAG, "==> onAdStartPlay, 倒计时没结束");
+                //如果倒计时没结束，隐藏广告上的覆盖页
+                videoADDataRef.onExposured(adView);
+            }
+        }
+
+        @Override
+        public void onAdSkip() {
+            //跳过广告
+            //finish();
+            LogUtil.d(TAG, "==> onAdSkip");
+            loadVideoSource();
+        }
+
+        @Override
+        public void onAdPlayError() {
+            LogUtil.d(TAG, "==> onAdPlayError");
+            //播放出错
+            //finish();
+            loadVideoSource();
+        }
+
+        @Override
+        public void onAdPlayComplete() {
+            LogUtil.d(TAG, "==> onAdPlayComplete");
+            //结束播放
+            //finish();
+            loadVideoSource();
+        }
+    };
 
     private class ParseVideoSourceAysncTask extends AsyncTask<Void, Void, String>{
 

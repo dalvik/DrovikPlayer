@@ -151,9 +151,9 @@
 
         <activity
             android:name="com.drovik.player.video.ui.GSYVideoPlayActivity"
+            android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme"
-            android:screenOrientation="landscape">
+            android:theme="@style/FullscreenTheme">
             <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -229,6 +229,15 @@
 
         <service android:name="com.android.audiorecorder.audio.MediaPlaybackService" android:exported="false" />
 
+        <service
+            android:name="com.iflytek.voiceads.update.DownloadService"
+            android:stopWithTask="true" />
+        <activity
+            android:name="com.iflytek.voiceads.request.IFLYBrowser"
+            android:screenOrientation="portrait" />
+
+        <meta-data android:name="IFLYTEK_APPKEY_AD" android:value="5bd4730b" />
+
         <meta-data android:name="BaiduMobAd_STAT_ID" android:value="18fc70965d" />
 
         <!-- 渠道商编号 -->
@@ -263,33 +272,6 @@
             android:name="BaiduMobAd_WIFI_LOCATION"
             android:value="true" />
 
-        <!-- 有米SDK为了兼容Android N应用间共享文件行为变更而需要配置的FileProvider -->
-        <!--
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.youmi.android.addemo.fileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true" >
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_provider" />
-        </provider >
-        -->
-        <!-- 视频组件 -->
-        <activity
-            android:name="asdf.jwe.gh.nm.vdo.VideoActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout"
-            android:resizeableActivity="false"
-            android:screenOrientation="landscape"
-            android:taskAffinity=""
-            android:theme="@android:style/Theme.NoTitleBar" >
-        </activity >
-
-        <!-- 有米渠道号(可选配置) 渠道号不能带空格，类型为整数 -->
-        <meta-data
-            android:name="YOUMI_CHANNEL"
-            android:value="0" >
-        </meta-data >
         <!--
         <activity
             android:name="com.android.drovik.video.ui.PlayerActivity"

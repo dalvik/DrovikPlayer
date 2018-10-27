@@ -98,4 +98,5 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.9.2'
     api 'com.shuyu:GSYVideoPlayer:6.0.1'
     api 'com.android.support:support-v4:27.+'
+    api files('libs/Ad_Android_SDK.jar')
 }
