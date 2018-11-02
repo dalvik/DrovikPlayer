@@ -85,6 +85,9 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_sample_play);
         adContainer = (RelativeLayout) findViewById(R.id.rewarded_video_ad_view);
         videoPlayer =  (StandardGSYVideoPlayer)findViewById(R.id.video_player);
+        //设置旋转
+        orientationUtils = new OrientationUtils(this, videoPlayer);
+        orientationUtils.setRotateWithSystem(true);
         Log.d(TAG, "==> video play onCreate");
         PreferenceUtils.init(this);
         if(!initData()) {
@@ -200,8 +203,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         videoPlayer.getTitleTextView().setVisibility(View.VISIBLE);
         //设置返回键
         videoPlayer.getBackButton().setVisibility(View.VISIBLE);
-        //设置旋转
-        orientationUtils = new OrientationUtils(this, videoPlayer);
         //设置全屏按键功能,这是使用的是选择屏幕，而不是全屏
         videoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
             @Override

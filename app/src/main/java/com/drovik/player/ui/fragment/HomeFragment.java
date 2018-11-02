@@ -140,6 +140,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         view.findViewById(R.id.home_file).setOnClickListener(this);
         view.findViewById(R.id.home_photo).setOnClickListener(this);
         view.findViewById(R.id.home_video).setOnClickListener(this);
+        //view.findViewById(R.id.home_video).setVisibility(View.GONE);
         view.findViewById(R.id.home_music).setOnClickListener(this);
         view.findViewById(R.id.home_recorder).setOnClickListener(this);
         view.findViewById(R.id.home_sur).setOnClickListener(this);

@@ -165,7 +165,6 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:visibility="visible"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp">
                     <!-- net video -->

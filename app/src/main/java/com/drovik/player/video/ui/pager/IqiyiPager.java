@@ -78,6 +78,7 @@ public class IqiyiPager extends BaseMoviePager {
         mScrollTabLeft = (ImageView) view.findViewById(R.id.lib_id_viewpager_scroll_tab_left);
         mScrollTabRight = (ImageView) view.findViewById(R.id.lib_id_viewpager_scroll_tab_right);
         mScrollTabViewContent = (ViewPager) view.findViewById(R.id.lib_id_viewpager_scroll_tab_content);
+        mHsv.setVisibility(View.GONE);
     }
 
     private void setListener() {
@@ -168,29 +169,29 @@ public class IqiyiPager extends BaseMoviePager {
     }
 
     private void initTitle() {
-        mTabTitle = new MovieHomeActivity.TitleInfo[11];
+        mTabTitle = new MovieHomeActivity.TitleInfo[1];//11
         MovieHomeActivity.TitleInfo infoMovie = new MovieHomeActivity.TitleInfo(R.string.channel_movie, 1);
-        MovieHomeActivity.TitleInfo infoShow = new MovieHomeActivity.TitleInfo(R.string.channel_show, 2);
-        MovieHomeActivity.TitleInfo infoDocumentary = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_documentary, 3);
-        MovieHomeActivity.TitleInfo infoComic = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_comic, 4);
-        MovieHomeActivity.TitleInfo infoMusic = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_music, 5);
-        MovieHomeActivity.TitleInfo infoVariety = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_variety, 6);
-        MovieHomeActivity.TitleInfo infoEnt = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_ent, 7);
-        MovieHomeActivity.TitleInfo infoTravel = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_travel, 9);
-        MovieHomeActivity.TitleInfo infoTrailer = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_trailer, 10);
-        MovieHomeActivity.TitleInfo infoEducation = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_education, 12);
-        MovieHomeActivity.TitleInfo infoFashion = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_fashion, 13);
         mTabTitle[0] =  infoMovie;
+        /*MovieHomeActivity.TitleInfo infoShow = new MovieHomeActivity.TitleInfo(R.string.channel_show, 2);
         mTabTitle[1] =  infoShow;
+        MovieHomeActivity.TitleInfo infoDocumentary = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_documentary, 3);
         mTabTitle[2] =  infoDocumentary;
+        MovieHomeActivity.TitleInfo infoComic = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_comic, 4);
         mTabTitle[3] =  infoComic;
+        MovieHomeActivity.TitleInfo infoMusic = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_music, 5);
         mTabTitle[4] =  infoMusic;
+        MovieHomeActivity.TitleInfo infoVariety = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_variety, 6);
         mTabTitle[5] =  infoVariety;
+        MovieHomeActivity.TitleInfo infoEnt = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_ent, 7);
         mTabTitle[6] =  infoEnt;
+        MovieHomeActivity.TitleInfo infoTravel = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_travel, 9);
         mTabTitle[7] =  infoTravel;
+        MovieHomeActivity.TitleInfo infoTrailer = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_trailer, 10);
         mTabTitle[8] =  infoTrailer;
+        MovieHomeActivity.TitleInfo infoEducation = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_education, 12);
         mTabTitle[9] =  infoEducation;
-        mTabTitle[10] =  infoFashion;
+        MovieHomeActivity.TitleInfo infoFashion = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_fashion, 13);
+        mTabTitle[10] =  infoFashion;*/
     }
     public static class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 

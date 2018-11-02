@@ -54,9 +54,6 @@ public class VideoMainActivity extends BaseCompatActivity implements View.OnClic
     private static final int SUCESS = 1;
     private static final int FAIL = 2;
 
-    private final String ROOT = "/lv";
-    private final String MULTIMEDIA = "/lv/MultiMedia";
-    private final String SURVEILLANCE = "Surveillance";
     private final String PHOTO = "Photo";
 
     private ArrayList<VideoBean> mFileNames;
