@@ -16,6 +16,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dip"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <ImageView
@@ -51,12 +52,12 @@
 
     <Button
         android:id="@+id/guide_enter_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dip"
-        android:background="@drawable/guide_enter"
+        android:background="@drawable/end_guide_shape_bg"
         android:paddingBottom="3dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"

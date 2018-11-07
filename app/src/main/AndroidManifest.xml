@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.drovik.player"
-    android:versionCode="1"
-    android:versionName="v0.01">
+    android:versionCode="100"
+    android:versionName="V1.0.0">
 
     <!-- normal -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -72,7 +72,7 @@
             </activity>
         -->
 
-        <activity android:name="com.drovik.player.ui.LaunchActivity"
+        <activity android:name="com.drovik.player.ui.DrovikPlayerGuide"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
@@ -81,6 +81,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="com.drovik.player.ui.LaunchActivity"
+            android:theme="@style/AppTheme"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
 
         <activity android:name="com.drovik.player.ui.HomeActivity"
             android:theme="@style/AppTheme"
