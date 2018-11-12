@@ -121,4 +121,5 @@ dependencies {
     api 'com.shuyu:GSYVideoPlayer:6.0.1'
     api 'com.android.support:support-v4:27.+'
     api files('libs/Ad_Android_SDK.jar')
+    api files('libs/GDTUnionSDK.4.19.574.min.jar')
 }
