@@ -23,8 +23,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Hashtable;
 
-import io.rong.imkit.RongIM;
-
 /**
  * 全局应用程序类：用于保存和调用全局应用配置及访问网络数据
  * @author liux (http://my.oschina.net/liux)
@@ -81,12 +79,6 @@ public class AppContext extends BaseApplication {
 		super.onCreate();
 		curContext = this;
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		if (getApplicationInfo().packageName.equals(getCurProcessName(getApplicationContext())) || "io.rong.push".equals(getCurProcessName(getApplicationContext()))) {
-			/**
-			 * IMKit SDK调用第一步 初始化
-			 */
-			RongIM.init(this);
-		}
 	}
 
 	public static Context getInstance(){

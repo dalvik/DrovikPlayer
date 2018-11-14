@@ -15,7 +15,6 @@ import com.android.audiorecorder.engine.MultiMediaService;
 import com.android.audiorecorder.provider.FileProviderService;
 import com.android.audiorecorder.ui.pager.MainCenterPager;
 import com.android.audiorecorder.ui.pager.MainFindPager;
-import com.android.audiorecorder.ui.pager.MainMicRecordPager;
 import com.android.audiorecorder.ui.pager.MainRecordPager;
 import com.android.audiorecorder.utils.ActivityUtil;
 import com.android.library.ui.activity.BaseCommonActivity;
@@ -139,7 +138,7 @@ public class MainFrameActivity extends BaseCommonActivity {
         public MainAdapter(FragmentManager fm) {
             super(fm);
             pagers[POSITION_MAIN] = new MainRecordPager();
-            pagers[POSITION_MSG] = new MainMicRecordPager();
+            pagers[POSITION_MSG] = new MainRecordPager();
             pagers[POSITION_FIND] = new MainFindPager();
             pagers[POSITION_CENTER] = new MainCenterPager();
         }

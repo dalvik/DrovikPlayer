@@ -35,7 +35,6 @@ dependencies {
     api 'com.android.support:appcompat-v7:27.1.1'
     api 'com.android.support:recyclerview-v7:27.1.1'
     api 'com.android.support:preference-v7:27.1.1'
-    //api project(':ijkplayer-java')
     api files('libs/Acadiatech_JSON.jar')
     api 'com.google.code.gson:gson:2.2.4'
     api files('libs/universal-image-loader-1.9.5.jar')
@@ -54,6 +53,5 @@ dependencies {
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     api 'com.lovedise:permissiongen:0.0.6'
     api(name: 'glide-transformations-2.0.1', ext: 'aar')
-    api project(':RongIMKit')
-
+    api 'com.github.chrisbanes:PhotoView:1.2.6'
 }

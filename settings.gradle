@@ -1,1 +1,1 @@
-include ':app', ':RongIMKit', ':CommonLibrary', ':Audiorecord', ':decapi'
+include ':app', ':CommonLibrary', ':Audiorecord', ':decapi'
