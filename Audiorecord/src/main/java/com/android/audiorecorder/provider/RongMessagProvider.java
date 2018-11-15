@@ -15,10 +15,6 @@ import com.android.audiorecorder.ui.manager.RongUserManager;
 import com.android.audiorecorder.utils.LogUtil;
 import com.android.library.net.base.IDataCallback;
 
-import io.rong.imkit.RongIM;
-import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.UserInfo;
-
 public class RongMessagProvider extends AbstractRongMessage implements IDataCallback {
 
 	private String mToken;
@@ -71,7 +67,6 @@ public class RongMessagProvider extends AbstractRongMessage implements IDataCall
 				 RongUserResp data = (RongUserResp) baseData.data;
 				 if(data != null){
 					 mToken = data.token;
-					 reconnect(mToken);
 					 LogUtil.i(TAG, "==> token = " + data.token + " " + data.userId + " "+ data.code);
 				 }
                  break;
@@ -98,39 +93,5 @@ public class RongMessagProvider extends AbstractRongMessage implements IDataCall
 			tempHeadIcon = mUserResp.headIcon;
 		}
 		gotoFetchToken(tempUserId, tempName, tempHeadIcon);
-	}
-	
-	private void reconnect(String token) {
-        if (AppContext.getInstance().getApplicationInfo().packageName.equals(AppContext.getCurProcessName(AppContext.getInstance()))) {
-
-            RongIM.connect(token, new RongIMClient.ConnectCallback() {
-                @Override
-                public void onTokenIncorrect() {
-                	LogUtil.d(TAG, "==> onTokenIncorrect");
-                }
-
-                @Override
-                public void onSuccess(String userId) {
-                	LogUtil.d(TAG, "==> onSuccess " + userId);
-                	if(mRongMessageListener != null){
-						 try {
-							mRongMessageListener.onTokenChange(userId);
-						} catch (RemoteException e) {
-							e.printStackTrace();
-						}
-					 }
-                }
-
-                @Override
-                public void onError(RongIMClient.ErrorCode errorCode) {
-                	LogUtil.d(TAG, "==> onError" + errorCode);
-                }
-            });
-        }
-    }
-	
-	private void setRongyunUserProvider(String userCode, String nickName, String headIcon){
-		RongIM.getInstance().refreshUserInfoCache(new UserInfo(userCode, nickName, Uri.parse(headIcon)));
-		//.refreshUserInfoCache(new UserInfo("userId", "啊明", Uri.parse("http://rongcloud-web.qiniudn.com/docs_demo_rongcloud_logo.png")));
 	}
 }

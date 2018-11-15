@@ -31,10 +31,6 @@ import com.android.audiorecorder.ui.activity.ShowBigImageActivity;
 import com.android.library.ui.utils.ActivityUtils;
 import com.android.library.utils.TextUtils;
 
-import io.rong.imkit.RongIM;
-
-//import com.android.audiorecorder.ui.activity.ContactsActivity;
-
 public class ActivityUtil extends ActivityUtils {
 
     /**
@@ -329,36 +325,5 @@ public class ActivityUtil extends ActivityUtils {
      */
     public static void gotoCenterAcountActivity(Activity activity) {
         startActivity(activity, CenterSettingsActivity.class);
-    }
-    
-    /**
-     * single chat
-     *
-     * @param activity
-     * @param userId
-     */
-    public static void gotoChatDetailActivity(Activity activity, Long userId, String nickName) {
-        if (RongIM.getInstance() != null) {
-            RongIM.getInstance().startPrivateChat(activity, String.valueOf(userId), nickName);
-        }
-    }
-
-    /**
-     * group chat
-     *
-     * @param activity
-     * @param groupId
-     * @param title
-     */
-    public static void gotoGroupDetailActivity(Activity activity, Long groupId, String title) {
-        if (RongIM.getInstance() != null) {
-            RongIM.getInstance().startGroupChat(activity, String.valueOf(groupId), title);
-        }
-    }
-    
-    public static void startActivityFromFragmentForResult(FragmentActivity activity, Fragment fragment, Class<?> clazz, int requestCode) {
-        Intent intent = new Intent(activity, clazz);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivityFromFragment(activity, fragment, intent, requestCode);
     }
 }

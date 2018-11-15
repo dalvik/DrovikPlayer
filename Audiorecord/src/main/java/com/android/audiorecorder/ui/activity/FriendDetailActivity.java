@@ -30,8 +30,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 
-import io.rong.imkit.RongIM;
-
 public class FriendDetailActivity extends BaseCompatActivity implements View.OnClickListener {
     private PersonalDetailMessageAdapter mMessageAdapter;
 
@@ -146,7 +144,7 @@ public class FriendDetailActivity extends BaseCompatActivity implements View.OnC
         .bitmapConfig(Config.RGB_565)
         .build();
     	mNameMemo.setText(getString(R.string.personal_detail_nickname, ""));
-    	mUserCode.setText(getString(R.string.personal_detail_user_code, mUserId));
+    	mUserCode.setText(getString(R.string.personal_detail_user_code));
     	mAddress.setText("");
     	mSingature.setText("");
     }
@@ -161,9 +159,6 @@ public class FriendDetailActivity extends BaseCompatActivity implements View.OnC
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.personal_detail_send_message_id) {
-            if (mUserId > 0) {
-                RongIM.getInstance().startPrivateChat(this, String.valueOf(mUserId), mUserName);
-            }
             finish();
 
         } else if (i == R.id.personal_detail_header_iv_headerIcon) {
@@ -238,7 +233,7 @@ public class FriendDetailActivity extends BaseCompatActivity implements View.OnC
     			mNickName.setVisibility(View.VISIBLE);
     		}
     	}
-    	mUserCode.setText(getString(R.string.personal_detail_user_code, mUserId));
+    	mUserCode.setText(getString(R.string.personal_detail_user_code));
     	if(!TextUtils.isEmpty(detailData.cityCode)){
     		mAddress.setText(detailData.cityCode);
     	} else {

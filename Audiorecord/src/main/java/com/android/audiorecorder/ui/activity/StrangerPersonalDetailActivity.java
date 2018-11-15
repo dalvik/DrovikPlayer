@@ -21,8 +21,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import io.rong.imkit.RongIM;
-
 public class StrangerPersonalDetailActivity extends BaseCompatActivity implements View.OnClickListener {
     private PersonalDetailMessageAdapter mMessageAdapter;
 
@@ -35,8 +33,6 @@ public class StrangerPersonalDetailActivity extends BaseCompatActivity implement
     private TextView mSingature;
     private HorizontalListView mHorizontalListView;
     private Button mSendMessage;
-    private int whatPersionDetail;
-
     private ContactResp mContactResp;
 
     private DisplayImageOptions options;
@@ -70,7 +66,7 @@ public class StrangerPersonalDetailActivity extends BaseCompatActivity implement
         mUserCode = (TextView) findViewById(R.id.personal_detail_user_code_tv);
         mUserCode.setText(getString(R.string.personal_detail_user_code, ""));
         mAddress = (TextView) findViewById(R.id.personal_detail_address);
-        mAddress.setText(getString(R.string.personal_detail_address, ""));
+        mAddress.setText(getString(R.string.personal_detail_address));
         mHorizontalListView = (HorizontalListView) findViewById(R.id.personalDetailMessageListView);
         findViewById(R.id.persoinal_news_thunb_listview_id).setOnClickListener(new OnClickListener(	) {
 
@@ -84,7 +80,7 @@ public class StrangerPersonalDetailActivity extends BaseCompatActivity implement
 			}
 		});
         mSingature = (TextView) findViewById(R.id.personal_detail_signature);
-        mSingature.setText(getString(R.string.personal_detail_signature, ""));
+        mSingature.setText(getString(R.string.personal_detail_signature));
         mSendMessage = (Button) findViewById(R.id.personal_detail_send_message_id);
         mSendMessage.setOnClickListener(this);
 
@@ -112,7 +108,6 @@ public class StrangerPersonalDetailActivity extends BaseCompatActivity implement
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.personal_detail_send_message_id) {
-            RongIM.getInstance().startPrivateChat(this, String.valueOf(mContactResp.userCode), mContactResp.nickName);
             finish();
 
         }
@@ -120,24 +115,6 @@ public class StrangerPersonalDetailActivity extends BaseCompatActivity implement
 
     @Override
     protected boolean onHandleBiz(int what, int result, Object obj) {
-    	/*if (what == whatPersionDetail) {
-            switch (result) {
-                case FriendManager.RESULT_SUCCESS:
-                	BaseData baseData = (BaseData) obj;
-                	if(baseData.data != null){
-                		PersonalDetailBaseData detailData = (PersonalDetailBaseData) baseData.data;
-                		updateUi(detailData);
-                		if(detailData.data != null){
-                			ArrayList<PersonalNewsResp> list = (ArrayList<PersonalNewsResp>)detailData.data;
-                			mMessageAdapter.addItems(list);
-                		}
-                		LogUtil.i(TAG, "add = " + detailData.address + " code =  "+ detailData.cityCode);
-                	}
-                    return true;
-                default:
-                    return false;
-            }
-    	}*/
     	return true;
     }
 
@@ -169,16 +146,16 @@ public class StrangerPersonalDetailActivity extends BaseCompatActivity implement
     	} else {
     		mNickName.setText(getString(R.string.personal_detail_nickname, ""));
     	}
-    	mUserCode.setText(getString(R.string.personal_detail_user_code, contactResp.userCode));
+    	mUserCode.setText(getString(R.string.personal_detail_user_code));
     	if(contactResp.cityCode != null){
-    		mAddress.setText(getString(R.string.personal_detail_address, contactResp.cityCode));
+    		mAddress.setText(getString(R.string.personal_detail_address));
     	} else {
-    		mAddress.setText(getString(R.string.personal_detail_address, ""));
+    		mAddress.setText(getString(R.string.personal_detail_address));
     	}
     	if(contactResp.signature != null){
-    		mSingature.setText(getString(R.string.personal_detail_signature, contactResp.signature));
+    		mSingature.setText(getString(R.string.personal_detail_signature));
     	} else {
-    		mSingature.setText(getString(R.string.personal_detail_signature, ""));
+    		mSingature.setText(getString(R.string.personal_detail_signature));
     	}
     	
     }

@@ -16,9 +16,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import io.rong.photoview.PhotoView;
-
-//import com.bm.library.PhotoView;
+import uk.co.senab.photoview.PhotoView;
 
 public class ShowBigImageActivity extends BaseCompatActivity {
 
