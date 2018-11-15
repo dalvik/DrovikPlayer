@@ -117,9 +117,16 @@ dependencies {
     api 'com.google.android.gms:play-services-appindexing:9.8.0'
     api project(':Audiorecord')
     api project(':decapi')
-    implementation 'org.jsoup:jsoup:1.9.2'
+    api 'org.jsoup:jsoup:1.9.2'
     api 'com.shuyu:GSYVideoPlayer:6.0.1'
     api 'com.android.support:support-v4:27.+'
     api files('libs/Ad_Android_SDK.jar')
     api files('libs/GDTUnionSDK.4.19.574.min.jar')
+    api 'com.squareup.okhttp3:okhttp:3.9.0'
+    api 'com.google.code.gson:gson:2.6.2'
+    api 'com.squareup.retrofit2:retrofit:2.3.0'
+    api 'com.squareup.retrofit2:converter-gson:2.1.0'
+    api files('libs/sdk_HeWeather_Public_Android_V2.0.jar')
+    api ("com.jakewharton:butterknife:8.8.1")
+    api 'org.greenrobot:eventbus:3.0.0'
 }

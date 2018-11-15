@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,19 @@ import com.drovik.player.audio.ui.MusicActivity;
 import com.drovik.player.ui.HomeActivity;
 import com.drovik.player.video.ui.MovieHomeActivity;
 import com.drovik.player.video.ui.VideoMainActivity;
+import com.drovik.player.weather.HourWeatherHolder;
+import com.drovik.player.weather.HoursForecastRecyclerAdapter;
+import com.drovik.player.weather.HoursForecastViewHolder;
+import com.drovik.player.weather.IWeatherResponse;
+import com.drovik.player.weather.LocationEvent;
+import com.drovik.player.weather.WeatherManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends BasePager implements View.OnClickListener, IHomeView {
 
@@ -51,6 +66,9 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
 
     private RelativeLayout mNativeSpotAdLayout;
 
+    private RecyclerView mHoursForecastRecyclerView;
+    private HoursForecastRecyclerAdapter mHoursForecastAdapter;
+    private WeatherManager mWeatherManager;
     private String TAG = "HomeFragment";
 
     public Handler mHandler = new Handler() {
@@ -99,6 +117,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         initData();
         initView(view);
         initHome();
+        mWeatherManager.weather("杭州");
         return view;
     }
 
@@ -116,6 +135,8 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         /*devices = (ArrayList<Device>) DeviceManager.instance().getAllDevice(Device.DEV_TYPE_IP);
         devices.addAll(DeviceManager.instance().getAllDevice(Device.DEV_TYPE_P2P_CHINA));
         devices.addAll(DeviceManager.instance().getAllDevice(Device.DEV_TYPE_P2P_OVERSEAS));*/
+        mWeatherManager = new WeatherManager();
+        EventBus.getDefault().register(this);
     }
 
     private void initView(View view) {
@@ -148,6 +169,14 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         mNoDevice = (LinearLayout) view.findViewById(R.id.home_no_device);
         mNoDevice.setOnClickListener(this);
         mNativeSpotAdLayout = (RelativeLayout) view.findViewById(R.id.home_rl_native_spot_ad);
+
+        mHoursForecastRecyclerView = (RecyclerView) view.findViewById(R.id.home_hours_forecast_recyclerView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mHoursForecastAdapter = new HoursForecastRecyclerAdapter(getActivity());
+        mHoursForecastAdapter.registerHolder(HourWeatherHolder.class, R.layout.item_weather_hour_forecast);
+        mHoursForecastRecyclerView.setAdapter(mHoursForecastAdapter);
+
     }
 
     private void initHome() {
@@ -182,6 +211,12 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void autoLogin() {
@@ -308,4 +343,22 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         //mDeviceSize.setText(mContext.getApplicationContext().getString(R.string.device_free, free, device_total));
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLocationEvent(LocationEvent locationEvent) {
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onWeatherEvent(IWeatherResponse weatherResponse) {
+        ArrayList<IWeatherResponse.Data> data =  weatherResponse.getHeWeather6();
+        if(data != null && data.size()>0) {
+            for(IWeatherResponse.Data temp:data) {
+                List<IWeatherResponse.Data.DailyForecast> dailyForecasts = temp.getDaily_forecast();
+                mHoursForecastAdapter.addData(dailyForecasts);
+                LogUtil.d(TAG, "==> getBasic " + temp.getBasic().toString());
+                LogUtil.d(TAG, "==> getNow " + temp.getNow().toString());
+                LogUtil.d(TAG, "==> getUpdate " + temp.getUpdate().toString());
+                LogUtil.d(TAG, "==> getHourly " + temp.getHourly().toString());
+            }
+        }
+    }
 }

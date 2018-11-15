@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import interfaces.heweather.com.interfacesmodule.view.HeConfig;
+
 public class AppApplication extends BaseApplication {
 
     public static final String ACTION_INTENT_DISCONNECT = "disconnect";                        //断线
@@ -125,6 +127,8 @@ public class AppApplication extends BaseApplication {
         super.onCreate();
         mMyApplication = this;
         startService(new Intent(this, MultiMediaService.class));
+        HeConfig.init("HE1811132254161522", "80150e4b086847ee9fc4dbdc40035f4b");
+        HeConfig.switchToFreeServerNode();
     }
 
     @Override
