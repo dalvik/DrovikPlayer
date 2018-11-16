@@ -1,5 +1,7 @@
 package com.drovik.player.weather;
 
+import com.drovik.player.R;
+
 import java.util.ArrayList;
 
 public class IWeatherResponse {
@@ -8,7 +10,7 @@ public class IWeatherResponse {
     public IWeatherResponse() {
     }
 
-    public class Data {
+    public static class Data {
         private Basic basic;
         private Update update;
         private ArrayList<DailyForecast> daily_forecast;
@@ -96,7 +98,7 @@ public class IWeatherResponse {
                     '}';
         }
 
-        public class Basic{
+        public static class Basic{
             private String cid;
             private String location;
             private String parent_city;
@@ -199,7 +201,7 @@ public class IWeatherResponse {
             }
         }
 
-        public class Update {
+        public static class Update {
             private String loc;
             private String utc;
             public Update() {
@@ -231,7 +233,7 @@ public class IWeatherResponse {
             }
         }
 
-        public class DailyForecast implements HoursForecastAdapterData{
+        public static class DailyForecast{
             private String cond_code_d;
             private String cond_code_n;
             private String cond_txt_d;
@@ -427,11 +429,6 @@ public class IWeatherResponse {
             }
 
             @Override
-            public int getContentViewId() {
-                return 0;
-            }
-
-            @Override
             public String toString() {
                 return "DailyForecast{" +
                         "cond_code_d='" + cond_code_d + '\'' +
@@ -459,7 +456,7 @@ public class IWeatherResponse {
             }
         }
 
-        public class Now {
+        public static class Now {
             private String fl;//体感温度，默认单位：摄氏度
             private String tmp;//温度，默认单位：摄氏度
             private String cond_code;//实况天气状况代码
@@ -602,7 +599,7 @@ public class IWeatherResponse {
             }
         }
 
-        private class Hourly {
+        public static class Hourly implements BaseAdapterData{
             private String time;//预报时间，格式yyyy-MM-dd hh:mm
             private String tmp;//温度
             private String cond_code;//天气状况代码
@@ -618,6 +615,11 @@ public class IWeatherResponse {
 
             public Hourly() {
 
+            }
+
+            @Override
+            public int getContentViewId() {
+                return R.layout.item_weather_hour_forecast;
             }
 
             public String getTime() {
@@ -735,7 +737,7 @@ public class IWeatherResponse {
             }
         }
 
-        public class LifeStyle {
+        public static class LifeStyle {
             private String brf;//生活指数简介
             private String txt;//生活指数详细描述
             private String type;//生活指数类型 comf：舒适度指数、cw：洗车指数、drsg：穿衣指数、flu：感冒指数、sport：运动指数、trav：旅游指数、uv：紫外线指数、
@@ -779,7 +781,7 @@ public class IWeatherResponse {
             }
         }
 
-        public class LifestyleForecast {
+        public static class LifestyleForecast {
             private String date;//预报日期，例如2017-12-30
             private String brf;//生活指数简介
             private String txt;//生活指数详细描述

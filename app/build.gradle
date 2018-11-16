@@ -128,5 +128,6 @@ dependencies {
     api 'com.squareup.retrofit2:converter-gson:2.1.0'
     api files('libs/sdk_HeWeather_Public_Android_V2.0.jar')
     api ("com.jakewharton:butterknife:8.8.1")
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     api 'org.greenrobot:eventbus:3.0.0'
 }

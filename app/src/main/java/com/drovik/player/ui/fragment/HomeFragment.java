@@ -27,11 +27,9 @@ import com.drovik.player.AppApplication;
 import com.drovik.player.R;
 import com.drovik.player.audio.ui.MusicActivity;
 import com.drovik.player.ui.HomeActivity;
-import com.drovik.player.video.ui.MovieHomeActivity;
-import com.drovik.player.video.ui.VideoMainActivity;
+import com.drovik.player.weather.BaseRecyclerAdapter;
 import com.drovik.player.weather.HourWeatherHolder;
-import com.drovik.player.weather.HoursForecastRecyclerAdapter;
-import com.drovik.player.weather.HoursForecastViewHolder;
+import com.drovik.player.weather.HoursForecastData;
 import com.drovik.player.weather.IWeatherResponse;
 import com.drovik.player.weather.LocationEvent;
 import com.drovik.player.weather.WeatherManager;
@@ -67,7 +65,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     private RelativeLayout mNativeSpotAdLayout;
 
     private RecyclerView mHoursForecastRecyclerView;
-    private HoursForecastRecyclerAdapter mHoursForecastAdapter;
+    private BaseRecyclerAdapter mHoursForecastAdapter;
     private WeatherManager mWeatherManager;
     private String TAG = "HomeFragment";
 
@@ -173,10 +171,10 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         mHoursForecastRecyclerView = (RecyclerView) view.findViewById(R.id.home_hours_forecast_recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mHoursForecastAdapter = new HoursForecastRecyclerAdapter(getActivity());
+        mHoursForecastRecyclerView.setLayoutManager(linearLayoutManager);
+        mHoursForecastAdapter = new BaseRecyclerAdapter(getActivity());
         mHoursForecastAdapter.registerHolder(HourWeatherHolder.class, R.layout.item_weather_hour_forecast);
         mHoursForecastRecyclerView.setAdapter(mHoursForecastAdapter);
-
     }
 
     private void initHome() {
@@ -352,12 +350,17 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         ArrayList<IWeatherResponse.Data> data =  weatherResponse.getHeWeather6();
         if(data != null && data.size()>0) {
             for(IWeatherResponse.Data temp:data) {
-                List<IWeatherResponse.Data.DailyForecast> dailyForecasts = temp.getDaily_forecast();
-                mHoursForecastAdapter.addData(dailyForecasts);
                 LogUtil.d(TAG, "==> getBasic " + temp.getBasic().toString());
                 LogUtil.d(TAG, "==> getNow " + temp.getNow().toString());
                 LogUtil.d(TAG, "==> getUpdate " + temp.getUpdate().toString());
                 LogUtil.d(TAG, "==> getHourly " + temp.getHourly().toString());
+                List<HoursForecastData> hoursForecastDataList = new ArrayList<HoursForecastData>();
+                List<IWeatherResponse.Data.Hourly> dailyForecasts = temp.getHourly();
+                for(IWeatherResponse.Data.Hourly hourly:dailyForecasts) {
+                    HoursForecastData hoursForecastData = new HoursForecastData(hourly);
+                    hoursForecastDataList.add(hoursForecastData);
+                }
+                mHoursForecastAdapter.addData(hoursForecastDataList);
             }
         }
     }

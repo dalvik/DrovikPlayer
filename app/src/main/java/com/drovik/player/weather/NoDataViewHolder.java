@@ -2,13 +2,14 @@ package com.drovik.player.weather;
 
 import android.view.View;
 
-public class NoDataViewHolder extends HoursForecastViewHolder {
-    public NoDataViewHolder(View itemView, HoursForecastRecyclerAdapter baseRecyclerAdapter) {
+public class NoDataViewHolder extends BaseViewHolder {
+
+    public NoDataViewHolder(View itemView, BaseRecyclerAdapter baseRecyclerAdapter) {
         super(itemView, baseRecyclerAdapter);
     }
 
     @Override
-    public void updateItem(HoursForecastAdapterData Data, int position) {
+    public void updateItem(BaseAdapterData Data, int position) {
 
     }
 

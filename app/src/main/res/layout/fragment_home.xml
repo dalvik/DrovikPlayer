@@ -50,8 +50,9 @@
         <FrameLayout
             android:id="@+id/home_weather"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="350dp"
             android:layout_centerHorizontal="true"
+            android:fitsSystemWindows="false"
             android:layout_marginTop="7dp">
 
             <LinearLayout
@@ -70,8 +71,7 @@
                     android:textColor="@android:color/white"
                     android:text="杭州"
                     android:textSize="45sp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/weather_weak"
@@ -81,8 +81,7 @@
                     android:gravity="center"
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
-                    android:text="周四"
-                    />
+                    android:text="周四" />
 
                 <TextView
                     android:id="@+id/weather_temperature"
@@ -92,8 +91,7 @@
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="45sp"
-                    android:text="14"
-                    />
+                    android:text="14"/>
 
                 <TextView
                     android:id="@+id/weather_info"
@@ -102,22 +100,14 @@
                     android:textColor="@android:color/white"
                     android:gravity="center"
                     android:textSize="20sp"
-                    android:text="多云 | 空气 良"
-                    />
+                    android:text="多云 | 空气 良"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/home_hours_forecast_recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    />
             </LinearLayout>
-
-
-            <ImageView
-                android:layout_width="130dp"
-                android:layout_height="31dp"
-                android:layout_gravity="center" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/home_hours_forecast_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"/>
         </FrameLayout>
         <FrameLayout
             android:id="@+id/home_login"

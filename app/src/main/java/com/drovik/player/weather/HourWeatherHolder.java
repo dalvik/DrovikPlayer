@@ -4,20 +4,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.silencedut.baselib.commonhelper.adapter.BaseRecyclerAdapter;
-import com.silencedut.baselib.commonhelper.adapter.BaseViewHolder;
-import com.silencedut.baselib.commonhelper.utils.Check;
-import com.silencedut.knowweather.R;
-import com.silencedut.weather_core.api.weatherprovider.WeatherData;
-import com.silencedut.weather_core.corebase.ResourceProvider;
+import com.drovik.player.R;
 
 import butterknife.BindView;
 
-/**
- * Created by SilenceDut on 16/10/21.
- */
-
-public class HourWeatherHolder extends HoursForecastViewHolder<IWeatherResponse> {
+public class HourWeatherHolder extends BaseViewHolder<HoursForecastData> {
     @BindView(R.id.hour)
     TextView hour;
     @BindView(R.id.hour_icon)
@@ -25,24 +16,24 @@ public class HourWeatherHolder extends HoursForecastViewHolder<IWeatherResponse>
     @BindView(R.id.hour_temp)
     TextView hourTemp;
 
-    public HourWeatherHolder(View itemView, HoursForecastRecyclerAdapter baseRecyclerAdapter) {
+    public HourWeatherHolder(View itemView, BaseRecyclerAdapter baseRecyclerAdapter) {
         super(itemView, baseRecyclerAdapter);
     }
 
     @Override
-    public void updateItem(IWeatherResponse data, int position) {
-        WeatherData.HoursForecastEntity hoursForecastData = data.ge;
-        if (Check.isNull(hoursForecastData)) {
+    public void updateItem(HoursForecastData data, int position) {
+        IWeatherResponse.Data.Hourly hourly = data.hourly;
+        if (hourly == null) {
             return;
         }
-        hour.setText(hoursForecastData.getTime().substring(11, 16));
-        hourIcon.setImageResource(ResourceProvider.getIconId(hoursForecastData.getWeather()));
-        hourTemp.setText(hoursForecastData.getTemp());
+        hour.setText(hourly.getTime().substring(11, 16));
+        hourIcon.setImageResource(ResourceProvider.getIconId(hourly.getCond_txt()));
+        hourTemp.setText(hourly.getTmp());
     }
 
     @Override
     public int getContentViewId() {
-        return R.layout.weather_item_hour_forecast;
+        return R.layout.item_weather_hour_forecast;
     }
 
 }
