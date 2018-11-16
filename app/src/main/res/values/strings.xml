@@ -123,4 +123,9 @@
     <string name="delete_sucess">删除成功</string>
 
     <string name="click_to_skip">点击跳过</string>
+
+    <!-- weather -->
+    <string name="weather_status_info">%1$s | %2$s %3$s级</string>
+    <string name="weather_week">周</string>
+
 </resources>

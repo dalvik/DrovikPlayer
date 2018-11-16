@@ -1,5 +1,6 @@
 package com.drovik.player.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -23,6 +24,7 @@ import com.android.audiorecorder.ui.SoundRecorder;
 import com.android.audiorecorder.ui.activity.LoginActivity;
 import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.pager.BasePager;
+import com.android.library.utils.TextUtils;
 import com.drovik.player.AppApplication;
 import com.drovik.player.R;
 import com.drovik.player.audio.ui.MusicActivity;
@@ -32,6 +34,7 @@ import com.drovik.player.weather.HourWeatherHolder;
 import com.drovik.player.weather.HoursForecastData;
 import com.drovik.player.weather.IWeatherResponse;
 import com.drovik.player.weather.LocationEvent;
+import com.drovik.player.weather.ResourceProvider;
 import com.drovik.player.weather.WeatherManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,11 +42,14 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public class HomeFragment extends BasePager implements View.OnClickListener, IHomeView {
 
     private static final int LOGIN_SUCCESS = 1001;
+    private static final int UPDATE_WEATHER = 2000;
     private LinearLayout mNoDevice;
     private ImageView gifBg;
     private TextView mDeviceSize;
@@ -67,31 +73,12 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     private RecyclerView mHoursForecastRecyclerView;
     private BaseRecyclerAdapter mHoursForecastAdapter;
     private WeatherManager mWeatherManager;
+    private TextView mWeatherLocation;
+    private TextView mWeek;
+    private TextView mWeatherTemperature;
+    private TextView mWeatherInfo;
     private String TAG = "HomeFragment";
 
-    public Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case LOGIN_SUCCESS:
-                    stopLoginAnim();
-                    /*if (loginHandle.handle != 0) {
-                        NasApplication.getInstance().setLoginHandle(loginHandle);
-                        NasApplication.getInstance().setBaseIP(mSelectDevice.getIp());
-                        NasApplication.deviceType = mSelectDevice.getDeviceType();
-                        if (mHomeController != null) {
-                            mHomeController.getDeviceFree();
-                        }
-                        showDevice(true, true);
-                    } else {
-                        showDevice(true, false);
-                        Toast.makeText(mContext, ErrorHelper.getError(loginHandle.errorCode, mContext), Toast.LENGTH_SHORT).show();
-                    }*/
-                    break;
-            }
-        }
-    };
     private ImageView mHomeMenu;
 
 
@@ -115,7 +102,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         initData();
         initView(view);
         initHome();
-        mWeatherManager.weather("杭州");
         return view;
     }
 
@@ -168,6 +154,10 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         mNoDevice.setOnClickListener(this);
         mNativeSpotAdLayout = (RelativeLayout) view.findViewById(R.id.home_rl_native_spot_ad);
 
+        mWeatherLocation = (TextView) view.findViewById(R.id.weather_location);
+        mWeek = (TextView) view.findViewById(R.id.weather_week);
+        mWeatherTemperature = (TextView) view.findViewById(R.id.weather_temperature);
+        mWeatherInfo = (TextView) view.findViewById(R.id.weather_info);
         mHoursForecastRecyclerView = (RecyclerView) view.findViewById(R.id.home_hours_forecast_recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -343,12 +333,19 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLocationEvent(LocationEvent locationEvent) {
+        LogUtil.d(TAG, "==> onLocationEvent : " + locationEvent.getCity());
+        if(!TextUtils.isEmpty(locationEvent.getCity())) {
+            mWeatherManager.weather(locationEvent.getCity());
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWeatherEvent(IWeatherResponse weatherResponse) {
         ArrayList<IWeatherResponse.Data> data =  weatherResponse.getHeWeather6();
         if(data != null && data.size()>0) {
+            Message msg = mHandler.obtainMessage(UPDATE_WEATHER, data);
+            mHandler.sendMessage(msg);
+            mHoursForecastAdapter.clear();
             for(IWeatherResponse.Data temp:data) {
                 LogUtil.d(TAG, "==> getBasic " + temp.getBasic().toString());
                 LogUtil.d(TAG, "==> getNow " + temp.getNow().toString());
@@ -363,5 +360,34 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 mHoursForecastAdapter.addData(hoursForecastDataList);
             }
         }
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case LOGIN_SUCCESS:
+                    stopLoginAnim();
+                    break;
+                case UPDATE_WEATHER:
+                    ArrayList<IWeatherResponse.Data> weatherInfoList = (ArrayList<IWeatherResponse.Data>) msg.obj;
+                    for(IWeatherResponse.Data data:weatherInfoList) {
+                        IWeatherResponse.Data.Now nowWeather = data.getNow();
+                        IWeatherResponse.Data.Basic basic = data.getBasic();
+                        mWeatherLocation.setText(basic.getAdmin_area() + " • " + basic.getLocation());
+                        mWeek.setText(getWeek());
+                        mWeatherInfo.setText(getResources().getString(R.string.weather_status_info,
+                                nowWeather.getCond_txt(), nowWeather.getWind_dir(), String.valueOf(nowWeather.getWind_sc())));
+                    }
+                    break;
+            }
+        }
+    };
+
+    private String getWeek() {
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        return ResourceProvider.getWeek(dayOfWeek-1);
     }
 }

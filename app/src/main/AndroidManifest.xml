@@ -298,6 +298,12 @@
             android:name="BaiduMobAd_WIFI_LOCATION"
             android:value="true" />
 
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="dNkKQmlPLvbz4Xd9OPOXRTqnNd4yEQiO" />
+
+        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote"/>
+
         <!--
         <activity
             android:name="com.android.drovik.video.ui.PlayerActivity"

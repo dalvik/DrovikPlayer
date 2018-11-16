@@ -11,7 +11,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.android.audiorecorder.engine.MultiMediaService;
 import com.android.audiorecorder.engine.UpdateManager;
@@ -20,10 +22,18 @@ import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.activity.BaseCompatActivity;
 import com.android.library.ui.utils.ToastUtils;
 import com.android.library.utils.PermissionHelper;
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.Poi;
+import com.crixmod.sailorcast.SailorCast;
 import com.drovik.player.R;
+import com.drovik.player.location.LocationService;
 import com.drovik.player.ui.fragment.HomeFragment;
 import com.drovik.player.ui.fragment.LeftFragment;
+import com.drovik.player.weather.LocationEvent;
 import com.nineoldandroids.view.ViewHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +64,8 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
     private String device_name;
 
     private PermissionHelper mPermissionHelper;
+
+    private LocationService locationService;
 
     //android 6.0以上，需动态申请的权限
     public static String permissionArray[] = {
@@ -86,6 +98,29 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
             }
         }*/
         initYouMi();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        locationService = ((SailorCast) getApplication()).locationService;
+        //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
+        locationService.registerListener(mListener);
+        //注册监听
+        int type = getIntent().getIntExtra("from", 0);
+        if (type == 0) {
+            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+        } else if (type == 1) {
+            locationService.setLocationOption(locationService.getOption());
+        }
+        locationService.start();// 定位SDK
+    }
+
+    @Override
+    protected void onStop() {
+        locationService.unregisterListener(mListener);//注销掉监听
+        locationService.stop();//停止定位服务
+        super.onStop();
     }
 
     @Override
@@ -286,4 +321,17 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
             }
         }
     }
+
+    private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            if (null != location && location.getLocType() != BDLocation.TypeServerError) {
+                LocationEvent event = new LocationEvent(location.getCity());
+                EventBus.getDefault().post(event);
+            }
+        }
+
+    };
+
 }

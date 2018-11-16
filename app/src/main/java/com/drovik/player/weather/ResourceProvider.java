@@ -23,6 +23,7 @@ public class ResourceProvider {
     private static final long[] SCHEDULES = {30 * 60, 60 * 60, 3 * 60 * 60, 0};
     private static final String[] SUNNY = {"晴", "多云"};
     private static final String[] WEATHERS = {"阴", "晴", "多云", "大雨", "雨", "雪", "风", "雾霾", "雨夹雪"};
+    private static final String[] WEEK = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
     private static final int[] ICONS_ID = {R.mipmap.core_weather_clouds, R.mipmap.core_weather_sunny, R.mipmap.core_weather_few_clouds, R.mipmap.core_weather_big_rain, R.mipmap.core_weather_rain,
             R.mipmap.core_weather_snow, R.mipmap.core_weather_wind, R.mipmap.core_weather_haze, R.mipmap.core_weather_rain_snow};
 
@@ -63,5 +64,11 @@ public class ResourceProvider {
         return R.mipmap.core_weather_none_available;
     }
 
+    public static String getWeek(int dayOfWeek) {
+        if(dayOfWeek>=0 && dayOfWeek<WEATHERS.length) {
+            return WEEK[dayOfWeek];
+        }
+        return WEEK[0];
+    }
 
 }

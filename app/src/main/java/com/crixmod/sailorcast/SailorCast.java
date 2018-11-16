@@ -1,5 +1,6 @@
 package com.crixmod.sailorcast;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -7,14 +8,17 @@ import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.Vibrator;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.crixmod.sailorcast.controller.cling.Factory;
 import com.crixmod.sailorcast.controller.upnp.IUpnpServiceController;
 import com.crixmod.sailorcast.model.upnp.IFactory;
 import com.crixmod.sailorcast.utils.M3UServer;
 import com.drovik.player.AppApplication;
+import com.drovik.player.location.LocationService;
 import com.google.gson.Gson;
 import com.shuyu.gsyvideoplayer.cache.CacheFactory;
 import com.shuyu.gsyvideoplayer.player.PlayerFactory;
@@ -24,6 +28,7 @@ import com.squareup.okhttp.OkHttpClient;
 import java.io.File;
 import java.io.IOException;
 
+import interfaces.heweather.com.interfacesmodule.view.HeConfig;
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager;
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager;
 
@@ -40,6 +45,8 @@ public class SailorCast extends AppApplication {
     public static IUpnpServiceController upnpServiceController = null;
     public static IFactory factory = null;
     public static M3UServer m3userver;
+    public LocationService locationService;
+    public Vibrator mVibrator;
 
     @Override
     public void onCreate() {
@@ -51,14 +58,22 @@ public class SailorCast extends AppApplication {
         mHttpClient = new OkHttpClient();
         mGson = new Gson();
         initHttpClient(mHttpClient,mContext);
+
+        locationService = new LocationService(getApplicationContext());
+        mVibrator =(Vibrator)getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
+        SDKInitializer.initialize(getApplicationContext());
+
+        HeConfig.init("HE1811132254161522", "80150e4b086847ee9fc4dbdc40035f4b");
+        HeConfig.switchToFreeServerNode();
+
 		// Use cling factory
-		if (factory == null)
-			factory = new Factory();
-
+		if (factory == null) {
+            factory = new Factory();
+        }
 		// Upnp service
-		if (upnpServiceController == null)
-			upnpServiceController = factory.createUpnpServiceController(this);
-
+		if (upnpServiceController == null) {
+            upnpServiceController = factory.createUpnpServiceController(this);
+        }
         try {
             m3userver = new M3UServer();
             m3userver.start();

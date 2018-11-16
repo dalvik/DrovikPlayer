@@ -60,8 +60,8 @@ android {
     }
     sourceSets {
         main {
-            //jniLibs.srcDirs = ['libs']
-            jniLibs.srcDir 'jniLibs'
+            jniLibs.srcDirs = ['libs']
+            //jniLibs.srcDir 'jniLibs'
        }
     }
     lintOptions {

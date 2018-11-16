@@ -69,19 +69,16 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@android:color/white"
-                    android:text="杭州"
-                    android:textSize="45sp"
-                    android:textStyle="bold"/>
+                    android:textSize="20sp"/>
 
                 <TextView
-                    android:id="@+id/weather_weak"
+                    android:id="@+id/weather_week"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"
-                    android:text="周四" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/weather_temperature"
@@ -89,9 +86,8 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
                     android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="45sp"
-                    android:text="14"/>
+                    android:textSize="28sp"
+                    android:text="20"/>
 
                 <TextView
                     android:id="@+id/weather_info"
@@ -99,15 +95,17 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
                     android:gravity="center"
-                    android:textSize="20sp"
-                    android:text="多云 | 空气 良"/>
+                    android:textSize="12sp"
+                    android:text="@string/weather_status_info"/>
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/home_hours_forecast_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="bottom"/>
             </LinearLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/home_hours_forecast_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"/>
         </FrameLayout>
         <FrameLayout
             android:id="@+id/home_login"
