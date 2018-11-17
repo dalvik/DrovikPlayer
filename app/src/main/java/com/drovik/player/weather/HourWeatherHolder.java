@@ -27,8 +27,8 @@ public class HourWeatherHolder extends BaseViewHolder<HoursForecastData> {
             return;
         }
         hour.setText(hourly.getTime().substring(11, 16));
-        hourIcon.setImageResource(ResourceProvider.getIconId(hourly.getCond_txt()));
-        hourTemp.setText(hourly.getTmp());
+        hourIcon.setImageResource(ResourceProvider.getResource(getContext(), "p" + hourly.getCond_code()));
+        hourTemp.setText(hourly.getTmp() + "°");
     }
 
     @Override

@@ -603,7 +603,7 @@ public class IWeatherResponse {
             private String time;//预报时间，格式yyyy-MM-dd hh:mm
             private String tmp;//温度
             private String cond_code;//天气状况代码
-            private String cond_txt;//天气状况代码
+            private String cond_txt;//天气状况
             private String wind_deg;//风向360角度
             private String wind_dir;//风向
             private String wind_sc;//风力

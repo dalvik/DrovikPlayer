@@ -100,7 +100,7 @@ public class LetvApi extends BaseSiteApi{
     private final static String ALBUM_LIST_BY_FILTER_URL_FORMAT = "http://static.meizi.app.m.letv.com/android/" +
             "mod/mob/ctl/listalbum/act/index/src/1/cg/%s%s/ph/420003,420004/pn/%s/ps/%s/pcode/010110263/version/5.6.2.mindex.html";
 
-    private final static String LIVE_CUSTOM_CHANNEL_LIST_API = "http://api.live.letv.com/v1/channel/letv/100/1003"; //轮播数据接口
+    private final static String LIVE_CUSTOM_CHANNEL_LIST_API = "http://api.live.letv.com/v1/channel/letv/p100/1003"; //轮播数据接口
     private final static String LIVE_CHANNEL_INFO_API = "http://api.live.letv.com/v1/playbill/current2/1003?channelIds=%s";
     private final static String LIVE_CHANNEL_DETAIL_API = "http://dynamic.live.app.m.letv.com/android/dynamic.php?pcode=010110263&ce=%s&act=channelInfo&version=5.6.2&ctl=live&mod=mob";
     private final static String LIVE_CHANNEL_DETAIL_BYDAY_API = "http://dynamic.live.app.m.letv.com/android/dynamic.php?d=%s&ctl=live&mod=mob&pcode=010110263&ce=%s&act=channelInfo&version=5.6.2";

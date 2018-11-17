@@ -3,6 +3,7 @@ package com.drovik.player.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.audiorecorder.ui.FileExplorerActivity;
+import com.android.audiorecorder.ui.SettingsActivity;
 import com.android.audiorecorder.ui.SoundRecorder;
 import com.android.audiorecorder.ui.activity.LoginActivity;
 import com.android.library.net.utils.LogUtil;
@@ -36,6 +38,7 @@ import com.drovik.player.weather.IWeatherResponse;
 import com.drovik.player.weather.LocationEvent;
 import com.drovik.player.weather.ResourceProvider;
 import com.drovik.player.weather.WeatherManager;
+import com.drovik.utils.Res;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,6 +48,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends BasePager implements View.OnClickListener, IHomeView {
 
@@ -69,7 +74,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     private boolean mLoginSucess;
 
     private RelativeLayout mNativeSpotAdLayout;
-
+    private SharedPreferences mSettings;
     private RecyclerView mHoursForecastRecyclerView;
     private BaseRecyclerAdapter mHoursForecastAdapter;
     private WeatherManager mWeatherManager;
@@ -99,8 +104,8 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        initData();
         initView(view);
+        initData();
         initHome();
         return view;
     }
@@ -119,8 +124,10 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         /*devices = (ArrayList<Device>) DeviceManager.instance().getAllDevice(Device.DEV_TYPE_IP);
         devices.addAll(DeviceManager.instance().getAllDevice(Device.DEV_TYPE_P2P_CHINA));
         devices.addAll(DeviceManager.instance().getAllDevice(Device.DEV_TYPE_P2P_OVERSEAS));*/
+        mSettings = getActivity().getSharedPreferences(SettingsActivity.class.getName(), MODE_PRIVATE);
         mWeatherManager = new WeatherManager();
         EventBus.getDefault().register(this);
+        loadWeather();
     }
 
     private void initView(View view) {
@@ -167,26 +174,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         mHoursForecastRecyclerView.setAdapter(mHoursForecastAdapter);
     }
 
-    private void initHome() {
-        LogUtil.d(TAG, "initHome LoginHandle:" + AppApplication.getInstance());
-        /*if (devices != null && devices.size() > 0) {
-            LogUtil.d(HomeFragment.class, " devices.size():" + devices.size() + "--" + NasApplication.getInstance().getLoginHandle());
-            if (NasApplication.getInstance().getLoginHandle() != null && NasApplication.getInstance().getLoginHandle().handle != 0) {
-                showDevice(true, true);
-            } else {
-                showDevice(true, false);
-                if (NasApplication.getInstance().isFirstInHome()) {
-                    autoLogin();
-                    NasApplication.getInstance().setFirstInHome(false);
-                }
-            }
-        } else {
-            showDevice(false, false);
-        }*/
-
-    }
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -205,54 +192,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-    }
-
-    private void autoLogin() {
-        startLoginAnim();
-         /*if (devices != null) {
-            mSelectDevice = devices.get(devices.size() - 1);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                   LoginModule.instance().logOutAll();
-                    loginHandle = LoginModule.instance().getLoginHandle(mSelectDevice);
-                    Message msg = mHandler.obtainMessage();
-                    msg.what = LOGIN_SUCCESS;
-                    msg.sendToTarget();
-                }
-            }).start();
-        }*/
-    }
-
-    private void showDevice(boolean isShow, boolean loginSucess) {
-        /*LogUtil.d(HomeFragment.class, "showDevice isShow:" + isShow + "--loginSucess:" + loginSucess);
-        if (isShow) {
-            mNoDevice.setVisibility(View.GONE);
-            mLoginImg.setVisibility(View.VISIBLE);
-            mDeviceSize.setVisibility(View.VISIBLE);
-            mOperate.setVisibility(View.VISIBLE);
-            mContainer.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.home_bg));
-            mLoginSucess = loginSucess;
-            if (loginSucess) {
-                gifBg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_body_device_gif_bg_h));
-            } else {
-                gifBg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_body_device_gif_bg_n));
-                mDeviceSize.setText(mContext.getResources().getText(R.string.offline_tip));
-            }
-            mHomeMenu.setBackgroundDrawable(mContext.getApplicationContext().getResources().getDrawable(R.drawable.home_menu_selector));
-        } else {
-            mNoDevice.setVisibility(View.VISIBLE);
-            mLoginImg.setVisibility(View.GONE);
-            mDeviceSize.setVisibility(View.GONE);
-            mOperate.setVisibility(View.GONE);
-            mDeviceName.setTextColor(mContext.getResources().getColor(R.color.common_title));
-            mDeviceName.setText(mContext.getResources().getText(R.string.home));
-            mContainer.setBackgroundColor(mContext.getResources().getColor(R.color.common_bg));
-            mHeader.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-            //mContext.getApplicationContext().getResources().getDrawable(R.drawable.common_menu_selector)
-            mHomeMenu.setBackgroundDrawable(mContext.getApplicationContext().getResources().getDrawable(R.drawable.common_menu_selector));
-        }*/
-
     }
 
     @Override
@@ -300,19 +239,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                     autoLogin();
                 }*/
                 break;
-        }
-    }
-
-    protected void startLoginAnim() {
-        if (frameAnim != null && !frameAnim.isRunning()) {
-            frameAnim.start();
-            //mDeviceSize.setText(mContext.getResources().getText(R.string.logining_device));
-        }
-    }
-
-    protected void stopLoginAnim() {
-        if (frameAnim != null && frameAnim.isRunning()) {
-            frameAnim.stop();
         }
     }
 
@@ -375,15 +301,104 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                     for(IWeatherResponse.Data data:weatherInfoList) {
                         IWeatherResponse.Data.Now nowWeather = data.getNow();
                         IWeatherResponse.Data.Basic basic = data.getBasic();
-                        mWeatherLocation.setText(basic.getAdmin_area() + " • " + basic.getLocation());
-                        mWeek.setText(getWeek());
-                        mWeatherInfo.setText(getResources().getString(R.string.weather_status_info,
-                                nowWeather.getCond_txt(), nowWeather.getWind_dir(), String.valueOf(nowWeather.getWind_sc())));
+                        mSettings.edit().putString(ResourceProvider.ADMIN_AREA, basic.getAdmin_area()).putString(ResourceProvider.LOCATION, basic.getLocation())
+                                .putString(ResourceProvider.WEEK, getWeek()).putString(ResourceProvider.TMP, nowWeather.getTmp()).putString(ResourceProvider.COND_TXT, nowWeather.getCond_txt())
+                                .putString(ResourceProvider.WIND_DIR, nowWeather.getWind_dir()).putString(ResourceProvider.WIND_SC, nowWeather.getWind_sc()).apply();
+                        loadWeather();
                     }
                     break;
             }
         }
     };
+
+    private void initHome() {
+        LogUtil.d(TAG, "initHome LoginHandle:" + AppApplication.getInstance());
+        /*if (devices != null && devices.size() > 0) {
+            LogUtil.d(HomeFragment.class, " devices.size():" + devices.size() + "--" + NasApplication.getInstance().getLoginHandle());
+            if (NasApplication.getInstance().getLoginHandle() != null && NasApplication.getInstance().getLoginHandle().handle != 0) {
+                showDevice(true, true);
+            } else {
+                showDevice(true, false);
+                if (NasApplication.getInstance().isFirstInHome()) {
+                    autoLogin();
+                    NasApplication.getInstance().setFirstInHome(false);
+                }
+            }
+        } else {
+            showDevice(false, false);
+        }*/
+
+    }
+
+    private void loadWeather() {
+        mWeatherLocation.setText(mSettings.getString(ResourceProvider.ADMIN_AREA, "") + " • " + mSettings.getString(ResourceProvider.LOCATION, ""));
+        mWeek.setText(mSettings.getString(ResourceProvider.WEEK, ""));
+        mWeatherTemperature.setText(mSettings.getString(ResourceProvider.TMP, ""));
+        mWeatherInfo.setText(getResources().getString(R.string.weather_status_info,
+                mSettings.getString(ResourceProvider.COND_TXT, ""), mSettings.getString(ResourceProvider.WIND_DIR, ""), mSettings.getString(ResourceProvider.WIND_SC, "")));
+        mWeatherInfo.setVisibility(View.VISIBLE);
+    }
+
+    private void autoLogin() {
+        startLoginAnim();
+         /*if (devices != null) {
+            mSelectDevice = devices.get(devices.size() - 1);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                   LoginModule.instance().logOutAll();
+                    loginHandle = LoginModule.instance().getLoginHandle(mSelectDevice);
+                    Message msg = mHandler.obtainMessage();
+                    msg.what = LOGIN_SUCCESS;
+                    msg.sendToTarget();
+                }
+            }).start();
+        }*/
+    }
+
+    private void showDevice(boolean isShow, boolean loginSucess) {
+        /*LogUtil.d(HomeFragment.class, "showDevice isShow:" + isShow + "--loginSucess:" + loginSucess);
+        if (isShow) {
+            mNoDevice.setVisibility(View.GONE);
+            mLoginImg.setVisibility(View.VISIBLE);
+            mDeviceSize.setVisibility(View.VISIBLE);
+            mOperate.setVisibility(View.VISIBLE);
+            mContainer.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.home_bg));
+            mLoginSucess = loginSucess;
+            if (loginSucess) {
+                gifBg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_body_device_gif_bg_h));
+            } else {
+                gifBg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_body_device_gif_bg_n));
+                mDeviceSize.setText(mContext.getResources().getText(R.string.offline_tip));
+            }
+            mHomeMenu.setBackgroundDrawable(mContext.getApplicationContext().getResources().getDrawable(R.drawable.home_menu_selector));
+        } else {
+            mNoDevice.setVisibility(View.VISIBLE);
+            mLoginImg.setVisibility(View.GONE);
+            mDeviceSize.setVisibility(View.GONE);
+            mOperate.setVisibility(View.GONE);
+            mDeviceName.setTextColor(mContext.getResources().getColor(R.color.common_title));
+            mDeviceName.setText(mContext.getResources().getText(R.string.home));
+            mContainer.setBackgroundColor(mContext.getResources().getColor(R.color.common_bg));
+            mHeader.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+            //mContext.getApplicationContext().getResources().getDrawable(R.drawable.common_menu_selector)
+            mHomeMenu.setBackgroundDrawable(mContext.getApplicationContext().getResources().getDrawable(R.drawable.common_menu_selector));
+        }*/
+
+    }
+
+    protected void startLoginAnim() {
+        if (frameAnim != null && !frameAnim.isRunning()) {
+            frameAnim.start();
+            //mDeviceSize.setText(mContext.getResources().getText(R.string.logining_device));
+        }
+    }
+
+    protected void stopLoginAnim() {
+        if (frameAnim != null && frameAnim.isRunning()) {
+            frameAnim.stop();
+        }
+    }
 
     private String getWeek() {
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());

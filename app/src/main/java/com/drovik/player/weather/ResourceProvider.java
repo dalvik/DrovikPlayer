@@ -1,5 +1,7 @@
 package com.drovik.player.weather;
 
+import android.content.Context;
+
 import com.android.library.utils.TextUtils;
 import com.drovik.player.R;
 
@@ -17,13 +19,21 @@ public class ResourceProvider {
     public static final String NOTIFICATION_THEME = "NOTIFICATION_THEME";
     public static final String POLLING_TIME = "POLLING_TIME";
 
+    public static final String ADMIN_AREA = "admin_area";
+    public static final String LOCATION = "location";
+    public static final String WEEK = "week";
+    public static final String TMP = "tmp";
+    public static final String COND_TXT = "cond_txt";
+    public static final String WIND_DIR = "wind_dir";
+    public static final String WIND_SC = "wind_sc";
+
 
     private static Map<String, Integer> sWeatherIcons = new HashMap<>();
 
     private static final long[] SCHEDULES = {30 * 60, 60 * 60, 3 * 60 * 60, 0};
     private static final String[] SUNNY = {"晴", "多云"};
     private static final String[] WEATHERS = {"阴", "晴", "多云", "大雨", "雨", "雪", "风", "雾霾", "雨夹雪"};
-    private static final String[] WEEK = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
+    private static final String[] WEEKS = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
     private static final int[] ICONS_ID = {R.mipmap.core_weather_clouds, R.mipmap.core_weather_sunny, R.mipmap.core_weather_few_clouds, R.mipmap.core_weather_big_rain, R.mipmap.core_weather_rain,
             R.mipmap.core_weather_snow, R.mipmap.core_weather_wind, R.mipmap.core_weather_haze, R.mipmap.core_weather_rain_snow};
 
@@ -65,10 +75,17 @@ public class ResourceProvider {
     }
 
     public static String getWeek(int dayOfWeek) {
-        if(dayOfWeek>=0 && dayOfWeek<WEATHERS.length) {
-            return WEEK[dayOfWeek];
+        if (dayOfWeek >= 0 && dayOfWeek < WEATHERS.length) {
+            return WEEKS[dayOfWeek];
         }
-        return WEEK[0];
+        return WEEKS[0];
     }
 
+    public static int getResource(Context context, String imageName) {
+        int resId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
+        if(resId == 0) {
+            resId = R.mipmap.core_weather_none_available;
+        }
+        return resId;
+    }
 }

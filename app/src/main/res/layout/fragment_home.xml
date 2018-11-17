@@ -96,6 +96,7 @@
                     android:textColor="@android:color/white"
                     android:gravity="center"
                     android:textSize="12sp"
+                    android:visibility="invisible"
                     android:text="@string/weather_status_info"/>
 
                 <android.support.v7.widget.RecyclerView
