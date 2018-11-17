@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows ="true">
+
+    <include
+        android:id="@+id/search_top_bar"
+        layout="@layout/view_city_search"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/search_top_bar"
+        android:id="@+id/hot_city_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <com.drovik.player.weather.SideLetterBar
+        android:layout_below="@+id/search_top_bar"
+        android:id="@+id/side"
+        android:layout_width="@dimen/common_36_dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/tv_letter_overlay"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:background="@drawable/overlay_bg"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:visibility="gone"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_result_view"
+        android:background="@color/white"
+        android:layout_below="@+id/search_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <include
+        layout="@layout/view_city_no_result"/>
+
+</RelativeLayout>

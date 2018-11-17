@@ -1,6 +1,5 @@
 package com.drovik.player.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,7 +37,6 @@ import com.drovik.player.weather.IWeatherResponse;
 import com.drovik.player.weather.LocationEvent;
 import com.drovik.player.weather.ResourceProvider;
 import com.drovik.player.weather.WeatherManager;
-import com.drovik.utils.Res;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

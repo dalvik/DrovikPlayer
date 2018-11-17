@@ -127,5 +127,11 @@
     <!-- weather -->
     <string name="weather_status_info">%1$s | %2$s %3$s级</string>
     <string name="weather_week">周</string>
+    <string name="city_select">选择城市</string>
+    <string name="city_hot">热门城市</string>
+    <string name="city_located">定位城市</string>
+    <string name="city_search">搜索城市</string>
+    <string name="city_hint_search_box">输入城市名或拼音</string>
+    <string name="city_nothing_found">没有搜索结果~</string>
 
 </resources>

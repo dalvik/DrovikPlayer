@@ -141,4 +141,9 @@
 
     <color name="divider_line">#d9dbe1</color>
     <color name="error_tips">#FF0000</color>
+
+    <color name="dividers_white">#1Cffffff</color>
+    <color name="disable_or_hint_white">#4Cffffff</color>
+    <color name="secondly_text_white">#ABffffff</color>
+    <color name="main_text_white">#fff</color>
 </resources>
