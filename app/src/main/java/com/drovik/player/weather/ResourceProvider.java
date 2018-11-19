@@ -27,7 +27,7 @@ public class ResourceProvider {
     public static final String WIND_DIR = "wind_dir";
     public static final String WIND_SC = "wind_sc";
     public static final String TOP_CITY_JSON = "top_city_json";
-
+    public static final String CITY_DATA = "city_data";
 
     private static Map<String, Integer> sWeatherIcons = new HashMap<>();
 

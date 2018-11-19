@@ -22,7 +22,7 @@ public class CityProvider {
 
     private Context mContext;
     private Handler mCityHandler;
-    private List<City> allCitys;
+    private ArrayList<City> allCitys;
 
     public CityProvider(Context context, Handler handler) {
         this.mContext = context;
@@ -65,7 +65,7 @@ public class CityProvider {
         });
     }
 
-    public List<City> getCitys() {
+    public ArrayList<City> getCitys() {
         return allCitys;
     }
 

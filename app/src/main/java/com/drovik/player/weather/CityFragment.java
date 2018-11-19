@@ -35,16 +35,6 @@ public class CityFragment extends BasePager {
     private LinearLayout mEmptyView;
     private SearchModel mSearchModel;
 
-
-    private void init(View view) {
-        mAllCitiesRecyclerView = (RecyclerView) view.findViewById(R.id.hot_city_list);
-        mTvLetterOverlay = (TextView) view.findViewById(R.id.tv_letter_overlay);
-        mSide = (SideLetterBar) view.findViewById(R.id.side);
-        mSearchTextView = (EditText) view.findViewById(R.id.searchTextView);
-        mActionEmptyBtn = (ImageButton) view.findViewById(R.id.action_empty_btn);
-        mSearchResultView = (RecyclerView) view.findViewById(R.id.search_result_view);
-        mEmptyView = (LinearLayout) view.findViewById(R.id.empty_view);
-    }
     private BaseRecyclerAdapter mSearchResultAdapter;
 
     public CityFragment() {
@@ -93,6 +83,17 @@ public class CityFragment extends BasePager {
                 //linearLayoutManager.scrollToPositionWithOffset(getLetterPosition(letter, allInfoDatas), 0);
             }
         });
+    }
+
+    private void init(View view) {
+        mAllCitiesRecyclerView = (RecyclerView) view.findViewById(R.id.hot_city_list);
+        mTvLetterOverlay = (TextView) view.findViewById(R.id.tv_letter_overlay);
+        mSide = (SideLetterBar) view.findViewById(R.id.side);
+        mSearchTextView = (EditText) view.findViewById(R.id.searchTextView);
+        mActionEmptyBtn = (ImageButton) view.findViewById(R.id.action_empty_btn);
+        mSearchResultView = (RecyclerView) view.findViewById(R.id.search_result_view);
+        mEmptyView = (LinearLayout) view.findViewById(R.id.empty_view);
+        initSearchView();
     }
 
     private void initSearchView() {

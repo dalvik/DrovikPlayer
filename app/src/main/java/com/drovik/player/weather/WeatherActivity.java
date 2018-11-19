@@ -12,6 +12,8 @@ public class WeatherActivity extends BaseCompatActivity {
 
     private int type;
 
+    private CityFragment mCityFragment;
+
     private String TAG = "WeatherActivity";
 
     @Override
@@ -21,7 +23,9 @@ public class WeatherActivity extends BaseCompatActivity {
         Intent intent = getIntent();
         type = intent.getIntExtra("type", 0);
         String topCityJson = intent.getStringExtra(ResourceProvider.TOP_CITY_JSON);
+        intent.getParcelableArrayExtra(ResourceProvider.CITY_DATA);
         LogUtil.d(TAG, "==> " + topCityJson);
-        replaceFragment(R.id.weather_content, CityFragment.newInstance());
+        mCityFragment = CityFragment.newInstance();
+        replaceFragment(R.id.weather_content, mCityFragment);
     }
 }
