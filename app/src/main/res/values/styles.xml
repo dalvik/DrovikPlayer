@@ -50,4 +50,20 @@
         <item name="android:paddingRight">@dimen/common_12_dp</item>
     </style>
 
+    <style name="city_LetterIndexTextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">@dimen/common_36_dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textSize">@dimen/common_36_dp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="core_CommonIconImageSmall">
+        <item name="android:layout_width">@dimen/common_16_dp</item>
+        <item name="android:layout_height">@dimen/common_16_dp</item>
+    </style>
+
 </resources>

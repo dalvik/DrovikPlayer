@@ -26,6 +26,7 @@ public class ResourceProvider {
     public static final String COND_TXT = "cond_txt";
     public static final String WIND_DIR = "wind_dir";
     public static final String WIND_SC = "wind_sc";
+    public static final String TOP_CITY_JSON = "top_city_json";
 
 
     private static Map<String, Integer> sWeatherIcons = new HashMap<>();
@@ -75,14 +76,12 @@ public class ResourceProvider {
     }
 
     public static String getWeek(int dayOfWeek) {
-        if (dayOfWeek >= 0 && dayOfWeek < WEATHERS.length) {
-            return WEEKS[dayOfWeek];
-        }
-        return WEEKS[0];
+        int index = dayOfWeek%WEEKS.length;
+        return WEEKS[index];
     }
 
     public static int getResource(Context context, String imageName) {
-        int resId = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
+        int resId = context.getResources().getIdentifier(imageName, "mipmap", context.getPackageName());
         if(resId == 0) {
             resId = R.mipmap.core_weather_none_available;
         }

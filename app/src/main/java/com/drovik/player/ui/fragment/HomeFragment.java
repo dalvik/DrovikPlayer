@@ -34,14 +34,19 @@ import com.drovik.player.weather.BaseRecyclerAdapter;
 import com.drovik.player.weather.CityProvider;
 import com.drovik.player.weather.HourWeatherHolder;
 import com.drovik.player.weather.HoursForecastData;
+import com.drovik.player.weather.ICityResponse;
 import com.drovik.player.weather.IWeatherResponse;
 import com.drovik.player.weather.LocationEvent;
 import com.drovik.player.weather.ResourceProvider;
+import com.drovik.player.weather.WeatherActivity;
 import com.drovik.player.weather.WeatherManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -126,10 +131,10 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         /*devices = (ArrayList<Device>) DeviceManager.instance().getAllDevice(Device.DEV_TYPE_IP);
         devices.addAll(DeviceManager.instance().getAllDevice(Device.DEV_TYPE_P2P_CHINA));
         devices.addAll(DeviceManager.instance().getAllDevice(Device.DEV_TYPE_P2P_OVERSEAS));*/
+        EventBus.getDefault().register(this);
         mSettings = getActivity().getSharedPreferences(SettingsActivity.class.getName(), MODE_PRIVATE);
         mWeatherManager = new WeatherManager();
         mCityProvider = new CityProvider(getActivity(), mHandler);
-        EventBus.getDefault().register(this);
         mLoadCitySuccess = false;
         mCityProvider.loadCitys();
         loadWeather();
@@ -167,6 +172,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         mNativeSpotAdLayout = (RelativeLayout) view.findViewById(R.id.home_rl_native_spot_ad);
 
         mWeatherLocation = (TextView) view.findViewById(R.id.weather_location);
+        mWeatherLocation.setOnClickListener(this);
         mWeek = (TextView) view.findViewById(R.id.weather_week);
         mWeatherTemperature = (TextView) view.findViewById(R.id.weather_temperature);
         mWeatherInfo = (TextView) view.findViewById(R.id.weather_info);
@@ -244,6 +250,13 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                     autoLogin();
                 }*/
                 break;
+            case R.id.weather_location:
+                Intent weatherActivity = new Intent(mContext, WeatherActivity.class);
+                weatherActivity.putExtra(ResourceProvider.TOP_CITY_JSON, mSettings.getString(ResourceProvider.TOP_CITY_JSON,""));
+                startActivity(weatherActivity);
+                break;
+                default:
+                    break;
         }
     }
 
@@ -266,7 +279,29 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     public void onLocationEvent(LocationEvent locationEvent) {
         LogUtil.d(TAG, "==> onLocationEvent : " + locationEvent.getCity());
         if(!TextUtils.isEmpty(locationEvent.getCity())) {
+            mWeatherManager.topCity("cn", "6");
             mWeatherManager.weather(locationEvent.getCity());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTopCity(ICityResponse weatherResponse) {
+        ArrayList<ICityResponse.Data> data =  weatherResponse.getHeWeather6();
+        if(data != null && data.size()>0) {
+            for(ICityResponse.Data temp:data) {
+                ArrayList<ICityResponse.Data.BasicData> basics = temp.getBasic();
+                JSONArray jsonArray = new JSONArray();
+                for(ICityResponse.Data.BasicData basicData:basics) {
+                    LogUtil.d(TAG, "==> cityBasic: " + basicData.toJSONString());
+                    try {
+                        JSONObject jsonItem = new JSONObject(basicData.toJSONString());
+                        jsonArray.put(jsonItem);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                mSettings.edit().putString(ResourceProvider.TOP_CITY_JSON, jsonArray.toString()).apply();
+            }
         }
     }
 
@@ -413,6 +448,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     private String getWeek() {
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        return ResourceProvider.getWeek(dayOfWeek-1);
+        return ResourceProvider.getWeek(dayOfWeek);
     }
 }

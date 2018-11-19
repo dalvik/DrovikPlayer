@@ -10,7 +10,7 @@ import retrofit2.http.QueryMap;
 public interface ICity {
 
     @GET("top?")
-    Call<ICityResponse> topCity(@Query("key") String key, @Query("group") String group, @QueryMap Map<String, String> map);
+    Call<ICityResponse> topCity(@Query("key") String key, @Query("group") String group, @Query("number") String number);
 
     @GET("find?")
     Call<ICityResponse> findCity(@Query("key") String key, @Query("group") String group, @QueryMap Map<String, String> map);
