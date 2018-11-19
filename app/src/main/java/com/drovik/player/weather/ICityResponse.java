@@ -1,5 +1,10 @@
 package com.drovik.player.weather;
 
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class ICityResponse {
@@ -71,6 +76,23 @@ public class ICityResponse {
 
             public BasicData() {
 
+            }
+
+            public BasicData(String jsonString) {
+                try {
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    cid = jsonObject.optString("cic");
+                    location = jsonObject.optString("location");
+                    parent_city = jsonObject.optString("parent_city");
+                    admin_area = jsonObject.optString("admin_area");
+                    cnty = jsonObject.optString("cnty");
+                    lat = jsonObject.optString("lat");
+                    lon = jsonObject.optString("lon");
+                    tz = jsonObject.optString("tz");
+                    type = jsonObject.optString("type");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             public String getCid() {
@@ -158,6 +180,24 @@ public class ICityResponse {
                         ", tz='" + tz + '\'' +
                         ", type='" + type + '\'' +
                         '}';
+            }
+
+            public String toJSONString(){
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("cid", cid);
+                    jsonObject.put("location", location);
+                    jsonObject.put("parent_city", parent_city);
+                    jsonObject.put("admin_area", admin_area);
+                    jsonObject.put("cnty", cnty);
+                    jsonObject.put("lat", lat);
+                    jsonObject.put("lon", lon);
+                    jsonObject.put("tz", tz);
+                    jsonObject.put("type", type);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return jsonObject.toString();
             }
         }
     }

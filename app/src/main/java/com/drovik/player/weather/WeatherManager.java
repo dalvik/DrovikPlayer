@@ -1,5 +1,7 @@
 package com.drovik.player.weather;
 
+import android.util.Log;
+
 import org.greenrobot.eventbus.EventBus;
 
 import retrofit2.Call;
@@ -17,12 +19,16 @@ public class WeatherManager {
     public void weather(String location) {
         Retrofit retrofit = RetrofitManager.getDefaultRetrofit(RetrofitManager.BASE_URL_WEATHER);
         IWeather service = retrofit.create(IWeather.class);
-        Call<IWeatherResponse> fetcherWeaherCall = service.weather(RetrofitManager.KEY, location);
+        final Call<IWeatherResponse> fetcherWeaherCall = service.weather(RetrofitManager.KEY, location);
         fetcherWeaherCall.enqueue(new Callback<IWeatherResponse>() {
             @Override
             public void onResponse(Call<IWeatherResponse> call, Response<IWeatherResponse> response) {
                 IWeatherResponse fetchWeatherResponse = response.body();
-                EventBus.getDefault().post(fetchWeatherResponse);
+                if(fetchWeatherResponse != null) {
+                    EventBus.getDefault().post(fetchWeatherResponse);
+                } else {
+                    Log.d(TAG, "==> fetchWeatherResponse null.");
+                }
             }
 
             @Override
@@ -32,4 +38,25 @@ public class WeatherManager {
         });
     }
 
+    public void topCity(String group, String number) {
+        Retrofit retrofit = RetrofitManager.getDefaultRetrofit(RetrofitManager.URL_CITY);
+        ICity service = retrofit.create(ICity.class);
+        Call<ICityResponse> fetcherWeaherCall = service.topCity(RetrofitManager.KEY, group, number);
+        fetcherWeaherCall.enqueue(new Callback<ICityResponse>() {
+            @Override
+            public void onResponse(Call<ICityResponse> call, Response<ICityResponse> response) {
+                ICityResponse fetchWeatherResponse = response.body();
+                if(fetchWeatherResponse != null) {
+                    EventBus.getDefault().post(fetchWeatherResponse);
+                } else {
+                    Log.d(TAG, "==> fetchWeatherResponse null.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ICityResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
 }

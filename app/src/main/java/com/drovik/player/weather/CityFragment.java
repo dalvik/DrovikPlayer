@@ -21,36 +21,44 @@ import com.drovik.player.R;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import butterknife.BindView;
-
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class CityFragment extends BasePager {
 
-    @BindView(R2.id.hot_city_list)
-    RecyclerView mAllCitiesRecyclerView;
-    @BindView(R2.id.tv_letter_overlay)
-    TextView mTvLetterOverlay;
-    @BindView(R2.id.side)
-    SideLetterBar mSide;
-    @BindView(R2.id.searchTextView)
-    EditText mSearchTextView;
-    @BindView(R2.id.action_empty_btn)
-    ImageButton mActionEmptyBtn;
-    @BindView(R2.id.search_result_view)
-    RecyclerView mSearchResultView;
-    @BindView(R2.id.empty_view)
-    LinearLayout mEmptyView;
+    private RecyclerView mAllCitiesRecyclerView;
+    private TextView mTvLetterOverlay;
+    private SideLetterBar mSide;
+    private EditText mSearchTextView;
+    private ImageButton mActionEmptyBtn;
+    private RecyclerView mSearchResultView;
+    private LinearLayout mEmptyView;
     private SearchModel mSearchModel;
 
 
+    private void init(View view) {
+        mAllCitiesRecyclerView = (RecyclerView) view.findViewById(R.id.hot_city_list);
+        mTvLetterOverlay = (TextView) view.findViewById(R.id.tv_letter_overlay);
+        mSide = (SideLetterBar) view.findViewById(R.id.side);
+        mSearchTextView = (EditText) view.findViewById(R.id.searchTextView);
+        mActionEmptyBtn = (ImageButton) view.findViewById(R.id.action_empty_btn);
+        mSearchResultView = (RecyclerView) view.findViewById(R.id.search_result_view);
+        mEmptyView = (LinearLayout) view.findViewById(R.id.empty_view);
+    }
     private BaseRecyclerAdapter mSearchResultAdapter;
 
+    public CityFragment() {
+    }
+
+    public static CityFragment newInstance() {
+        CityFragment fragment = new CityFragment();
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_city_search, container, false);
+        init(view);
         return view;
     }
 
@@ -65,26 +73,24 @@ public class CityFragment extends BasePager {
     }
 
     public void onAllCities(final List<CityInfoData> allInfoDatas) {
-
-
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mAllCitiesRecyclerView.setLayoutManager(linearLayoutManager);
-        BaseRecyclerAdapter citiesAdapter = new BaseRecyclerAdapter(this);
+        BaseRecyclerAdapter citiesAdapter = new BaseRecyclerAdapter(getActivity());
         citiesAdapter.registerHolder(HeaderHolder.class, new HeaderData());
         citiesAdapter.registerHolder(CityHolder.class, allInfoDatas);
         mAllCitiesRecyclerView.setAdapter(citiesAdapter);
 
-        LinearLayoutManager resultLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager resultLayoutManager = new LinearLayoutManager(getActivity());
         mSearchResultView.setLayoutManager(resultLayoutManager);
-        mSearchResultAdapter = new BaseRecyclerAdapter(this);
-        mSearchResultAdapter.registerHolder(CityHolder.class, R.layout.city_item_city);
+        mSearchResultAdapter = new BaseRecyclerAdapter(getActivity());
+        mSearchResultAdapter.registerHolder(CityHolder.class, R.layout.item_city_city);
         mSearchResultView.setAdapter(mSearchResultAdapter);
 
         mSide.setOverlay(mTvLetterOverlay);
         mSide.setOnLetterChangedListener(new SideLetterBar.OnLetterChangedListener() {
             @Override
             public void onLetterChanged(String letter) {
-                linearLayoutManager.scrollToPositionWithOffset(getLetterPosition(letter, allInfoDatas), 0);
+                //linearLayoutManager.scrollToPositionWithOffset(getLetterPosition(letter, allInfoDatas), 0);
             }
         });
     }
@@ -95,7 +101,6 @@ public class CityFragment extends BasePager {
         mSearchTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
                 return true;
             }
         });
@@ -130,7 +135,6 @@ public class CityFragment extends BasePager {
                 }
             }
         });
-
     }
 
     private void setCursorDrawable(int drawable) {

@@ -208,6 +208,12 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
 
+        <!-- start weather -->
+        <activity android:name="com.drovik.player.weather.WeatherActivity"
+            android:theme="@style/AppTheme"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- end weather -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.drovik.player"

@@ -127,7 +127,12 @@ dependencies {
     api 'com.squareup.retrofit2:retrofit:2.3.0'
     api 'com.squareup.retrofit2:converter-gson:2.1.0'
     api files('libs/sdk_HeWeather_Public_Android_V2.0.jar')
-    api ("com.jakewharton:butterknife:8.8.1")
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    api ("com.jakewharton:butterknife:8.5.1")
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     api 'org.greenrobot:eventbus:3.0.0'
+    api "com.github.SilenceDut.Hub:hub:1.7.5_dev"
+    annotationProcessor "com.github.SilenceDut.Hub:hub-compiler:1.7.5_dev"
+    api "com.silencedut:router:1.3.0"
+    annotationProcessor "com.silencedut:router-compiler:1.0.1"
+    api "com.github.SilenceDut:TaskScheduler:1.2.5"
 }
