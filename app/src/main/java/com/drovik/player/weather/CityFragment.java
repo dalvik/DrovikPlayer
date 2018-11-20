@@ -16,9 +16,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.library.ui.pager.BasePager;
+import com.crixmod.sailorcast.model.SCChannel;
+import com.crixmod.sailorcast.model.SCSite;
+import com.crixmod.sailorcast.siteapi.SiteApi;
 import com.drovik.player.R;
+import com.drovik.player.video.ui.adapter.MovieListAdapter;
+import com.drovik.player.video.ui.pager.BaseMoviePager;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.GONE;
@@ -37,18 +43,31 @@ public class CityFragment extends BasePager {
 
     private BaseRecyclerAdapter mSearchResultAdapter;
 
+    ArrayList<CityInfoData> mCitys;
+
     public CityFragment() {
     }
 
-    public static CityFragment newInstance() {
+    public static CityFragment newInstance(ArrayList<CityInfoData> citys) {
         CityFragment fragment = new CityFragment();
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(ResourceProvider.CITY_DATA, citys);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mCitys = getArguments().getParcelableArrayList(ResourceProvider.CITY_DATA);
+        }
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_city_search, container, false);
         init(view);
+        onAllCities(mCitys);
         return view;
     }
 
@@ -62,7 +81,7 @@ public class CityFragment extends BasePager {
 
     }
 
-    public void onAllCities(final List<CityInfoData> allInfoDatas) {
+    private void onAllCities(final List<CityInfoData> allInfoDatas) {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mAllCitiesRecyclerView.setLayoutManager(linearLayoutManager);
         BaseRecyclerAdapter citiesAdapter = new BaseRecyclerAdapter(getActivity());

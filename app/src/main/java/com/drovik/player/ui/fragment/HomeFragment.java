@@ -253,7 +253,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
             case R.id.weather_location:
                 Intent weatherActivity = new Intent(mContext, WeatherActivity.class);
                 weatherActivity.putExtra(ResourceProvider.TOP_CITY_JSON, mSettings.getString(ResourceProvider.TOP_CITY_JSON,""));
-                //weatherActivity.putParcelableArrayListExtra(ResourceProvider.CITY_DATA, mCityProvider.getCitys());
+                weatherActivity.putParcelableArrayListExtra(ResourceProvider.CITY_DATA, mCityProvider.getCitys());
                 startActivity(weatherActivity);
                 break;
                 default:

@@ -22,12 +22,12 @@ public class CityProvider {
 
     private Context mContext;
     private Handler mCityHandler;
-    private ArrayList<City> allCitys;
+    private ArrayList<CityInfoData> allCitys;
 
     public CityProvider(Context context, Handler handler) {
         this.mContext = context;
         this.mCityHandler = handler;
-        allCitys = new ArrayList<City>();
+        allCitys = new ArrayList<CityInfoData>();
     }
 
     public void loadCitys() {
@@ -44,14 +44,7 @@ public class CityProvider {
 
                         for (CityEntry.CityBean cityBean : cityEntry.getCity()) {
                             for (CityEntry.CityBean.CountyBean county : cityBean.getCounty()) {
-                                City city = new City();
-                                city.province = cityEntry.getName();
-                                city.provinceEn = cityEntry.getName_en();
-                                city.cityName = cityBean.getName();
-                                city.cityId = county.getCode();
-                                city.country = county.getName();
-                                city.countryEn = county.getName_en();
-
+                                CityInfoData city = new CityInfoData(cityEntry.getName(), county.getName_en(), county.getCode());
                                 allCitys.add(city);
                             }
                         }
@@ -65,7 +58,7 @@ public class CityProvider {
         });
     }
 
-    public ArrayList<City> getCitys() {
+    public ArrayList<CityInfoData> getCitys() {
         return allCitys;
     }
 
@@ -118,13 +111,13 @@ public class CityProvider {
     /**
      * a-z排序
      */
-    private class CityComparator implements Comparator<City> {
+    private class CityComparator implements Comparator<CityInfoData> {
 
         @Override
-        public int compare(City cityLeft, City cityRight) {
+        public int compare(CityInfoData cityLeft, CityInfoData cityRight) {
 
-            char a = cityLeft.countryEn.charAt(0);
-            char b = cityRight.countryEn.charAt(0);
+            char a = cityLeft.mCityNamePinyin.charAt(0);
+            char b = cityRight.mCityNamePinyin.charAt(0);
 
             return a - b;
         }

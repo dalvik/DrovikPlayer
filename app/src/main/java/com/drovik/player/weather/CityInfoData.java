@@ -8,10 +8,10 @@ import com.drovik.player.R;
 
 public class CityInfoData implements BaseAdapterData, Parcelable {
 
-    private String mInitial;
-    private String mCityName;
-    private String mCityNamePinyin;
-    private String mCityId;
+    public String mInitial;
+    public String mCityName;
+    public String mCityNamePinyin;
+    public String mCityId;
 
     public CityInfoData(String cityName, String cityNamePinyin, String cityId) {
         this.mCityName = cityName;

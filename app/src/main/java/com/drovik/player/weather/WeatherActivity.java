@@ -8,6 +8,8 @@ import com.android.library.ui.activity.BaseCompatActivity;
 import com.drovik.player.R;
 import com.drovik.player.ui.fragment.HomeFragment;
 
+import java.util.ArrayList;
+
 public class WeatherActivity extends BaseCompatActivity {
 
     private int type;
@@ -23,9 +25,12 @@ public class WeatherActivity extends BaseCompatActivity {
         Intent intent = getIntent();
         type = intent.getIntExtra("type", 0);
         String topCityJson = intent.getStringExtra(ResourceProvider.TOP_CITY_JSON);
-        intent.getParcelableArrayExtra(ResourceProvider.CITY_DATA);
+        ArrayList<CityInfoData> citys = intent.getParcelableArrayListExtra(ResourceProvider.CITY_DATA);
         LogUtil.d(TAG, "==> " + topCityJson);
-        mCityFragment = CityFragment.newInstance();
+        mCityFragment = CityFragment.newInstance(citys);
         replaceFragment(R.id.weather_content, mCityFragment);
+        /*if(citys != null) {
+            mCityFragment.onAllCities(citys);
+        }*/
     }
 }
