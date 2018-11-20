@@ -1,8 +1,8 @@
 package com.drovik.player.weather;
 
 import android.support.annotation.NonNull;
-public class City {
 
+public class City {
     @NonNull
     public String cityId = "";
 
