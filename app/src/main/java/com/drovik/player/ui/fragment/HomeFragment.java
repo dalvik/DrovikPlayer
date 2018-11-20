@@ -31,6 +31,7 @@ import com.drovik.player.R;
 import com.drovik.player.audio.ui.MusicActivity;
 import com.drovik.player.ui.HomeActivity;
 import com.drovik.player.weather.BaseRecyclerAdapter;
+import com.drovik.player.weather.CityProvider;
 import com.drovik.player.weather.HourWeatherHolder;
 import com.drovik.player.weather.HoursForecastData;
 import com.drovik.player.weather.ICityResponse;
@@ -58,6 +59,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
 
     private static final int LOGIN_SUCCESS = 1001;
     private static final int UPDATE_WEATHER = 2000;
+    public static final int LOAD_CITYS_SUCCESS = 3000;
     private LinearLayout mNoDevice;
     private ImageView gifBg;
     private TextView mDeviceSize;
@@ -85,6 +87,8 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     private TextView mWeek;
     private TextView mWeatherTemperature;
     private TextView mWeatherInfo;
+    private CityProvider mCityProvider;
+    private boolean mLoadCitySuccess;
     private String TAG = "HomeFragment";
 
     private ImageView mHomeMenu;
@@ -130,6 +134,9 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         EventBus.getDefault().register(this);
         mSettings = getActivity().getSharedPreferences(SettingsActivity.class.getName(), MODE_PRIVATE);
         mWeatherManager = new WeatherManager();
+        mCityProvider = new CityProvider(getActivity(), mHandler);
+        mLoadCitySuccess = false;
+        mCityProvider.loadCitys();
         loadWeather();
     }
 
@@ -340,6 +347,11 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                         loadWeather();
                     }
                     break;
+                case LOAD_CITYS_SUCCESS:
+                    mLoadCitySuccess = true;
+                    break;
+                    default:
+                        break;
             }
         }
     };
