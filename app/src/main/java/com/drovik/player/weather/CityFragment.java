@@ -99,7 +99,7 @@ public class CityFragment extends BasePager {
         mSide.setOnLetterChangedListener(new SideLetterBar.OnLetterChangedListener() {
             @Override
             public void onLetterChanged(String letter) {
-                //linearLayoutManager.scrollToPositionWithOffset(getLetterPosition(letter, allInfoDatas), 0);
+                linearLayoutManager.scrollToPositionWithOffset(getLetterPosition(letter, allInfoDatas), 0);
             }
         });
     }
@@ -165,6 +165,16 @@ public class CityFragment extends BasePager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private int getLetterPosition(String letter, List<CityInfoData> allInfoDatas) {
+        int position = 0;
+        for (CityInfoData cityInfoData : allInfoDatas) {
+            if (letter.equalsIgnoreCase(cityInfoData.getInitial())) {
+                position = allInfoDatas.indexOf(cityInfoData);
+            }
+        }
+        return position;
     }
 
 }

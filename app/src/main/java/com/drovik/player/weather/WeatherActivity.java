@@ -2,6 +2,7 @@ package com.drovik.player.weather;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.activity.BaseCompatActivity;
@@ -22,6 +23,7 @@ public class WeatherActivity extends BaseCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
+        setActionBarVisiable(View.GONE);
         Intent intent = getIntent();
         type = intent.getIntExtra("type", 0);
         String topCityJson = intent.getStringExtra(ResourceProvider.TOP_CITY_JSON);

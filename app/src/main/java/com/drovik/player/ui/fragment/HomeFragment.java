@@ -280,7 +280,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     public void onLocationEvent(LocationEvent locationEvent) {
         LogUtil.d(TAG, "==> onLocationEvent : " + locationEvent.getCity());
         if(!TextUtils.isEmpty(locationEvent.getCity())) {
-            mWeatherManager.topCity("cn", "6");
+            mWeatherManager.topCity("cn", "9");
             mWeatherManager.weather(locationEvent.getCity());
         }
     }

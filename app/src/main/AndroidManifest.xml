@@ -212,6 +212,7 @@
         <activity android:name="com.drovik.player.weather.WeatherActivity"
             android:theme="@style/AppTheme"
             android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
         <!-- end weather -->
         <provider

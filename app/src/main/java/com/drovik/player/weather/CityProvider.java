@@ -41,15 +41,22 @@ public class CityProvider {
                     for (int index = 0; index < jsonArray.length(); index++) {
                         JSONObject cityObject = jsonArray.getJSONObject(index);
                         CityEntry cityEntry = fromJson(cityObject.toString(), CityEntry.class);
-
                         for (CityEntry.CityBean cityBean : cityEntry.getCity()) {
                             for (CityEntry.CityBean.CountyBean county : cityBean.getCounty()) {
-                                CityInfoData city = new CityInfoData(cityEntry.getName(), county.getName_en(), county.getCode());
+                                CityInfoData city = new CityInfoData(county.getName(), county.getName_en(), county.getCode());
                                 allCitys.add(city);
                             }
                         }
                     }
                     Collections.sort(allCitys, new CityComparator());
+                    String lastInitial = "";
+                    for(CityInfoData city:allCitys) {
+                        String currentInitial = city.getCityNamePinyin().substring(0, 1);
+                        if (!lastInitial.equals(currentInitial)) {
+                            city.setInitial(currentInitial);
+                            lastInitial = currentInitial;
+                        }
+                    }
                     mCityHandler.sendEmptyMessage(HomeFragment.LOAD_CITYS_SUCCESS);
                 } catch (Exception e) {
                     e.printStackTrace();
