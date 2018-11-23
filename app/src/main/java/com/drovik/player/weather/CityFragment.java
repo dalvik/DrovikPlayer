@@ -1,12 +1,15 @@
 package com.drovik.player.weather;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +19,14 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.audiorecorder.ui.pager.FileRecordPager;
 import com.android.library.ui.pager.BasePager;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClientOption;
 import com.drovik.player.R;
 import com.drovik.player.location.LocationService;
+import com.silencedut.taskscheduler.TaskScheduler;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -37,6 +42,8 @@ import static android.view.View.VISIBLE;
 
 public class CityFragment extends BasePager {
 
+    private final static int MSG_UPGRADE_TOP_CITY = 1000;
+
     private RecyclerView mAllCitiesRecyclerView;
     private TextView mTvLetterOverlay;
     private SideLetterBar mSide;
@@ -44,14 +51,17 @@ public class CityFragment extends BasePager {
     private ImageButton mActionEmptyBtn;
     private RecyclerView mSearchResultView;
     private LinearLayout mEmptyView;
-    private SearchModel mSearchModel;
+    //private SearchModel mSearchModel;
 
     private BaseRecyclerAdapter mSearchResultAdapter;
 
     private ArrayList<CityInfoData> mCitys;
+    private ArrayList<CityInfoData> mSearchCitys;
     private String mHotCityJson;
     private ArrayList<Pair<String, String>> mHeaderData;
     private LocationService locationService;
+
+    private String TAG = "CityFragment";
 
     public CityFragment() {
     }
@@ -76,6 +86,7 @@ public class CityFragment extends BasePager {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_city_search, container, false);
+        mSearchCitys = new ArrayList<>();
         init(view);
         onAllCities(mCitys, mHotCityJson);
         locationService = new LocationService(getActivity());
@@ -164,6 +175,7 @@ public class CityFragment extends BasePager {
                 boolean hasText = !TextUtils.isEmpty(text);
                 if (hasText) {
                     mActionEmptyBtn.setVisibility(VISIBLE);
+                    search(text);
                 } else {
                     mActionEmptyBtn.setVisibility(GONE);
                 }
@@ -179,7 +191,6 @@ public class CityFragment extends BasePager {
                 } else {
                     mActionEmptyBtn.setVisibility(View.VISIBLE);
                     mSearchResultView.setVisibility(View.VISIBLE);
-                    mSearchModel.matchCities(keyword);
                 }
             }
         });
@@ -234,4 +245,37 @@ public class CityFragment extends BasePager {
         return hotCityList;
     }
 
+    private void search(final CharSequence key) {
+        Log.d(TAG, "==> search key:" + key);
+        if(mCitys == null || mCitys.size()==0) {
+            return;
+        }
+        TaskScheduler.execute(new Runnable() {
+            @Override
+            public void run() {
+                mSearchCitys.clear();
+                for(CityInfoData data:mCitys) {
+                    if(data.getCityNamePinyin().contains(key) || data.getCityName().contains(key) || data.getCityId().contains(key)) {
+                        mSearchCitys.add(data);
+                    }
+                }
+                mHandler.sendEmptyMessage(MSG_UPGRADE_TOP_CITY);
+            }
+        });
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_UPGRADE_TOP_CITY:
+                    mSearchResultAdapter.setData(mSearchCitys);
+                    mSearchResultAdapter.notifyDataSetChanged();
+                    break;
+                    default:
+                        break;
+            }
+        }
+    };
 }

@@ -10,6 +10,7 @@ import com.android.library.net.utils.LogUtil;
 import com.drovik.player.R;
 import com.silencedut.router.Router;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -34,8 +35,8 @@ public class HeaderHolder extends BaseViewHolder<HeaderData>{
     public HeaderHolder(View itemView, BaseRecyclerAdapter baseRecyclerAdapter) {
         super(itemView, baseRecyclerAdapter);
         Router.instance().register(this);
+        EventBus.getDefault().register(this);
         initViews();
-
     }
 
     @Override
