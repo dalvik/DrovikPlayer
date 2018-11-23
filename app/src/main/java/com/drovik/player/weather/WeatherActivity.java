@@ -29,7 +29,7 @@ public class WeatherActivity extends BaseCompatActivity {
         String topCityJson = intent.getStringExtra(ResourceProvider.TOP_CITY_JSON);
         ArrayList<CityInfoData> citys = intent.getParcelableArrayListExtra(ResourceProvider.CITY_DATA);
         LogUtil.d(TAG, "==> " + topCityJson);
-        mCityFragment = CityFragment.newInstance(citys);
+        mCityFragment = CityFragment.newInstance(citys, topCityJson);
         replaceFragment(R.id.weather_content, mCityFragment);
         /*if(citys != null) {
             mCityFragment.onAllCities(citys);

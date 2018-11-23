@@ -1,6 +1,7 @@
 package com.drovik.player.weather;
 
 import android.os.Bundle;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -16,12 +17,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.library.ui.pager.BasePager;
-import com.crixmod.sailorcast.model.SCChannel;
-import com.crixmod.sailorcast.model.SCSite;
-import com.crixmod.sailorcast.siteapi.SiteApi;
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClientOption;
 import com.drovik.player.R;
-import com.drovik.player.video.ui.adapter.MovieListAdapter;
-import com.drovik.player.video.ui.pager.BaseMoviePager;
+import com.drovik.player.location.LocationService;
+
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -43,15 +48,19 @@ public class CityFragment extends BasePager {
 
     private BaseRecyclerAdapter mSearchResultAdapter;
 
-    ArrayList<CityInfoData> mCitys;
+    private ArrayList<CityInfoData> mCitys;
+    private String mHotCityJson;
+    private ArrayList<Pair<String, String>> mHeaderData;
+    private LocationService locationService;
 
     public CityFragment() {
     }
 
-    public static CityFragment newInstance(ArrayList<CityInfoData> citys) {
+    public static CityFragment newInstance(ArrayList<CityInfoData> citys, String topCityJson) {
         CityFragment fragment = new CityFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(ResourceProvider.CITY_DATA, citys);
+        args.putString(ResourceProvider.TOP_CITY_JSON, topCityJson);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,6 +69,7 @@ public class CityFragment extends BasePager {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            mHotCityJson = getArguments().getString(ResourceProvider.TOP_CITY_JSON);
             mCitys = getArguments().getParcelableArrayList(ResourceProvider.CITY_DATA);
         }
     }
@@ -67,7 +77,14 @@ public class CityFragment extends BasePager {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_city_search, container, false);
         init(view);
-        onAllCities(mCitys);
+        onAllCities(mCitys, mHotCityJson);
+        locationService = new LocationService(getActivity());
+        //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
+        locationService.registerListener(mListener);
+        LocationClientOption option = locationService.getDefaultLocationClientOption();
+        option.setScanSpan(0);
+        locationService.setLocationOption(option);
+        locationService.start();// 定位SDK
         return view;
     }
 
@@ -81,11 +98,22 @@ public class CityFragment extends BasePager {
 
     }
 
-    private void onAllCities(final List<CityInfoData> allInfoDatas) {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        locationService.unregisterListener(mListener);//注销掉监听
+        locationService.stop();//停止定位服务
+    }
+
+    private void onAllCities(final List<CityInfoData> allInfoDatas, String hotCity) {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mAllCitiesRecyclerView.setLayoutManager(linearLayoutManager);
         BaseRecyclerAdapter citiesAdapter = new BaseRecyclerAdapter(getActivity());
-        citiesAdapter.registerHolder(HeaderHolder.class, new HeaderData());
+        HeaderData headerData = new HeaderData();
+        if(!TextUtils.isEmpty(hotCity)) {
+            headerData.setData(getHotCity(hotCity));
+        }
+        citiesAdapter.registerHolder(HeaderHolder.class, headerData);
         citiesAdapter.registerHolder(CityHolder.class, allInfoDatas);
         mAllCitiesRecyclerView.setAdapter(citiesAdapter);
 
@@ -175,6 +203,35 @@ public class CityFragment extends BasePager {
             }
         }
         return position;
+    }
+
+    private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            if (null != location && location.getLocType() != BDLocation.TypeServerError) {
+                LocationHotCityEvent event = new LocationHotCityEvent(location.getCity());
+                EventBus.getDefault().post(event);
+            }
+        }
+
+    };
+
+    private ArrayList<Pair<String, String>> getHotCity(String hotCityJson) {
+        ArrayList<Pair<String, String>> hotCityList = new ArrayList<>();
+        try {
+            JSONArray hotCities = new JSONArray(hotCityJson);
+            int length = hotCities.length();
+            for(int i=0; i<length; i++) {
+                JSONObject item = hotCities.getJSONObject(i);
+                ICityResponse.Data.BasicData temp = new ICityResponse.Data.BasicData(item.toString());
+                Pair<String, String> city = new Pair<>(temp.getLocation(), temp.getCid());
+                hotCityList.add(city);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return hotCityList;
     }
 
 }

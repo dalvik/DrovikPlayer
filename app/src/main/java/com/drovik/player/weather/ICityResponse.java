@@ -32,7 +32,7 @@ public class ICityResponse {
         return sb.toString();
     }
 
-    public class Data{
+    public static class Data{
         private String status;
         private ArrayList<BasicData> basic;
 
@@ -63,7 +63,7 @@ public class ICityResponse {
             return sb.toString();
         }
 
-        public class BasicData{
+        public static class BasicData{
             private String cid;
             private String location;
             private String parent_city;

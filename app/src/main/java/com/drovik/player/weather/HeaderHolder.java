@@ -6,8 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.library.net.utils.LogUtil;
 import com.drovik.player.R;
 import com.silencedut.router.Router;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +29,7 @@ public class HeaderHolder extends BaseViewHolder<HeaderData>{
 
     private BaseRecyclerAdapter mHotCityAdapter;
 
+    private String TAG = "HeaderHolder";
 
     public HeaderHolder(View itemView, BaseRecyclerAdapter baseRecyclerAdapter) {
         super(itemView, baseRecyclerAdapter);
@@ -59,10 +64,16 @@ public class HeaderHolder extends BaseViewHolder<HeaderData>{
     }
 
 
-    private void showLocation(boolean locationSuccess) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLocationEvent(LocationHotCityEvent locationEvent) {
+        LogUtil.d(TAG, "==> onLocationEvent : " + locationEvent.getCity());
+        showLocation(true, locationEvent.getCity());
+    }
+
+    private void showLocation(boolean locationSuccess, String city) {
         mLocationSucceeded = locationSuccess;
         if (locationSuccess) {
-            mTvLocatedCity.setText("aaa");
+            mTvLocatedCity.setText(city);
         } else {
             mTvLocatedCity.setText(R.string.city_located_failed);
         }
