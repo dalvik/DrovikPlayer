@@ -1,8 +1,10 @@
 package com.drovik.player.weather;
 
+import android.app.Activity;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -83,8 +85,13 @@ public class HeaderHolder extends BaseViewHolder<HeaderData>{
     @OnClick(R.id.location_layout)
     void locate() {
         if (mLocationSucceeded) {
+            String city = mTvLocatedCity.getText().toString();
+            if(!TextUtils.isEmpty(city) && !getContext().getString(R.string.city_located_failed).equalsIgnoreCase(city)){
+                LocationEvent event = new LocationEvent(mTvLocatedCity.getText().toString());
+                EventBus.getDefault().post(event);
+                ((Activity) getContext()).finish();
+            }
         } else {
-           // CoreManager.getImpl(ILocationApi.class).startLocation();
             mTvLocatedCity.setText(R.string.city_locating);
         }
     }
@@ -127,10 +134,11 @@ public class HeaderHolder extends BaseViewHolder<HeaderData>{
 
         @OnClick(R.id.tv_hot_city_name)
         void navigationWeather() {
-            /*CoreManager.getImpl(IWeatherProvider.class).updateWeather(mHotCity.mCityId);
             if (getContext() instanceof Activity) {
+                LocationEvent event = new LocationEvent(mHotCity.mCityName);
+                EventBus.getDefault().post(event);
                 ((Activity) getContext()).finish();
-            }*/
+            }
         }
     }
 }

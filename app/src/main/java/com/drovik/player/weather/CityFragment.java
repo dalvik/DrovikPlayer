@@ -37,10 +37,12 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.OnClick;
+
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class CityFragment extends BasePager {
+public class CityFragment extends BasePager implements View.OnClickListener {
 
     private final static int MSG_UPGRADE_TOP_CITY = 1000;
 
@@ -116,6 +118,16 @@ public class CityFragment extends BasePager {
         locationService.stop();//停止定位服务
     }
 
+    @Override
+    public void onClick(View view) {
+        int i = view.getId();
+        if (i == R.id.action_back) {
+            getActivity().finish();
+        } else if (i == R.id.action_empty_btn) {
+            mSearchTextView.setText("");
+
+        }
+    }
     private void onAllCities(final List<CityInfoData> allInfoDatas, String hotCity) {
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mAllCitiesRecyclerView.setLayoutManager(linearLayoutManager);
@@ -127,7 +139,6 @@ public class CityFragment extends BasePager {
         citiesAdapter.registerHolder(HeaderHolder.class, headerData);
         citiesAdapter.registerHolder(CityHolder.class, allInfoDatas);
         mAllCitiesRecyclerView.setAdapter(citiesAdapter);
-
         LinearLayoutManager resultLayoutManager = new LinearLayoutManager(getActivity());
         mSearchResultView.setLayoutManager(resultLayoutManager);
         mSearchResultAdapter = new BaseRecyclerAdapter(getActivity());
@@ -144,6 +155,8 @@ public class CityFragment extends BasePager {
     }
 
     private void init(View view) {
+        view.findViewById(R.id.action_back).setOnClickListener(this);
+        view.findViewById(R.id.action_empty_btn).setOnClickListener(this);
         mAllCitiesRecyclerView = (RecyclerView) view.findViewById(R.id.hot_city_list);
         mTvLetterOverlay = (TextView) view.findViewById(R.id.tv_letter_overlay);
         mSide = (SideLetterBar) view.findViewById(R.id.side);
@@ -175,7 +188,7 @@ public class CityFragment extends BasePager {
                 boolean hasText = !TextUtils.isEmpty(text);
                 if (hasText) {
                     mActionEmptyBtn.setVisibility(VISIBLE);
-                    search(text);
+                    search(text.toString());
                 } else {
                     mActionEmptyBtn.setVisibility(GONE);
                 }
@@ -245,8 +258,8 @@ public class CityFragment extends BasePager {
         return hotCityList;
     }
 
-    private void search(final CharSequence key) {
-        Log.d(TAG, "==> search key:" + key);
+    private void search(final String key) {
+        Log.d(TAG, "==> search key: " + key);
         if(mCitys == null || mCitys.size()==0) {
             return;
         }
@@ -255,7 +268,7 @@ public class CityFragment extends BasePager {
             public void run() {
                 mSearchCitys.clear();
                 for(CityInfoData data:mCitys) {
-                    if(data.getCityNamePinyin().contains(key) || data.getCityName().contains(key) || data.getCityId().contains(key)) {
+                    if(data.getCityNamePinyin().startsWith(key) || data.getCityName().startsWith(key) || data.getCityId().startsWith(key)) {
                         mSearchCitys.add(data);
                     }
                 }

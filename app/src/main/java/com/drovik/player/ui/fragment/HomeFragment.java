@@ -377,7 +377,13 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     }
 
     private void loadWeather() {
-        mWeatherLocation.setText(mSettings.getString(ResourceProvider.ADMIN_AREA, "") + " • " + mSettings.getString(ResourceProvider.LOCATION, ""));
+        String city = mSettings.getString(ResourceProvider.ADMIN_AREA, "");
+        String country = mSettings.getString(ResourceProvider.LOCATION, "");
+        if(city.equalsIgnoreCase(country)) {
+            mWeatherLocation.setText(getResources().getString(R.string.china) + " • " + country);
+        } else {
+            mWeatherLocation.setText(city + " • " + country);
+        }
         mWeek.setText(mSettings.getString(ResourceProvider.WEEK, ""));
         mWeatherTemperature.setText(mSettings.getString(ResourceProvider.TMP, ""));
         mWeatherInfo.setText(getResources().getString(R.string.weather_status_info,
@@ -449,6 +455,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     private String getWeek() {
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        return ResourceProvider.getWeek(dayOfWeek);
+        return ResourceProvider.getWeek(dayOfWeek-1);
     }
 }

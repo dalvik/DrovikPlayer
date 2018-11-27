@@ -11,9 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.android.audiorecorder.engine.MultiMediaService;
 import com.android.audiorecorder.engine.UpdateManager;
@@ -24,7 +22,6 @@ import com.android.library.ui.utils.ToastUtils;
 import com.android.library.utils.PermissionHelper;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
-import com.baidu.location.Poi;
 import com.crixmod.sailorcast.SailorCast;
 import com.drovik.player.R;
 import com.drovik.player.location.LocationService;
@@ -98,39 +95,14 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
             }
         }*/
         initYouMi();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        locationService = ((SailorCast) getApplication()).locationService;
-        //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
-        locationService.registerListener(mListener);
-        //注册监听
-        int type = getIntent().getIntExtra("from", 0);
-        if (type == 0) {
-            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-        } else if (type == 1) {
-            locationService.setLocationOption(locationService.getOption());
-        }
-        locationService.start();// 定位SDK
-    }
-
-    @Override
-    protected void onStop() {
-        locationService.unregisterListener(mListener);//注销掉监听
-        locationService.stop();//停止定位服务
-        super.onStop();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
+        initLocationSDK();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        locationService.unregisterListener(mListener);//注销掉监听
+        locationService.stop();//停止定位服务
     }
 
     private void initData() {
@@ -298,6 +270,21 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         }
 
     }
+
+    private void initLocationSDK() {
+        locationService = ((SailorCast) getApplication()).locationService;
+        //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
+        locationService.registerListener(mListener);
+        //注册监听
+        int type = getIntent().getIntExtra("from", 0);
+        if (type == 0) {
+            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+        } else if (type == 1) {
+            locationService.setLocationOption(locationService.getOption());
+        }
+        locationService.start();// 定位SDK
+    }
+
     private void initSDK() {
         //初始化SDK
         //AdManager.getInstance(activity).init("da88c11617dad28f", "d8cdfdb2eb696a0b", true);

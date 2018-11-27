@@ -135,5 +135,6 @@
     <string name="city_nothing_found">没有搜索结果~</string>
     <string name="city_locating">正在定位…</string>
     <string name="city_located_failed">定位失败</string>
+    <string name="china">中国</string>
 
 </resources>
