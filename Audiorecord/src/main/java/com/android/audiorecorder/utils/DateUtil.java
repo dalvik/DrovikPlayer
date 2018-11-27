@@ -4,12 +4,16 @@ package com.android.audiorecorder.utils;
 import android.text.format.DateUtils;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class DateUtil extends DateUtils {
+
+    private static SimpleDateFormat MONTH_DAY_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat WEEK = new SimpleDateFormat("EEEE");
 
     public static String formatyyyyMMDDHHmmss(long time){
         Date date  = new Date(time);
@@ -196,5 +200,18 @@ public class DateUtil extends DateUtils {
             throw new IllegalArgumentException("The date must not be null");
         }
         return (cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA)) && (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) && (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR));
+    }
+
+    public static String getMopnthDay() {
+        return MONTH_DAY_FORMAT.format(new Date());
+    }
+
+    public static String getWeek(String dataStr) {
+        try {
+            return WEEK.format(MONTH_DAY_FORMAT.parse(dataStr));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

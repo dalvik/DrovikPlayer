@@ -33,4 +33,5 @@
     <color name="ijk_color_blue_900">#0D47A1</color>
 
     <color name="ijk_transparent_dark">#77000000</color>
+    <color name="dark_background">#f5f5f5</color>
 </resources>

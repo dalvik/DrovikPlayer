@@ -136,5 +136,8 @@
     <string name="city_locating">正在定位…</string>
     <string name="city_located_failed">定位失败</string>
     <string name="china">中国</string>
+    <string name="weather_future_weather">未来天气</string>
+    <string name="weather_aqi_guide" translatable="false">空气质量指数(AQI)</string>
+    <string name="weather_lifeIndexes">生活指数</string>
 
 </resources>

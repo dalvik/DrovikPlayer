@@ -23,6 +23,7 @@ import com.android.audiorecorder.ui.FileExplorerActivity;
 import com.android.audiorecorder.ui.SettingsActivity;
 import com.android.audiorecorder.ui.SoundRecorder;
 import com.android.audiorecorder.ui.activity.LoginActivity;
+import com.android.audiorecorder.utils.DateUtil;
 import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.pager.BasePager;
 import com.android.library.utils.TextUtils;
@@ -174,9 +175,13 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         mWeatherLocation = (TextView) view.findViewById(R.id.weather_location);
         mWeatherLocation.setOnClickListener(this);
         mWeek = (TextView) view.findViewById(R.id.weather_week);
+        mWeek.setOnClickListener(this);
         mWeatherTemperature = (TextView) view.findViewById(R.id.weather_temperature);
+        mWeatherTemperature.setOnClickListener(this);
         mWeatherInfo = (TextView) view.findViewById(R.id.weather_info);
+        mWeatherInfo.setOnClickListener(this);
         mHoursForecastRecyclerView = (RecyclerView) view.findViewById(R.id.home_hours_forecast_recyclerView);
+        mHoursForecastRecyclerView.setOnClickListener(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mHoursForecastRecyclerView.setLayoutManager(linearLayoutManager);
@@ -251,10 +256,12 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 }*/
                 break;
             case R.id.weather_location:
-                Intent weatherActivity = new Intent(mContext, WeatherActivity.class);
-                weatherActivity.putExtra(ResourceProvider.TOP_CITY_JSON, mSettings.getString(ResourceProvider.TOP_CITY_JSON,""));
-                weatherActivity.putParcelableArrayListExtra(ResourceProvider.CITY_DATA, mCityProvider.getCitys());
-                startActivity(weatherActivity);
+                launchWeatherActivity(0);
+                break;
+            case R.id.weather_week:
+            case R.id.weather_temperature:
+            case R.id.home_hours_forecast_recyclerView:
+                launchWeatherActivity(1);
                 break;
                 default:
                     break;
@@ -343,7 +350,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                         IWeatherResponse.Data.Now nowWeather = data.getNow();
                         IWeatherResponse.Data.Basic basic = data.getBasic();
                         mSettings.edit().putString(ResourceProvider.ADMIN_AREA, basic.getAdmin_area()).putString(ResourceProvider.LOCATION, basic.getLocation())
-                                .putString(ResourceProvider.WEEK, getWeek()).putString(ResourceProvider.TMP, nowWeather.getTmp()).putString(ResourceProvider.COND_TXT, nowWeather.getCond_txt())
+                                .putString(ResourceProvider.WEEK, DateUtil.getWeek(DateUtil.getMopnthDay())).putString(ResourceProvider.TMP, nowWeather.getTmp()).putString(ResourceProvider.COND_TXT, nowWeather.getCond_txt())
                                 .putString(ResourceProvider.WIND_DIR, nowWeather.getWind_dir()).putString(ResourceProvider.WIND_SC, nowWeather.getWind_sc()).apply();
                         loadWeather();
                     }
@@ -456,5 +463,13 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         return ResourceProvider.getWeek(dayOfWeek-1);
+    }
+
+    private void launchWeatherActivity(int type) {
+        Intent weatherActivity = new Intent(mContext, WeatherActivity.class);
+        weatherActivity.putExtra(ResourceProvider.TYPE, type);
+        weatherActivity.putExtra(ResourceProvider.TOP_CITY_JSON, mSettings.getString(ResourceProvider.TOP_CITY_JSON,""));
+        weatherActivity.putParcelableArrayListExtra(ResourceProvider.CITY_DATA, mCityProvider.getCitys());
+        startActivity(weatherActivity);
     }
 }

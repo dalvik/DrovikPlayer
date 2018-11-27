@@ -66,4 +66,9 @@
         <item name="android:layout_height">@dimen/common_16_dp</item>
     </style>
 
+    <style name="core_CommonIconImage">
+        <item name="android:layout_width">@dimen/common_24_dp</item>
+        <item name="android:layout_height">@dimen/common_24_dp</item>
+    </style>
+
 </resources>
