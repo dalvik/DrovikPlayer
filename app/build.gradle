@@ -135,4 +135,5 @@ dependencies {
     api "com.silencedut:router:1.3.0"
     annotationProcessor "com.silencedut:router-compiler:1.0.1"
     api "com.github.SilenceDut:TaskScheduler:1.2.5"
+    api "com.github.SilenceDut:ExpandableLayout:1.2.0"
 }

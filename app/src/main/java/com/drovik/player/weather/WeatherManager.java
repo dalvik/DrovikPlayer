@@ -4,6 +4,9 @@ import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,6 +58,30 @@ public class WeatherManager {
 
             @Override
             public void onFailure(Call<ICityResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    public void getAqi(String location) {
+        Retrofit retrofit = RetrofitManager.getDefaultRetrofit(RetrofitManager.BASE_URL_WEATHER);
+        IWeather service = retrofit.create(IWeather.class);
+        Map<String,String> params = new HashMap<String,String>();
+        params.put("location", location);
+        Call<IWeatherResponse> fetcherWeaherCall = service.getAqi(RetrofitManager.KEY, params);
+        fetcherWeaherCall.enqueue(new Callback<IWeatherResponse>() {
+            @Override
+            public void onResponse(Call<IWeatherResponse> call, Response<IWeatherResponse> response) {
+                IWeatherResponse fetchWeatherResponse = response.body();
+                if(fetchWeatherResponse != null) {
+                    EventBus.getDefault().post(fetchWeatherResponse);
+                } else {
+                    Log.d(TAG, "==> fetch aqi WeatherResponse null.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<IWeatherResponse> call, Throwable t) {
                 t.printStackTrace();
             }
         });

@@ -125,7 +125,7 @@
     <string name="click_to_skip">点击跳过</string>
 
     <!-- weather -->
-    <string name="weather_status_info">%1$s | %2$s %3$s级</string>
+    <string name="weather_status_info">%1$s %2$s | %3$s %4$s级</string>
     <string name="weather_week">周</string>
     <string name="city_select">选择城市</string>
     <string name="city_hot">热门城市</string>

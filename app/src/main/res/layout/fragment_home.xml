@@ -86,8 +86,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/white"
                     android:gravity="center"
-                    android:textSize="28sp"
-                    android:text="20"/>
+                    android:textSize="30sp"/>
 
                 <TextView
                     android:id="@+id/weather_info"

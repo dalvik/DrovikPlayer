@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.drovik.player.weather.data.BaseAdapterData;
+import com.drovik.player.weather.holder.BaseViewHolder;
+import com.drovik.player.weather.holder.NoDataViewHolder;
+
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;

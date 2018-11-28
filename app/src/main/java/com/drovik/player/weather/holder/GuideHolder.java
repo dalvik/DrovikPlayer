@@ -1,10 +1,13 @@
-package com.drovik.player.weather;
+package com.drovik.player.weather.holder;
 
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.drovik.player.R;
+import com.drovik.player.weather.BaseRecyclerAdapter;
+import com.drovik.player.weather.data.GuideData;
+import com.drovik.player.weather.holder.BaseViewHolder;
 
 import butterknife.BindView;
 

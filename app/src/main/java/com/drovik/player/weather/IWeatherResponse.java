@@ -1,6 +1,10 @@
 package com.drovik.player.weather;
 
 import com.drovik.player.R;
+import com.drovik.player.weather.data.BaseAdapterData;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -256,6 +260,38 @@ public class IWeatherResponse {
             private String wind_sc;
             private String wind_spd;
 
+            public DailyForecast() {
+            }
+
+            public DailyForecast(String jsonString) {
+                try {
+                    JSONObject object = new JSONObject(jsonString);
+                    cond_code_d = object.optString("cond_code_d");
+                    cond_code_n = object.optString("cond_code_n");
+                    cond_txt_d = object.optString("cond_txt_d");
+                    cond_txt_n = object.optString("cond_txt_n");
+                    date = object.optString("date");
+                    hum = object.optString("hum");
+                    mr = object.optString("mr");
+                    ms = object.optString("ms");
+                    pcpn = object.optString("pcpn");
+                    pop = object.optString("pop");
+                    pres = object.optString("pres");
+                    sr = object.optString("sr");
+                    ss = object.optString("ss");
+                    tmp_max = object.optString("tmp_max");
+                    tmp_min = object.optString("tmp_min");
+                    uv_index = object.optString("uv_index");
+                    vis = object.optString("vis");
+                    wind_deg = object.optString("wind_deg");
+                    wind_dir = object.optString("wind_dir");
+                    wind_sc = object.optString("wind_sc");
+                    wind_spd = object.optString("wind_spd");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
             public String getCond_code_d() {
                 return cond_code_d;
             }
@@ -424,8 +460,34 @@ public class IWeatherResponse {
                 this.wind_spd = wind_spd;
             }
 
-            public DailyForecast() {
-
+            public JSONObject toJsonObject() {
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("cond_code_d", cond_code_d);
+                    object.put("cond_code_n", cond_code_n);
+                    object.put("cond_txt_d", cond_txt_d);
+                    object.put("cond_txt_n", cond_txt_n);
+                    object.put("date", date);
+                    object.put("hum", hum);
+                    object.put("mr", mr);
+                    object.put("ms", ms);
+                    object.put("pcpn", pcpn);
+                    object.put("pop", pop);
+                    object.put("pres", pres);
+                    object.put("sr", sr);
+                    object.put("ss", ss);
+                    object.put("tmp_max", tmp_max);
+                    object.put("tmp_min", tmp_min);
+                    object.put("tmp_min", tmp_min);
+                    object.put("vis", vis);
+                    object.put("wind_deg", wind_deg);
+                    object.put("wind_dir", wind_dir);
+                    object.put("wind_sc", wind_sc);
+                    object.put("wind_spd", wind_spd);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return object;
             }
 
             @Override
@@ -599,7 +661,7 @@ public class IWeatherResponse {
             }
         }
 
-        public static class Hourly implements BaseAdapterData{
+        public static class Hourly implements BaseAdapterData {
             private String time;//预报时间，格式yyyy-MM-dd hh:mm
             private String tmp;//温度
             private String cond_code;//天气状况代码
@@ -747,6 +809,17 @@ public class IWeatherResponse {
             public LifeStyle() {
             }
 
+            public LifeStyle(String jsonString) {
+                try {
+                    JSONObject object = new JSONObject(jsonString);
+                    brf = object.optString("brf");
+                    txt = object.optString("txt");
+                    type = object.optString("type");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
             public String getBrf() {
                 return brf;
             }
@@ -778,6 +851,18 @@ public class IWeatherResponse {
                         ", txt='" + txt + '\'' +
                         ", type='" + type + '\'' +
                         '}';
+            }
+
+            public JSONObject toJsonObject() {
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("brf", brf);
+                    object.put("txt", txt);
+                    object.put("type", type);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return object;
             }
         }
 
@@ -830,6 +915,272 @@ public class IWeatherResponse {
                         ", brf='" + brf + '\'' +
                         ", txt='" + txt + '\'' +
                         ", type='" + type + '\'' +
+                        '}';
+            }
+        }
+
+        public static class AirNowCity{
+            private String pub_time;//数据发布时间,格式yyyy-MM-dd HH:mm
+            private String aqi;//空气质量指数，AQI和PM25的关系
+            private String main;//主要污染物 pm25
+            private String qlty;//空气质量，取值范围:优，良，轻度污染，中度污染，重度污染，严重污染
+            private String pm10;//pm10
+            private String pm25;//pm25
+            private String no2;//二氧化氮
+            private String so2;//二氧化硫
+            private String co;//一氧化碳
+            private String o3;//臭氧
+
+            public AirNowCity() {
+
+            }
+
+            public String getPub_time() {
+                return pub_time;
+            }
+
+            public void setPub_time(String pub_time) {
+                this.pub_time = pub_time;
+            }
+
+            public String getAqi() {
+                return aqi;
+            }
+
+            public void setAqi(String aqi) {
+                this.aqi = aqi;
+            }
+
+            public String getMain() {
+                return main;
+            }
+
+            public void setMain(String main) {
+                this.main = main;
+            }
+
+            public String getQlty() {
+                return qlty;
+            }
+
+            public void setQlty(String qlty) {
+                this.qlty = qlty;
+            }
+
+            public String getPm10() {
+                return pm10;
+            }
+
+            public void setPm10(String pm10) {
+                this.pm10 = pm10;
+            }
+
+            public String getPm25() {
+                return pm25;
+            }
+
+            public void setPm25(String pm25) {
+                this.pm25 = pm25;
+            }
+
+            public String getNo2() {
+                return no2;
+            }
+
+            public void setNo2(String no2) {
+                this.no2 = no2;
+            }
+
+            public String getSo2() {
+                return so2;
+            }
+
+            public void setSo2(String so2) {
+                this.so2 = so2;
+            }
+
+            public String getCo() {
+                return co;
+            }
+
+            public void setCo(String co) {
+                this.co = co;
+            }
+
+            public String getO3() {
+                return o3;
+            }
+
+            public void setO3(String o3) {
+                this.o3 = o3;
+            }
+
+            @Override
+            public String toString() {
+                return "AirNowCity{" +
+                        "pub_time='" + pub_time + '\'' +
+                        ", aqi='" + aqi + '\'' +
+                        ", main='" + main + '\'' +
+                        ", qlty='" + qlty + '\'' +
+                        ", pm10='" + pm10 + '\'' +
+                        ", pm25='" + pm25 + '\'' +
+                        ", no2='" + no2 + '\'' +
+                        ", so2='" + so2 + '\'' +
+                        ", co='" + co + '\'' +
+                        ", o3='" + o3 + '\'' +
+                        '}';
+            }
+        }
+
+        public static class AirNowStation {
+            private String pub_time;//数据发布时间,格式yyyy-MM-dd HH:mm
+            private String air_sta;//站点名称
+            private String asid;//站点ID
+            private String lat;//站点纬度
+            private String lon;//站点经度
+            private String aqi;//空气质量指数，AQI和PM25的关系
+            private String main;//主要污染物 pm25
+            private String qlty;//空气质量，取值范围:优，良，轻度污染，中度污染，重度污染，严重污染
+            private String pm10;//pm10
+            private String pm25;//pm25
+            private String no2;//二氧化氮
+            private String so2;//二氧化硫
+            private String co;//一氧化碳
+            private String o3;//臭氧
+
+            public AirNowStation() {
+
+            }
+
+            public String getPub_time() {
+                return pub_time;
+            }
+
+            public void setPub_time(String pub_time) {
+                this.pub_time = pub_time;
+            }
+
+            public String getAir_sta() {
+                return air_sta;
+            }
+
+            public void setAir_sta(String air_sta) {
+                this.air_sta = air_sta;
+            }
+
+            public String getAsid() {
+                return asid;
+            }
+
+            public void setAsid(String asid) {
+                this.asid = asid;
+            }
+
+            public String getLat() {
+                return lat;
+            }
+
+            public void setLat(String lat) {
+                this.lat = lat;
+            }
+
+            public String getLon() {
+                return lon;
+            }
+
+            public void setLon(String lon) {
+                this.lon = lon;
+            }
+
+            public String getAqi() {
+                return aqi;
+            }
+
+            public void setAqi(String aqi) {
+                this.aqi = aqi;
+            }
+
+            public String getMain() {
+                return main;
+            }
+
+            public void setMain(String main) {
+                this.main = main;
+            }
+
+            public String getQlty() {
+                return qlty;
+            }
+
+            public void setQlty(String qlty) {
+                this.qlty = qlty;
+            }
+
+            public String getPm10() {
+                return pm10;
+            }
+
+            public void setPm10(String pm10) {
+                this.pm10 = pm10;
+            }
+
+            public String getPm25() {
+                return pm25;
+            }
+
+            public void setPm25(String pm25) {
+                this.pm25 = pm25;
+            }
+
+            public String getNo2() {
+                return no2;
+            }
+
+            public void setNo2(String no2) {
+                this.no2 = no2;
+            }
+
+            public String getSo2() {
+                return so2;
+            }
+
+            public void setSo2(String so2) {
+                this.so2 = so2;
+            }
+
+            public String getCo() {
+                return co;
+            }
+
+            public void setCo(String co) {
+                this.co = co;
+            }
+
+            public String getO3() {
+                return o3;
+            }
+
+            public void setO3(String o3) {
+                this.o3 = o3;
+            }
+
+            @Override
+            public String toString() {
+                return "AirNowStation{" +
+                        "pub_time='" + pub_time + '\'' +
+                        ", air_sta='" + air_sta + '\'' +
+                        ", asid='" + asid + '\'' +
+                        ", lat='" + lat + '\'' +
+                        ", lon='" + lon + '\'' +
+                        ", aqi='" + aqi + '\'' +
+                        ", main='" + main + '\'' +
+                        ", qlty='" + qlty + '\'' +
+                        ", pm10='" + pm10 + '\'' +
+                        ", pm25='" + pm25 + '\'' +
+                        ", no2='" + no2 + '\'' +
+                        ", so2='" + so2 + '\'' +
+                        ", co='" + co + '\'' +
+                        ", o3='" + o3 + '\'' +
                         '}';
             }
         }

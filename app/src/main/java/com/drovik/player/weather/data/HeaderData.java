@@ -1,8 +1,9 @@
-package com.drovik.player.weather;
+package com.drovik.player.weather.data;
 
 import android.support.v4.util.Pair;
 
 import com.drovik.player.R;
+import com.drovik.player.weather.data.BaseAdapterData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class HeaderData implements BaseAdapterData {
         mHotCities = new ArrayList<>();
     }
 
-    List<Pair<String, String>> getCities() {
+    public List<Pair<String, String>> getCities() {
         return mHotCities;
     }
 

@@ -27,7 +27,7 @@ import com.drovik.player.R;
 import com.drovik.player.location.LocationService;
 import com.drovik.player.ui.fragment.HomeFragment;
 import com.drovik.player.ui.fragment.LeftFragment;
-import com.drovik.player.weather.LocationEvent;
+import com.drovik.player.weather.event.LocationEvent;
 import com.nineoldandroids.view.ViewHelper;
 
 import org.greenrobot.eventbus.EventBus;

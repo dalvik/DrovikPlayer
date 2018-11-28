@@ -1,4 +1,4 @@
-package com.drovik.player.weather;
+package com.drovik.player.weather.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,10 +1,13 @@
-package com.drovik.player.weather;
+package com.drovik.player.weather.holder;
 
 import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.drovik.player.R;
+import com.drovik.player.weather.BaseRecyclerAdapter;
+import com.drovik.player.weather.event.LocationEvent;
+import com.drovik.player.weather.data.CityInfoData;
 
 import org.greenrobot.eventbus.EventBus;
 

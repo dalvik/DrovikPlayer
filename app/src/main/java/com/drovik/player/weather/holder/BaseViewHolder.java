@@ -1,9 +1,13 @@
-package com.drovik.player.weather;
+package com.drovik.player.weather.holder;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import com.drovik.player.weather.BaseRecyclerAdapter;
+import com.drovik.player.weather.IProvideItemId;
+import com.drovik.player.weather.data.BaseAdapterData;
 
 import butterknife.ButterKnife;
 

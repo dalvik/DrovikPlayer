@@ -1,4 +1,4 @@
-package com.drovik.player.weather;
+package com.drovik.player.weather.event;
 
 public class LocationEvent {
 

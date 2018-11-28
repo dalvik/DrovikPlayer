@@ -1,4 +1,4 @@
-package com.drovik.player.weather;
+package com.drovik.player.weather.data;
 
 import java.util.List;
 

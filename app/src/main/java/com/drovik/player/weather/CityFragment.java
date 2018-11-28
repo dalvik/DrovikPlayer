@@ -19,13 +19,17 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.audiorecorder.ui.pager.FileRecordPager;
 import com.android.library.ui.pager.BasePager;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClientOption;
 import com.drovik.player.R;
 import com.drovik.player.location.LocationService;
+import com.drovik.player.weather.data.CityInfoData;
+import com.drovik.player.weather.data.HeaderData;
+import com.drovik.player.weather.event.LocationHotCityEvent;
+import com.drovik.player.weather.holder.CityHolder;
+import com.drovik.player.weather.holder.HeaderHolder;
 import com.silencedut.taskscheduler.TaskScheduler;
 
 import org.greenrobot.eventbus.EventBus;
@@ -36,8 +40,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.OnClick;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;

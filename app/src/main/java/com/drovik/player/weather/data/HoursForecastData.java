@@ -1,7 +1,9 @@
-package com.drovik.player.weather;
+package com.drovik.player.weather.data;
 
 
 import com.drovik.player.R;
+import com.drovik.player.weather.IWeatherResponse;
+import com.drovik.player.weather.data.BaseAdapterData;
 
 public class HoursForecastData implements BaseAdapterData {
 

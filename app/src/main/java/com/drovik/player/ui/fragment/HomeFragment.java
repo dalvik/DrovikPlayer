@@ -33,11 +33,11 @@ import com.drovik.player.audio.ui.MusicActivity;
 import com.drovik.player.ui.HomeActivity;
 import com.drovik.player.weather.BaseRecyclerAdapter;
 import com.drovik.player.weather.CityProvider;
-import com.drovik.player.weather.HourWeatherHolder;
-import com.drovik.player.weather.HoursForecastData;
+import com.drovik.player.weather.holder.HourWeatherHolder;
+import com.drovik.player.weather.data.HoursForecastData;
 import com.drovik.player.weather.ICityResponse;
 import com.drovik.player.weather.IWeatherResponse;
-import com.drovik.player.weather.LocationEvent;
+import com.drovik.player.weather.event.LocationEvent;
 import com.drovik.player.weather.ResourceProvider;
 import com.drovik.player.weather.WeatherActivity;
 import com.drovik.player.weather.WeatherManager;
@@ -325,9 +325,22 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 LogUtil.d(TAG, "==> getNow " + temp.getNow().toString());
                 LogUtil.d(TAG, "==> getUpdate " + temp.getUpdate().toString());
                 LogUtil.d(TAG, "==> getHourly " + temp.getHourly().toString());
+                LogUtil.d(TAG, "==> getDaily " + temp.getDaily_forecast().toString());
+                ArrayList<IWeatherResponse.Data.DailyForecast> dailyForecasts = temp.getDaily_forecast();
+                JSONArray dailyJonArray = new JSONArray();
+                for(IWeatherResponse.Data.DailyForecast dailyForecast: dailyForecasts) {
+                    dailyJonArray.put(dailyForecast.toJsonObject());
+                }
+                mSettings.edit().putString(ResourceProvider.DAILY_FORECAST, dailyJonArray.toString()).apply();
+                ArrayList<IWeatherResponse.Data.LifeStyle> lifeStyle = temp.getLifestyle();
+                JSONArray lifeStyleJonArray = new JSONArray();
+                for(IWeatherResponse.Data.LifeStyle styleForecast: lifeStyle) {
+                    lifeStyleJonArray.put(styleForecast.toJsonObject());
+                }
+                mSettings.edit().putString(ResourceProvider.LIFE_STYLE, lifeStyleJonArray.toString()).apply();
                 List<HoursForecastData> hoursForecastDataList = new ArrayList<HoursForecastData>();
-                List<IWeatherResponse.Data.Hourly> dailyForecasts = temp.getHourly();
-                for(IWeatherResponse.Data.Hourly hourly:dailyForecasts) {
+                List<IWeatherResponse.Data.Hourly> hourlyForecasts = temp.getHourly();
+                for(IWeatherResponse.Data.Hourly hourly:hourlyForecasts) {
                     HoursForecastData hoursForecastData = new HoursForecastData(hourly);
                     hoursForecastDataList.add(hoursForecastData);
                 }
@@ -392,10 +405,11 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
             mWeatherLocation.setText(city + " • " + country);
         }
         mWeek.setText(mSettings.getString(ResourceProvider.WEEK, ""));
-        mWeatherTemperature.setText(mSettings.getString(ResourceProvider.TMP, ""));
-        mWeatherInfo.setText(getResources().getString(R.string.weather_status_info,
+        mWeatherTemperature.setText(mSettings.getString(ResourceProvider.TMP, "") + "°");
+        mWeatherInfo.setText(getResources().getString(R.string.weather_status_info, mSettings.getString(ResourceProvider.WEEK, ""),
                 mSettings.getString(ResourceProvider.COND_TXT, ""), mSettings.getString(ResourceProvider.WIND_DIR, ""), mSettings.getString(ResourceProvider.WIND_SC, "")));
         mWeatherInfo.setVisibility(View.VISIBLE);
+        mWeek.setVisibility(View.GONE);
     }
 
     private void autoLogin() {

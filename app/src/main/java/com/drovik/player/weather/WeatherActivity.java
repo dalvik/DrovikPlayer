@@ -7,7 +7,7 @@ import android.view.View;
 import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.activity.BaseCompatActivity;
 import com.drovik.player.R;
-import com.drovik.player.ui.fragment.HomeFragment;
+import com.drovik.player.weather.data.CityInfoData;
 
 import java.util.ArrayList;
 

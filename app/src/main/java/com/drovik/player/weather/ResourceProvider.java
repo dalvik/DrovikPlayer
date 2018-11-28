@@ -29,6 +29,9 @@ public class ResourceProvider {
     public static final String TOP_CITY_JSON = "top_city_json";
     public static final String CITY_DATA = "city_data";
     public static final String TYPE = "type";
+    public static final String DAILY_FORECAST = "daily_forecast";
+    public static final String LIFE_STYLE = "life_style";
+
 
     private static Map<String, Integer> sWeatherIcons = new HashMap<>();
 

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.drovik.player.ui.fragment.HomeFragment;
+import com.drovik.player.weather.data.CityEntry;
+import com.drovik.player.weather.data.CityInfoData;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;

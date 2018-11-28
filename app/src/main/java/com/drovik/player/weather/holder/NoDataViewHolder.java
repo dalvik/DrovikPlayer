@@ -1,6 +1,10 @@
-package com.drovik.player.weather;
+package com.drovik.player.weather.holder;
 
 import android.view.View;
+
+import com.drovik.player.weather.BaseRecyclerAdapter;
+import com.drovik.player.weather.data.BaseAdapterData;
+import com.drovik.player.weather.holder.BaseViewHolder;
 
 public class NoDataViewHolder extends BaseViewHolder {
 

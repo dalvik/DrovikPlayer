@@ -1,4 +1,4 @@
-package com.drovik.player.weather;
+package com.drovik.player.weather.holder;
 
 import android.app.Activity;
 import android.support.v4.util.Pair;
@@ -10,6 +10,11 @@ import android.widget.TextView;
 
 import com.android.library.net.utils.LogUtil;
 import com.drovik.player.R;
+import com.drovik.player.weather.BaseRecyclerAdapter;
+import com.drovik.player.weather.event.LocationEvent;
+import com.drovik.player.weather.event.LocationHotCityEvent;
+import com.drovik.player.weather.data.BaseAdapterData;
+import com.drovik.player.weather.data.HeaderData;
 import com.silencedut.router.Router;
 
 import org.greenrobot.eventbus.EventBus;
@@ -22,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HeaderHolder extends BaseViewHolder<HeaderData>{
+public class HeaderHolder extends BaseViewHolder<HeaderData> {
 
     @BindView(R.id.tv_located_city)
     TextView mTvLocatedCity;
