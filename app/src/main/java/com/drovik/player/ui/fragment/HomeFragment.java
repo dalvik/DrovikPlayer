@@ -33,6 +33,7 @@ import com.drovik.player.audio.ui.MusicActivity;
 import com.drovik.player.ui.HomeActivity;
 import com.drovik.player.weather.BaseRecyclerAdapter;
 import com.drovik.player.weather.CityProvider;
+import com.drovik.player.weather.event.AirNowEvent;
 import com.drovik.player.weather.holder.HourWeatherHolder;
 import com.drovik.player.weather.data.HoursForecastData;
 import com.drovik.player.weather.ICityResponse;
@@ -129,9 +130,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     }
 
     private void initData() {
-        /*devices = (ArrayList<Device>) DeviceManager.instance().getAllDevice(Device.DEV_TYPE_IP);
-        devices.addAll(DeviceManager.instance().getAllDevice(Device.DEV_TYPE_P2P_CHINA));
-        devices.addAll(DeviceManager.instance().getAllDevice(Device.DEV_TYPE_P2P_OVERSEAS));*/
         EventBus.getDefault().register(this);
         mSettings = getActivity().getSharedPreferences(SettingsActivity.class.getName(), MODE_PRIVATE);
         mWeatherManager = new WeatherManager();
@@ -188,14 +186,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         mHoursForecastAdapter = new BaseRecyclerAdapter(getActivity());
         mHoursForecastAdapter.registerHolder(HourWeatherHolder.class, R.layout.item_weather_hour_forecast);
         mHoursForecastRecyclerView.setAdapter(mHoursForecastAdapter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        /*if (mHomeController != null) {
-            mHomeController.getDeviceFree();
-        }*/
     }
 
     @Override
@@ -289,6 +279,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         if(!TextUtils.isEmpty(locationEvent.getCity())) {
             mWeatherManager.topCity("cn", "9");
             mWeatherManager.weather(locationEvent.getCity());
+            mWeatherManager.getAirNow(locationEvent.getCity());
         }
     }
 
@@ -345,6 +336,32 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                     hoursForecastDataList.add(hoursForecastData);
                 }
                 mHoursForecastAdapter.addData(hoursForecastDataList);
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAqiEvent(AirNowEvent aqiEvent) {
+        IWeatherResponse weatherResponse = aqiEvent.getIWeatherResponse();
+        if(weatherResponse != null) {
+            ArrayList<IWeatherResponse.Data> data =  weatherResponse.getHeWeather6();
+            if(data != null && data.size()>0) {
+                for(IWeatherResponse.Data temp:data) {
+                    IWeatherResponse.Data.AirNowCity airNowCity = temp.getAir_now_city();
+                    if(airNowCity != null) {
+                        mSettings.edit().putString(ResourceProvider.AIR_NOW_CITY, airNowCity.getJsonObject().toString())
+                                .putString(ResourceProvider.QLTY, airNowCity.getQlty()).apply();
+                    }
+                    ArrayList<IWeatherResponse.Data.AirNowStation> stationList =  temp.getAir_now_station();
+                    if(stationList != null) {
+                        JSONArray array = new JSONArray();
+                        for(IWeatherResponse.Data.AirNowStation station: stationList) {
+                            JSONObject object = station.getJsonObject();
+                            array.put(object);
+                        }
+                        mSettings.edit().putString(ResourceProvider.AIR_NOW_STATION, array.toString()).apply();
+                    }
+                }
             }
         }
     }
@@ -407,7 +424,8 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         mWeek.setText(mSettings.getString(ResourceProvider.WEEK, ""));
         mWeatherTemperature.setText(mSettings.getString(ResourceProvider.TMP, "") + "°");
         mWeatherInfo.setText(getResources().getString(R.string.weather_status_info, mSettings.getString(ResourceProvider.WEEK, ""),
-                mSettings.getString(ResourceProvider.COND_TXT, ""), mSettings.getString(ResourceProvider.WIND_DIR, ""), mSettings.getString(ResourceProvider.WIND_SC, "")));
+                mSettings.getString(ResourceProvider.COND_TXT, ""), mSettings.getString(ResourceProvider.WIND_DIR, ""), mSettings.getString(ResourceProvider.WIND_SC, ""),
+                mSettings.getString(ResourceProvider.QLTY, "")));
         mWeatherInfo.setVisibility(View.VISIBLE);
         mWeek.setVisibility(View.GONE);
     }

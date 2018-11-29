@@ -76,7 +76,6 @@ public class AqiViewHolder extends BaseViewHolder<AqiData> {
         aqiView.setColorLever(COlORS_ID, AQI_LEVELS);
         pm2_5View.setColorLever(COlORS_ID, PM2_5_LEVELS);
         pm10View.setColorLever(COlORS_ID, PM10_LEVELS);
-
     }
 
     @OnClick(R.id.expandable_layout)
@@ -103,14 +102,6 @@ public class AqiViewHolder extends BaseViewHolder<AqiData> {
         upDateLevel(pm2_5View, pm2_5Value, Integer.parseInt(aqiEntity.getPm25()));
         upDateLevel(pm10View, pm10Value, Integer.parseInt(aqiEntity.getPm10()));
         aqiQuality.setText(aqiEntity.getQlty());
-//        aqiAdvice.setText(aqiEntity.getAdvice());
-
-//        SpannableString rankSpannable = new SpannableString(aqiEntity.getCityRank());
-//        rankSpannable.setSpan(new ForegroundColorSpan(UIUtil.getColor(getContext(), R.color.colorAccent)), 8, 11, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-//        rankSpannable.setSpan(new RelativeSizeSpan(1.3f), 8, 11, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-//        rank.setText(rankSpannable);
-
-
     }
 
     private void upDateLevel(LevelView levelView, TextView valueText, int value) {

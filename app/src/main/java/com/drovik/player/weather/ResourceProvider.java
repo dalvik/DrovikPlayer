@@ -31,7 +31,9 @@ public class ResourceProvider {
     public static final String TYPE = "type";
     public static final String DAILY_FORECAST = "daily_forecast";
     public static final String LIFE_STYLE = "life_style";
-
+    public static final String QLTY = "qlty";
+    public static final String AIR_NOW_CITY = "air_now_city";
+    public static final String AIR_NOW_STATION = "air_now_station";
 
     private static Map<String, Integer> sWeatherIcons = new HashMap<>();
 

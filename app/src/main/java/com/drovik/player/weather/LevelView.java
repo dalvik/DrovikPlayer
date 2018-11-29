@@ -59,7 +59,7 @@ public class LevelView extends View {
         mTextSize = UIUtil.dipToPx(getContext(), 10.0f);
         mTextPaint.setTextSize(mTextSize);
 
-        mPaintStroke = UIUtil.dipToPx(getContext(), 4.0f);
+        mPaintStroke = UIUtil.dipToPx(getContext(), 6.0f);
         mPaddingTop = mPaintStroke;
 
         mRectLeft = new RectF(0, mPaddingTop - mPaintStroke / 2, mPaintStroke, mPaintStroke + mPaddingTop - mPaintStroke / 2);

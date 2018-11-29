@@ -44,6 +44,8 @@ public class WeatherFragment extends BasePager {
 
     private List<IWeatherResponse.Data.LifeStyle> mStyleDataList;
 
+    private AqiData mAqiData;
+
     private LifeIndexData mLifeIndexData;
 
     public static WeatherFragment newInstance() {
@@ -59,7 +61,7 @@ public class WeatherFragment extends BasePager {
         mDailyWeatherDataList = new ArrayList<DailyWeatherData>();
         mStyleDataList = new ArrayList<>();
         initViews(view);
-        onMoreInfo(null, mDailyWeatherDataList, mLifeIndexData);
+        onMoreInfo(mAqiData, mDailyWeatherDataList, mLifeIndexData);
         return view;
     }
 
@@ -89,6 +91,17 @@ public class WeatherFragment extends BasePager {
                 e.printStackTrace();
             }
         }
+        String airNowCityJsonStrig = mSettings.getString(ResourceProvider.AIR_NOW_CITY, "");
+        if(!TextUtils.isEmpty(airNowCityJsonStrig)){
+            try {
+                JSONObject airNowCityJson = new JSONObject(airNowCityJsonStrig);
+                IWeatherResponse.Data.AirNowCity airNowCity = new IWeatherResponse.Data.AirNowCity(airNowCityJson.toString());
+                mAqiData = new AqiData(airNowCity);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         String styleJsonStrig = mSettings.getString(ResourceProvider.LIFE_STYLE, "");
         if(!TextUtils.isEmpty(styleJsonStrig)){
             try {
@@ -114,15 +127,15 @@ public class WeatherFragment extends BasePager {
             mMoreInfoAdapter.registerHolder(GuideHolder.class, guideData1);
             mMoreInfoAdapter.registerHolder(DailyWeatherHolder.class, dailyForecastDatas);
         }
-        if (aqiData != null) {
-            GuideData guideData2 = new GuideData(getString(R.string.weather_aqi_guide));
-            mMoreInfoAdapter.addData(guideData2);
-            mMoreInfoAdapter.registerHolder(AqiViewHolder.class, aqiData);
-        }
         if (lifeIndexData != null) {
             LifeIndexGuideData lifeIndexGuideData = new LifeIndexGuideData(getString(R.string.weather_lifeIndexes));
             mMoreInfoAdapter.registerHolder(LifeGuideHolder.class, lifeIndexGuideData);
             mMoreInfoAdapter.registerHolder(LifeIndexesHolder.class, lifeIndexData);
+        }
+        if (aqiData != null) {
+            GuideData guideData2 = new GuideData(getString(R.string.weather_aqi_guide));
+            mMoreInfoAdapter.addData(guideData2);
+            mMoreInfoAdapter.registerHolder(AqiViewHolder.class, aqiData);
         }
         mWeatherItemList.setAdapter(mMoreInfoAdapter);
     }

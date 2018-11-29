@@ -125,7 +125,7 @@
     <string name="click_to_skip">点击跳过</string>
 
     <!-- weather -->
-    <string name="weather_status_info">%1$s %2$s | %3$s %4$s级</string>
+    <string name="weather_status_info">%1$s %2$s | %3$s %4$s级 | 空气 %5$s</string>
     <string name="weather_week">周</string>
     <string name="city_select">选择城市</string>
     <string name="city_hot">热门城市</string>
@@ -139,5 +139,6 @@
     <string name="weather_future_weather">未来天气</string>
     <string name="weather_aqi_guide" translatable="false">空气质量指数(AQI)</string>
     <string name="weather_lifeIndexes">生活指数</string>
+    <string name="today">今天</string>
 
 </resources>

@@ -2,6 +2,8 @@ package com.drovik.player.weather;
 
 import android.util.Log;
 
+import com.drovik.player.weather.event.AirNowEvent;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
@@ -63,18 +65,19 @@ public class WeatherManager {
         });
     }
 
-    public void getAqi(String location) {
+    public void getAirNow(String location) {
         Retrofit retrofit = RetrofitManager.getDefaultRetrofit(RetrofitManager.BASE_URL_WEATHER);
         IWeather service = retrofit.create(IWeather.class);
         Map<String,String> params = new HashMap<String,String>();
         params.put("location", location);
-        Call<IWeatherResponse> fetcherWeaherCall = service.getAqi(RetrofitManager.KEY, params);
+        Call<IWeatherResponse> fetcherWeaherCall = service.getAirNow(RetrofitManager.KEY, params);
         fetcherWeaherCall.enqueue(new Callback<IWeatherResponse>() {
             @Override
             public void onResponse(Call<IWeatherResponse> call, Response<IWeatherResponse> response) {
                 IWeatherResponse fetchWeatherResponse = response.body();
                 if(fetchWeatherResponse != null) {
-                    EventBus.getDefault().post(fetchWeatherResponse);
+                    AirNowEvent aqiEvent = new AirNowEvent(fetchWeatherResponse);
+                    EventBus.getDefault().post(aqiEvent);
                 } else {
                     Log.d(TAG, "==> fetch aqi WeatherResponse null.");
                 }

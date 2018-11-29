@@ -8,8 +8,8 @@ import com.android.audiorecorder.utils.DateUtil;
 import com.drovik.player.R;
 import com.drovik.player.weather.BaseRecyclerAdapter;
 import com.drovik.player.weather.IWeatherResponse;
+import com.drovik.player.weather.ResourceProvider;
 import com.drovik.player.weather.data.DailyWeatherData;
-import com.drovik.player.weather.holder.BaseViewHolder;
 
 import butterknife.BindView;
 
@@ -34,15 +34,14 @@ public class DailyWeatherHolder extends BaseViewHolder<DailyWeatherData> {
         if(dailyForecastData == null) {
             return;
         }
-        if(dailyForecastData.getDate().equals(DateUtil.getWeek(DateUtil.getMopnthDay()))) {
-            dateWeek.setText("今天");
+        if(dailyForecastData.getDate().equals(DateUtil.getMopnthDay())) {
+            dateWeek.setText(getContext().getResources().getString(R.string.today));
         }else {
-            dateWeek.setText(dailyForecastData.getDate());
+            dateWeek.setText(DateUtil.getWeek(dailyForecastData.getDate()));
         }
-
-        weatherStatusDaily.setText(dailyForecastData.getTmp_min());
-        tempDaily.setText(dailyForecastData.getTmp_min() + "~" + dailyForecastData.getTmp_max());
-        //weatherIconDaily.setImageResource(ResourceProvider.getIconId(dailyForecastData.getWeather()));
+        weatherStatusDaily.setText(dailyForecastData.getCond_txt_d());
+        tempDaily.setText(dailyForecastData.getTmp_min() + "~" + dailyForecastData.getTmp_max() + "°");
+        weatherIconDaily.setImageResource(ResourceProvider.getIconId(dailyForecastData.getCond_txt_d()));
     }
 
     @Override

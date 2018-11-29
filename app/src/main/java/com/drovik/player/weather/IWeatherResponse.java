@@ -23,6 +23,8 @@ public class IWeatherResponse {
         private ArrayList<LifeStyle> lifestyle;
         private ArrayList<LifestyleForecast> lifestyle_forecast;
         private String status;
+        private AirNowCity air_now_city;
+        private ArrayList<AirNowStation> air_now_station;
 
         public Basic getBasic() {
             return basic;
@@ -86,6 +88,22 @@ public class IWeatherResponse {
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        public AirNowCity getAir_now_city() {
+            return air_now_city;
+        }
+
+        public void setAir_now_city(AirNowCity air_now_city) {
+            this.air_now_city = air_now_city;
+        }
+
+        public ArrayList<AirNowStation> getAir_now_station() {
+            return air_now_station;
+        }
+
+        public void setAir_now_station(ArrayList<AirNowStation> air_now_station) {
+            this.air_now_station = air_now_station;
         }
 
         @Override
@@ -935,6 +953,24 @@ public class IWeatherResponse {
 
             }
 
+            public AirNowCity(String jsonString) {
+                try {
+                    JSONObject object = new JSONObject(jsonString);
+                    pub_time = object.optString("pub_time");
+                    aqi = object.optString("aqi");
+                    main = object.optString("main");
+                    qlty = object.optString("qlty");
+                    pm10 = object.optString("pm10");
+                    pm25 = object.optString("pm25");
+                    no2 = object.optString("no2");
+                    so2 = object.optString("so2");
+                    co = object.optString("co");
+                    o3 = object.optString("o3");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
             public String getPub_time() {
                 return pub_time;
             }
@@ -1015,6 +1051,25 @@ public class IWeatherResponse {
                 this.o3 = o3;
             }
 
+            public JSONObject getJsonObject() {
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("pub_time", pub_time);
+                    object.put("aqi", aqi);
+                    object.put("main", main);
+                    object.put("qlty", qlty);
+                    object.put("pm10", pm10);
+                    object.put("pm25", pm25);
+                    object.put("no2", no2);
+                    object.put("so2", so2);
+                    object.put("co", co);
+                    object.put("o3", o3);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return object;
+            }
+
             @Override
             public String toString() {
                 return "AirNowCity{" +
@@ -1050,6 +1105,28 @@ public class IWeatherResponse {
 
             public AirNowStation() {
 
+            }
+
+            public AirNowStation(String jsonString) {
+                try {
+                    JSONObject object = new JSONObject(jsonString);
+                    pub_time = object.optString("pub_time");
+                    air_sta = object.optString("air_sta");
+                    asid = object.optString("asid");
+                    lat = object.optString("lat");
+                    lon = object.optString("lon");
+                    aqi = object.optString("aqi");
+                    main = object.optString("main");
+                    qlty = object.optString("qlty");
+                    pm10 = object.optString("pm10");
+                    pm25 = object.optString("pm25");
+                    no2 = object.optString("no2");
+                    so2 = object.optString("so2");
+                    co = object.optString("co");
+                    o3 = object.optString("o3");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             public String getPub_time() {
@@ -1164,6 +1241,28 @@ public class IWeatherResponse {
                 this.o3 = o3;
             }
 
+            public JSONObject getJsonObject() {
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("pub_time", pub_time);
+                    object.put("air_sta", air_sta);
+                    object.put("asid", asid);
+                    object.put("lat", lat);
+                    object.put("lon", lon);
+                    object.put("aqi", aqi);
+                    object.put("main", main);
+                    object.put("qlty", qlty);
+                    object.put("pm10", pm10);
+                    object.put("pm25", pm25);
+                    object.put("no2", no2);
+                    object.put("so2", so2);
+                    object.put("co", co);
+                    object.put("o3", o3);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return object;
+            }
             @Override
             public String toString() {
                 return "AirNowStation{" +

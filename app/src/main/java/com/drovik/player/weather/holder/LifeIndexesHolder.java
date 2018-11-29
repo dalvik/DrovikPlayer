@@ -57,7 +57,7 @@ public class LifeIndexesHolder extends BaseViewHolder<LifeIndexData> implements 
         try {
             List<LifeItemData> lifeItems = new ArrayList<>();
             for (int index = 0; index < lifeIndexesData.size(); index++) {
-                lifeIndexesData.get(index).setBrf(LIFE_INDEXES[index]);
+                lifeIndexesData.get(index).setType(LIFE_INDEXES[index]);
                 lifeItems.add(new LifeItemData(lifeIndexesData.get(index), LIFE_INDEXES_ICONIDS[index]));
             }
             mLifeAdapter.setData(lifeItems);
@@ -125,8 +125,8 @@ public class LifeIndexesHolder extends BaseViewHolder<LifeIndexData> implements 
             if (weatherLifeIndexData == null) {
                 return;
             }
-            lifeType.setText(weatherLifeIndexData.getBrf());
-            lifeLevel.setText(weatherLifeIndexData.getTxt());
+            lifeType.setText(weatherLifeIndexData.getType());
+            lifeLevel.setText(weatherLifeIndexData.getBrf());
             lifeIndexIcon.setImageResource(lifeItemData.lifeIndexIconId);
         }
 
@@ -137,8 +137,7 @@ public class LifeIndexesHolder extends BaseViewHolder<LifeIndexData> implements 
 
         @OnClick(R.id.life_index_content)
         public void onClick() {
-            //Router.instance().getReceiver(WeatherCallBack.LifeAdvice.class).lifeAdvice(weatherLifeIndexData.getName(), weatherLifeIndexData.getContent());
+            Router.instance().getReceiver(WeatherCallBack.LifeAdvice.class).lifeAdvice(weatherLifeIndexData.getType(), weatherLifeIndexData.getTxt());
         }
     }
-
 }

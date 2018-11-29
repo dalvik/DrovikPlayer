@@ -7,7 +7,6 @@ import com.drovik.player.R;
 import com.drovik.player.weather.BaseRecyclerAdapter;
 import com.drovik.player.weather.WeatherCallBack;
 import com.drovik.player.weather.data.LifeIndexGuideData;
-import com.drovik.player.weather.holder.BaseViewHolder;
 import com.silencedut.router.Router;
 
 import butterknife.BindView;

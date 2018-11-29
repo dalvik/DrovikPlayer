@@ -25,5 +25,5 @@ public interface IWeather {
     Call<IWeatherResponse> weatherLifestyle(@Query("key") String key, @QueryMap Map<String, String> map);
 
     @GET("s6/air/now?")
-    Call<IWeatherResponse> getAqi(@Query("key") String key, @QueryMap Map<String, String> map);
+    Call<IWeatherResponse> getAirNow(@Query("key") String key, @QueryMap Map<String, String> map);
 }
