@@ -1,6 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/weather_info_recyclerView"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/base_actionbar_height"
+        android:background="@color/colorPrimary">
+
+        <ImageButton
+            android:id="@+id/action_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/common_10_dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:src="@mipmap/core_back_arrow"/>
+
+        <ImageView
+            android:id="@+id/title_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_toRightOf="@+id/action_back"
+            android:paddingLeft="@dimen/common_10_dp"
+            android:src="@mipmap/core_weather_few_clouds"
+            android:scaleType="centerInside"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/title_temp"
+            android:layout_toRightOf="@+id/title_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_10_dp"
+            android:textSize="@dimen/text_size_20"
+            android:textColor="@color/main_text_white"
+            android:layout_centerVertical="true"
+            android:text="28°"
+            android:layout_gravity="center_vertical" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/main_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:drawablePadding="@dimen/common_4_dp"
+                android:gravity="center"
+                android:textColor="@color/main_background"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/main_post_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_2"
+                android:layout_below="@id/main_location"
+                android:textColor="@color/secondly_text_white"
+                android:textSize="@dimen/text_size_small"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_below="@+id/main_toolbar"
+        android:id="@+id/weather_info_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

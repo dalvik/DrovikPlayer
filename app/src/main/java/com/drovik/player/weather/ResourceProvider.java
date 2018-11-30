@@ -19,6 +19,7 @@ public class ResourceProvider {
     public static final String NOTIFICATION_THEME = "NOTIFICATION_THEME";
     public static final String POLLING_TIME = "POLLING_TIME";
 
+    public static final String PUBLISH_TIME = "publish_time";
     public static final String ADMIN_AREA = "admin_area";
     public static final String LOCATION = "location";
     public static final String WEEK = "week";

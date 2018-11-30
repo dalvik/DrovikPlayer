@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="main_background">#FFFFFF</color>
+
     <color name="green500">#259b24</color>
     <color name="yellow500">#FDD835</color>
     <color name="orange500">#ff9800</color>

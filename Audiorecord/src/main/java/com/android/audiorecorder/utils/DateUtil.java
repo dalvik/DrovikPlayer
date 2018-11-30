@@ -10,10 +10,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import static java.util.Calendar.*;
+
 public class DateUtil extends DateUtils {
 
     private static SimpleDateFormat MONTH_DAY_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private static SimpleDateFormat WEEK = new SimpleDateFormat("EEEE");
+    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     public static String formatyyyyMMDDHHmmss(long time){
         Date date  = new Date(time);
@@ -46,11 +49,11 @@ public class DateUtil extends DateUtils {
     }
 	
 	public static String getYearMonthWeek(long time){
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = getInstance();
         calendar.setTimeInMillis(time);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONDAY)+1;
-        int week = calendar.get(Calendar.WEEK_OF_MONTH);
+        int year = calendar.get(YEAR);
+        int month = calendar.get(MONDAY)+1;
+        int week = calendar.get(WEEK_OF_MONTH);
         return String.valueOf(year) + File.separator + String.valueOf(month) + File.separator + String.valueOf(week);
     }
 	
@@ -183,9 +186,9 @@ public class DateUtil extends DateUtils {
      * @return
      */
     public static int getHour(Date date) {
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = getInstance();
         calendar.setTime(date);
-        return calendar.get(Calendar.HOUR_OF_DAY);
+        return calendar.get(HOUR_OF_DAY);
     }
 
     /**
@@ -199,7 +202,7 @@ public class DateUtil extends DateUtils {
         if ((cal1 == null) || (cal2 == null)) {
             throw new IllegalArgumentException("The date must not be null");
         }
-        return (cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA)) && (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) && (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR));
+        return (cal1.get(ERA) == cal2.get(ERA)) && (cal1.get(YEAR) == cal2.get(YEAR)) && (cal1.get(DAY_OF_YEAR) == cal2.get(DAY_OF_YEAR));
     }
 
     public static String getMopnthDay() {
@@ -213,5 +216,39 @@ public class DateUtil extends DateUtils {
             e.printStackTrace();
         }
         return "";
+    }
+
+
+    public static String getTimeTips(String formatTime) {
+        String timeTips = formatTime;
+        try {
+            Date date = DATE_FORMAT.parse(formatTime);
+            timeTips = getTimeTips(date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timeTips;
+    }
+
+    private static String getTimeTips(long timeStamp) {
+        long now = System.currentTimeMillis() / 1000;
+        String tips;
+        long diff = now - timeStamp / 1000;
+        if (diff < 60) {
+            tips = "刚刚";
+        } else if ((diff /= 60) < 60) {
+            tips = String.format("%d分钟前", diff);
+        } else if ((diff /= 60) < 24) {
+            tips = String.format("%d小时前", diff);
+        } else if ((diff /= 24) < 7) {
+            tips = String.format("%d天前", diff);
+        } else if ((diff /= 7) < 4) {
+            tips = String.format("%d周前", diff);
+        } else {
+
+            tips = DATE_FORMAT.format(new Date(timeStamp * 1000));
+
+        }
+        return tips;
     }
 }

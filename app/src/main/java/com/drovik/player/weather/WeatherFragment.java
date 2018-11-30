@@ -8,8 +8,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.audiorecorder.ui.SettingsActivity;
+import com.android.audiorecorder.utils.DateUtil;
 import com.android.library.ui.pager.BasePager;
 import com.drovik.player.R;
 import com.drovik.player.weather.data.AqiData;
@@ -72,6 +75,33 @@ public class WeatherFragment extends BasePager {
 
     public void initViews(View view) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        view.findViewById(R.id.action_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+        ImageView titleIcon = (ImageView)view.findViewById(R.id.title_icon);
+        String condTxt = mSettings.getString(ResourceProvider.COND_TXT, "");
+        if(!TextUtils.isEmpty(condTxt)) {
+            titleIcon.setImageResource(ResourceProvider.getIconId(condTxt));
+        } else {
+            titleIcon.setImageDrawable(null);
+        }
+        TextView titleTemp = (TextView)view.findViewById(R.id.title_temp);
+        TextView location = (TextView)view.findViewById(R.id.main_location);
+        TextView postTime = (TextView)view.findViewById(R.id.main_post_time);
+        String city = mSettings.getString(ResourceProvider.ADMIN_AREA, "");
+        String country = mSettings.getString(ResourceProvider.LOCATION, "");
+        titleTemp.setText(mSettings.getString(ResourceProvider.TMP, "") + "°");
+        if(city.equalsIgnoreCase(country)) {
+            location.setText(getResources().getString(R.string.china) + " • " + country);
+        } else {
+            location.setText(city + " • " + country);
+        }
+        String updateTime = String.format(getString(R.string.weather_post),
+                DateUtil.getTimeTips(mSettings.getString(ResourceProvider.POLLING_TIME, "2018-11-30 21:20:12")));
+        postTime.setText(updateTime);
         mWeatherItemList = (RecyclerView) view.findViewById(R.id.weather_info_recyclerView);
         mWeatherItemList.setLayoutManager(linearLayoutManager);
         mWeatherItemList.setBackgroundResource(R.color.dark_background);

@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
+    tools:ignore="MissingTranslation">
+    <!-- weather -->
+    <string name="weather_status_info">%1$s %2$s | %3$s %4$s级 | 空气 %5$s</string>
+    <string name="weather_week">周</string>
+    <string name="city_select">选择城市</string>
+    <string name="city_hot">热门城市</string>
+    <string name="city_located">定位城市</string>
+    <string name="city_search">搜索城市</string>
+    <string name="city_hint_search_box">输入城市名或拼音</string>
+    <string name="city_nothing_found">没有搜索结果~</string>
+    <string name="city_locating">正在定位…</string>
+    <string name="city_located_failed">定位失败</string>
+    <string name="china">中国</string>
+    <string name="weather_future_weather">未来天气</string>
+    <string name="weather_aqi_guide" translatable="false">空气质量指数(AQI)</string>
+    <string name="weather_lifeIndexes">生活指数</string>
+    <string name="today">今天</string>
+    <string name="weather_post">%1$s发布</string>
+</resources>

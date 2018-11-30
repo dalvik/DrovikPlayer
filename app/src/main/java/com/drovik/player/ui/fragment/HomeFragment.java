@@ -251,7 +251,11 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
             case R.id.weather_week:
             case R.id.weather_temperature:
             case R.id.home_hours_forecast_recyclerView:
-                launchWeatherActivity(1);
+            case R.id.weather_info:
+                String postTime = mSettings.getString(ResourceProvider.POLLING_TIME, "");
+                if(!android.text.TextUtils.isEmpty(postTime)) {
+                    launchWeatherActivity(1);
+                }
                 break;
                 default:
                     break;
@@ -270,7 +274,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         } else {
             device_total = total + "MB";
         }
-        //mDeviceSize.setText(mContext.getApplicationContext().getString(R.string.device_free, free, device_total));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -314,7 +317,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
             for(IWeatherResponse.Data temp:data) {
                 LogUtil.d(TAG, "==> getBasic " + temp.getBasic().toString());
                 LogUtil.d(TAG, "==> getNow " + temp.getNow().toString());
-                LogUtil.d(TAG, "==> getUpdate " + temp.getUpdate().toString());
                 LogUtil.d(TAG, "==> getHourly " + temp.getHourly().toString());
                 LogUtil.d(TAG, "==> getDaily " + temp.getDaily_forecast().toString());
                 ArrayList<IWeatherResponse.Data.DailyForecast> dailyForecasts = temp.getDaily_forecast();
@@ -322,7 +324,8 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 for(IWeatherResponse.Data.DailyForecast dailyForecast: dailyForecasts) {
                     dailyJonArray.put(dailyForecast.toJsonObject());
                 }
-                mSettings.edit().putString(ResourceProvider.DAILY_FORECAST, dailyJonArray.toString()).apply();
+                mSettings.edit().putString(ResourceProvider.POLLING_TIME, temp.getUpdate().getLoc())
+                        .putString(ResourceProvider.DAILY_FORECAST, dailyJonArray.toString()).apply();
                 ArrayList<IWeatherResponse.Data.LifeStyle> lifeStyle = temp.getLifestyle();
                 JSONArray lifeStyleJonArray = new JSONArray();
                 for(IWeatherResponse.Data.LifeStyle styleForecast: lifeStyle) {
@@ -499,9 +502,11 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
 
     private void launchWeatherActivity(int type) {
         Intent weatherActivity = new Intent(mContext, WeatherActivity.class);
+        if(type ==0) {
+            weatherActivity.putExtra(ResourceProvider.TOP_CITY_JSON, mSettings.getString(ResourceProvider.TOP_CITY_JSON,""));
+            weatherActivity.putParcelableArrayListExtra(ResourceProvider.CITY_DATA, mCityProvider.getCitys());
+        }
         weatherActivity.putExtra(ResourceProvider.TYPE, type);
-        weatherActivity.putExtra(ResourceProvider.TOP_CITY_JSON, mSettings.getString(ResourceProvider.TOP_CITY_JSON,""));
-        weatherActivity.putParcelableArrayListExtra(ResourceProvider.CITY_DATA, mCityProvider.getCitys());
         startActivity(weatherActivity);
     }
 }
