@@ -73,7 +73,7 @@
             </activity>
         -->
 
-        <activity android:name="com.drovik.player.ui.HomeActivity"
+        <activity android:name="com.drovik.player.ui.DrovikPlayerGuide"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
@@ -88,12 +88,10 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
 
-        <!--
         <activity android:name="com.drovik.player.ui.HomeActivity"
             android:theme="@style/AppTheme"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
-         -->
 
         <activity android:name="com.android.audiorecorder.ui.SoundRecorder"
             android:theme="@style/AppTheme"
@@ -260,17 +258,6 @@
 
         <meta-data android:name="IFLYTEK_APPKEY_AD" android:value="5bd4730b" />
 
-        <!-- start tencent -->
-        <!-- 声明SDK所需要的组件 -->
-        <service
-            android:name="com.qq.e.comm.DownloadService"
-            android:exported="false"/>
-        <!-- 请开发者注意字母的大小写，ADActivity，而不是AdActivity -->
-        <activity
-            android:name="com.qq.e.ads.ADActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"/>
-
-        <!-- end tencent -->
         <meta-data android:name="BaiduMobAd_STAT_ID" android:value="18fc70965d" />
 
         <!-- 渠道商编号 -->

@@ -679,7 +679,7 @@ public class IWeatherResponse {
             }
         }
 
-        public static class Hourly implements BaseAdapterData {
+        public static class Hourly {
             private String time;//预报时间，格式yyyy-MM-dd hh:mm
             private String tmp;//温度
             private String cond_code;//天气状况代码
@@ -697,9 +697,24 @@ public class IWeatherResponse {
 
             }
 
-            @Override
-            public int getContentViewId() {
-                return R.layout.item_weather_hour_forecast;
+            public Hourly(String jsonString) {
+                try {
+                    JSONObject object = new JSONObject(jsonString);
+                    time = object.optString("time");
+                    tmp = object.optString("tmp");
+                    cond_code = object.optString("cond_code");
+                    cond_txt = object.optString("cond_txt");
+                    wind_deg = object.optString("wind_deg");
+                    wind_dir = object.optString("wind_dir");
+                    wind_sc = object.optString("wind_sc");
+                    wind_spd = object.optString("wind_spd");
+                    hum = object.optString("hum");
+                    pres = object.optString("pres");
+                    dew = object.optString("dew");
+                    cloud = object.optString("cloud");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             public String getTime() {
@@ -796,6 +811,27 @@ public class IWeatherResponse {
 
             public void setCloud(String cloud) {
                 this.cloud = cloud;
+            }
+
+            public JSONObject getJSONObject() {
+                JSONObject object = new JSONObject();
+                try {
+                    object.put("time", time);
+                    object.put("tmp", tmp);
+                    object.put("cond_code", cond_code);
+                    object.put("cond_txt", cond_txt);
+                    object.put("wind_deg", wind_deg);
+                    object.put("wind_dir", wind_dir);
+                    object.put("wind_sc", wind_sc);
+                    object.put("wind_spd", wind_spd);
+                    object.put("hum", hum);
+                    object.put("pres", pres);
+                    object.put("dew", dew);
+                    object.put("cloud", cloud);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return object;
             }
 
             @Override

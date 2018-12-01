@@ -311,14 +311,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     public void onWeatherEvent(IWeatherResponse weatherResponse) {
         ArrayList<IWeatherResponse.Data> data =  weatherResponse.getHeWeather6();
         if(data != null && data.size()>0) {
-            Message msg = mHandler.obtainMessage(UPDATE_WEATHER, data);
-            mHandler.sendMessage(msg);
-            mHoursForecastAdapter.clear();
             for(IWeatherResponse.Data temp:data) {
-                LogUtil.d(TAG, "==> getBasic " + temp.getBasic().toString());
-                LogUtil.d(TAG, "==> getNow " + temp.getNow().toString());
-                LogUtil.d(TAG, "==> getHourly " + temp.getHourly().toString());
-                LogUtil.d(TAG, "==> getDaily " + temp.getDaily_forecast().toString());
                 ArrayList<IWeatherResponse.Data.DailyForecast> dailyForecasts = temp.getDaily_forecast();
                 JSONArray dailyJonArray = new JSONArray();
                 for(IWeatherResponse.Data.DailyForecast dailyForecast: dailyForecasts) {
@@ -332,14 +325,15 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                     lifeStyleJonArray.put(styleForecast.toJsonObject());
                 }
                 mSettings.edit().putString(ResourceProvider.LIFE_STYLE, lifeStyleJonArray.toString()).apply();
-                List<HoursForecastData> hoursForecastDataList = new ArrayList<HoursForecastData>();
                 List<IWeatherResponse.Data.Hourly> hourlyForecasts = temp.getHourly();
+                JSONArray hourlyJsonArray = new JSONArray();
                 for(IWeatherResponse.Data.Hourly hourly:hourlyForecasts) {
-                    HoursForecastData hoursForecastData = new HoursForecastData(hourly);
-                    hoursForecastDataList.add(hoursForecastData);
+                    hourlyJsonArray.put(hourly.getJSONObject());
                 }
-                mHoursForecastAdapter.addData(hoursForecastDataList);
+                mSettings.edit().putString(ResourceProvider.HOURLY_FORECAST, hourlyJsonArray.toString()).apply();
             }
+            Message msg = mHandler.obtainMessage(UPDATE_WEATHER, data);
+            mHandler.sendMessage(msg);
         }
     }
 
@@ -431,6 +425,23 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 mSettings.getString(ResourceProvider.QLTY, "")));
         mWeatherInfo.setVisibility(View.VISIBLE);
         mWeek.setVisibility(View.GONE);
+        String hourlyJson = mSettings.getString(ResourceProvider.HOURLY_FORECAST, "");
+        if(!android.text.TextUtils.isEmpty(hourlyJson)) {
+            try {
+                JSONArray jsonArrayArray = new JSONArray(hourlyJson);
+                int length = jsonArrayArray.length();
+                List<HoursForecastData> hoursForecastDataList = new ArrayList<HoursForecastData>();
+                for(int i=0; i<length; i++) {
+                    JSONObject jsonObject = jsonArrayArray.getJSONObject(i);
+                    IWeatherResponse.Data.Hourly hourly = new IWeatherResponse.Data.Hourly(jsonObject.toString());
+                    HoursForecastData hoursForecastData = new HoursForecastData(hourly);
+                    hoursForecastDataList.add(hoursForecastData);
+                }
+                mHoursForecastAdapter.setData(hoursForecastDataList);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void autoLogin() {
@@ -492,12 +503,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         if (frameAnim != null && frameAnim.isRunning()) {
             frameAnim.stop();
         }
-    }
-
-    private String getWeek() {
-        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        return ResourceProvider.getWeek(dayOfWeek-1);
     }
 
     private void launchWeatherActivity(int type) {
