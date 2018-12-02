@@ -294,7 +294,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
 
     private void createVideoAd() {
         String adUnitId = "0280794B9383422CF59ADDF6448DA269";
-        videoAd = new IFLYVideoAd(this, adUnitId, mVideoAdListener, IFLYVideoAd.REWARDED_VIDEO_AD);
+        videoAd = new IFLYVideoAd(this, adUnitId, mVideoAdListener, IFLYVideoAd.SPLASH_VIDEO_AD);
         videoAd.loadAd(1);
         cancelLoadTimer.schedule(new TimerTask() {
             @Override

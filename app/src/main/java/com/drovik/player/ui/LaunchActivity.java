@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -19,6 +20,7 @@ import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
 import com.iflytek.voiceads.AdError;
 import com.iflytek.voiceads.AdKeys;
+import com.iflytek.voiceads.IFLYAdSize;
 import com.iflytek.voiceads.IFLYNativeAd;
 import com.iflytek.voiceads.IFLYNativeListener;
 import com.iflytek.voiceads.NativeADDataRef;
@@ -38,24 +40,17 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
         super.onCreate(savedInstanceState);
         // 加载启动页面
         setContentView(R.layout.start_activity);
-        loadAD();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent  = new Intent(LaunchActivity.this, HomeActivity.class);
-                startActivity(intent);
-                LaunchActivity.this.finish();
-            }
-        }, 3000);
         StatService.start(this);
+        loadAD();
+        handler.sendEmptyMessageDelayed(1, 6000);
     }
 
     public void loadAD() {
         if (nativeAd == null) {
             nativeAd = new IFLYNativeAd(this, "1B2F5A2298CC2F806AD4614B437070E9", this);
         }
-        //nativeAd.setParameter(AdKeys.DOWNLOAD_ALERT, "true");
-        //nativeAd.setParameter(AdKeys.DEBUG_MODE, "true");
+        nativeAd.setParameter(AdKeys.DOWNLOAD_ALERT, "true");
+        nativeAd.setParameter(AdKeys.DEBUG_MODE, "true");
         int count = 1;
         nativeAd.loadAd(count);
     }
@@ -81,6 +76,9 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
 
             @Override
             public void onFinish() {
+                //全屏广告展示结束
+                handler.removeMessages(1);
+                handler.sendEmptyMessage(1);
             }
         }.start();
         adImageView.setOnClickListener(new View.OnClickListener() {
@@ -125,8 +123,9 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
 
     @Override
     public void onAdFailed(AdError adError) {
-        LogUtil.d(TAG, "==> onAdFailed: " + adError.getErrorDescription());
-
+        LogUtil.d(TAG, "==> onAdFailed: " + adError.getErrorDescription() + " : " + adError.getErrorCode());
+        handler.removeMessages(1);
+        handler.sendEmptyMessage(1);
     }
 
     @Override
@@ -138,4 +137,24 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
     public void onCancel() {
 
     }
+
+    private void gotoTarget() {
+        Intent intent  = new Intent(LaunchActivity.this, HomeActivity.class);
+        startActivity(intent);
+        LaunchActivity.this.finish();
+    }
+
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    gotoTarget();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }
