@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -85,6 +86,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         //设置旋转
         orientationUtils = new OrientationUtils(this, videoPlayer);
         orientationUtils.setRotateWithSystem(true);
+        orientationUtils.setEnable(true);
         Log.d(TAG, "==> video play onCreate");
         PreferenceUtils.init(this);
         if(!initData()) {
@@ -98,6 +100,15 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         if(!mRecorderWakeLock.isHeld()){
             mRecorderWakeLock.acquire();
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            orientationUtils.setIsLand(0);
+            orientationUtils.resolveByClick();
+        }
+        super.onConfigurationChanged(newConfig);
     }
 
     /**
@@ -200,6 +211,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         videoPlayer.getTitleTextView().setVisibility(View.VISIBLE);
         //设置返回键
         videoPlayer.getBackButton().setVisibility(View.VISIBLE);
+        videoPlayer.getFullscreenButton().setVisibility(View.GONE);
         //设置全屏按键功能,这是使用的是选择屏幕，而不是全屏
         videoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -262,10 +274,10 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onBackPressed() {
         //先返回正常状态
-        if (orientationUtils.getScreenType() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+        /*if (orientationUtils.getScreenType() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
             videoPlayer.getFullscreenButton().performClick();
             return;
-        }
+        }*/
         //释放所有
         videoPlayer.setVideoAllCallBack(null);
         super.onBackPressed();

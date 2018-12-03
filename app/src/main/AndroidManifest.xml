@@ -164,9 +164,9 @@
 
         <activity
             android:name="com.drovik.player.video.ui.GSYVideoPlayActivity"
+            android:theme="@style/FullscreenTheme"
             android:screenOrientation="landscape"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme">
+            android:configChanges="orientation|keyboardHidden|screenSize">
             <!--
             <intent-filter tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
