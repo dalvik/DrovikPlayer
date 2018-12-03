@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,6 @@ import com.android.audiorecorder.ui.activity.LoginActivity;
 import com.android.audiorecorder.utils.DateUtil;
 import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.pager.BasePager;
-import com.android.library.utils.TextUtils;
 import com.drovik.player.AppApplication;
 import com.drovik.player.R;
 import com.drovik.player.audio.ui.MusicActivity;
@@ -49,6 +49,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.helper.DataUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -252,7 +253,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
             case R.id.weather_temperature:
             case R.id.home_hours_forecast_recyclerView:
             case R.id.weather_info:
-                String postTime = mSettings.getString(ResourceProvider.POLLING_TIME, "");
+                String postTime = mSettings.getString(ResourceProvider.PUBLISH_TIME, "");
                 if(!android.text.TextUtils.isEmpty(postTime)) {
                     launchWeatherActivity(1);
                 }
@@ -281,8 +282,20 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         LogUtil.d(TAG, "==> onLocationEvent : " + locationEvent.getCity());
         if(!TextUtils.isEmpty(locationEvent.getCity())) {
             mWeatherManager.topCity("cn", "9");
-            mWeatherManager.weather(locationEvent.getCity());
-            mWeatherManager.getAirNow(locationEvent.getCity());
+            String location = mSettings.getString(ResourceProvider.LOCATION, "");
+            if(!TextUtils.isEmpty(location)) {//初次加载
+                if(location.equalsIgnoreCase(locationEvent.getCity())) {//同一个城市
+                    long delt = DateUtil.deltPublish(mSettings.getString(ResourceProvider.PUBLISH_TIME, "2018-11-30 21:20:12"));
+                    LogUtil.d(TAG, "==> onLocationEvent delt: " + delt);
+                    if(delt >= ResourceProvider.DELT_DURATION) {//间隔不小于50分钟
+                        getWeather(locationEvent.getCity());
+                    }
+                } else {
+                    getWeather(locationEvent.getCity());
+                }
+            } else {
+                getWeather(locationEvent.getCity());
+            }
         }
     }
 
@@ -317,7 +330,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 for(IWeatherResponse.Data.DailyForecast dailyForecast: dailyForecasts) {
                     dailyJonArray.put(dailyForecast.toJsonObject());
                 }
-                mSettings.edit().putString(ResourceProvider.POLLING_TIME, temp.getUpdate().getLoc())
+                mSettings.edit().putString(ResourceProvider.PUBLISH_TIME, temp.getUpdate().getLoc())
                         .putString(ResourceProvider.DAILY_FORECAST, dailyJonArray.toString()).apply();
                 ArrayList<IWeatherResponse.Data.LifeStyle> lifeStyle = temp.getLifestyle();
                 JSONArray lifeStyleJonArray = new JSONArray();
@@ -503,6 +516,11 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         if (frameAnim != null && frameAnim.isRunning()) {
             frameAnim.stop();
         }
+    }
+
+    private void getWeather(String city) {
+        mWeatherManager.weather(city);
+        mWeatherManager.getAirNow(city);
     }
 
     private void launchWeatherActivity(int type) {

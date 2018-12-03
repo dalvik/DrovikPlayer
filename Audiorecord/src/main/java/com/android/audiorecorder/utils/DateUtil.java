@@ -52,7 +52,7 @@ public class DateUtil extends DateUtils {
         Calendar calendar = getInstance();
         calendar.setTimeInMillis(time);
         int year = calendar.get(YEAR);
-        int month = calendar.get(MONDAY)+1;
+        int month = calendar.get(MONTH)+1;
         int week = calendar.get(WEEK_OF_MONTH);
         return String.valueOf(year) + File.separator + String.valueOf(month) + File.separator + String.valueOf(week);
     }
@@ -250,5 +250,18 @@ public class DateUtil extends DateUtils {
 
         }
         return tips;
+    }
+
+    public static long deltPublish(String formatTime) {//step duration(s)
+        long delt = 0;
+        try {
+            Date date = DATE_FORMAT.parse(formatTime);
+            long timeStamp = date.getTime();
+            long now = System.currentTimeMillis() / 1000;
+            delt = now - timeStamp / 1000;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return delt;
     }
 }

@@ -14,19 +14,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
-import com.baidu.mobstat.StatService;
+import com.android.library.utils.PreferenceUtils;
 import com.crixmod.sailorcast.model.SCLiveStream;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.drovik.player.R;
 import com.drovik.player.video.VideoBean;
-//import com.drovik.player.video.mediaplayer.SuperPlayer;
-import com.android.library.utils.PreferenceUtils;
 import com.drovik.player.video.parser.IqiyiParser;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+//import com.drovik.player.video.mediaplayer.SuperPlayer;
 
 public class VideoPlayActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String SCMEDIA = "sc_media";
@@ -52,7 +51,6 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatService.start(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_show_video);

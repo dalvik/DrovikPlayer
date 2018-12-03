@@ -52,7 +52,6 @@ import com.android.audiorecorder.gallery.widget.GalleryViewPager;
 import com.android.audiorecorder.ui.view.RotateLayout;
 import com.android.audiorecorder.utils.LogUtil;
 import com.android.audiorecorder.utils.StringUtil;
-import com.baidu.mobstat.StatService;
 
 import java.io.File;
 
@@ -167,7 +166,6 @@ public class ImageViewActvity extends FragmentActivity{
     
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatService.start(this);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
         mFileDeleteHandlerThread = new HandlerThread("ImageView");

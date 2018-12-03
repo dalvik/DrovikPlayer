@@ -100,7 +100,7 @@ public class WeatherFragment extends BasePager {
             location.setText(city + " • " + country);
         }
         String updateTime = String.format(getString(R.string.weather_post),
-                DateUtil.getTimeTips(mSettings.getString(ResourceProvider.POLLING_TIME, "2018-11-30 21:20:12")));
+                DateUtil.getTimeTips(mSettings.getString(ResourceProvider.PUBLISH_TIME, "2018-11-30 21:20:12")));
         postTime.setText(updateTime);
         mWeatherItemList = (RecyclerView) view.findViewById(R.id.weather_info_recyclerView);
         mWeatherItemList.setLayoutManager(linearLayoutManager);

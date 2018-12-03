@@ -25,20 +25,20 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.library.net.utils.LogUtil;
+import com.android.library.ui.activity.BaseCommonActivity;
+import com.android.library.ui.dialog.CustomDialog;
+import com.android.library.utils.NumberUtil;
 import com.baidu.mobstat.StatService;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.drovik.player.AppApplication;
 import com.drovik.player.R;
 import com.drovik.player.audio.MusicBean;
 import com.drovik.player.audio.mediaplayer.IMusicPlayView;
 import com.drovik.player.audio.mediaplayer.MusicPlayController;
 import com.drovik.player.audio.mediaplayer.Playlist;
-import com.android.library.net.utils.LogUtil;
-import com.android.library.ui.activity.BaseCommonActivity;
-import com.android.library.ui.dialog.CustomDialog;
-import com.android.library.utils.NumberUtil;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 

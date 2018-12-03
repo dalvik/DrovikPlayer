@@ -13,18 +13,13 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.android.audiorecorder.utils.LogUtil;
-import com.android.library.BaseApplication;
-import com.android.library.ui.camera.bean.Image;
-import com.baidu.mobstat.StatService;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
 import com.iflytek.voiceads.AdError;
 import com.iflytek.voiceads.AdKeys;
-import com.iflytek.voiceads.IFLYAdSize;
 import com.iflytek.voiceads.IFLYNativeAd;
 import com.iflytek.voiceads.IFLYNativeListener;
 import com.iflytek.voiceads.NativeADDataRef;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -40,7 +35,6 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
         super.onCreate(savedInstanceState);
         // 加载启动页面
         setContentView(R.layout.start_activity);
-        StatService.start(this);
         loadAD();
         handler.sendEmptyMessageDelayed(1, 6000);
     }

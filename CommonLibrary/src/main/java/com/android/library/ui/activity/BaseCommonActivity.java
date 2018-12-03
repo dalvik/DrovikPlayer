@@ -1,6 +1,5 @@
 package com.android.library.ui.activity;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.widget.ScrollView;
@@ -24,7 +22,6 @@ import com.android.library.ui.dialog.WaitingDialog;
 import com.android.library.ui.utils.DialogUtils;
 import com.android.library.ui.utils.PriorityRunnable;
 import com.android.library.ui.utils.ToastUtils;
-import com.baidu.mobstat.StatService;
 
 /**
  * 公共基类特性：
@@ -62,7 +59,6 @@ public abstract class BaseCommonActivity extends FragmentActivity implements IDa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = this;
-        StatService.start(this);
         if (!initIntent()) {
             ToastUtils.showToast(R.string.intent_err);
             finish();
@@ -91,7 +87,6 @@ public abstract class BaseCommonActivity extends FragmentActivity implements IDa
         BaseApplication.curContext = this;
         PriorityRunnable.decreaseBase();
         //MobclickAgent.onResume(this);
-        StatService.onResume(this);
     }
 
     @Override
@@ -130,7 +125,6 @@ public abstract class BaseCommonActivity extends FragmentActivity implements IDa
     protected void onPause() {
         super.onPause();
         //MobclickAgent.onPause(this);
-        StatService.onPause(this);
     }
 
     @Override

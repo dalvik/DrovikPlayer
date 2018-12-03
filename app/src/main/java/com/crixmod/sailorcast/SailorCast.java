@@ -13,6 +13,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.mobstat.StatService;
 import com.crixmod.sailorcast.controller.cling.Factory;
 import com.crixmod.sailorcast.controller.upnp.IUpnpServiceController;
 import com.crixmod.sailorcast.model.upnp.IFactory;
@@ -51,6 +52,9 @@ public class SailorCast extends AppApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        //mtj
+        StatService.setDebugOn(true);
+        StatService.autoTrace(this, true, false);
         //LeakCanary.install(this);
         //PlayerFactory.setPlayManager(Exo2PlayerManager.class);//EXO模式
         //CacheFactory.setCacheManager(ExoPlayerCacheManager.class);//exo缓存模式，支持m3u8，只支持exo
