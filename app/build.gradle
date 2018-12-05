@@ -54,6 +54,7 @@ android {
         versionCode getVersionCode()
         versionName getVersionName()
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
         ndk {
             abiFilters "armeabi"
         }
@@ -107,6 +108,7 @@ repositories {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    api 'com.android.support:cardview-v7:26.1.0'
     //testImplementation 'junit:junit:4.12'
     //androidTestImplementation 'com.android.support.test:runner:1.0.1'
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
@@ -151,4 +153,10 @@ dependencies {
     api 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'             //RxLifecycle
     api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
     api 'me.drakeet.multitype:multitype:3.4.0'                  //简化版 Adapter
+    api 'cn.yc:YCUtilsLib:1.6.2'                                //公共类
+    api 'cn.yc:YCDialogLib:3.5'                                 //弹窗
+    api 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    //注解
+    api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.0.0'
 }

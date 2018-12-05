@@ -1,12 +1,11 @@
 package com.drovik.player.news.contract;
 
-
-
-import org.yczbj.ycvideoplayer.base.mvp2.IBaseListView;
-import org.yczbj.ycvideoplayer.base.mvp2.IBasePresenter;
-import org.yczbj.ycvideoplayer.ui.video.model.bean.MultiNewsArticleDataBean;
+import com.drovik.player.news.bean.MultiNewsArticleDataBean;
+import com.drovik.player.news.mvp.IBaseListView;
+import com.drovik.player.news.mvp.IBasePresenter;
 
 import java.util.List;
+
 
 public interface INewsArticle {
 

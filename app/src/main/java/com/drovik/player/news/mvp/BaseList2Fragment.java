@@ -5,11 +5,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.drovik.player.R;
+import com.drovik.player.news.bean.LoadingEndBean;
+import com.drovik.player.news.utils.SettingUtil;
 import com.pedaily.yc.ycdialoglib.customToast.ToastUtil;
-
-import org.yczbj.ycvideoplayer.R;
-import org.yczbj.ycvideoplayer.model.LoadingEndBean;
-import org.yczbj.ycvideoplayer.util.SettingUtil;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;

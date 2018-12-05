@@ -12,11 +12,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.drovik.player.R;
+import com.drovik.player.news.utils.Constant;
+import com.drovik.player.news.utils.SettingUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
-
-import org.yczbj.ycvideoplayer.R;
-import org.yczbj.ycvideoplayer.api.constant.Constant;
-import org.yczbj.ycvideoplayer.util.SettingUtil;
 
 
 public abstract class BaseMVPActivity extends RxAppCompatActivity {

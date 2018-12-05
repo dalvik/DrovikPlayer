@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 
-import org.yczbj.ycvideoplayer.base.mvp2.BaseList1Fragment;
-import org.yczbj.ycvideoplayer.listener.OnLoadMoreListener;
-import org.yczbj.ycvideoplayer.model.LoadingBean;
-import org.yczbj.ycvideoplayer.ui.news.contract.INewsArticle;
-import org.yczbj.ycvideoplayer.ui.news.presenter.NewsArticlePresenter;
-import org.yczbj.ycvideoplayer.util.DiffCallback;
-import org.yczbj.ycvideoplayer.util.Register;
+import com.drovik.player.news.bean.LoadingBean;
+import com.drovik.player.news.contract.INewsArticle;
+import com.drovik.player.news.listener.OnLoadMoreListener;
+import com.drovik.player.news.manager.DiffCallback;
+import com.drovik.player.news.mvp.BaseList1Fragment;
+import com.drovik.player.news.presenter.NewsArticlePresenter;
+import com.drovik.player.news.utils.Register;
 
 import java.util.List;
 

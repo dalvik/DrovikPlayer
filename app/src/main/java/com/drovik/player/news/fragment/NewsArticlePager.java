@@ -25,6 +25,7 @@ import com.android.audiorecorder.engine.MultiMediaService;
 import com.android.audiorecorder.ui.pager.FragmentInfo;
 import com.android.audiorecorder.ui.pager.MainBluetoothRecordPager;
 import com.android.library.ui.pager.BasePager;
+import com.android.library.viewpager.scrolltab.ScrollTabPager;
 import com.android.library.viewpager.scrolltab.SyncHorizontalScrollView;
 
 public class NewsArticlePager extends BasePager {
@@ -43,7 +44,7 @@ public class NewsArticlePager extends BasePager {
     public static int[] mTabTitle = {R.string.main_tab_main_bluetooth, R.string.main_tab_main_telephone};
     public static FragmentInfo[] mPagers = null;
     private LayoutInflater mInflater;
-    private TabFragmentPagerAdapter mAdapter;
+    private ScrollTabPager.TabFragmentPagerAdapter mAdapter;
     private int currentIndicatorLeft = 0;
     private int mSelectIndex;
     private String categoryId;
@@ -139,7 +140,7 @@ public class NewsArticlePager extends BasePager {
         mHsv.setSomeParam(mScrollLayout, mScrollTabLeft, mScrollTabRight, getActivity(), dm.widthPixels);
         mInflater = LayoutInflater.from(getActivity());
         initNavigationHSV();
-        mAdapter = new TabFragmentPagerAdapter(getActivity(), getChildFragmentManager());
+        mAdapter = new ScrollTabPager.TabFragmentPagerAdapter(getActivity(), getChildFragmentManager());
         mScrollTabViewContent.setAdapter(mAdapter);
         RadioButton defaultRadio = (RadioButton)mRadioContent.getChildAt(0);
         defaultRadio.setChecked(true);

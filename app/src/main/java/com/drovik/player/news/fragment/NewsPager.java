@@ -20,10 +20,10 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 
-import com.android.audiorecorder.R;
 import com.android.audiorecorder.ui.pager.FragmentInfo;
 import com.android.library.ui.pager.BasePager;
 import com.android.library.viewpager.scrolltab.SyncHorizontalScrollView;
+import com.drovik.player.R;
 
 public class NewsPager extends BasePager {
 

@@ -62,7 +62,7 @@ public abstract class BaseFragment<T extends BasePresenter>  extends Fragment {
         if (mPresenter != null){
             mPresenter.unSubscribe();
         }
-        ButterKnife.unbind(this);
+       // ButterKnife.unbind(this);
         initLeakCanary();             //测试内存泄漏，正式一定要隐藏
     }
 
