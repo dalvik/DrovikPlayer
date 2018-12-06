@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mobstat.StatService;
+import com.blankj.utilcode.util.Utils;
 import com.crixmod.sailorcast.controller.cling.Factory;
 import com.crixmod.sailorcast.controller.upnp.IUpnpServiceController;
 import com.crixmod.sailorcast.model.upnp.IFactory;
@@ -52,6 +53,7 @@ public class SailorCast extends AppApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Utils.init(this);
         //mtj
         StatService.setDebugOn(true);
         StatService.autoTrace(this, true, false);

@@ -25,7 +25,6 @@ import com.android.audiorecorder.engine.MultiMediaService;
 import com.android.audiorecorder.ui.pager.FragmentInfo;
 import com.android.audiorecorder.ui.pager.MainBluetoothRecordPager;
 import com.android.library.ui.pager.BasePager;
-import com.android.library.viewpager.scrolltab.ScrollTabPager;
 import com.android.library.viewpager.scrolltab.SyncHorizontalScrollView;
 
 public class NewsArticlePager extends BasePager {
@@ -44,7 +43,7 @@ public class NewsArticlePager extends BasePager {
     public static int[] mTabTitle = {R.string.main_tab_main_bluetooth, R.string.main_tab_main_telephone};
     public static FragmentInfo[] mPagers = null;
     private LayoutInflater mInflater;
-    private ScrollTabPager.TabFragmentPagerAdapter mAdapter;
+    private TabFragmentPagerAdapter mAdapter;
     private int currentIndicatorLeft = 0;
     private int mSelectIndex;
     private String categoryId;
@@ -140,7 +139,7 @@ public class NewsArticlePager extends BasePager {
         mHsv.setSomeParam(mScrollLayout, mScrollTabLeft, mScrollTabRight, getActivity(), dm.widthPixels);
         mInflater = LayoutInflater.from(getActivity());
         initNavigationHSV();
-        mAdapter = new ScrollTabPager.TabFragmentPagerAdapter(getActivity(), getChildFragmentManager());
+        mAdapter = new TabFragmentPagerAdapter(getActivity(), getChildFragmentManager());
         mScrollTabViewContent.setAdapter(mAdapter);
         RadioButton defaultRadio = (RadioButton)mRadioContent.getChildAt(0);
         defaultRadio.setChecked(true);
@@ -171,6 +170,33 @@ public class NewsArticlePager extends BasePager {
 
     @Override
     public void reload() {
+    }
+
+
+    public static class TabFragmentPagerAdapter extends FragmentPagerAdapter {
+
+        private Context mContext;
+
+        public TabFragmentPagerAdapter(Context context, FragmentManager fm) {
+            super(fm);
+            this.mContext = context;
+        }
+
+        @Override
+        public Fragment getItem(int index) {
+            if(mPagers==null || index>=mPagers.length){
+                throw new IllegalStateException("Not Set Framgent.");
+            }
+            FragmentInfo info = mPagers[index];
+            info.fragment = Fragment.instantiate(mContext, info.clazz.getName(), info.bundle);
+            info.fragment.setArguments(info.bundle);
+            return info.fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return 1;
+        }
     }
 
 }

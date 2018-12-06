@@ -73,7 +73,7 @@
             </activity>
         -->
 
-        <activity android:name="com.drovik.player.ui.DrovikPlayerGuide"
+        <activity android:name="com.drovik.player.news.NewsFrameActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">

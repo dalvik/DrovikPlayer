@@ -8,7 +8,6 @@ import android.view.View;
 import com.drovik.player.R;
 import com.drovik.player.news.bean.LoadingEndBean;
 import com.drovik.player.news.utils.SettingUtil;
-import com.pedaily.yc.ycdialoglib.customToast.ToastUtil;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
@@ -74,7 +73,7 @@ public abstract class BaseList1Fragment<T extends IBasePresenter> extends BaseMV
 
     @Override
     public void onShowNetError() {
-        ToastUtil.showToast(getActivity(),getString(R.string.network_error));
+        //ToastUtil.showToast(getActivity(),getString(R.string.network_error));
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

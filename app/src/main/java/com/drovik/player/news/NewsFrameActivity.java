@@ -16,6 +16,8 @@ import com.android.audiorecorder.provider.FileProviderService;
 import com.android.audiorecorder.ui.pager.MainRecordPager;
 import com.android.audiorecorder.utils.ActivityUtil;
 import com.android.library.ui.activity.BaseCommonActivity;
+import com.drovik.player.news.fragment.NewsArticlePager;
+import com.drovik.player.news.fragment.NewsPager;
 import com.drovik.player.video.ui.pager.SohuPager0;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.SelectableViewAdapter;
@@ -132,10 +134,10 @@ public class NewsFrameActivity extends BaseCommonActivity {
 
         public MainAdapter(FragmentManager fm) {
             super(fm);
-            pagers[POSITION_MAIN] = new MainRecordPager();
-            pagers[POSITION_MSG] = new MainRecordPager();
-            pagers[POSITION_FIND] = new MainRecordPager();
-            pagers[POSITION_CENTER] = new SohuPager0();
+            pagers[POSITION_MAIN] = new NewsPager();
+            pagers[POSITION_MSG] = new NewsPager();
+            pagers[POSITION_FIND] = new NewsPager();
+            pagers[POSITION_CENTER] = new NewsPager();
         }
 
         @Override

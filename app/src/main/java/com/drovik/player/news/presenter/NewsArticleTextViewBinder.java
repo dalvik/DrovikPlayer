@@ -102,9 +102,10 @@ public class NewsArticleTextViewBinder extends ItemViewBinder<MultiNewsArticleDa
         TextView tvAbstract;
         @BindView(R.id.content)
         LinearLayout content;
+
         ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+            //ButterKnife.bind(this, itemView);
         }
     }
 }
