@@ -20,7 +20,7 @@ import me.drakeet.multitype.MultiTypeAdapter;
 
 public class NewsArticleFragment extends BaseList1Fragment<INewsArticle.Presenter> implements INewsArticle.View, SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = "NewsArticleFragment";
+    public static final String TAG = "NewsArticleFragment";
     private String categoryId;
 
     public static NewsArticleFragment newInstance(String categoryId) {

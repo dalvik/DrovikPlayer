@@ -159,4 +159,6 @@ dependencies {
     api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     //注解
     api 'com.jakewharton.rxbinding2:rxbinding-appcompat-v7:2.0.0'
+    api 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.0@aar'      //导航栏
+    api 'com.android.support:design:27.1.0'
 }

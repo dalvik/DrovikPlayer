@@ -155,12 +155,12 @@ public class NewsPager extends BasePager {
     
     private void initFragment(){
         mPagers = new FragmentInfo[fragment_length];
-        if(fragment_length<15){
+        if(categoryId.length < 15){
             return;
         }
         for (int i = 0; i < fragment_length; i++) {
             Bundle bundle = new Bundle();
-            bundle.putString(NewsArticlePager.TAG, categoryId[i]);
+            bundle.putString(NewsArticleFragment.TAG, categoryId[i]);
             FragmentInfo info1 = new FragmentInfo(NewsArticleFragment.class, bundle);
             mPagers[i] = info1;
         }

@@ -1,6 +1,5 @@
 package com.drovik.player.news;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,14 +10,9 @@ import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.android.audiorecorder.R;
-import com.android.audiorecorder.engine.MultiMediaService;
-import com.android.audiorecorder.provider.FileProviderService;
-import com.android.audiorecorder.ui.pager.MainRecordPager;
 import com.android.audiorecorder.utils.ActivityUtil;
 import com.android.library.ui.activity.BaseCommonActivity;
-import com.drovik.player.news.fragment.NewsArticlePager;
 import com.drovik.player.news.fragment.NewsPager;
-import com.drovik.player.video.ui.pager.SohuPager0;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.SelectableViewAdapter;
 import com.viewpagerindicator.TabPageIndicator;
@@ -105,13 +99,12 @@ public class NewsFrameActivity extends BaseCommonActivity {
                 }
             });
             rightTv.setVisibility(View.GONE);
-            /*rightTv.setBackgroundResource(R.drawable.msg_notify);
+            rightTv.setBackgroundResource(R.drawable.msg_notify);
             rightTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityUtil.gotoNotifyActivity(activity);
                 }
-            });*/
+            });
         } else {
             rightTv.setVisibility(View.GONE);
             rightTv.setOnClickListener(null);

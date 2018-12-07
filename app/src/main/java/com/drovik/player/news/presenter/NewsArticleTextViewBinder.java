@@ -36,7 +36,7 @@ public class NewsArticleTextViewBinder extends ItemViewBinder<MultiNewsArticleDa
     @NonNull
     @Override
     protected ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
-        View view = inflater.inflate(R.layout.item_news_article_text, parent, false);
+        View view = inflater.inflate(R.layout.item_news_article_text, null);
         return new ViewHolder(view);
     }
 
@@ -82,7 +82,7 @@ public class NewsArticleTextViewBinder extends ItemViewBinder<MultiNewsArticleDa
                         }
                     });
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -105,7 +105,7 @@ public class NewsArticleTextViewBinder extends ItemViewBinder<MultiNewsArticleDa
 
         ViewHolder(View itemView) {
             super(itemView);
-            //ButterKnife.bind(this, itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--首页底部导航栏的标题，未选中时-->
+    <integer-array name="main_tab_un_select">
+        <item name="tab_home">@drawable/tab_home_unselect</item>
+        <item name="tab_news">@drawable/tab_speech_unselect</item>
+        <item name="tab_find">@drawable/tab_contact_unselect</item>
+        <item name="tab_data">@drawable/tab_speech_unselect</item>
+        <item name="tab_me">@drawable/tab_more_unselect</item>
+    </integer-array>
+
+    <!--首页底部导航栏的标题，选中时-->
+    <integer-array name="main_tab_select">
+        <item name="tab_home">@drawable/tab_home_select</item>
+        <item name="tab_news">@drawable/tab_speech_select</item>
+        <item name="tab_find">@drawable/tab_contact_select</item>
+        <item name="tab_data">@drawable/tab_speech_select</item>
+        <item name="tab_me">@drawable/tab_more_select</item>
+    </integer-array>
+
+    <!--首页底部导航栏文字-->
+    <string-array name="main_title">
+        <item>首页</item>
+        <item>新闻</item>
+        <item>电影</item>
+        <item>视频</item>
+        <item>我的</item>
+    </string-array>
+
+
     <!--需要单独处理的 视频 / 段子 / 问答 -->
     <string-array name="mobile_news_name">
         <item>推荐</item>

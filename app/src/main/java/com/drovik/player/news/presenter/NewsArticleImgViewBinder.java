@@ -95,7 +95,7 @@ public class NewsArticleImgViewBinder extends ItemViewBinder<MultiNewsArticleDat
                         }
                     });
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
