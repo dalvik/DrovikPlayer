@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.library.utils.DateUtil;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.drovik.player.R;
@@ -65,10 +66,7 @@ public class NewsArticleVideoViewBinder extends ItemViewBinder<MultiNewsArticleD
             holder.tvTitle.setTextSize(SettingUtil.getInstance().getTextSize());
             String tv_source = item.getSource();
             String tv_comment_count = item.getComment_count() + "评论";
-            String tv_datetime = item.getBehot_time() + "";
-            if (!TextUtils.isEmpty(tv_datetime)) {
-                tv_datetime = TimeUtils.getFriendlyTimeSpanByNow(tv_datetime);
-            }
+            String tv_datetime = com.drovik.utils.DateUtil.formatTimeToDate6(item.getPublish_time());
             int video_duration = item.getVideo_duration();
             String min = String.valueOf(video_duration / 60);
             String second = String.valueOf(video_duration % 10);

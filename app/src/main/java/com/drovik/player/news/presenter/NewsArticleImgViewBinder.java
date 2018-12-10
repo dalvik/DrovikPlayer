@@ -19,7 +19,6 @@ import com.drovik.player.news.utils.ImageUtil;
 import com.drovik.player.news.utils.SettingUtil;
 import com.jakewharton.rxbinding2.view.RxView;
 
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -69,11 +68,7 @@ public class NewsArticleImgViewBinder extends ItemViewBinder<MultiNewsArticleDat
             String tv_abstract = item.getAbstractX();
             String tv_source = item.getSource();
             String tv_comment_count = item.getComment_count() + "评论";
-            String tv_datetime = item.getBehot_time() + "";
-            if (!TextUtils.isEmpty(tv_datetime)) {
-                tv_datetime = TimeUtils.getFriendlyTimeSpanByNow(tv_datetime);
-            }
-
+            String tv_datetime = TimeUtils.millis2String(item.getPublish_time()* 1000l);
             holder.tvTitle.setText(tv_title);
             holder.tvTitle.setTextSize(SettingUtil.getInstance().getTextSize());
             holder.tvAbstract.setText(tv_abstract);

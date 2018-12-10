@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.audiorecorder.utils.DateUtil;
 import com.blankj.utilcode.util.TimeUtils;
 import com.drovik.player.R;
 import com.drovik.player.news.bean.MultiNewsArticleDataBean;
@@ -52,16 +53,11 @@ public class NewsArticleTextViewBinder extends ItemViewBinder<MultiNewsArticleDa
                     ImageUtil.loadImgByPicasso(context,avatar_url,R.drawable.image_default,holder.ivMedia);
                 }
             }
-
             String tv_title = item.getTitle();
             String tv_abstract = item.getAbstractX();
             String tv_source = item.getSource();
             String tv_comment_count = item.getComment_count() + "评论";
-            String tv_datetime = item.getBehot_time() + "";
-            if (!TextUtils.isEmpty(tv_datetime)) {
-                tv_datetime =  TimeUtils.getFriendlyTimeSpanByNow(tv_datetime);
-            }
-
+            String tv_datetime = TimeUtils.millis2String(item.getPublish_time()* 1000l);
             holder.tvTitle.setText(tv_title);
             holder.tvTitle.setTextSize(SettingUtil.getInstance().getTextSize());
             holder.tvAbstract.setText(tv_abstract);
