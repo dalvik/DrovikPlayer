@@ -8,13 +8,13 @@ import android.view.View;
 import com.drovik.player.R;
 import com.drovik.player.news.bean.LoadingEndBean;
 import com.drovik.player.news.utils.SettingUtil;
+import com.drovik.utils.ToastUtils;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
-
 
 public abstract class BaseList1Fragment<T extends IBasePresenter> extends BaseMVPLazyFragment<T> implements IBaseListView<T>, SwipeRefreshLayout.OnRefreshListener {
 
@@ -36,7 +36,7 @@ public abstract class BaseList1Fragment<T extends IBasePresenter> extends BaseMV
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         swipeRefreshLayout = view.findViewById(R.id.refresh);
-        swipeRefreshLayout.setColorSchemeColors(SettingUtil.getInstance().getColor());
+        //swipeRefreshLayout.setColorSchemeColors(SettingUtil.getInstance().getColor());
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
@@ -73,6 +73,7 @@ public abstract class BaseList1Fragment<T extends IBasePresenter> extends BaseMV
 
     @Override
     public void onShowNetError() {
+        ToastUtils.showToast(getActivity(), R.string.network_error);
         //ToastUtil.showToast(getActivity(),getString(R.string.network_error));
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -88,7 +89,7 @@ public abstract class BaseList1Fragment<T extends IBasePresenter> extends BaseMV
     public void onResume() {
         super.onResume();
         // 设置下拉刷新的按钮的颜色
-        swipeRefreshLayout.setColorSchemeColors(SettingUtil.getInstance().getColor());
+        //swipeRefreshLayout.setColorSchemeColors(SettingUtil.getInstance().getColor());
     }
 
     @Override

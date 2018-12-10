@@ -17,7 +17,6 @@ import java.util.List;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
-
 public class NewsArticleFragment extends BaseList1Fragment<INewsArticle.Presenter> implements INewsArticle.View, SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = "NewsArticleFragment";

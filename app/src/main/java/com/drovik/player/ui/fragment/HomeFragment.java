@@ -31,6 +31,7 @@ import com.drovik.player.AppApplication;
 import com.drovik.player.R;
 import com.drovik.player.audio.ui.MusicActivity;
 import com.drovik.player.ui.HomeActivity;
+import com.drovik.player.ui.MainActivity;
 import com.drovik.player.weather.BaseRecyclerAdapter;
 import com.drovik.player.weather.CityProvider;
 import com.drovik.player.weather.event.AirNowEvent;
@@ -63,7 +64,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     private static final int LOGIN_SUCCESS = 1001;
     private static final int UPDATE_WEATHER = 2000;
     public static final int LOAD_CITYS_SUCCESS = 3000;
-    private LinearLayout mNoDevice;
     private ImageView gifBg;
     private TextView mDeviceSize;
     private TextView mDeviceName;
@@ -160,15 +160,12 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
 
         mDeviceName = (TextView) view.findViewById(R.id.home_device_name);
         view.findViewById(R.id.home_file).setOnClickListener(this);
-        view.findViewById(R.id.home_photo).setOnClickListener(this);
+        //view.findViewById(R.id.home_photo).setOnClickListener(this);
         view.findViewById(R.id.home_video).setOnClickListener(this);
         //view.findViewById(R.id.home_video).setVisibility(View.GONE);
         view.findViewById(R.id.home_music).setOnClickListener(this);
         view.findViewById(R.id.home_recorder).setOnClickListener(this);
-        view.findViewById(R.id.home_sur).setOnClickListener(this);
 
-        mNoDevice = (LinearLayout) view.findViewById(R.id.home_no_device);
-        mNoDevice.setOnClickListener(this);
         mNativeSpotAdLayout = (RelativeLayout) view.findViewById(R.id.home_rl_native_spot_ad);
 
         mWeatherLocation = (TextView) view.findViewById(R.id.weather_location);
@@ -215,16 +212,16 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 Intent intentFile = new Intent(mContext, FileExplorerActivity.class);
                 startActivity(intentFile);
                 break;
-            case R.id.home_photo:
-                Intent intentPhoto = new Intent(mContext, SoundRecorder.class);
+            /*case R.id.home_photo:
+                Intent intentPhoto = new Intent(mContext, MainActivity.class);
                 startActivity(intentPhoto);
-                break;
+                break;*/
             case R.id.home_video:
                 Intent intentVideo = new Intent(mContext, com.drovik.player.video.ui.MovieHomeActivity.class);
                 startActivity(intentVideo);
                 break;
             case R.id.home_music:
-                Intent intentMusic = new Intent(mContext, MusicActivity.class);
+                Intent intentMusic = new Intent(mContext, MainActivity.class);
                 startActivity(intentMusic);
                 break;
             case R.id.home_recorder:

@@ -9,17 +9,6 @@ import java.util.List;
 
 public class MultiNewsArticleDataBean implements Parcelable {
 
-    public static final Creator<MultiNewsArticleDataBean> CREATOR = new Creator<MultiNewsArticleDataBean>() {
-        @Override
-        public MultiNewsArticleDataBean createFromParcel(Parcel in) {
-            return new MultiNewsArticleDataBean(in);
-        }
-
-        @Override
-        public MultiNewsArticleDataBean[] newArray(int size) {
-            return new MultiNewsArticleDataBean[size];
-        }
-    };
     /**
      * log_pb : {"impr_id":"20170519112306010003048108480AA6"}
      * read_count : 156694
@@ -180,7 +169,7 @@ public class MultiNewsArticleDataBean implements Parcelable {
         has_video = in.readByte() != 0;
         article_type = in.readInt();
         tag = in.readString();
-//        has_m3u8_video = in.readByte() != 0;
+        //has_m3u8_video = in.readByte() != 0;
         keywords = in.readString();
         rid = in.readString();
         label = in.readString();
@@ -268,7 +257,7 @@ public class MultiNewsArticleDataBean implements Parcelable {
         dest.writeByte((byte) (has_video ? 1 : 0));
         dest.writeInt(article_type);
         dest.writeString(tag);
-//        dest.writeByte((byte) (has_m3u8_video ? 1 : 0));
+        //dest.writeByte((byte) (has_m3u8_video ? 1 : 0));
         dest.writeString(keywords);
         dest.writeString(rid);
         dest.writeString(label);
@@ -873,6 +862,18 @@ public class MultiNewsArticleDataBean implements Parcelable {
         this.like_count = like_count;
     }
 
+    public static final Creator<MultiNewsArticleDataBean> CREATOR = new Creator<MultiNewsArticleDataBean>() {
+        @Override
+        public MultiNewsArticleDataBean createFromParcel(Parcel in) {
+            return new MultiNewsArticleDataBean(in);
+        }
+
+        @Override
+        public MultiNewsArticleDataBean[] newArray(int size) {
+            return new MultiNewsArticleDataBean[size];
+        }
+    };
+
     @Override
     public String toString() {
         return "MultiNewsArticleDataBean{" +
@@ -950,7 +951,6 @@ public class MultiNewsArticleDataBean implements Parcelable {
         /**
          * impr_id : 20170519112306010003048108480AA6
          */
-
         private String impr_id;
 
         public String getImpr_id() {
@@ -1235,7 +1235,6 @@ public class MultiNewsArticleDataBean implements Parcelable {
          * uri : list/207c000e549a17910c1c
          * height : 225
          */
-
         private String url;
         private int width;
         private String uri;
@@ -1324,7 +1323,6 @@ public class MultiNewsArticleDataBean implements Parcelable {
          * video_watching_count : 0
          * video_watch_count : 3502527
          */
-
         private int group_flags;
         private int video_type;
         private int video_preloading_flag;
@@ -1479,7 +1477,6 @@ public class MultiNewsArticleDataBean implements Parcelable {
              * uri : video1609/17600009fb1bb36ce3ee
              * height : 326
              */
-
             private String url;
             private int width;
             private String uri;
@@ -1559,7 +1556,6 @@ public class MultiNewsArticleDataBean implements Parcelable {
          * uri : video1609/17600009fb1bb36ce3ee
          * height : 326
          */
-
         @SerializedName("url")
         private String urlX;
         private int width;

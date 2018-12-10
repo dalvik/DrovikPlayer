@@ -6,25 +6,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<com.crixmod.sailorcast.uiutils.pagingridview.PagingGridView
-    android:id="@+id/result_grid"
-    android:numColumns="3"
-    android:padding="2dp"
-    android:verticalSpacing="2dp"
-    android:horizontalSpacing="2dp"
-    android:stretchMode="columnWidth"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-</com.crixmod.sailorcast.uiutils.pagingridview.PagingGridView>
+        <com.crixmod.sailorcast.uiutils.pagingridview.PagingGridView
+            android:id="@+id/result_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:horizontalSpacing="2dp"
+            android:numColumns="3"
+            android:padding="2dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="2dp"/>
 
         <TextView
-            android:text="@string/album_no_videos"
             android:id="@android:id/empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:ellipsize="end"
-            android:gravity="center" />
+            android:gravity="center"
+            android:text="@string/album_no_videos" />
 
-</FrameLayout>
+    </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

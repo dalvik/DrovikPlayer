@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
-            android:weightSum="1">
+            android:weightSum="2">
 
             <View
                 android:layout_width="match_parent"
@@ -155,6 +155,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
+
+                <View
+                    android:layout_width="@dimen/base_splite_line_width"
+                    android:layout_height="match_parent"
+                    android:background="@color/splite_grey" />
 
                 <RelativeLayout
                     android:id="@+id/home_file"
@@ -220,9 +225,55 @@
                     android:background="@color/splite_grey" />
 
                 <RelativeLayout
-                    android:id="@+id/home_video"
+                    android:id="@+id/home_video1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+                    <!-- net video -->
+                    <ImageView
+                        android:id="@+id/home_video_iv1"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/selector_home_video"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/home_video_iv1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/home_video"
+                        android:textColor="@color/white"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/base_splite_line_width"
+                android:visibility="visible"
+                android:background="@color/splite_grey" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/common_4_dp"
+                android:visibility="visible">
+
+                <View
+                    android:layout_width="@dimen/base_splite_line_width"
+                    android:layout_height="match_parent"
+                    android:background="@color/splite_grey" />
+
+                <RelativeLayout
+                    android:id="@+id/home_video"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:paddingTop="5dp"
@@ -233,6 +284,7 @@
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/common_8_dp"
                         android:src="@drawable/selector_home_video"/>
 
                     <TextView
@@ -244,35 +296,29 @@
                         android:text="@string/home_video"
                         android:textColor="@color/white"/>
                 </RelativeLayout>
-            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/base_splite_line_width"
-                android:layout_marginBottom="@dimen/common_10_dp"
-                android:visibility="gone"
-                android:background="@color/splite_grey" />
+                <View
+                    android:layout_width="@dimen/base_splite_line_hight"
+                    android:layout_height="match_parent"
+                    android:background="@color/splite_grey" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:visibility="gone">
-
+                <!-- net music -->
                 <RelativeLayout
                     android:id="@+id/home_music"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:visibility="gone"
-                    android:paddingBottom="16dp">
-                    <!-- net music -->
+                    android:visibility="visible"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
                     <ImageView
                         android:id="@+id/home_music_iv"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/common_8_dp"
                         android:src="@drawable/selector_home_music" />
 
                     <TextView
@@ -281,95 +327,19 @@
                         android:layout_below="@+id/home_music_iv"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
+                        android:textColor="@color/white"
                         android:text="@string/home_music" />
                 </RelativeLayout>
 
                 <View
                     android:layout_width="@dimen/base_splite_line_hight"
-                    android:layout_height="100dp"
-                    android:background="@color/splite_grey" />
-
-                <RelativeLayout
-                    android:id="@+id/home_photo"
-                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:paddingBottom="16dp">
-
-                    <!-- net gallery -->
-                    <ImageView
-                        android:id="@+id/home_photo_iv"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/selector_home_photo" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/home_photo_iv"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/home_photo" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="@dimen/base_splite_line_hight"
-                    android:layout_height="100dp"
                     android:background="@color/splite_grey" />
-
-                <RelativeLayout
-                    android:id="@+id/home_sur"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:paddingBottom="16dp">
-
-                    <ImageView
-                        android:id="@+id/home_sur_iv"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/ic_launcher_recorder" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/home_sur_iv"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/home_recorder" />
-                </RelativeLayout>
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/base_splite_line_width"
+                android:background="@color/splite_grey" />
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/home_no_device"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:visibility="invisible">
-
-            <ImageView
-                android:layout_width="170dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_launcher_recorder" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/home_no_login"
-                android:textSize="@dimen/base_sencond_title_size" />
-        </LinearLayout>
-
     </RelativeLayout>
-
 </RelativeLayout>

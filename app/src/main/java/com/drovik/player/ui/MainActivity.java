@@ -305,7 +305,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     /**
      * 监听back键处理DrawerLayout和SearchView
      */
-    @Override
+    /*@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
@@ -321,7 +321,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
+    }*/
 
 
 }

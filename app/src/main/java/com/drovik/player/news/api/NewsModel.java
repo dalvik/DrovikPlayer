@@ -18,9 +18,7 @@ public class NewsModel {
     private static final String HOST = "http://toutiao.com/";
 
     private NewsModel() {
-        mApiService = RetrofitWrapper
-                .getInstance(HOST)
-                .create(NewsApi.class);
+        mApiService = RetrofitWrapper.getInstance(HOST).create(NewsApi.class);
     }
 
     public static NewsModel getInstance(){

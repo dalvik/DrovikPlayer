@@ -18,13 +18,13 @@
 
     <style name="TabLayout" parent="Base.Widget.Design.TabLayout">
         <item name="tabMaxWidth">@dimen/design_tab_max_width</item>
-        <item name="tabIndicatorColor">#FFFFFF</item>
+        <item name="tabIndicatorColor">#5AB0EB</item>
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabPaddingStart">12dp</item>
         <item name="tabPaddingEnd">12dp</item>
         <item name="tabBackground">@color/colorTheme</item>
         <item name="tabTextAppearance">@style/TextAppearance.Design.Tab</item>
-        <item name="tabSelectedTextColor">?android:textColorPrimary</item>
+        <item name="tabSelectedTextColor">@drawable/rb_blue_bg</item>
     </style>
 
 </resources>

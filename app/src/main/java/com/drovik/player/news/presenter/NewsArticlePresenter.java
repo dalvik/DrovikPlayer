@@ -39,7 +39,6 @@ public class NewsArticlePresenter implements INewsArticle.Presenter {
 
     @Override
     public void doLoadData(String... category) {
-
         try {
             if (this.category == null) {
                 this.category = category[0];
@@ -53,8 +52,7 @@ public class NewsArticlePresenter implements INewsArticle.Presenter {
             dataList.clear();
         }
 
-        getRandom()
-                .subscribeOn(Schedulers.io())
+        getRandom().subscribeOn(Schedulers.io())
                 .switchMap(new Function<MultiNewsArticleBean, Observable<MultiNewsArticleDataBean>>() {
                     @Override
                     public Observable<MultiNewsArticleDataBean> apply(@NonNull MultiNewsArticleBean multiNewsArticleBean) throws Exception {
@@ -139,13 +137,6 @@ public class NewsArticlePresenter implements INewsArticle.Presenter {
     }
 
     @Override
-    public void doSetAdapter(List<MultiNewsArticleDataBean> list) {
-        dataList.addAll(list);
-        view.onSetAdapter(dataList);
-        view.onHideLoading();
-    }
-
-    @Override
     public void doRefresh() {
         if (dataList.size() != 0) {
             dataList.clear();
@@ -159,6 +150,13 @@ public class NewsArticlePresenter implements INewsArticle.Presenter {
     public void doShowNetError() {
         view.onHideLoading();
         view.onShowNetError();
+    }
+
+    @Override
+    public void doSetAdapter(List<MultiNewsArticleDataBean> list) {
+        dataList.addAll(list);
+        view.onSetAdapter(dataList);
+        view.onHideLoading();
     }
 
     @Override

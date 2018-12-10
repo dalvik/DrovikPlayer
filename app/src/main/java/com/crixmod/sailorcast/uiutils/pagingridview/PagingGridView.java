@@ -100,7 +100,6 @@ public class PagingGridView extends HeaderGridView {
 							isLoading = true;
 							pagingableListener.onLoadMoreItems();
 						}
-
 					}
 				}
 			}
