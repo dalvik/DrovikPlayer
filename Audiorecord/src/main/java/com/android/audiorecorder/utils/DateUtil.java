@@ -230,7 +230,7 @@ public class DateUtil extends DateUtils {
         return timeTips;
     }
 
-    private static String getTimeTips(long timeStamp) {
+    public static String getTimeTips(long timeStamp) {
         long now = System.currentTimeMillis() / 1000;
         String tips;
         long diff = now - timeStamp / 1000;

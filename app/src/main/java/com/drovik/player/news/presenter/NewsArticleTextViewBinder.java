@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.audiorecorder.utils.DateUtil;
-import com.blankj.utilcode.util.TimeUtils;
 import com.drovik.player.R;
 import com.drovik.player.news.bean.MultiNewsArticleDataBean;
 import com.drovik.player.news.utils.ImageUtil;
@@ -50,6 +49,7 @@ public class NewsArticleTextViewBinder extends ItemViewBinder<MultiNewsArticleDa
             if (null != item.getUser_info()) {
                 String avatar_url = item.getUser_info().getAvatar_url();
                 if (!TextUtils.isEmpty(avatar_url)) {
+                    holder.ivMedia.setVisibility(View.GONE);
                     ImageUtil.loadImgByPicasso(context,avatar_url,R.drawable.image_default,holder.ivMedia);
                 }
             }
@@ -57,11 +57,11 @@ public class NewsArticleTextViewBinder extends ItemViewBinder<MultiNewsArticleDa
             String tv_abstract = item.getAbstractX();
             String tv_source = item.getSource();
             String tv_comment_count = item.getComment_count() + "评论";
-            String tv_datetime = TimeUtils.millis2String(item.getPublish_time()* 1000l);
+            String tv_datetime = DateUtil.getTimeTips(item.getPublish_time()* 1000l);
             holder.tvTitle.setText(tv_title);
             holder.tvTitle.setTextSize(SettingUtil.getInstance().getTextSize());
             holder.tvAbstract.setText(tv_abstract);
-            holder.tvExtra.setText(tv_source + " - " + tv_comment_count + " - " + tv_datetime);
+            holder.tvExtra.setText(tv_source + " " + tv_comment_count + " " + tv_datetime);
             holder.ivDots.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -11,9 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.library.utils.DateUtil;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.TimeUtils;
 import com.drovik.player.R;
 import com.drovik.player.news.bean.MultiNewsArticleDataBean;
 import com.drovik.player.news.utils.ImageUtil;
@@ -48,7 +46,7 @@ public class NewsArticleVideoViewBinder extends ItemViewBinder<MultiNewsArticleD
                 if (null != item.getVideo_detail_info().getDetail_video_large_image()) {
                     String image = item.getVideo_detail_info().getDetail_video_large_image().getUrl();
                     if (!TextUtils.isEmpty(image)) {
-                        ImageUtil.loadImgByPicasso(context,image,R.drawable.image_default,holder.ivVideoImage);
+                        ImageUtil.loadImgByPicasso(context,image,R.drawable.image_default, holder.ivVideoImage);
                     }
                 }
             } else {
@@ -58,6 +56,7 @@ public class NewsArticleVideoViewBinder extends ItemViewBinder<MultiNewsArticleD
             if (null != item.getUser_info()) {
                 String avatar_url = item.getUser_info().getAvatar_url();
                 if (!TextUtils.isEmpty(avatar_url)) {
+                    holder.ivMedia.setVisibility(View.GONE);
                     ImageUtil.loadImgByPicasso(context,avatar_url,R.drawable.image_default,holder.ivMedia);
                 }
             }
@@ -66,7 +65,7 @@ public class NewsArticleVideoViewBinder extends ItemViewBinder<MultiNewsArticleD
             holder.tvTitle.setTextSize(SettingUtil.getInstance().getTextSize());
             String tv_source = item.getSource();
             String tv_comment_count = item.getComment_count() + "评论";
-            String tv_datetime = com.drovik.utils.DateUtil.formatTimeToDate6(item.getPublish_time());
+            String tv_datetime = com.android.audiorecorder.utils.DateUtil.getTimeTips(item.getPublish_time()* 1000l);
             int video_duration = item.getVideo_duration();
             String min = String.valueOf(video_duration / 60);
             String second = String.valueOf(video_duration % 10);
@@ -74,9 +73,8 @@ public class NewsArticleVideoViewBinder extends ItemViewBinder<MultiNewsArticleD
                 second = "0" + second;
             }
             String tv_video_time = min + ":" + second;
-
             holder.tvTitle.setText(tv_title);
-            holder.tvExtra.setText(tv_source + " - " + tv_comment_count + " - " + tv_datetime);
+            holder.tvExtra.setText(tv_source + " " + tv_comment_count + " " + tv_datetime);
             holder.tvVideoTime.setText(tv_video_time);
             holder.ivDots.setOnClickListener(new View.OnClickListener() {
                 @Override
