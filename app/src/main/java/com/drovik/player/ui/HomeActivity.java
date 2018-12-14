@@ -250,18 +250,15 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
             @Override
             public void onAfterApplyAllPermission() {
                 com.android.audiorecorder.utils.LogUtil.i(TAG, "All of requested permissions has been granted, so run app logic.");
-                initSDK();
             }
         });
         if (Build.VERSION.SDK_INT < 23) {
             // 如果系统版本低于23，直接跑应用的逻辑
             com.android.audiorecorder.utils.LogUtil.d(TAG, "The api level of system is lower than 23, so run app logic directly.");
-            initSDK();
         } else {
             // 如果权限全部申请了，那就直接跑应用逻辑
             if (mPermissionHelper.isAllRequestedPermissionGranted()) {
                 com.android.audiorecorder.utils.LogUtil.d(TAG, "All of requested permissions has been granted, so run app logic directly.");
-                initSDK();
             } else {
                 // 如果还有权限为申请，而且系统版本大于23，执行申请权限逻辑
                 com.android.audiorecorder.utils.LogUtil.i(TAG, "Some of requested permissions hasn't been granted, so apply permissions first.");
@@ -283,15 +280,6 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
             locationService.setLocationOption(locationService.getOption());
         }
         locationService.start();// 定位SDK
-    }
-
-    private void initSDK() {
-        //初始化SDK
-        //AdManager.getInstance(activity).init("da88c11617dad28f", "d8cdfdb2eb696a0b", true);
-        //SpotManager.getInstance(activity).setImageType(SpotManager.IMAGE_TYPE_HORIZONTAL);
-        //SpotManager.getInstance(activity).setAnimationType(SpotManager.ANIMATION_TYPE_ADVANCED);
-        //preloadAd();
-        //setupSplashAd(); // 如果需要首次展示开屏，请注释掉本句代码
     }
 
     private void requestPermission() {

@@ -49,7 +49,6 @@ public class NewsArticleTextViewBinder extends ItemViewBinder<MultiNewsArticleDa
             if (null != item.getUser_info()) {
                 String avatar_url = item.getUser_info().getAvatar_url();
                 if (!TextUtils.isEmpty(avatar_url)) {
-                    holder.ivMedia.setVisibility(View.GONE);
                     ImageUtil.loadImgByPicasso(context,avatar_url,R.drawable.image_default,holder.ivMedia);
                 }
             }

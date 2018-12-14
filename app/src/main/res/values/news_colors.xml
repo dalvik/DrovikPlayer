@@ -16,6 +16,8 @@
     <color name="blackText">#000000</color>
     <!--字体的颜色 黑色1 -->
     <color name="blackText1">#464C56</color>
+    <!--字体的颜色 黑色2 -->
+    <color name="blackText2">#464C4E</color>
     <!--字体的颜色 黑色3-->
     <color name="blackText3">#212121</color>
     <!--字体的颜色 黑色4-->

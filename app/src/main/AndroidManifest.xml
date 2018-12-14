@@ -68,12 +68,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.drovik.player.news.NewsFrameActivity"
-            android:theme="@style/AppTheme"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
-
-
         <activity android:name="com.drovik.player.ui.LaunchActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:configChanges="keyboardHidden|orientation"
@@ -85,10 +79,6 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
         -->
-        <activity android:name="com.drovik.player.ui.MainActivity"
-            android:theme="@style/NewAppTheme"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"/>
 
         <activity android:name="com.android.audiorecorder.ui.SoundRecorder"
             android:theme="@style/AppTheme"
@@ -212,6 +202,24 @@
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
         <!-- end weather -->
+
+        <!-- start news -->
+        <activity android:name="com.drovik.player.ui.MainActivity"
+            android:theme="@style/NewAppTheme"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name="com.drovik.player.news.NewsFrameActivity"
+            android:theme="@style/AppTheme"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name="com.drovik.player.news.VideoContentActivity"
+            android:theme="@style/AppTheme"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- end news -->
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.drovik.player"

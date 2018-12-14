@@ -26,4 +26,6 @@
     <dimen name="ijk_vertical_margin">@dimen/activity_vertical_margin</dimen>
 
     <dimen name="text_size_small">12sp</dimen>
+
+    <dimen name="post_media_height">200dp</dimen>
 </resources>
