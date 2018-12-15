@@ -32,6 +32,8 @@ import com.pedaily.yc.ycdialoglib.customToast.ToastUtil;
 import com.shuyu.gsyvideoplayer.GSYBaseADActivityDetail;
 import com.shuyu.gsyvideoplayer.GSYBaseActivityDetail;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
+import com.shuyu.gsyvideoplayer.listener.GSYVideoProgressListener;
+import com.shuyu.gsyvideoplayer.listener.LockClickListener;
 import com.shuyu.gsyvideoplayer.utils.GifCreateHelper;
 import com.shuyu.gsyvideoplayer.video.GSYADVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer;
@@ -58,6 +60,13 @@ import io.reactivex.schedulers.Schedulers;
 
 public class VideoContentActivity extends GSYBaseADActivityDetail<NormalGSYVideoPlayer, GSYADVideoPlayer> {
 
+    private MultiNewsArticleDataBean dataBean;
+    private String image;
+    private String groupId;
+    private String itemId;
+    private String videoId;
+    private String videoTitle;
+    private String shareUrl;
     private NormalGSYVideoPlayer detailPlayer;
 
     private GSYADVideoPlayer adPlayer;
@@ -116,23 +125,9 @@ public class VideoContentActivity extends GSYBaseADActivityDetail<NormalGSYVideo
                 preSecond = currentSecond;
             }
         });
-    }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK ){
-            if(controller!=null && controller.getLock()){
-                //如果锁屏，那就屏蔽返回键
-                return true;
-            }
-        }
-        return super.onKeyDown(keyCode, event);
+        initData();
     }
-
-    private void initView() {
-        initRecyclerView();
-    }
-
 
     private void initData() {
         Intent intent = getIntent();
@@ -149,9 +144,10 @@ public class VideoContentActivity extends GSYBaseADActivityDetail<NormalGSYVideo
             this.videoTitle = dataBean.getTitle();
             this.shareUrl = dataBean.getDisplay_url();
         } catch (NullPointerException e) {
-
+            e.printStackTrace();
         }
         String url = getVideoContentApi(videoId);
+        Log.d(TAG, "==> url: " + url + " videoId " + videoId);
         VideoModel model = VideoModel.getInstance();
         getVideoData(model,url);
     }
@@ -159,108 +155,6 @@ public class VideoContentActivity extends GSYBaseADActivityDetail<NormalGSYVideo
 
     private void onLoadData() {
 
-    }
-
-
-    private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final RecycleViewItemLine line = new RecycleViewItemLine(this, LinearLayout.HORIZONTAL,
-                SizeUtils.dp2px(1), Color.parseColor("#f5f5f7"));
-        recyclerView.addItemDecoration(line);
-        adapter = new VideoArticleAdapter(this);
-        recyclerView.setAdapter(adapter);
-        addHeader();
-        recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                SwipeRefreshLayout swipeToRefresh = recyclerView.getSwipeToRefresh();
-                if (swipeToRefresh.isRefreshing()) {
-                    recyclerView.setRefreshing(false);
-                }
-            }
-        });
-    }
-
-
-    private void addHeader() {
-        adapter.addHeader(new RecyclerArrayAdapter.ItemView() {
-
-            private Button mBtn1;
-            private Button mBtn2;
-            private Button mBtn3;
-            private Button mBtn4;
-
-            @Override
-            public View onCreateView(ViewGroup parent) {
-                return LayoutInflater.from(VideoContentActivity.this).inflate
-                        (R.layout.activity_head_video_player, parent, false);
-            }
-
-            @Override
-            public void onBindView(View headerView) {
-                videoPlayer = headerView.findViewById(R.id.video_player);
-                mBtn1 =  headerView.findViewById(R.id.btn_1);
-                mBtn2 =  headerView.findViewById(R.id.btn_2);
-                mBtn3 =  headerView.findViewById(R.id.btn_3);
-                mBtn4 =  headerView.findViewById(R.id.btn_4);
-
-                View.OnClickListener listener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        switch (v.getId()){
-                            case R.id.btn_1:
-                                if (videoPlayer.isIdle()) {
-                                    ToastUtil.showToast(VideoContentActivity.this,"要点击播放后才能进入小窗口");
-                                } else {
-                                    videoPlayer.enterTinyWindow();
-                                }
-                                break;
-                            case R.id.btn_2:
-                                videoPlayer.enterVerticalScreenScreen();
-                                break;
-                            case R.id.btn_3:
-                                videoPlayer.enterFullScreen();
-                                break;
-                            case R.id.btn_4:
-                                videoPlayer.restart();
-                                break;
-                        }
-                    }
-                };
-                mBtn1.setOnClickListener(listener);
-                mBtn2.setOnClickListener(listener);
-                mBtn3.setOnClickListener(listener);
-                mBtn4.setOnClickListener(listener);
-            }
-        });
-    }
-
-    private void setVideoPlayer(String urls) {
-        if(videoPlayer==null || urls==null){
-            return;
-        }
-        LogUtils.e("视频链接"+urls);
-        //设置播放类型
-        videoPlayer.setPlayerType(ConstantKeys.IjkPlayerType.TYPE_IJK);
-        //设置视频地址和请求头部
-        videoPlayer.setUp(urls, null);
-        //创建视频控制器
-        controller = new VideoPlayerController(this);
-        controller.setTitle(videoTitle);
-        controller.setLoadingType(ConstantKeys.Loading.LOADING_QQ);
-        controller.imageView().setBackgroundResource(R.color.blackText);
-        controller.setOnVideoBackListener(new OnVideoBackListener() {
-            @Override
-            public void onBackClick() {
-                onBackPressed();
-            }
-        });
-        //设置视频控制器
-        videoPlayer.setController(controller);
-        //是否从上一次的位置继续播放
-        videoPlayer.continueFromLastPosition(true);
-        //设置播放速度
-        videoPlayer.setSpeed(1.0f);
     }
 
     private static String getVideoContentApi(String videoid) {
@@ -369,7 +263,7 @@ public class VideoContentActivity extends GSYBaseADActivityDetail<NormalGSYVideo
      */
     @Override
     public boolean isNeedAdOnStart() {
-        return true;
+        return false;
     }
 
     /**
@@ -411,6 +305,13 @@ public class VideoContentActivity extends GSYBaseADActivityDetail<NormalGSYVideo
         //增加title
         detailPlayer.getTitleTextView().setVisibility(View.VISIBLE);
         detailPlayer.getBackButton().setVisibility(View.VISIBLE);
+    }
+
+    private void setVideoPlayer(String url) {
+        detailPlayer.setUp(url, true, "");
+        //是否可以滑动调整
+        detailPlayer.setIsTouchWiget(true);
+        detailPlayer.startPlayLogic();
     }
 
 }
