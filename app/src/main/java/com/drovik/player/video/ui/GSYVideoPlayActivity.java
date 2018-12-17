@@ -15,6 +15,7 @@ import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -24,6 +25,7 @@ import android.widget.RelativeLayout;
 
 import com.android.library.net.utils.LogUtil;
 import com.android.library.utils.PreferenceUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.crixmod.sailorcast.model.SCLiveStream;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.drovik.player.R;
@@ -33,9 +35,13 @@ import com.iflytek.voiceads.AdError;
 import com.iflytek.voiceads.IFLYVideoAd;
 import com.iflytek.voiceads.IFLYVideoAdListener;
 import com.iflytek.voiceads.VideoADDataRef;
-import com.shuyu.gsyvideoplayer.GSYVideoManager;
-import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
-import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+
+import org.yczbj.ycrefreshviewlib.YCRefreshView;
+import org.yczbj.ycvideoplayerlib.constant.ConstantKeys;
+import org.yczbj.ycvideoplayerlib.controller.VideoPlayerController;
+import org.yczbj.ycvideoplayerlib.inter.listener.OnVideoBackListener;
+import org.yczbj.ycvideoplayerlib.manager.VideoPlayerManager;
+import org.yczbj.ycvideoplayerlib.player.VideoPlayer;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -60,11 +66,11 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     private SCLiveStream mStream;
     private PowerManager.WakeLock mRecorderWakeLock;
 
-    private StandardGSYVideoPlayer videoPlayer;
-
-    private OrientationUtils orientationUtils;
+    private VideoPlayer videoPlayer;
 
     private IqiyiParser mIqiyiParser;
+
+    private VideoPlayerController controller;
 
     //add IFLY video ad
     private IFLYVideoAd videoAd;
@@ -82,11 +88,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_sample_play);
         adContainer = (RelativeLayout) findViewById(R.id.rewarded_video_ad_view);
-        videoPlayer =  (StandardGSYVideoPlayer)findViewById(R.id.video_player);
-        //设置旋转
-        orientationUtils = new OrientationUtils(this, videoPlayer);
-        orientationUtils.setRotateWithSystem(true);
-        orientationUtils.setEnable(true);
+        videoPlayer =  (VideoPlayer)findViewById(R.id.video_player);
         Log.d(TAG, "==> video play onCreate");
         PreferenceUtils.init(this);
         if(!initData()) {
@@ -94,21 +96,13 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             return;
         }
         hideBottomUIMenu();
-        createVideoAd();
+        //createVideoAd();
+        handler.sendEmptyMessage(1);
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mRecorderWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DrovikVideoPlay_"+ powerManager.toString());
         if(!mRecorderWakeLock.isHeld()){
             mRecorderWakeLock.acquire();
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            orientationUtils.setIsLand(0);
-            orientationUtils.resolveByClick();
-        }
-        super.onConfigurationChanged(newConfig);
     }
 
     /**
@@ -200,35 +194,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     private void init(String url) {
         String source1 = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
         source1 = url;
-        videoPlayer.setUp(source1, true, mVideoName);
-
-        //增加封面
-        ImageView imageView = new ImageView(this);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageResource(R.mipmap.ic_launcher);
-        videoPlayer.setThumbImageView(imageView);
-        //增加title
-        videoPlayer.getTitleTextView().setVisibility(View.VISIBLE);
-        //设置返回键
-        videoPlayer.getBackButton().setVisibility(View.VISIBLE);
-        videoPlayer.getFullscreenButton().setVisibility(View.GONE);
-        //设置全屏按键功能,这是使用的是选择屏幕，而不是全屏
-        videoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                orientationUtils.resolveByClick();
-            }
-        });
-        //是否可以滑动调整
-        videoPlayer.setIsTouchWiget(true);
-        //设置返回按键功能
-        videoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        videoPlayer.startPlayLogic();
+        setVideoPlayer(url);
     }
 
 
@@ -236,7 +202,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     protected void onPause() {
         super.onPause();
         if(videoPlayer != null) {
-            videoPlayer.onVideoPause();
+            videoPlayer.pause();
         }
         if (videoAd != null) {
             videoAd.onResume();
@@ -246,9 +212,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onResume() {
         super.onResume();
-        if(videoPlayer != null) {
-            videoPlayer.onVideoResume();
-        }
         if (videoAd != null) {
             videoAd.onPause();
         }
@@ -257,10 +220,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        GSYVideoManager.releaseAllVideos();
-        if (orientationUtils != null) {
-            orientationUtils.releaseListener();
-        }
+        VideoPlayerManager.instance().releaseVideoPlayer();
         if(mRecorderWakeLock != null && mRecorderWakeLock.isHeld()){
             mRecorderWakeLock.release();
         }
@@ -272,14 +232,23 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK ){
+            if(controller!=null && controller.getLock()){
+                //如果锁屏，那就屏蔽返回键
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     public void onBackPressed() {
         //先返回正常状态
         /*if (orientationUtils.getScreenType() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
             videoPlayer.getFullscreenButton().performClick();
             return;
         }*/
-        //释放所有
-        videoPlayer.setVideoAllCallBack(null);
         super.onBackPressed();
     }
 
@@ -288,6 +257,34 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+    private void setVideoPlayer(String urls) {
+        if(videoPlayer==null || urls==null){
+            return;
+        }
+        LogUtils.e("视频链接"+urls);
+        //设置播放类型
+        videoPlayer.setPlayerType(ConstantKeys.IjkPlayerType.TYPE_IJK);
+        //设置视频地址和请求头部
+        videoPlayer.setUp(urls, null);
+        //创建视频控制器
+        controller = new VideoPlayerController(this);
+        controller.setTitle("aaa");
+        controller.setLoadingType(ConstantKeys.Loading.LOADING_QQ);
+        controller.imageView().setBackgroundResource(R.color.blackText);
+        controller.setOnVideoBackListener(new OnVideoBackListener() {
+            @Override
+            public void onBackClick() {
+                onBackPressed();
+            }
+        });
+        //设置视频控制器
+        videoPlayer.setController(controller);
+        //是否从上一次的位置继续播放
+        videoPlayer.continueFromLastPosition(true);
+        //设置播放速度
+        videoPlayer.setSpeed(1.0f);
+        videoPlayer.start();
+    }
     protected void hideBottomUIMenu() {
         //隐藏虚拟按键，并且全屏
         if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api

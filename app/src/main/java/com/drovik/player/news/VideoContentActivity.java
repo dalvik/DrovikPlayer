@@ -1,64 +1,29 @@
 package com.drovik.player.news;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Base64;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.SizeUtils;
+import com.android.library.ui.activity.BaseCommonActivity;
 import com.blankj.utilcode.util.Utils;
 import com.drovik.player.R;
-import com.drovik.player.news.adpater.VideoArticleAdapter;
 import com.drovik.player.news.api.VideoModel;
 import com.drovik.player.news.bean.MultiNewsArticleDataBean;
 import com.drovik.player.news.bean.VideoContentBean;
-import com.drovik.player.news.mvp.BaseMVPActivity;
-import com.drovik.player.news.view.SampleControlVideo;
-import com.pedaily.yc.ycdialoglib.customToast.ToastUtil;
-import com.shuyu.gsyvideoplayer.GSYBaseADActivityDetail;
-import com.shuyu.gsyvideoplayer.GSYBaseActivityDetail;
-import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
-import com.shuyu.gsyvideoplayer.listener.GSYVideoProgressListener;
-import com.shuyu.gsyvideoplayer.listener.LockClickListener;
-import com.shuyu.gsyvideoplayer.utils.GifCreateHelper;
-import com.shuyu.gsyvideoplayer.video.GSYADVideoPlayer;
-import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer;
-import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
-import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
-import com.shuyu.gsyvideoplayer.video.base.GSYVideoPlayer;
 
-
-import org.yczbj.ycrefreshviewlib.YCRefreshView;
-import org.yczbj.ycrefreshviewlib.adapter.RecyclerArrayAdapter;
-import org.yczbj.ycrefreshviewlib.item.RecycleViewItemLine;
 
 import java.util.Random;
 import java.util.zip.CRC32;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import cn.ycbjie.ycstatusbarlib.bar.YCAppBar;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-public class VideoContentActivity extends GSYBaseADActivityDetail<NormalGSYVideoPlayer, GSYADVideoPlayer> {
+public class VideoContentActivity extends BaseCommonActivity {
 
     private MultiNewsArticleDataBean dataBean;
     private String image;
@@ -67,9 +32,9 @@ public class VideoContentActivity extends GSYBaseADActivityDetail<NormalGSYVideo
     private String videoId;
     private String videoTitle;
     private String shareUrl;
-    private NormalGSYVideoPlayer detailPlayer;
+    //private NormalGSYVideoPlayer detailPlayer;
 
-    private GSYADVideoPlayer adPlayer;
+    //private GSYADVideoPlayer adPlayer;
 
     private String urlAd = "http://video.7k.cn/app_video/20171202/6c8cf3ea/v.m3u8.mp4";
 
@@ -91,15 +56,12 @@ public class VideoContentActivity extends GSYBaseADActivityDetail<NormalGSYVideo
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_ad_player2);
-        detailPlayer = (NormalGSYVideoPlayer) findViewById(R.id.detail_player);
-        adPlayer = (GSYADVideoPlayer) findViewById(R.id.ad_player);
+        //detailPlayer = (NormalGSYVideoPlayer) findViewById(R.id.detail_player);
+        //adPlayer = (GSYADVideoPlayer) findViewById(R.id.ad_player);
 
-        //普通模式
-        resolveNormalVideoUI();
+        //initVideoBuilderMode();
 
-        initVideoBuilderMode();
-
-        detailPlayer.setLockClickListener(new LockClickListener() {
+       /* detailPlayer.setLockClickListener(new LockClickListener() {
             @Override
             public void onClick(View view, boolean lock) {
                 if (orientationUtils != null) {
@@ -118,13 +80,13 @@ public class VideoContentActivity extends GSYBaseADActivityDetail<NormalGSYVideo
                 //在5秒的时候弹出中间广告
                 int currentSecond = currentPosition / 1000;
                 if (currentSecond == 5 && currentSecond != preSecond) {
-                    detailPlayer.getCurrentPlayer().onVideoPause();
-                    getGSYADVideoOptionBuilder().setUrl(urlAd2).build(adPlayer);
-                    startAdPlay();
+                   // detailPlayer.getCurrentPlayer().onVideoPause();
+                   // getGSYADVideoOptionBuilder().setUrl(urlAd2).build(adPlayer);
+                    //startAdPlay();
                 }
                 preSecond = currentSecond;
             }
-        });
+        });*/
 
         initData();
     }
@@ -215,7 +177,6 @@ public class VideoContentActivity extends GSYBaseADActivityDetail<NormalGSYVideo
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(@NonNull String s) throws Exception {
-                        setVideoPlayer(s);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -226,92 +187,6 @@ public class VideoContentActivity extends GSYBaseADActivityDetail<NormalGSYVideo
     }
 
 
-    @Override
-    public NormalGSYVideoPlayer getGSYVideoPlayer() {
-        return detailPlayer;
-    }
 
-    @Override
-    public GSYADVideoPlayer getGSYADVideoPlayer() {
-        return adPlayer;
-    }
-
-    @Override
-    public GSYVideoOptionBuilder getGSYVideoOptionBuilder() {
-        //不需要builder的
-        ImageView imageView = new ImageView(this);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageResource(R.mipmap.ic_launcher);
-        return getCommonBuilder()
-                .setUrl(url)
-                .setThumbImageView(imageView);
-    }
-
-    @Override
-    public GSYVideoOptionBuilder getGSYADVideoOptionBuilder() {
-        return getCommonBuilder()
-                .setUrl(urlAd);
-    }
-
-    @Override
-    public void clickForFullScreen() {
-
-    }
-
-    /**
-     * 需要片头广告
-     */
-    @Override
-    public boolean isNeedAdOnStart() {
-        return false;
-    }
-
-    /**
-     * 是否启动旋转横屏，true表示启动
-     *
-     * @return true
-     */
-    @Override
-    public boolean getDetailOrientationRotateAuto() {
-        return true;
-    }
-
-    @Override
-    public void onEnterFullscreen(String url, Object... objects) {
-        super.onEnterFullscreen(url, objects);
-        //隐藏调全屏对象的返回按键
-        GSYVideoPlayer gsyVideoPlayer = (GSYVideoPlayer) objects[1];
-        gsyVideoPlayer.getBackButton().setVisibility(View.GONE);
-    }
-
-    /**
-     * 公用的视频配置
-     */
-    private GSYVideoOptionBuilder getCommonBuilder() {
-        return new GSYVideoOptionBuilder()
-                .setCacheWithPlay(true)
-                .setVideoTitle(" ")
-                .setFullHideActionBar(true)
-                .setFullHideStatusBar(true)
-                .setIsTouchWiget(true)
-                .setRotateViewAuto(false)
-                .setLockLand(false)
-                .setShowFullAnimation(false)//打开动画
-                .setNeedLockFull(true)
-                .setSeekRatio(1);
-    }
-
-    private void resolveNormalVideoUI() {
-        //增加title
-        detailPlayer.getTitleTextView().setVisibility(View.VISIBLE);
-        detailPlayer.getBackButton().setVisibility(View.VISIBLE);
-    }
-
-    private void setVideoPlayer(String url) {
-        detailPlayer.setUp(url, true, "");
-        //是否可以滑动调整
-        detailPlayer.setIsTouchWiget(true);
-        detailPlayer.startPlayLogic();
-    }
 
 }

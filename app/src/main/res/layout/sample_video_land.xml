@@ -38,7 +38,6 @@
             android:id="@+id/start"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/video_click_play_selector"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
@@ -63,9 +62,7 @@
             android:maxHeight="4dp"
             android:minHeight="4dp"
             android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:progressDrawable="@drawable/video_seek_progress"
-            android:thumb="@drawable/video_seek_thumb" />
+            android:paddingTop="8dp"/>
 
         <TextView
             android:id="@+id/total"
@@ -80,8 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:paddingRight="16dp"
-            android:scaleType="center"
-            android:src="@drawable/video_enlarge" />
+            android:scaleType="center"/>
     </LinearLayout>
 
     <ProgressBar
@@ -90,8 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="1.5dp"
         android:layout_alignParentBottom="true"
-        android:max="100"
-        android:progressDrawable="@drawable/video_progress" />
+        android:max="100"/>
 
     <ImageView
         android:id="@+id/back_tiny"
@@ -117,7 +112,6 @@
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:scaleType="centerInside"
-        android:src="@drawable/video_small_close"
         android:visibility="gone" />
 
     <ImageView
@@ -128,7 +122,6 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="50dp"
         android:scaleType="centerInside"
-        android:src="@drawable/unlock"
         android:visibility="gone" />
 
     <LinearLayout
@@ -138,7 +131,6 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/back_tiny"
         android:layout_toRightOf="@+id/back_tiny"
-        android:background="@drawable/video_title_bg"
         android:gravity="center_vertical">
 
         <ImageView
@@ -146,8 +138,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:paddingLeft="10dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/video_back" />
+            android:scaleType="centerInside"/>
 
         <TextView
             android:id="@+id/title"
@@ -162,7 +153,7 @@
 
     <RelativeLayout
         android:id="@+id/preview_layout"
-        android:layout_width="@dimen/seek_bar_image"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_above="@+id/layout_bottom"
         android:layout_alignParentBottom="true"

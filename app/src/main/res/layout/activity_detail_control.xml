@@ -113,7 +113,5 @@
             android:layout_marginTop="15dp"
             android:text="处理中，请稍后"
             android:textColor="#FFFFFF" />
-
-
     </RelativeLayout>
 </RelativeLayout>

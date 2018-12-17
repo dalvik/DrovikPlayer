@@ -1,47 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-            <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:gravity="center"
+    android:orientation="horizontal">
 
-                    <Button
-                        android:visibility="gone"
-                        android:id="@+id/btn_dlna_super"
-                        android:background="@drawable/square_border"
-                        android:text="@string/btn_dlna_super"
-                        android:textColor="@color/grey_medium"
-                        android:onClick="onDlnaButtonClick"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btn_dlna_super"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/square_border"
+        android:onClick="onDlnaButtonClick"
+        android:text="@string/btn_dlna_super"
+        android:textColor="@color/grey_medium"
+        android:visibility="gone" />
 
-                    <Button
-                        android:visibility="gone"
-                        android:id="@+id/btn_dlna_high"
-                        android:background="@drawable/square_border"
-                        android:textColor="@color/grey_medium"
-                        android:text="@string/btn_dlna_high"
-                        android:onClick="onDlnaButtonClick"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btn_dlna_high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/square_border"
+        android:onClick="onDlnaButtonClick"
+        android:text="@string/btn_dlna_high"
+        android:textColor="@color/grey_medium"
+        android:visibility="gone" />
 
-                    <Button
-                        android:visibility="gone"
-                        android:id="@+id/btn_dlna_normal"
-                        android:background="@drawable/square_border"
-                        android:textColor="@color/grey_medium"
-                        android:text="@string/btn_dlna_normal"
-                        android:onClick="onDlnaButtonClick"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                    />
+    <Button
+        android:id="@+id/btn_dlna_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/square_border"
+        android:onClick="onDlnaButtonClick"
+        android:text="@string/btn_dlna_normal"
+        android:textColor="@color/grey_medium"
+        android:visibility="gone" />
 
-            </LinearLayout>
+</LinearLayout>

@@ -30,13 +30,13 @@
     </android.support.v4.widget.NestedScrollView>
 
 
-    <com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer
+    <org.yczbj.ycvideoplayerlib.player.VideoPlayer
         android:id="@+id/detail_player"
         android:layout_width="match_parent"
         android:layout_height="@dimen/post_media_height" />
 
 
-    <com.shuyu.gsyvideoplayer.video.GSYADVideoPlayer
+    <org.yczbj.ycvideoplayerlib.player.VideoPlayer
         android:id="@+id/ad_player"
         android:layout_width="match_parent"
         android:layout_height="@dimen/post_media_height"

@@ -130,7 +130,7 @@ dependencies {
     api project(':Audiorecord')
     api project(':decapi')
     api 'org.jsoup:jsoup:1.9.2'
-    api 'com.shuyu:GSYVideoPlayer:6.0.1'
+    //api 'com.shuyu:GSYVideoPlayer:6.0.1'
     api 'com.android.support:support-v4:27.+'
     api files('libs/Ad_Android_SDK.jar')
     api 'com.squareup.okhttp3:okhttp:3.9.0'
@@ -162,6 +162,6 @@ dependencies {
     api 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.0@aar'      //导航栏
     api 'com.android.support:design:27.1.0'
     api 'org.yczbj:YCRefreshViewLib:2.4'
-    //api 'cn.yc:YCVideoPlayerLib:2.6.0'
+    api 'cn.yc:YCVideoPlayerLib:2.6.0'
     api 'cn.yc:YCStatusBarLib:1.3.1'
 }
