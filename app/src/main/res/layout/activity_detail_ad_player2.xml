@@ -13,6 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_12_dp"
             android:orientation="vertical">
 
             <View
@@ -20,26 +21,24 @@
                 android:layout_height="@dimen/post_media_height" />
 
             <TextView
+                android:id="@+id/news_source"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/detail_text"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/news_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
-
     <org.yczbj.ycvideoplayerlib.player.VideoPlayer
         android:id="@+id/detail_player"
         android:layout_width="match_parent"
         android:layout_height="@dimen/post_media_height" />
-
-
-    <org.yczbj.ycvideoplayerlib.player.VideoPlayer
-        android:id="@+id/ad_player"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/post_media_height"
-        android:visibility="gone" />
 
 </RelativeLayout>

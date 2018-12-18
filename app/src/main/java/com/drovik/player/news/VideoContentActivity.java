@@ -5,14 +5,23 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.TextView;
 
 import com.android.library.ui.activity.BaseCommonActivity;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 import com.drovik.player.R;
 import com.drovik.player.news.api.VideoModel;
 import com.drovik.player.news.bean.MultiNewsArticleDataBean;
 import com.drovik.player.news.bean.VideoContentBean;
 
+
+import org.w3c.dom.Text;
+import org.yczbj.ycvideoplayerlib.constant.ConstantKeys;
+import org.yczbj.ycvideoplayerlib.controller.VideoPlayerController;
+import org.yczbj.ycvideoplayerlib.inter.listener.OnVideoBackListener;
+import org.yczbj.ycvideoplayerlib.player.VideoPlayer;
 
 import java.util.Random;
 import java.util.zip.CRC32;
@@ -32,15 +41,13 @@ public class VideoContentActivity extends BaseCommonActivity {
     private String videoId;
     private String videoTitle;
     private String shareUrl;
-    //private NormalGSYVideoPlayer detailPlayer;
 
-    //private GSYADVideoPlayer adPlayer;
+    private VideoPlayer videoPlayer;
 
-    private String urlAd = "http://video.7k.cn/app_video/20171202/6c8cf3ea/v.m3u8.mp4";
+    private VideoPlayerController controller;
 
-    private String urlAd2 = "http://video.7k.cn/app_video/20171202/6c8cf3ea/v.m3u8.mp4";
-
-    private String url = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
+    private TextView mNewsSource;
+    private TextView mNewsContent;
 
     private static String TAG = "VideoContentActivity";
 
@@ -56,39 +63,27 @@ public class VideoContentActivity extends BaseCommonActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_ad_player2);
-        //detailPlayer = (NormalGSYVideoPlayer) findViewById(R.id.detail_player);
-        //adPlayer = (GSYADVideoPlayer) findViewById(R.id.ad_player);
-
-        //initVideoBuilderMode();
-
-       /* detailPlayer.setLockClickListener(new LockClickListener() {
-            @Override
-            public void onClick(View view, boolean lock) {
-                if (orientationUtils != null) {
-                    //配合下方的onConfigurationChanged
-                    orientationUtils.setEnable(!lock);
-                }
-            }
-        });
-        detailPlayer.setStartAfterPrepared(false);
-        detailPlayer.setReleaseWhenLossAudio(false);
-
-        detailPlayer.setGSYVideoProgressListener(new GSYVideoProgressListener() {
-            private int preSecond = 0;
-            @Override
-            public void onProgress(int progress, int secProgress, int currentPosition, int duration) {
-                //在5秒的时候弹出中间广告
-                int currentSecond = currentPosition / 1000;
-                if (currentSecond == 5 && currentSecond != preSecond) {
-                   // detailPlayer.getCurrentPlayer().onVideoPause();
-                   // getGSYADVideoOptionBuilder().setUrl(urlAd2).build(adPlayer);
-                    //startAdPlay();
-                }
-                preSecond = currentSecond;
-            }
-        });*/
-
+        videoPlayer = (VideoPlayer) findViewById(R.id.detail_player);
+        mNewsSource = (TextView) findViewById(R.id.news_source);
+        mNewsContent = (TextView) findViewById(R.id.news_content);
         initData();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK ){
+            if(controller!=null && controller.getLock()){
+                //如果锁屏，那就屏蔽返回键
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        videoPlayer.releasePlayer();
     }
 
     private void initData() {
@@ -105,6 +100,8 @@ public class VideoContentActivity extends BaseCommonActivity {
             this.videoId = dataBean.getVideo_id();
             this.videoTitle = dataBean.getTitle();
             this.shareUrl = dataBean.getDisplay_url();
+            mNewsSource.setText(dataBean.getSource());
+            mNewsContent.setText(dataBean.getAbstractX());
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -112,11 +109,6 @@ public class VideoContentActivity extends BaseCommonActivity {
         Log.d(TAG, "==> url: " + url + " videoId " + videoId);
         VideoModel model = VideoModel.getInstance();
         getVideoData(model,url);
-    }
-
-
-    private void onLoadData() {
-
     }
 
     private static String getVideoContentApi(String videoid) {
@@ -141,6 +133,34 @@ public class VideoContentActivity extends BaseCommonActivity {
         return result.toString();
     }
 
+    private void setVideoPlayer(String urls) {
+        if(videoPlayer==null || urls==null){
+            return;
+        }
+        LogUtils.e("视频链接"+urls);
+        //设置播放类型
+        videoPlayer.setPlayerType(ConstantKeys.IjkPlayerType.TYPE_IJK);
+        //设置视频地址和请求头部
+        videoPlayer.setUp(urls, null);
+        //创建视频控制器
+        controller = new VideoPlayerController(this);
+        controller.setTitle(dataBean.getTitle());
+        controller.setLoadingType(ConstantKeys.Loading.LOADING_QQ);
+        controller.imageView().setBackgroundResource(R.color.blackText);
+        controller.setOnVideoBackListener(new OnVideoBackListener() {
+            @Override
+            public void onBackClick() {
+                onBackPressed();
+            }
+        });
+        //设置视频控制器
+        videoPlayer.setController(controller);
+        //是否从上一次的位置继续播放
+        videoPlayer.continueFromLastPosition(true);
+        //设置播放速度
+        videoPlayer.setSpeed(1.0f);
+        videoPlayer.start();
+    }
 
     private void getVideoData(VideoModel model, String url) {
         model.getVideoContent(url)
@@ -177,6 +197,7 @@ public class VideoContentActivity extends BaseCommonActivity {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(@NonNull String s) throws Exception {
+                        setVideoPlayer(s);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -185,8 +206,4 @@ public class VideoContentActivity extends BaseCommonActivity {
                     }
                 });
     }
-
-
-
-
 }
