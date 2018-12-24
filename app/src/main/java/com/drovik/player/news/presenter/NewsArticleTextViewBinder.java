@@ -50,13 +50,17 @@ public class NewsArticleTextViewBinder extends ItemViewBinder<MultiNewsArticleDa
             if (null != item.getUser_info()) {
                 String avatar_url = item.getUser_info().getAvatar_url();
                 if (!TextUtils.isEmpty(avatar_url)) {
-                    ImageUtil.loadImgByPicasso(context,avatar_url,R.drawable.image_default,holder.ivMedia);
+                    holder.ivMedia.setVisibility(View.GONE);
+                    ImageUtil.loadImgByPicasso(context,avatar_url,R.drawable.image_default, holder.ivMedia);
                 }
             }
             String tv_title = item.getTitle();
             String tv_abstract = item.getAbstractX();
             String tv_source = item.getSource();
-            String tv_comment_count = item.getComment_count() + "评论";
+            String tv_comment_count = item.getComment_count() + "条评论";
+            if(!TextUtils.isEmpty(item.getLabel())) {
+                holder.tvLevel.setText(item.getLabel());
+            }
             String tv_datetime = DateUtil.getTimeTips(item.getPublish_time()* 1000l);
             holder.tvTitle.setText(tv_title);
             holder.tvTitle.setTextSize(SettingUtil.getInstance().getTextSize());
@@ -84,6 +88,8 @@ public class NewsArticleTextViewBinder extends ItemViewBinder<MultiNewsArticleDa
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.tv_level)
+        TextView tvLevel;
         @BindView(R.id.iv_media)
         ImageView ivMedia;
         @BindView(R.id.tv_extra)

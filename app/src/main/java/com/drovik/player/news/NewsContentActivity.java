@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.audiorecorder.utils.StringUtil;
 import com.android.library.ui.activity.BaseCommonActivity;
+import com.android.library.ui.activity.BaseCompatActivity;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 import com.bumptech.glide.Glide;
@@ -20,7 +22,9 @@ import com.drovik.player.R;
 import com.drovik.player.news.api.VideoModel;
 import com.drovik.player.news.bean.MultiNewsArticleDataBean;
 import com.drovik.player.news.bean.VideoContentBean;
+import com.drovik.player.news.utils.ImageUtil;
 
+import org.w3c.dom.Text;
 import org.yczbj.ycvideoplayerlib.constant.ConstantKeys;
 import org.yczbj.ycvideoplayerlib.controller.VideoPlayerController;
 import org.yczbj.ycvideoplayerlib.inter.listener.OnVideoBackListener;
@@ -35,7 +39,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-public class NewsContentActivity extends BaseCommonActivity {
+public class NewsContentActivity extends BaseCompatActivity {
 
     private MultiNewsArticleDataBean dataBean;
     private String image;
@@ -45,6 +49,7 @@ public class NewsContentActivity extends BaseCommonActivity {
     private String videoTitle;
     private String shareUrl;
 
+    private TextView mNewsTitle;
     private TextView mNewsSource;
     private TextView mReadCount;
     private ImageView mNewsAvatar;
@@ -64,6 +69,7 @@ public class NewsContentActivity extends BaseCommonActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_news_detail);
+        mNewsTitle = (TextView) findViewById(R.id.news_title);
         mNewsAvatar = (ImageView) findViewById(R.id.news_avatar);
         mReadCount =  (TextView) findViewById(R.id.news_read_cound);
         mNewsSource = (TextView) findViewById(R.id.news_source);
@@ -90,9 +96,11 @@ public class NewsContentActivity extends BaseCommonActivity {
             this.videoId = dataBean.getVideo_id();
             this.videoTitle = dataBean.getTitle();
             this.shareUrl = dataBean.getDisplay_url();
+            setTitle(R.string.news_title);
+            mNewsTitle.setText(this.videoTitle);
             if(dataBean.getUser_info() != null) {
                 if(!TextUtils.isEmpty(dataBean.getUser_info().getAvatar_url())) {
-                    Glide.with(this).load(dataBean.getUser_info().getAvatar_url()).asBitmap().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL).into(mNewsAvatar);
+                    ImageUtil.loadImgByPicasso(this, dataBean.getUser_info().getAvatar_url(), R.drawable.image_default, mNewsAvatar);
                 } else {
                     mNewsAvatar.setVisibility(View.INVISIBLE);
                 }
@@ -101,7 +109,8 @@ public class NewsContentActivity extends BaseCommonActivity {
                     mNewsSource.setText(dataBean.getUser_info().getName());
                 }
             }
-            mReadCount.setText(String.valueOf(dataBean.getRead_count()));
+
+            mReadCount.setText(getString(R.string.news_read_count, dataBean.getComment_count() + "评论 " + StringUtil.formatNum(String.valueOf(dataBean.getRead_count()), false)));
             mNewsContent.setText(dataBean.getAbstractX());
         } catch (Exception e) {
             e.printStackTrace();

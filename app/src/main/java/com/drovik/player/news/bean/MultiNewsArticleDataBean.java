@@ -204,7 +204,9 @@ public class MultiNewsArticleDataBean implements Parcelable {
         show_portrait = in.readByte() != 0;
         repin_count = in.readInt();
         cell_flag = in.readInt();
+        user_info = in.readParcelable(UserInfoBean.class.getClassLoader());
         source_open_url = in.readString();
+        media_info = in.readParcelable(MediaInfoBean.class.getClassLoader());
         level = in.readInt();
         digg_count = in.readInt();
         behot_time = in.readString();
@@ -215,7 +217,6 @@ public class MultiNewsArticleDataBean implements Parcelable {
         user_repin = in.readInt();
         label_style = in.readInt();
         item_version = in.readInt();
-        media_info = in.readParcelable(MediaInfoBean.class.getClassLoader());
         group_id = in.readLong();
         gallary_image_count = in.readInt();
         video_id = in.readString();
@@ -292,7 +293,9 @@ public class MultiNewsArticleDataBean implements Parcelable {
         dest.writeByte((byte) (show_portrait ? 1 : 0));
         dest.writeInt(repin_count);
         dest.writeInt(cell_flag);
+        dest.writeParcelable(user_info, flags);
         dest.writeString(source_open_url);
+        dest.writeParcelable(media_info, flags);
         dest.writeInt(level);
         dest.writeInt(digg_count);
         dest.writeString(behot_time);
@@ -303,7 +306,6 @@ public class MultiNewsArticleDataBean implements Parcelable {
         dest.writeInt(user_repin);
         dest.writeInt(label_style);
         dest.writeInt(item_version);
-        dest.writeParcelable(media_info, flags);
         dest.writeLong(group_id);
         dest.writeInt(gallary_image_count);
         dest.writeString(video_id);
@@ -978,7 +980,7 @@ public class MultiNewsArticleDataBean implements Parcelable {
         }
     }
 
-    public static class UserInfoBean {
+    public static class UserInfoBean implements Parcelable {
         /**
          * verified_content :
          * avatar_url : http://p3.pstatp.com/thumb/ca400072481685ad43b
@@ -1001,6 +1003,24 @@ public class MultiNewsArticleDataBean implements Parcelable {
         private boolean user_verified;
         private String description;
 
+        public UserInfoBean() {
+
+        }
+
+        public UserInfoBean(Parcel in) {
+            if(in != null) {
+                verified_content = in.readString();
+                avatar_url = in.readString();
+                user_id = in.readLong();
+                name = in.readString();
+                follower_count = in.readInt();
+                follow = in.readByte() != 0;
+                user_auth_info = in.readString();
+                user_verified = in.readByte() != 0;
+                description = in.readString();
+            }
+
+        }
         public String getVerified_content() {
             return verified_content;
         }
@@ -1072,6 +1092,36 @@ public class MultiNewsArticleDataBean implements Parcelable {
         public void setDescription(String description) {
             this.description = description;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(verified_content);
+            dest.writeString(avatar_url);
+            dest.writeLong(user_id);
+            dest.writeString(name);
+            dest.writeInt(follower_count);
+            dest.writeByte((byte) (follow ? 1: 0));
+            dest.writeString(user_auth_info);
+            dest.writeByte((byte)(user_verified ? 1: 0));
+            dest.writeString(description);
+        }
+
+        public static final Creator<UserInfoBean> CREATOR = new Creator<UserInfoBean>() {
+            @Override
+            public UserInfoBean createFromParcel(Parcel in) {
+                return new UserInfoBean(in);
+            }
+
+            @Override
+            public UserInfoBean[] newArray(int size) {
+                return new UserInfoBean[size];
+            }
+        };
     }
 
     public static class MediaInfoBean implements Parcelable {

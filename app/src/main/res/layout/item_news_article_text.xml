@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:foreground="?attr/selectableItemBackground"
-        android:padding="16dp">
+        android:padding="8dp">
 
         <LinearLayout
             android:id="@+id/content"
@@ -26,6 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
+                android:text="title"
                 android:maxLines="2"/>
 
             <TextView
@@ -35,6 +36,7 @@
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:maxLines="3"
+                android:text="tv_abstract"
                 android:visibility="gone"/>
 
         </LinearLayout>
@@ -52,7 +54,9 @@
                 android:id="@+id/tv_level"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"/>
+                android:text="tv_level"
+                android:ellipsize="end"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
             <ImageView
                 android:id="@+id/iv_media"
@@ -62,11 +66,13 @@
 
             <TextView
                 android:id="@+id/tv_extra"
+                android:layout_marginLeft="@dimen/common_8_dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLength="30"
                 android:maxLines="1"
+                android:text="tv_extra"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
             <RelativeLayout

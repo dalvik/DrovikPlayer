@@ -10,6 +10,7 @@
     <!-- icon size-->
     <dimen name="common_4_dp">4dp</dimen>
     <dimen name="common_5_dp">5dp</dimen>
+    <dimen name="common_6_dp">6dp</dimen>
     <dimen name="common_8_dp">8dp</dimen>
     <dimen name="common_10_dp">10dp</dimen>
     <dimen name="common_11_dp">11dp</dimen>
