@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 
 import com.drovik.player.R;
 import com.drovik.player.news.bean.TabEntity;
-import com.drovik.player.ui.MainActivity;
+import com.drovik.player.news.NewsFrameActivity;
 import com.flyco.tablayout.listener.CustomTabEntity;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
-    public void bindView(MainActivity activity) {
+    public void bindView(NewsFrameActivity activity) {
         this.activity = activity;
     }
 

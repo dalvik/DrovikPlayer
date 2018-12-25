@@ -29,9 +29,8 @@ import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.pager.BasePager;
 import com.drovik.player.AppApplication;
 import com.drovik.player.R;
-import com.drovik.player.audio.ui.MusicActivity;
 import com.drovik.player.ui.HomeActivity;
-import com.drovik.player.ui.MainActivity;
+import com.drovik.player.news.NewsFrameActivity;
 import com.drovik.player.weather.BaseRecyclerAdapter;
 import com.drovik.player.weather.CityProvider;
 import com.drovik.player.weather.event.AirNowEvent;
@@ -50,12 +49,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.helper.DataUtil;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -213,7 +209,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 startActivity(intentFile);
                 break;
             /*case R.id.home_photo:
-                Intent intentPhoto = new Intent(mContext, MainActivity.class);
+                Intent intentPhoto = new Intent(mContext, NewsFrameActivity.class);
                 startActivity(intentPhoto);
                 break;*/
             case R.id.home_video:
@@ -221,7 +217,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 startActivity(intentVideo);
                 break;
             case R.id.home_music:
-                Intent intentMusic = new Intent(mContext, MainActivity.class);
+                Intent intentMusic = new Intent(mContext, NewsFrameActivity.class);
                 startActivity(intentMusic);
                 break;
             case R.id.home_recorder:

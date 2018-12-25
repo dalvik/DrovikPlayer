@@ -1,8 +1,10 @@
 package com.android.library.ui.activity;
 
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -269,13 +271,12 @@ public abstract class BaseCompatActivity extends BaseActionBarActivity {
     @Override
     protected void initActionBar(RelativeLayout layout) {
         enableSlideLayout(false);
-        createActionBar(layout);
+        setup(createActionBar(layout));
     }
 
     private View createActionBar(RelativeLayout layout) {
         // 初始化ActionBar样式
         View view = LayoutInflater.from(this).inflate(R.layout.base_compat_action_bar, layout);
-
         //back
         mBackView = view.findViewById(R.id.back);
         mBackImageView = (ImageView) view.findViewById(R.id.back_imageview);
@@ -300,5 +301,29 @@ public abstract class BaseCompatActivity extends BaseActionBarActivity {
         setRightOptionView(null);
         setBackView(null);
         return view;
+    }
+
+    public void setup(View view) {
+        int compatPadingTop = 0;
+        // android 4.4以上将Toolbar添加状态栏高度的上边距，沉浸到状态栏下方
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            compatPadingTop = getStatusBarHeight();
+        }
+        view.setPadding(view.getPaddingLeft(), view.getPaddingTop() + compatPadingTop, view.getPaddingRight(), view.getPaddingBottom());
+    }
+
+    public int getStatusBarHeight() {
+        int statusBarHeight = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        }
+        Log.d("CompatToolbar", "状态栏高度：" + px2dp(statusBarHeight) + "dp");
+        return statusBarHeight;
+    }
+
+    public float px2dp(float pxVal) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (pxVal / scale);
     }
 }

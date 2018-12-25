@@ -7,11 +7,11 @@ import android.support.v4.view.ViewPager;
 
 import com.blankj.utilcode.util.Utils;
 import com.drovik.player.R;
+import com.drovik.player.news.NewsFrameActivity;
 import com.drovik.player.news.mvp.BaseLazyFragment;
 import com.drovik.player.news.mvp.BaseList1Fragment;
 import com.drovik.player.news.mvp.BasePagerAdapter;
 import com.drovik.player.news.utils.SettingUtil;
-import com.drovik.player.ui.MainActivity;
 
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class NewsFragment extends BaseLazyFragment {
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-    private MainActivity activity;
+    private NewsFrameActivity activity;
 
     private List<Fragment> fragmentList = new ArrayList<>();
     private BasePagerAdapter adapter;
@@ -40,7 +40,7 @@ public class NewsFragment extends BaseLazyFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity = (MainActivity) context;
+        activity = (NewsFrameActivity) context;
     }
 
     @Override

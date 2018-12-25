@@ -56,7 +56,7 @@
     <style name="ActionBar.LargeTitle" parent="@style/BaseStyle">
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/base_main_title</item>
+        <item name="android:textColor">@color/textColorAccent</item>
         <item name="android:ellipsize">middle</item>
         <item name="android:textSize">20sp</item>
     </style>

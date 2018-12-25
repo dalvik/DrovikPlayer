@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.android.library.ui.activity.BaseCompatActivity;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ToastUtils;
 
@@ -20,7 +21,7 @@ import butterknife.ButterKnife;
  * 修订历史：
  * ================================================
  */
-public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity {
+public abstract class BaseActivity<T extends BasePresenter> extends BaseCompatActivity {
 
     /**
      * 将代理类通用行为抽出来

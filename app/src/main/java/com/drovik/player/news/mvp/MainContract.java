@@ -3,7 +3,7 @@ package com.drovik.player.news.mvp;
 
 import android.app.Activity;
 
-import com.drovik.player.ui.MainActivity;
+import com.drovik.player.news.NewsFrameActivity;
 import com.flyco.tablayout.listener.CustomTabEntity;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public interface MainContract {
     //Presenter控制器
     interface Presenter extends BasePresenter {
         ArrayList<CustomTabEntity> getTabEntity();
-        void bindView(MainActivity activity);
+        void bindView(NewsFrameActivity activity);
     }
 
 

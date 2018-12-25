@@ -72,22 +72,22 @@ public class LeftFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.left_manager_devices:
                 if (mListener != null) {
-                    mListener.onFolderChange(MainActivity.MENU_DEVICE, true);
+                    mListener.onFolderChange(NewsFrameActivity.MENU_DEVICE, true);
                 }
                 break;
             case R.id.left_manager_transport:
                 if (mListener != null) {
-                    mListener.onFolderChange(MainActivity.MENU_TRANSPORT, true);
+                    mListener.onFolderChange(NewsFrameActivity.MENU_TRANSPORT, true);
                 }
                 break;
             case R.id.left_manager_download:
                 if (mListener != null) {
-                    mListener.onFolderChange(MainActivity.MENU_DOWNLOAD, true);
+                    mListener.onFolderChange(NewsFrameActivity.MENU_DOWNLOAD, true);
                 }
                 break;
             case R.id.left_manager_setting:
                 if (mListener != null) {
-                    mListener.onFolderChange(MainActivity.MENU_SETTING, true);
+                    mListener.onFolderChange(NewsFrameActivity.MENU_SETTING, true);
                 }
                 break;
         }*/
