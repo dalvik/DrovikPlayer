@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.android.library.ui.activity.BaseCommonActivity;
+import com.android.library.ui.activity.BaseCompatActivity;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 import com.drovik.player.R;
@@ -32,7 +33,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-public class VideoContentActivity extends BaseCommonActivity {
+public class VideoContentActivity extends BaseCompatActivity {
 
     private MultiNewsArticleDataBean dataBean;
     private String image;

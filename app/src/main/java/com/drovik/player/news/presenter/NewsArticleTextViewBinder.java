@@ -60,6 +60,8 @@ public class NewsArticleTextViewBinder extends ItemViewBinder<MultiNewsArticleDa
             String tv_comment_count = item.getComment_count() + "条评论";
             if(!TextUtils.isEmpty(item.getLabel())) {
                 holder.tvLevel.setText(item.getLabel());
+            } else {
+                holder.tvLevel.setVisibility(View.GONE);
             }
             String tv_datetime = DateUtil.getTimeTips(item.getPublish_time()* 1000l);
             holder.tvTitle.setText(tv_title);

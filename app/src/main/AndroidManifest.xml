@@ -205,7 +205,7 @@
 
         <!-- start news -->
         <activity android:name="com.drovik.player.news.NewsFrameActivity"
-            android:theme="@style/NewAppTheme"
+            android:theme="@style/AppTheme"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
 

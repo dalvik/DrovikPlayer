@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.android.audiorecorder.utils.DateUtil;
 import com.blankj.utilcode.util.TimeUtils;
 import com.drovik.player.R;
+import com.drovik.player.news.NewsContentActivity;
 import com.drovik.player.news.bean.MultiNewsArticleDataBean;
 import com.drovik.player.news.utils.ImageUtil;
 import com.drovik.player.news.utils.SettingUtil;
@@ -88,7 +89,7 @@ public class NewsArticleImgViewBinder extends ItemViewBinder<MultiNewsArticleDat
                     .subscribe(new Consumer<Object>() {
                         @Override
                         public void accept(@io.reactivex.annotations.NonNull Object o) throws Exception {
-                            //NewsContentActivity.launch(item, finalImgUrl);
+                            NewsContentActivity.launch(item);
                         }
                     });
         } catch (Exception e) {
