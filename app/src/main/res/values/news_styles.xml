@@ -28,4 +28,14 @@
         <item name="tabSelectedTextColor">@drawable/rb_blue_bg</item>
     </style>
 
+    <style name="NewsTitleText">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/common_17_sp</item>
+    </style>
+
+    <style name="NewsHeaderText">
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textSize">@dimen/base_subtitle_size</item>
+    </style>
+
 </resources>

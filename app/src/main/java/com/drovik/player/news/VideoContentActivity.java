@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
-import com.android.library.ui.activity.BaseCommonActivity;
 import com.android.library.ui.activity.BaseCompatActivity;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
@@ -18,9 +17,9 @@ import com.drovik.player.news.bean.MultiNewsArticleDataBean;
 import com.drovik.player.news.bean.VideoContentBean;
 
 
-import org.w3c.dom.Text;
 import org.yczbj.ycvideoplayerlib.constant.ConstantKeys;
 import org.yczbj.ycvideoplayerlib.controller.VideoPlayerController;
+import org.yczbj.ycvideoplayerlib.inter.listener.OnCompletedListener;
 import org.yczbj.ycvideoplayerlib.inter.listener.OnVideoBackListener;
 import org.yczbj.ycvideoplayerlib.player.VideoPlayer;
 
@@ -63,7 +62,7 @@ public class VideoContentActivity extends BaseCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_ad_player2);
+        setContentView(R.layout.activity_news_video_detail);
         videoPlayer = (VideoPlayer) findViewById(R.id.detail_player);
         mNewsSource = (TextView) findViewById(R.id.news_source);
         mNewsContent = (TextView) findViewById(R.id.news_content);
@@ -152,6 +151,12 @@ public class VideoContentActivity extends BaseCompatActivity {
             @Override
             public void onBackClick() {
                 onBackPressed();
+            }
+        });
+        controller.setOnCompletedListener(new OnCompletedListener() {
+            @Override
+            public void onCompleted() {
+
             }
         });
         //设置视频控制器

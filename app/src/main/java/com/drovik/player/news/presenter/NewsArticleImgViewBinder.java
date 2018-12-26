@@ -50,12 +50,14 @@ public class NewsArticleImgViewBinder extends ItemViewBinder<MultiNewsArticleDat
 
         try {
             String imgUrl = "http://p3.pstatp.com/";
+            String urltemp = null;
             List<MultiNewsArticleDataBean.ImageListBean> image_list = item.getImage_list();
             if (image_list != null && image_list.size() != 0) {
                 String url = image_list.get(0).getUrl();
                 ImageUtil.loadImgByPicasso(context,url,R.drawable.image_default,holder.ivImage);
                 if (!TextUtils.isEmpty(image_list.get(0).getUri())) {
                     imgUrl += image_list.get(0).getUri().replace("list", "large");
+                    urltemp = imgUrl;
                 }
             }
 
@@ -83,13 +85,13 @@ public class NewsArticleImgViewBinder extends ItemViewBinder<MultiNewsArticleDat
                 }
             });
 
-            final String finalImgUrl = imgUrl;
+            final String finalImgUrl = urltemp;
             RxView.clicks(holder.itemView)
                     .throttleFirst(1, TimeUnit.SECONDS)
                     .subscribe(new Consumer<Object>() {
                         @Override
                         public void accept(@io.reactivex.annotations.NonNull Object o) throws Exception {
-                            NewsContentActivity.launch(item);
+                            NewsContentActivity.launch(item,finalImgUrl);
                         }
                     });
         } catch (Exception e) {

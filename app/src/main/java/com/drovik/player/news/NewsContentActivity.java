@@ -42,6 +42,7 @@ import io.reactivex.schedulers.Schedulers;
 public class NewsContentActivity extends BaseCompatActivity {
 
     private MultiNewsArticleDataBean dataBean;
+    private String mImageUrl;
     private String image;
     private String groupId;
     private String itemId;
@@ -53,8 +54,10 @@ public class NewsContentActivity extends BaseCompatActivity {
     private TextView mNewsSource;
     private TextView mReadCount;
     private ImageView mNewsAvatar;
+    private ImageView mNewsImage;
     private TextView mNewsContent;
 
+    private static String EXTRA_URL = "url";
     private static String TAG = "VideoContentActivity";
 
     public static void launch(MultiNewsArticleDataBean bean) {
@@ -64,6 +67,13 @@ public class NewsContentActivity extends BaseCompatActivity {
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
+    public static void launch(MultiNewsArticleDataBean bean, String url) {
+        Intent intent = new Intent(Utils.getContext(), NewsContentActivity.class);
+        Utils.getContext().startActivity(intent
+                .putExtra(NewsContentActivity.TAG, bean)
+                .putExtra(EXTRA_URL, url)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +83,7 @@ public class NewsContentActivity extends BaseCompatActivity {
         mNewsAvatar = (ImageView) findViewById(R.id.news_avatar);
         mReadCount =  (TextView) findViewById(R.id.news_read_cound);
         mNewsSource = (TextView) findViewById(R.id.news_source);
+        mNewsImage = (ImageView) findViewById(R.id.news_image);
         mNewsContent = (TextView) findViewById(R.id.news_content);
         initData();
     }
@@ -86,6 +97,9 @@ public class NewsContentActivity extends BaseCompatActivity {
         Intent intent = getIntent();
         try {
             dataBean = intent.getParcelableExtra(TAG);
+            if(intent.hasExtra(EXTRA_URL)){
+                mImageUrl = intent.getStringExtra(EXTRA_URL);
+            }
             if (null != dataBean.getVideo_detail_info()) {
                 if (null != dataBean.getVideo_detail_info().getDetail_video_large_image()) {
                     image = dataBean.getVideo_detail_info().getDetail_video_large_image().getUrl();
@@ -109,8 +123,11 @@ public class NewsContentActivity extends BaseCompatActivity {
                     mNewsSource.setText(dataBean.getUser_info().getName());
                 }
             }
-
             mReadCount.setText(getString(R.string.news_read_count, dataBean.getComment_count() + "评论 " + StringUtil.formatNum(String.valueOf(dataBean.getRead_count()), false)));
+            if(!TextUtils.isEmpty(mImageUrl)) {
+                mNewsImage.setVisibility(View.VISIBLE);
+                ImageUtil.loadImgByPicasso(this, mImageUrl, R.drawable.image_default, mNewsImage);
+            }
             mNewsContent.setText(dataBean.getAbstractX());
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/post_detail_nested_scroll"
     android:layout_width="match_parent"
@@ -56,6 +56,13 @@
             </LinearLayout>
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/news_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/common_14_dp" />
+
         <TextView
             android:id="@+id/news_content"
             android:layout_width="match_parent"
@@ -65,5 +72,5 @@
 
     </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+</ScrollView>
 
