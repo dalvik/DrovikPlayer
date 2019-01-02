@@ -164,4 +164,8 @@ dependencies {
     api 'org.yczbj:YCRefreshViewLib:2.4'
     api 'cn.yc:YCVideoPlayerLib:2.6.0'
     api 'cn.yc:YCStatusBarLib:1.3.1'
+    api 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    debugImplementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.r0adkll:slidableactivity:2.0.7-SNAPSHOT'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.4.4'
 }
