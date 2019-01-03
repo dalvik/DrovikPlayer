@@ -40,7 +40,7 @@ public abstract class BaseFragment<T extends IBasePresenter> extends RxFragment 
      * 初始化 Toolbar
      */
     protected void initToolBar(Toolbar toolbar, boolean homeAsUpEnabled, String title) {
-        ((BaseActivity) getActivity()).initToolBar(toolbar, homeAsUpEnabled, title);
+        //((BaseActivity) getActivity()).initToolBar(toolbar, homeAsUpEnabled, title);
     }
 
     @Override

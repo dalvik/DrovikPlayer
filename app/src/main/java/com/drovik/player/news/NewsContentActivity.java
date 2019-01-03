@@ -32,9 +32,6 @@ public class NewsContentActivity extends BaseCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_container);
         Intent intent = getIntent();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container,
-                        NewsContentFragment.newInstance(intent.getParcelableExtra(TAG), intent.getStringExtra(IMG)))
-                .commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,  NewsContentFragment.newInstance(intent.getParcelableExtra(TAG), intent.getStringExtra(IMG))).commit();
     }
 }
