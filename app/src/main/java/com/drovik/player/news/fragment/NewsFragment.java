@@ -121,7 +121,7 @@ public class NewsFragment extends BaseLazyFragment {
         if (resourceId > 0) {
             statusBarHeight = getResources().getDimensionPixelSize(resourceId);
         }
-        Log.d("CompatToolbar", "状态栏高度：" + px2dp(statusBarHeight) + "dp");
+        Log.d("NewsFragment", "==> 状态栏高度：" + px2dp(statusBarHeight) + "dp");
         return statusBarHeight;
     }
 

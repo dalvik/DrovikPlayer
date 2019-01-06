@@ -51,7 +51,6 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
     private boolean isHasImage;
     private MultiNewsArticleDataBean bean;
 
-    private Toolbar toolbar;
     private WebView webView;
     private NestedScrollView scrollView;
     private INewsContent.Presenter presenter;
@@ -82,7 +81,6 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
         Bundle bundle = getArguments();
         try {
             bean = bundle.getParcelable(TAG);
-//            Log.d(TAG, "initData: " + bean.toString());
             presenter.doLoadData(bean);
             shareUrl = !TextUtils.isEmpty(bean.getShare_url()) ? bean.getShare_url() : bean.getDisplay_url();
             shareTitle = bean.getTitle();
@@ -95,14 +93,12 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
 
         if (isHasImage) {
             //ImageLoader.loadCenterCrop(getActivity(), bundle.getString(IMG), imageView, R.mipmap.error_image, R.mipmap.error_image);
-
             appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
                 @Override
                 public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
                     if (state == State.EXPANDED) {
                         // 展开状态
                         collapsingToolbarLayout.setTitle("");
-                        toolbar.setBackgroundColor(Color.TRANSPARENT);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                         }
@@ -112,7 +108,6 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
                     } else {
                         // 中间状态
                         collapsingToolbarLayout.setTitle(mediaName);
-                        toolbar.setBackgroundColor(SettingUtil.getInstance().getColor());
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                         }
@@ -120,7 +115,7 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
                 }
             });
         } else {
-            toolbar.setTitle(mediaName);
+            //toolbar.setTitle(mediaName);
         }
     }
 
@@ -134,17 +129,6 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
 
     @Override
     protected void initView(View view) {
-        toolbar = view.findViewById(R.id.toolbar);
-        initToolBar(toolbar, true, "");
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                scrollView.smoothScrollTo(0, 0);
-//                ObjectAnimator anim = ObjectAnimator.ofInt(webView, "scrollY", webView.getScrollY(), 0);
-//                anim.setDuration(500).start();
-            }
-        });
-
         webView = view.findViewById(R.id.webview);
         initWebClient();
 

@@ -32,6 +32,7 @@
         tl:tl_textUnselectColor="#66000000"
         tl:tl_textsize="12sp"
         tl:tl_underline_color="#DDDDDD"
-        tl:tl_underline_height="2dp"/>
+        tl:tl_underline_height="2dp"
+        android:visibility="gone"/>
 
 </LinearLayout>
