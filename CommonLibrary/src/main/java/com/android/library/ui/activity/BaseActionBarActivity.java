@@ -2,10 +2,17 @@ package com.android.library.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,6 +41,7 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
      * body view
      */
     protected View mBodyContentView = null;
+    protected View mFooterBarView;
     /**
      * reload view
      */
@@ -42,23 +50,22 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
     @Override
     public void setContentView(int layoutResID) {
         super.setContentView(createRootView(LayoutInflater.from(this).inflate(layoutResID, null)));
-        initActionBar((RelativeLayout) findViewById(R.id.action_bar));
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }*/
+        initActionBar((RelativeLayout) findViewById(R.id.header_view));
+        initFooterBar((RelativeLayout) findViewById(R.id.footer_view));
     }
 
     @Override
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         super.setContentView(createRootView(view), params);
         initActionBar((RelativeLayout) findViewById(R.id.action_bar));
+        initFooterBar((RelativeLayout) findViewById(R.id.footer_view));
     }
 
     @Override
     public void setContentView(View view) {
         super.setContentView(createRootView(view));
         initActionBar((RelativeLayout) findViewById(R.id.action_bar));
+        initFooterBar((RelativeLayout) findViewById(R.id.footer_view));
     }
 
     /**
@@ -163,6 +170,12 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
      */
     protected abstract void initActionBar(RelativeLayout layout);
 
+    /**
+     * 初始化FooterBar
+     * @param layout
+     */
+    protected abstract void initFooterBar(RelativeLayout layout);
+
     protected void enableSlideLayout(boolean enabled) {
         mRootSliedLayout.enableSlide(enabled);
     }
@@ -178,6 +191,123 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
         return true;
     }
 
+    protected void fullScreen() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
+                Window window = getWindow();
+                View decorView = window.getDecorView();
+                //两个 flag 要结合使用，表示让应用的主体内容占用系统状态栏的空间
+                int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                decorView.setSystemUiVisibility(option);
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.setStatusBarColor(Color.TRANSPARENT);
+                //导航栏颜色也可以正常设置
+                window.setNavigationBarColor(Color.TRANSPARENT);
+            } else {
+                Window window = getWindow();
+                WindowManager.LayoutParams attributes = window.getAttributes();
+                int flagTranslucentStatus = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+                int flagTranslucentNavigation = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
+                attributes.flags |= flagTranslucentStatus;
+//                attributes.flags |= flagTranslucentNavigation;
+                window.setAttributes(attributes);
+            }
+        }
+    }
+
+    protected void initStatusBar(int color) {
+        if (color != -1) {
+            //设置了状态栏颜色
+            addStatusViewWithColor(color);
+        }
+        /*if (mDrawable != null) {
+            //设置了状态栏 drawble，例如渐变色
+            addStatusViewWithDrawble(mActivity, mDrawable);
+        }
+        if (isDrawerLayout()) {
+            //未设置 fitsSystemWindows 且是侧滑菜单，需要设置 fitsSystemWindows 以解决 4.4 上侧滑菜单上方白条问题
+            fitsSystemWindows(this);
+        }*/
+        if (getActionBar() != null) {
+            //要增加内容视图的 paddingTop,否则内容被 ActionBar 遮盖
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                ViewGroup rootView = (ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content);
+                rootView.setPadding(0, getStatusBarHeight() + getActionBarHeight(this), 0, 0);
+            }
+        }
+    }
+
+    protected void addStatusViewWithColor(int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (false) {
+                //要在内容布局增加状态栏，否则会盖在侧滑菜单上
+                ViewGroup rootView = (ViewGroup) findViewById(android.R.id.content);
+                //DrawerLayout 则需要在第一个子视图即内容试图中添加padding
+                View parentView = rootView.getChildAt(0);
+                LinearLayout linearLayout = new LinearLayout(this);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                View statusBarView = new View(this);
+                ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        getStatusBarHeight());
+                statusBarView.setBackgroundColor(color);
+                //添加占位状态栏到线性布局中
+                linearLayout.addView(statusBarView, lp);
+                //侧滑菜单
+                DrawerLayout drawer = (DrawerLayout) parentView;
+                //内容视图
+                View content = findViewById(0);
+                //将内容视图从 DrawerLayout 中移除
+                drawer.removeView(content);
+                //添加内容视图
+                linearLayout.addView(content, content.getLayoutParams());
+                //将带有占位状态栏的新的内容视图设置给 DrawerLayout
+                drawer.addView(linearLayout, 0);
+            } else {
+                //设置 paddingTop
+                ViewGroup rootView = (ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content);
+                rootView.setPadding(0, getStatusBarHeight(), 0, 0);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    //直接设置状态栏颜色
+                    getWindow().setStatusBarColor(color);
+                } else {
+                    //增加占位状态栏
+                    ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
+                    View statusBarView = new View(this);
+                    ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight());
+                    statusBarView.setBackgroundColor(color);
+                    decorView.addView(statusBarView, lp);
+                }
+            }
+        }
+    }
+
+    protected int getStatusBarHeight() {
+        int statusBarHeight = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        }
+        Log.d("CompatToolbar", "statusBar: " + px2dp(statusBarHeight) + "dp");
+        return statusBarHeight;
+    }
+
+    protected static int getActionBarHeight(Context context) {
+        int result = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            TypedValue tv = new TypedValue();
+            context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+            result = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
+        }
+        return result;
+    }
+
+    protected float px2dp(float pxVal) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (pxVal / scale);
+    }
+
     /**
      * 创建根View
      * @param view
@@ -186,11 +316,23 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
     private SlideLinearLayout createRootView(View view) {
         mBodyContentView = view;
         mRootSliedLayout = new SlideLinearLayout(this);
+        mRootSliedLayout.setContentDescription("root_view");
         mRootSliedLayout.setBackgroundResource(R.color.base_content_background);
-        mRootSliedLayout.setOrientation(LinearLayout.VERTICAL);
-        mActionBarView = LayoutInflater.from(this).inflate(R.layout.base_action_bar, null);
-        mRootSliedLayout.addView(mActionBarView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        mRootSliedLayout.addView(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        mActionBarView = LayoutInflater.from(this).inflate(R.layout.action_bar, null);
+        mFooterBarView =  LayoutInflater.from(this).inflate(R.layout.footer_bar, null);
+
+        RelativeLayout.LayoutParams footerParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        footerParam.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        mRootSliedLayout.addView(mFooterBarView, footerParam);
+
+        RelativeLayout.LayoutParams titleBarParam = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        titleBarParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        mRootSliedLayout.addView(mActionBarView, titleBarParam);
+
+        RelativeLayout.LayoutParams bodyParam = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        bodyParam.addRule(RelativeLayout.BELOW, mActionBarView.getId());
+        mRootSliedLayout.addView(view, bodyParam);
+
         if (mIsNeedAddWaitingView) {
             mWaitView = addWaitingView(mRootSliedLayout);
             showInnerWaiting();

@@ -7,12 +7,13 @@ import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 /**
  * 滑动切换activity的layout, 默认开启Slide
  *
  */
-public class SlideLinearLayout extends LinearLayout {
+public class SlideLinearLayout extends RelativeLayout {
     private static final String TAG = "SlideLinearLayout";
 
     private static float mLastMotionX = 0;

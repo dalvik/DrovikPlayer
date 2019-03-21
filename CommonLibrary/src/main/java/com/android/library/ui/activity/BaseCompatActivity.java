@@ -1,10 +1,8 @@
 package com.android.library.ui.activity;
 
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -263,7 +261,7 @@ public abstract class BaseCompatActivity extends BaseActionBarActivity {
     public void reload() {
     }
 
-    /**
+     /**
      * 初始化Action Bar
      *
      * @param layout
@@ -271,7 +269,12 @@ public abstract class BaseCompatActivity extends BaseActionBarActivity {
     @Override
     protected void initActionBar(RelativeLayout layout) {
         enableSlideLayout(false);
-        setup(createActionBar(layout));
+        createActionBar(layout);
+    }
+
+    @Override
+    protected void initFooterBar(RelativeLayout layout) {
+        mFooterBarView = addFooterBar(layout);
     }
 
     private View createActionBar(RelativeLayout layout) {
@@ -300,30 +303,14 @@ public abstract class BaseCompatActivity extends BaseActionBarActivity {
         setLeftOptionView(null);
         setRightOptionView(null);
         setBackView(null);
+        fullScreen();
+        initStatusBar(getResources().getColor(R.color.base_main_title));
+        mActionBarView.setBackgroundColor(getResources().getColor(R.color.base_main_title));
         return view;
     }
 
-    public void setup(View view) {
-        int compatPadingTop = 0;
-        // android 4.4以上将Toolbar添加状态栏高度的上边距，沉浸到状态栏下方
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            compatPadingTop = getStatusBarHeight();
-        }
-        view.setPadding(view.getPaddingLeft(), view.getPaddingTop() + compatPadingTop, view.getPaddingRight(), view.getPaddingBottom());
-    }
-
-    public int getStatusBarHeight() {
-        int statusBarHeight = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-        }
-        Log.d("CompatToolbar", "状态栏高度：" + px2dp(statusBarHeight) + "dp");
-        return statusBarHeight;
-    }
-
-    public float px2dp(float pxVal) {
-        final float scale = getResources().getDisplayMetrics().density;
-        return (pxVal / scale);
+    private View addFooterBar(RelativeLayout layout) {
+        View view = LayoutInflater.from(this).inflate(R.layout.footer_bar, layout);
+        return view;
     }
 }

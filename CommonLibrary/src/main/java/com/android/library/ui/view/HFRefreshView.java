@@ -314,7 +314,7 @@ public class HFRefreshView extends ViewGroup implements OnDetectScrollListener{
         View mHeadViw = LayoutInflater.from(getContext()).inflate(R.layout.layout_friend_circle_header, null);
         mContentView.addHeaderView(mHeadViw);
         mFooterView = LayoutInflater.from(getContext()).inflate(R.layout.lib_layout_hf_footer, null);
-        //mBodyContentView.addFooterView(mFooterView);
+        //mBodyContentView.addFooterView(mFooterBarView);
         this.addView(mContentView);
         mContentView.setOnScrollListener(new AbsListView.OnScrollListener() {
 

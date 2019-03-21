@@ -467,37 +467,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         }*/
     }
 
-    private void showDevice(boolean isShow, boolean loginSucess) {
-        /*LogUtil.d(HomeFragment.class, "showDevice isShow:" + isShow + "--loginSucess:" + loginSucess);
-        if (isShow) {
-            mNoDevice.setVisibility(View.GONE);
-            mLoginImg.setVisibility(View.VISIBLE);
-            mDeviceSize.setVisibility(View.VISIBLE);
-            mOperate.setVisibility(View.VISIBLE);
-            mContainer.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.home_bg));
-            mLoginSucess = loginSucess;
-            if (loginSucess) {
-                gifBg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_body_device_gif_bg_h));
-            } else {
-                gifBg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.home_body_device_gif_bg_n));
-                mDeviceSize.setText(mContext.getResources().getText(R.string.offline_tip));
-            }
-            mHomeMenu.setBackgroundDrawable(mContext.getApplicationContext().getResources().getDrawable(R.drawable.home_menu_selector));
-        } else {
-            mNoDevice.setVisibility(View.VISIBLE);
-            mLoginImg.setVisibility(View.GONE);
-            mDeviceSize.setVisibility(View.GONE);
-            mOperate.setVisibility(View.GONE);
-            mDeviceName.setTextColor(mContext.getResources().getColor(R.color.common_title));
-            mDeviceName.setText(mContext.getResources().getText(R.string.home));
-            mContainer.setBackgroundColor(mContext.getResources().getColor(R.color.common_bg));
-            mHeader.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-            //mContext.getApplicationContext().getResources().getDrawable(R.drawable.common_menu_selector)
-            mHomeMenu.setBackgroundDrawable(mContext.getApplicationContext().getResources().getDrawable(R.drawable.common_menu_selector));
-        }*/
-
-    }
-
     protected void startLoginAnim() {
         if (frameAnim != null && !frameAnim.isRunning()) {
             frameAnim.start();

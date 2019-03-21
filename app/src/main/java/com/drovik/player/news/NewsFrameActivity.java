@@ -1,27 +1,22 @@
 package com.drovik.player.news;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.drovik.player.R;
 import com.drovik.player.news.fragment.NewsFragment;
 import com.drovik.player.news.mvp.BaseActivity;
 import com.drovik.player.news.mvp.MainContract;
 import com.drovik.player.news.mvp.MainPresenter;
 import com.drovik.player.news.utils.Constant;
-import com.drovik.player.ui.fragment.HomeFragment;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
-import com.ns.yc.ycutilslib.activityManager.AppManager;
 import com.ns.yc.ycutilslib.managerLeak.InputMethodManagerLeakUtils;
 
 import java.util.ArrayList;
@@ -38,7 +33,6 @@ import butterknife.BindView;
  * ================================================
  */
 public class NewsFrameActivity extends BaseActivity implements MainContract.View {
-
 
     @BindView(R.id.ctl_table)
     CommonTabLayout ctlTable;
@@ -70,6 +64,7 @@ public class NewsFrameActivity extends BaseActivity implements MainContract.View
         super.onCreate(savedInstanceState);
         setActionBarVisiable(View.GONE);
         this.savedInstanceState = savedInstanceState;
+        setActionBarVisiable(View.GONE);
         presenter.bindView(this);
         presenter.subscribe();
     }
@@ -105,10 +100,9 @@ public class NewsFrameActivity extends BaseActivity implements MainContract.View
         outState.putInt(SELECT_ITEM, ctlTable.getCurrentTab());
     }
 
-
     @Override
     public int getContentView() {
-        return R.layout.activity_main;
+        return R.layout.activity_news;
     }
 
 

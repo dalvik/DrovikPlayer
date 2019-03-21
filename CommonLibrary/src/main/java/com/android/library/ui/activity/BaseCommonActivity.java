@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ScrollView;
@@ -37,7 +38,7 @@ import com.android.library.ui.utils.ToastUtils;
  * 7、显示异常提示
  * 8、处理数据业务。
  */
-public abstract class BaseCommonActivity extends FragmentActivity implements IDataCallback {
+public abstract class BaseCommonActivity extends AppCompatActivity implements IDataCallback {
 
     public static final int BASE_REQ_CODE = 1;
     public static final int EXTERNAL_STORAGE_REQ_CODE = BASE_REQ_CODE + 1 ;

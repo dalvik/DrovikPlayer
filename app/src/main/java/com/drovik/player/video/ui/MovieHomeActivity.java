@@ -10,6 +10,7 @@ import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.android.library.ui.activity.BaseCommonActivity;
+import com.android.library.ui.activity.BaseCompatActivity;
 import com.drovik.player.R;
 import com.drovik.player.video.ui.pager.IqiyiPager;
 import com.drovik.player.video.ui.pager.LetvPager;
@@ -20,7 +21,7 @@ import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.SelectableViewAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 
-public class MovieHomeActivity extends BaseCommonActivity {
+public class MovieHomeActivity extends BaseCompatActivity {
 
     private static final int POSITION_MAIN = 0;
     private static final int POSITION_MSG = 1;
@@ -42,6 +43,7 @@ public class MovieHomeActivity extends BaseCommonActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_movie_viewpager);
+        setActionBarVisiable(View.GONE);
         viewPager = (ViewPager) findViewById(R.id.lib_id_viewpager_viewpager);
         indicator = (TabPageIndicator) findViewById(R.id.indicator);
         indicator.setVisibility(View.GONE);

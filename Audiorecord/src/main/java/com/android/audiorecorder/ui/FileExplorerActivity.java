@@ -37,6 +37,7 @@ import com.android.audiorecorder.ui.pager.FileVideoPager;
 import com.android.audiorecorder.utils.DateUtil;
 import com.android.audiorecorder.utils.StringUtil;
 import com.android.library.ui.activity.BaseCommonActivity;
+import com.android.library.ui.activity.BaseCompatActivity;
 import com.android.library.ui.dialog.CustomDialog;
 import com.android.library.utils.FileUtil;
 import com.viewpagerindicator.IconPagerAdapter;
@@ -49,7 +50,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class FileExplorerActivity extends BaseCommonActivity {
+public class FileExplorerActivity extends BaseCompatActivity {
 
     private final static int MAX_INPUT_LENGTH = 40;
     public static final int INDEX_IMAGE = 0;
@@ -94,6 +95,7 @@ public class FileExplorerActivity extends BaseCommonActivity {
         startService(new Intent(this, MultiMediaService.class));
         startService(new Intent(this, FileProviderService.class));
         setContentView(R.layout.activity_file_explorer_viewpager);
+        setActionBarVisiable(View.GONE);
         viewPager = (ViewPager) findViewById(R.id.lib_id_viewpager_viewpager);
         // 标题
         titleTv = (TextView) findViewById(R.id.title_tv);
