@@ -143,7 +143,7 @@ public class NewsFrameActivity extends BaseActivity implements MainContract.View
                     case 0:
                         showFragment(FRAGMENT_HOME);
                         break;
-                    case 1:
+                    /*case 1:
                         showFragment(FRAGMENT_NEWS);
                         doubleClick(FRAGMENT_NEWS);
                         break;
@@ -157,7 +157,7 @@ public class NewsFrameActivity extends BaseActivity implements MainContract.View
                         break;
                     case 4:
                         showFragment(FRAGMENT_ME);
-                        break;
+                        break;*/
                     default:
                         break;
                 }
