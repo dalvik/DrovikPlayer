@@ -7,7 +7,7 @@
     <string name="site_sohu">搜狐视频</string>
     <string name="site_youku">优酷视频</string>
     <string name="site_letv">乐视视频</string>
-    <string name="site_iqiyi">爱奇艺视频</string>
+    <string name="site_iqiyi">视频</string>
     <string name="fail_reason_no_results">对不起，没有搜索到任何结果...</string>
     <string name="fail_reason_searching">努力搜索中...</string>
     <string name="director">导演：</string>

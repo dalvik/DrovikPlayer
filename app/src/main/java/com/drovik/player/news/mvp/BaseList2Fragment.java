@@ -37,7 +37,7 @@ public abstract class BaseList2Fragment<T extends IBasePresenter> extends BaseMV
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         swipeRefreshLayout = view.findViewById(R.id.refresh);
-        swipeRefreshLayout.setColorSchemeColors(SettingUtil.getInstance().getColor());
+        //swipeRefreshLayout.setColorSchemeColors(SettingUtil.getInstance().getColor());
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
@@ -89,7 +89,7 @@ public abstract class BaseList2Fragment<T extends IBasePresenter> extends BaseMV
     public void onResume() {
         super.onResume();
         // 设置下拉刷新的按钮的颜色
-        swipeRefreshLayout.setColorSchemeColors(SettingUtil.getInstance().getColor());
+        //swipeRefreshLayout.setColorSchemeColors(SettingUtil.getInstance().getColor());
     }
 
     @Override

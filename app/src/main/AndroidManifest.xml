@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.drovik.player"
     android:versionCode="102"
-    android:versionName="V1.0.2">
+    android:versionName="v1.0.2">
 
     <!-- normal -->
     <uses-permission android:name="android.permission.INTERNET" />

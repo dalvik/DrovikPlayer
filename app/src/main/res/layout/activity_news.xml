@@ -16,6 +16,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="6dp"
+        android:visibility="gone"
         android:background="@color/grayLine"/>
 
     <com.flyco.tablayout.CommonTabLayout
@@ -23,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorBg"
+        android:visibility="gone"
         tl:tl_iconHeight="25dp"
         tl:tl_iconWidth="25dp"
         tl:tl_indicator_color="#2C97DE"

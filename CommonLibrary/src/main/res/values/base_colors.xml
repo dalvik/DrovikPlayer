@@ -12,6 +12,7 @@
     <color name="base_actionbar_background">@android:color/white</color>
     <color name="base_content_background">#ffededed</color>
 
+    <color name="home_actionbar_background">#316fb4</color>
     <!--base common font color resource -->
     <!--font -->
     <color name="base_main_title">#394163</color>

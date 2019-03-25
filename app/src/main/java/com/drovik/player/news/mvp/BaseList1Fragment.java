@@ -36,7 +36,10 @@ public abstract class BaseList1Fragment<T extends IBasePresenter> extends BaseMV
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         swipeRefreshLayout = view.findViewById(R.id.refresh);
-        //swipeRefreshLayout.setColorSchemeColors(SettingUtil.getInstance().getColor());
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
