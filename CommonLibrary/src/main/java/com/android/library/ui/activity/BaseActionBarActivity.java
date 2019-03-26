@@ -191,7 +191,7 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
         return true;
     }
 
-    protected void fullScreen() {
+    protected void fullScreen(int colorId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 //5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色
@@ -202,9 +202,9 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 decorView.setSystemUiVisibility(option);
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(Color.TRANSPARENT);
+                window.setStatusBarColor(getResources().getColor(colorId));
                 //导航栏颜色也可以正常设置
-                window.setNavigationBarColor(Color.TRANSPARENT);
+                window.setNavigationBarColor(getResources().getColor(colorId));
             } else {
                 Window window = getWindow();
                 WindowManager.LayoutParams attributes = window.getAttributes();

@@ -1,38 +1,44 @@
 package com.drovik.player.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.android.audiorecorder.utils.LogUtil;
+import com.androidquery.AQuery;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
-import com.iflytek.voiceads.AdError;
-import com.iflytek.voiceads.AdKeys;
 import com.iflytek.voiceads.IFLYNativeAd;
-import com.iflytek.voiceads.IFLYNativeListener;
-import com.iflytek.voiceads.NativeADDataRef;
-
-import java.util.List;
+import com.iflytek.voiceads.config.AdError;
+import com.iflytek.voiceads.config.AdKeys;
+import com.iflytek.voiceads.conn.NativeDataRef;
+import com.iflytek.voiceads.listener.IFLYNativeListener;
 
 public class LaunchActivity extends Activity implements IFLYNativeListener {
 
     private IFLYNativeAd nativeAd;
-    private NativeADDataRef adItem;
+    private NativeDataRef adItem;
+    private AQuery aQuery;
 
     private String TAG = "LaunchActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         // 加载启动页面
         setContentView(R.layout.start_activity);
         loadAD();
@@ -40,21 +46,17 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
     }
 
     public void loadAD() {
-        if (nativeAd == null) {
-            nativeAd = new IFLYNativeAd(this, "1B2F5A2298CC2F806AD4614B437070E9", this);
-        }
-        nativeAd.setParameter(AdKeys.DOWNLOAD_ALERT, "true");
-        nativeAd.setParameter(AdKeys.DEBUG_MODE, "true");
-        int count = 1;
-        nativeAd.loadAd(count);
+        nativeAd = new IFLYNativeAd(this, "1B2F5A2298CC2F806AD4614B437070E9", this);
+        aQuery = new AQuery(this);
+        nativeAd.setParameter(AdKeys.DOWNLOAD_ALERT, true);
+        nativeAd.setParameter(AdKeys.DEBUG_MODE, getVersionName(this));
+        nativeAd.loadAd();
     }
 
     public void showAD() {
         final ImageView adImageView = (ImageView) findViewById(R.id.fullscreen_img);
-        if (adItem.getImgUrls() != null && adItem.getImgUrls().size() > 0) {
-            ImageTools.displayImage(adImageView, adItem.getImgUrls().get(0));
-        } else {
-            ImageTools.displayImage(adImageView, adItem.getImage());
+        if (adItem.getImgUrl() != null) {
+            ImageTools.displayImage(adImageView, adItem.getImgUrl());
         }
         adImageView.setVisibility(View.VISIBLE);
 
@@ -78,41 +80,18 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
         adImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adItem.onClicked(adImageView);
+                adItem.onClick(adImageView);
             }
         });
-        //原生广告需上传点击位置
-        findViewById(R.id.fullscreen_img).setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        nativeAd.setParameter(AdKeys.CLICK_POS_DX, event.getX() + "");
-                        nativeAd.setParameter(AdKeys.CLICK_POS_DY, event.getY() + "");
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        nativeAd.setParameter(AdKeys.CLICK_POS_UX, event.getX() + "");
-                        nativeAd.setParameter(AdKeys.CLICK_POS_UY, event.getY() + "");
-                        break;
-                    default:
-                        break;
-                }
-                return false;
-            }
-        });
-
-        if (adItem.onExposured(this.findViewById(R.id.fullscreen_img))) {
-            Log.d("", "曝光成功");
+        if (adItem.onExposure(this.findViewById(R.id.fullscreen_img))) {
+            Log.d(TAG, "onExposure");
         }
     }
 
     @Override
-    public void onADLoaded(List<NativeADDataRef> list) {
-        if (list.size() > 0) {
-            adItem = list.get(0);
-            showAD();
-        }
+    public void onAdLoaded(NativeDataRef dataRef) {
+        adItem = dataRef;
+        showAD();
     }
 
     @Override
@@ -151,4 +130,17 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
             }
         }
     };
+
+    public String getVersionName(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo;
+        String versionName = "";
+        try {
+            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            versionName = packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionName;
+    }
 }

@@ -32,6 +32,8 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -42,7 +44,6 @@
     <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <supports-screens android:anyDensity="true"
@@ -59,7 +60,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <!--com.drovik.player.ui.HomeActivity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"-->
-        <activity android:name="com.drovik.player.ui.HomeActivity"
+        <activity android:name="com.drovik.player.ui.LaunchActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
@@ -69,8 +70,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.drovik.player.ui.LaunchActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+        <activity android:name="com.drovik.player.ui.HomeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
 
@@ -263,7 +264,7 @@
         <service android:name="com.android.audiorecorder.audio.MediaPlaybackService" android:exported="false" />
 
         <service
-            android:name="com.iflytek.voiceads.update.DownloadService"
+            android:name="com.iflytek.voiceads.download.DownloadService"
             android:stopWithTask="true" />
         <activity
             android:name="com.iflytek.voiceads.request.IFLYBrowser"

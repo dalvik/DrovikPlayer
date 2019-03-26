@@ -22,6 +22,8 @@ import com.crixmod.sailorcast.utils.M3UServer;
 import com.drovik.player.AppApplication;
 import com.drovik.player.location.LocationService;
 import com.google.gson.Gson;
+import com.iflytek.voiceads.config.SDKLogger;
+import com.iflytek.voiceads.dex.DexLoader;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -67,7 +69,8 @@ public class SailorCast extends AppApplication {
 
         HeConfig.init("HE1811132254161522", "80150e4b086847ee9fc4dbdc40035f4b");
         HeConfig.switchToFreeServerNode();
-
+        SDKLogger.setDebug(true);
+        DexLoader.initIFLYADModule(this);
 		// Use cling factory
 		if (factory == null) {
             factory = new Factory();

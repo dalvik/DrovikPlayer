@@ -23,7 +23,6 @@ import com.crixmod.sailorcast.siteapi.OnGetChannelFilterListener;
 import com.crixmod.sailorcast.siteapi.SiteApi;
 import com.crixmod.sailorcast.uiutils.pagingridview.PagingGridView;
 import com.crixmod.sailorcast.view.AlbumFilterDialog;
-import com.crixmod.sailorcast.view.adapters.AlbumListAdapter;
 import com.drovik.player.R;
 import com.drovik.player.video.ui.adapter.MovieListAdapter;
 

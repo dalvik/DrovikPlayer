@@ -44,7 +44,10 @@
         <item>军事</item>
         <item>体育</item>
 
+        <!--
         <item>段子</item>
+        -->
+
         <item>国际</item>
         <item>健康</item>
         <item>房产</item>
@@ -96,7 +99,9 @@
         <item>news_entertainment</item>
         <item>news_tech</item>
 
+        <!--
         <item>question_and_answer</item>
+        -->
         <item>news_car</item>
         <item>news_finance</item>
         <item>news_military</item>
