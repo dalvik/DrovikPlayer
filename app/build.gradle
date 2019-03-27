@@ -166,7 +166,7 @@ dependencies {
     api 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.0@aar'      //导航栏
     api 'com.android.support:design:27.1.0'
     api 'org.yczbj:YCRefreshViewLib:2.4'
-    api 'cn.yc:YCVideoPlayerLib:2.6.0'
+    api 'cn.yc:YCVideoPlayerLib:2.6.3'
     api 'cn.yc:YCStatusBarLib:1.3.1'
     api 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     api 'com.facebook.stetho:stetho:1.5.0'

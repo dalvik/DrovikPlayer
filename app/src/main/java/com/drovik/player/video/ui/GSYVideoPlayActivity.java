@@ -20,6 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.library.net.utils.LogUtil;
 import com.android.library.utils.PreferenceUtils;
@@ -84,10 +85,10 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         videoPlayer =  (VideoPlayer)findViewById(R.id.video_player);
         Log.d(TAG, "==> video play onCreate");
         PreferenceUtils.init(this);
-        if(!initData()) {
+        /*if(!initData()) {
             finish();
             return;
-        }
+        }*/
         hideBottomUIMenu();
         requestNativeVideoAd();
         //handler.sendEmptyMessage(1);
@@ -183,13 +184,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             new ParseVideoSourceAysncTask().execute();
         }
     }
-
-    private void init(String url) {
-        String source1 = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
-        source1 = url;
-        setVideoPlayer(url);
-    }
-
 
     @Override
     protected void onPause() {
@@ -295,7 +289,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
 
     private void requestNativeVideoAd() {
         String adUnitId = "BF0BA46C856F38EC59C81A97F7B76F72";
-        videoAd = new IFLYVideoAd(this, adUnitId, IFLYVideoAd.NATIVE_VIDEO_AD, mVideoAdListener);
+        videoAd = new IFLYVideoAd(this, adUnitId, IFLYVideoAd.FULLSCREEN_VIDEO_AD, mVideoAdListener);
         videoAd.setParameter(AdKeys.APP_VER, getVersionName(this));
         videoAd.loadAd();
     }
@@ -350,14 +344,9 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
                 stringBuilder.append("ctatext:" + videoADDataRef.getCtatext() + "\n");
             }
             LogUtil.d(TAG, "==> onAdLoaded: " + stringBuilder.toString());
+            Toast.makeText(GSYVideoPlayActivity.this, stringBuilder.toString(), Toast.LENGTH_SHORT).show();
             if(videoAd != null) {
-                adView = videoAd.getVideoView();
-                adView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, videoADDataRef.getHeight()));
-                videoAd.showAd(IFLYVideoAd.LANDSCAPE/IFLYVideoAd.LANDSCAPE);
-                adContainer.addView(adView);
-                if (videoAd.isPlaying()) {
-                    videoAd.onPause();
-                }
+                videoAd.cacheVideo();
             }
         }
 
@@ -365,17 +354,20 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         @Override
         public void onVideoCached() {
             LogUtil.d(TAG, "==> onVideoCached");
+            Toast.makeText(GSYVideoPlayActivity.this, "onVideoCached", Toast.LENGTH_SHORT).show();
             if (videoAd != null) {
+                adContainer.removeAllViews();
                 adView = videoAd.getVideoView();
-                adView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, videoADDataRef.getHeight()));
-                videoAd.showAd(IFLYVideoAd.LANDSCAPE/IFLYVideoAd.LANDSCAPE);
+                adView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 adContainer.addView(adView);
+                videoAd.showAd(IFLYVideoAd.LANDSCAPE);
             }
         }
 
         @Override
         public void onAdFailed(AdError error) {
             LogUtil.d(TAG, "==> onAdFailed: " + error.getErrorCode() + " " + error.getErrorDescription());
+            Toast.makeText(GSYVideoPlayActivity.this, "onAdFailed: " + error.getErrorCode(), Toast.LENGTH_SHORT).show();
             loadVideoSource();
         }
 
@@ -431,7 +423,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
                 try {
                     URL url = new URL(Uri.encode(mVideoPath, "-![.:/,%?&=]"));
                     //Log.d(TAG,"==> play url2: " + url);
-                    init(url.toString());
+                    setVideoPlayer(url.toString());
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
