@@ -1,12 +1,8 @@
 package com.drovik.player.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -17,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.android.audiorecorder.utils.LogUtil;
+import com.android.audiorecorder.utils.StringUtils;
 import com.androidquery.AQuery;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
@@ -42,14 +39,14 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
         // 加载启动页面
         setContentView(R.layout.start_activity);
         loadAD();
-        handler.sendEmptyMessageDelayed(1, 6000);
+        handler.sendEmptyMessageDelayed(1, 4000);
     }
 
     public void loadAD() {
         nativeAd = new IFLYNativeAd(this, "1B2F5A2298CC2F806AD4614B437070E9", this);
         aQuery = new AQuery(this);
         nativeAd.setParameter(AdKeys.DOWNLOAD_ALERT, true);
-        nativeAd.setParameter(AdKeys.DEBUG_MODE, getVersionName(this));
+        nativeAd.setParameter(AdKeys.DEBUG_MODE, StringUtils.getVersionName(this));
         nativeAd.loadAd();
     }
 
@@ -59,24 +56,6 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
             ImageTools.displayImage(adImageView, adItem.getImgUrl());
         }
         adImageView.setVisibility(View.VISIBLE);
-
-        new CountDownTimer(3000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-//                if (millisUntilFinished >= 1000) {
-//                    mCountDownText.setText("剩余时间: " + millisUntilFinished / 1000 + "s");
-//                }else {
-//                    mCountDownText.setText("剩余时间: 0s");
-//                }
-            }
-
-            @Override
-            public void onFinish() {
-                //全屏广告展示结束
-                handler.removeMessages(1);
-                handler.sendEmptyMessage(1);
-            }
-        }.start();
         adImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +69,7 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
 
     @Override
     public void onAdLoaded(NativeDataRef dataRef) {
+        handler.removeMessages(1);
         adItem = dataRef;
         showAD();
     }
@@ -97,8 +77,6 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
     @Override
     public void onAdFailed(AdError adError) {
         LogUtil.d(TAG, "==> onAdFailed: " + adError.getErrorDescription() + " : " + adError.getErrorCode());
-        handler.removeMessages(1);
-        handler.sendEmptyMessage(1);
     }
 
     @Override
@@ -130,17 +108,4 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
             }
         }
     };
-
-    public String getVersionName(Context context) {
-        PackageManager packageManager = context.getPackageManager();
-        PackageInfo packageInfo;
-        String versionName = "";
-        try {
-            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
-            versionName = packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return versionName;
-    }
 }

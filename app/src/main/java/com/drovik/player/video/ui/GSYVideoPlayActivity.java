@@ -3,12 +3,12 @@ package com.drovik.player.video.ui;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -18,15 +18,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.android.audiorecorder.utils.StringUtils;
 import com.android.library.net.utils.LogUtil;
 import com.android.library.utils.PreferenceUtils;
-import com.blankj.utilcode.util.LogUtils;
 import com.crixmod.sailorcast.model.SCLiveStream;
 import com.crixmod.sailorcast.model.SCVideo;
+import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
 import com.drovik.player.video.VideoBean;
 import com.drovik.player.video.parser.IqiyiParser;
@@ -38,6 +39,7 @@ import com.iflytek.voiceads.listener.IFLYVideoListener;
 
 import org.yczbj.ycvideoplayerlib.constant.ConstantKeys;
 import org.yczbj.ycvideoplayerlib.controller.VideoPlayerController;
+import org.yczbj.ycvideoplayerlib.inter.listener.OnCompletedListener;
 import org.yczbj.ycvideoplayerlib.inter.listener.OnVideoBackListener;
 import org.yczbj.ycvideoplayerlib.manager.VideoPlayerManager;
 import org.yczbj.ycvideoplayerlib.player.VideoPlayer;
@@ -68,11 +70,15 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
 
     private VideoPlayerController controller;
 
+    private boolean mHasPlayComplete;
+
     //add IFLY video ad
     private IFLYVideoAd videoAd;
     private RelativeLayout adContainer;
     private VideoDataRef videoADDataRef;
     private ViewGroup adView;
+    private ImageView mAdCoverImageView;
+    private boolean hasCached;
     private String TAG = "GSYVideoPlayActivity";
 
     @Override
@@ -81,17 +87,18 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_sample_play);
+        mAdCoverImageView = (ImageView) findViewById(R.id.rewarded_video_ad_cover_view);
         adContainer = (RelativeLayout) findViewById(R.id.rewarded_video_ad_view);
         videoPlayer =  (VideoPlayer)findViewById(R.id.video_player);
         Log.d(TAG, "==> video play onCreate");
         PreferenceUtils.init(this);
-        /*if(!initData()) {
+        if(!initData()) {
             finish();
             return;
-        }*/
+        }
+        mHasPlayComplete = false;
         hideBottomUIMenu();
         requestNativeVideoAd();
-        //handler.sendEmptyMessage(1);
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mRecorderWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DrovikVideoPlay_"+ powerManager.toString());
         if(!mRecorderWakeLock.isHeld()){
@@ -178,6 +185,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
 
     private void loadVideoSource() {
         adContainer.setVisibility(View.GONE);
+        mAdCoverImageView.setVisibility(View.GONE);
         videoPlayer.setVisibility(View.VISIBLE);
         if(mVideo != null) {
             mIqiyiParser = new IqiyiParser();
@@ -256,22 +264,28 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         //创建视频控制器
         controller = new VideoPlayerController(this);
         controller.setTitle(mVideoName);
+        controller.setOnCompletedListener(new OnCompletedListener() {
+            @Override
+            public void onCompleted() {
+                mHasPlayComplete = true;
+                if(hasCached){
+                    playAdVideo();
+                } else {
+                    GSYVideoPlayActivity.this.finish();
+                }
+            }
+        });
         controller.setLoadingType(ConstantKeys.Loading.LOADING_QQ);
         controller.imageView().setBackgroundResource(R.color.blackText);
         controller.setOnVideoBackListener(new OnVideoBackListener() {
             @Override
             public void onBackClick() {
                 GSYVideoPlayActivity.this.finish();
-                //onBackPressed();
             }
         });
         //设置视频控制器
         videoPlayer.setController(controller);
         videoPlayer.enterFullScreen();
-        //是否从上一次的位置继续播放
-        videoPlayer.continueFromLastPosition(true);
-        //设置播放速度
-        videoPlayer.setSpeed(1.0f);
         videoPlayer.start();
     }
     protected void hideBottomUIMenu() {
@@ -289,22 +303,19 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
 
     private void requestNativeVideoAd() {
         String adUnitId = "BF0BA46C856F38EC59C81A97F7B76F72";
+        String coverBg = PreferenceUtils.getSharedPreferences().getString("cover_bg", "");
+        if(TextUtils.isEmpty(coverBg)) {
+            mAdCoverImageView.setImageResource(R.drawable.drovik_guide_a);
+        } else {
+            ImageTools.displayImage(mAdCoverImageView, coverBg);
+        }
         videoAd = new IFLYVideoAd(this, adUnitId, IFLYVideoAd.FULLSCREEN_VIDEO_AD, mVideoAdListener);
-        videoAd.setParameter(AdKeys.APP_VER, getVersionName(this));
+        videoAd.setParameter(AdKeys.APP_VER, StringUtils.getVersionName(this));
         videoAd.loadAd();
+        handler.sendEmptyMessageDelayed(1, 4000);
     }
 
     private IFLYVideoListener mVideoAdListener = new IFLYVideoListener() {
-
-        @Override
-        public void onConfirm() {
-            LogUtil.d(TAG, "==> onConfirm");
-        }
-
-        @Override
-        public void onCancel() {
-            LogUtil.d(TAG, "==> onCancel");
-        }
 
         @Override
         public void onAdLoaded(VideoDataRef dateRef) {
@@ -323,7 +334,10 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
                 stringBuilder.append("mark:" + videoADDataRef.getAdSourceMark() + "\n");
             }
             if (!TextUtils.isEmpty(videoADDataRef.getImgUrl())) {
+                PreferenceUtils.getSharedPreferences().edit().putString("cover_bg", videoADDataRef.getImgUrl()).apply();
+                ImageTools.displayImage(mAdCoverImageView, videoADDataRef.getImgUrl());
                 stringBuilder.append("img:" + videoADDataRef.getImgUrl() + "\n");
+                videoADDataRef.onExposure(mAdCoverImageView);
             }
             if (!TextUtils.isEmpty(videoADDataRef.getIconUrl())) {
                 stringBuilder.append("icon:" + videoADDataRef.getIconUrl() + "\n");
@@ -346,6 +360,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             LogUtil.d(TAG, "==> onAdLoaded: " + stringBuilder.toString());
             Toast.makeText(GSYVideoPlayActivity.this, stringBuilder.toString(), Toast.LENGTH_SHORT).show();
             if(videoAd != null) {
+                hasCached = false;
                 videoAd.cacheVideo();
             }
         }
@@ -356,11 +371,8 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             LogUtil.d(TAG, "==> onVideoCached");
             Toast.makeText(GSYVideoPlayActivity.this, "onVideoCached", Toast.LENGTH_SHORT).show();
             if (videoAd != null) {
-                adContainer.removeAllViews();
-                adView = videoAd.getVideoView();
-                adView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                adContainer.addView(adView);
-                videoAd.showAd(IFLYVideoAd.LANDSCAPE);
+                hasCached = true;
+                playAdVideo();
             }
         }
 
@@ -368,7 +380,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         public void onAdFailed(AdError error) {
             LogUtil.d(TAG, "==> onAdFailed: " + error.getErrorCode() + " " + error.getErrorDescription());
             Toast.makeText(GSYVideoPlayActivity.this, "onAdFailed: " + error.getErrorCode(), Toast.LENGTH_SHORT).show();
-            loadVideoSource();
         }
 
         @Override
@@ -389,22 +400,35 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         public void onAdPlayError() {
             LogUtil.d(TAG, "==> onAdPlayError");
             //播放出错
-            //finish();
             loadVideoSource();
         }
 
         @Override
         public void onVideoComplete() {
             LogUtil.d(TAG, "==> onAdPlayComplete");
-            //结束播放
-            //finish();
-            loadVideoSource();
+            if(mHasPlayComplete) {
+                GSYVideoPlayActivity.this.finish();
+            } else {
+                //结束播放
+                loadVideoSource();
+            }
         }
 
         @Override
         public void onVideoReplay() {
             LogUtil.d(TAG, "==> onVideoReplay");
         }
+
+        @Override
+        public void onConfirm() {
+            LogUtil.d(TAG, "==> onConfirm");
+        }
+
+        @Override
+        public void onCancel() {
+            LogUtil.d(TAG, "==> onCancel");
+        }
+
     };
 
     private class ParseVideoSourceAysncTask extends AsyncTask<Void, Void, String>{
@@ -433,16 +457,30 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    public String getVersionName(Context context) {
-        PackageManager packageManager = context.getPackageManager();
-        PackageInfo packageInfo;
-        String versionName = "";
-        try {
-            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
-            versionName = packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+    private void playAdVideo() {
+        if(hasCached && videoAd != null) {
+            handler.removeMessages(1);
+            videoPlayer.setVisibility(View.GONE);
+            mAdCoverImageView.setVisibility(View.GONE);
+            adContainer.setVisibility(View.VISIBLE);
+            adContainer.removeAllViews();
+            adView = videoAd.getVideoView();
+            adView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            adContainer.addView(adView);
+            videoAd.showAd(IFLYVideoAd.LANDSCAPE);
         }
-        return versionName;
     }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    loadVideoSource();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }
