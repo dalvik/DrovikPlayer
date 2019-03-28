@@ -76,7 +76,7 @@
 	<drawable name="lightgreen">#90EE90</drawable><!-- 亮绿色 -->
 	
 	<item type="drawable" name="main_background">#fff6f6f6</item>
-	<color name="half_transparent">#aa000000</color>
+	<color name="half_transparent">#88000000</color>
 	
 	<color name="grid_border">#ffd0bd92</color>
 	

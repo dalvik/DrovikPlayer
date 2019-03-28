@@ -8,8 +8,7 @@
     <ImageView
         android:id="@+id/rewarded_video_ad_cover_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/drovik_guide_a"/>
+        android:layout_height="match_parent"/>
 
     <RelativeLayout
         android:id="@+id/rewarded_video_ad_view"

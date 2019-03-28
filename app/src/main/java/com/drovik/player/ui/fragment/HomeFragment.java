@@ -202,7 +202,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         switch (v.getId()) {
             case R.id.home_menu:
                 HomeActivity activity = (HomeActivity) getActivity();
-                activity.openLeftMenu();
+                //activity.openLeftMenu();
                 break;
             case R.id.home_file:
                 Intent intentFile = new Intent(mContext, FileExplorerActivity.class);

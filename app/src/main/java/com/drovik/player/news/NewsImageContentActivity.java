@@ -15,7 +15,7 @@ import com.drovik.player.R;
 import com.drovik.player.news.bean.MultiNewsArticleDataBean;
 import com.drovik.player.news.utils.ImageUtil;
 
-public class NewsContentActivity2 extends BaseCompatActivity {
+public class NewsImageContentActivity extends BaseCompatActivity {
 
     private MultiNewsArticleDataBean dataBean;
     private String mImageUrl;
@@ -34,19 +34,19 @@ public class NewsContentActivity2 extends BaseCompatActivity {
     private TextView mNewsContent;
 
     private static String EXTRA_URL = "url";
-    private static String TAG = "VideoContentActivity";
+    private static String TAG = "NewsVideoContentActivity";
 
     public static void launch(MultiNewsArticleDataBean bean) {
-        Intent intent = new Intent(Utils.getContext(), NewsContentActivity2.class);
+        Intent intent = new Intent(Utils.getContext(), NewsImageContentActivity.class);
         Utils.getContext().startActivity(intent
-                .putExtra(NewsContentActivity2.TAG, bean)
+                .putExtra(NewsImageContentActivity.TAG, bean)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
     public static void launch(MultiNewsArticleDataBean bean, String url) {
-        Intent intent = new Intent(Utils.getContext(), NewsContentActivity2.class);
+        Intent intent = new Intent(Utils.getContext(), NewsImageContentActivity.class);
         Utils.getContext().startActivity(intent
-                .putExtra(NewsContentActivity2.TAG, bean)
+                .putExtra(NewsImageContentActivity.TAG, bean)
                 .putExtra(EXTRA_URL, url)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
@@ -55,6 +55,7 @@ public class NewsContentActivity2 extends BaseCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_news_detail);
+        setTitle(R.string.home_news);
         mNewsTitle = (TextView) findViewById(R.id.news_title);
         mNewsAvatar = (ImageView) findViewById(R.id.news_avatar);
         mReadCount =  (TextView) findViewById(R.id.news_read_cound);

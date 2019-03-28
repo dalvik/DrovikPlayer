@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.drovik.player.R;
-import com.drovik.player.news.VideoContentActivity;
+import com.drovik.player.news.NewsVideoContentActivity;
 import com.drovik.player.news.bean.MultiNewsArticleDataBean;
 import com.drovik.player.news.utils.ImageUtil;
 import com.drovik.player.news.utils.SettingUtil;
@@ -89,7 +89,7 @@ public class NewsArticleVideoViewBinder extends ItemViewBinder<MultiNewsArticleD
                     .subscribe(new Consumer<Object>() {
                         @Override
                         public void accept(@io.reactivex.annotations.NonNull Object o) throws Exception {
-                            VideoContentActivity.launch(item);
+                            NewsVideoContentActivity.launch(item);
                         }
                     });
         } catch (Exception e) {

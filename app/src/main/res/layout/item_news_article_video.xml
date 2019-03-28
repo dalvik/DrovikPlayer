@@ -53,6 +53,7 @@
                     android:padding="2dp"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
+                    android:textSize="13sp"
                     android:textColor="@color/colorWhite"/>
             </RelativeLayout>
         </LinearLayout>

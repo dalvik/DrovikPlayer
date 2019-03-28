@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
     android:foreground="?attr/selectableItemBackground"
-    app:cardElevation="1dp">
+    app:cardElevation="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"

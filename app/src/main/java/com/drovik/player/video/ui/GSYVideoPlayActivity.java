@@ -305,7 +305,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         String adUnitId = "BF0BA46C856F38EC59C81A97F7B76F72";
         String coverBg = PreferenceUtils.getSharedPreferences().getString("cover_bg", "");
         if(TextUtils.isEmpty(coverBg)) {
-            mAdCoverImageView.setImageResource(R.drawable.drovik_guide_a);
+            mAdCoverImageView.setImageResource(R.drawable.ad_video_cover);
         } else {
             ImageTools.displayImage(mAdCoverImageView, coverBg);
         }

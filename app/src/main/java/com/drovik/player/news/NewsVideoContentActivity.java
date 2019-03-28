@@ -32,7 +32,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
-public class VideoContentActivity extends BaseCompatActivity {
+public class NewsVideoContentActivity extends BaseCompatActivity {
 
     private MultiNewsArticleDataBean dataBean;
     private String image;
@@ -49,12 +49,12 @@ public class VideoContentActivity extends BaseCompatActivity {
     private TextView mNewsSource;
     private TextView mNewsContent;
 
-    private static String TAG = "VideoContentActivity";
+    private static String TAG = "NewsVideoContentActivity";
 
     public static void launch(MultiNewsArticleDataBean bean) {
-        Intent intent = new Intent(Utils.getContext(), VideoContentActivity.class);
+        Intent intent = new Intent(Utils.getContext(), NewsVideoContentActivity.class);
         Utils.getContext().startActivity(intent
-                .putExtra(VideoContentActivity.TAG, bean)
+                .putExtra(NewsVideoContentActivity.TAG, bean)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
@@ -63,6 +63,7 @@ public class VideoContentActivity extends BaseCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_video_detail);
+        setTitle(R.string.home_news);
         videoPlayer = (VideoPlayer) findViewById(R.id.detail_player);
         mNewsSource = (TextView) findViewById(R.id.news_source);
         mNewsContent = (TextView) findViewById(R.id.news_content);

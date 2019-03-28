@@ -16,6 +16,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -168,7 +169,6 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
         setHasOptionsMenu(true);
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     private void initWebClient() {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -182,6 +182,25 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
         settings.setAppCacheEnabled(true);
         // 判断是否为无图模式
         settings.setBlockNetworkImage(SettingUtil.getInstance().getIsNoPhotoMode());
+        int screenDensity = getResources().getDisplayMetrics().densityDpi;
+        WebSettings.ZoomDensity zoomDensity = WebSettings.ZoomDensity.MEDIUM;
+        switch (screenDensity)
+        {
+            case DisplayMetrics.DENSITY_LOW:
+                zoomDensity = WebSettings.ZoomDensity.CLOSE;
+                break;
+            case DisplayMetrics.DENSITY_MEDIUM:
+                zoomDensity = WebSettings.ZoomDensity.MEDIUM;
+                break;
+            case DisplayMetrics.DENSITY_HIGH:
+            case DisplayMetrics.DENSITY_XHIGH:
+            case DisplayMetrics.DENSITY_XXHIGH:
+            default:
+                zoomDensity = WebSettings.ZoomDensity.FAR;
+                break;
+        }
+        settings.setDefaultZoom(zoomDensity);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         // 不调用第三方浏览器即可进行页面反应
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -227,7 +246,7 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
     public void onSetWebView(String url, boolean flag) {
         // 是否为头条的网站
         if (flag) {
-            webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
+           // webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
         } else {
             /*
                ScrollView 嵌套 WebView, 导致部分网页无法正常加载

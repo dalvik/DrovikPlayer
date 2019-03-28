@@ -328,7 +328,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
                         android:textColor="@color/white"
-                        android:text="@string/home_music" />
+                        android:text="@string/home_news" />
                 </RelativeLayout>
 
                 <View

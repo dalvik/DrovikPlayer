@@ -211,17 +211,17 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
 
-        <activity android:name="com.drovik.player.news.NewsContentActivity2"
+        <activity android:name="com.drovik.player.news.NewsImageContentActivity"
             android:theme="@style/AppTheme"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
 
-        <activity android:name="com.drovik.player.news.NewsContentActivity"
+        <activity android:name="com.drovik.player.news.NewsTextContentActivity"
             android:theme="@style/AppTheme"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
 
-        <activity android:name="com.drovik.player.news.VideoContentActivity"
+        <activity android:name="com.drovik.player.news.NewsVideoContentActivity"
             android:theme="@style/AppTheme"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>

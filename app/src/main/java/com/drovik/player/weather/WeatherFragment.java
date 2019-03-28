@@ -9,22 +9,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.audiorecorder.ui.SettingsActivity;
 import com.android.audiorecorder.utils.DateUtil;
+import com.android.audiorecorder.utils.StringUtils;
+import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.pager.BasePager;
 import com.drovik.player.R;
 import com.drovik.player.weather.data.AqiData;
+import com.drovik.player.weather.data.BannerData;
 import com.drovik.player.weather.data.DailyWeatherData;
 import com.drovik.player.weather.data.GuideData;
 import com.drovik.player.weather.data.LifeIndexData;
 import com.drovik.player.weather.data.LifeIndexGuideData;
 import com.drovik.player.weather.holder.AqiViewHolder;
+import com.drovik.player.weather.holder.BannerHolder;
 import com.drovik.player.weather.holder.DailyWeatherHolder;
 import com.drovik.player.weather.holder.GuideHolder;
 import com.drovik.player.weather.holder.LifeGuideHolder;
 import com.drovik.player.weather.holder.LifeIndexesHolder;
+import com.iflytek.voiceads.IFLYBannerAd;
+import com.iflytek.voiceads.config.AdError;
+import com.iflytek.voiceads.config.AdKeys;
+import com.iflytek.voiceads.listener.IFLYAdListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +60,12 @@ public class WeatherFragment extends BasePager {
 
     private LifeIndexData mLifeIndexData;
 
+    private IFLYBannerAd bannerView;
+
+    private LinearLayout bannerAdLayout;
+
+    private String TAG = WeatherFragment.class.getSimpleName();
+
     public static WeatherFragment newInstance() {
         WeatherFragment weatherFragment;
         weatherFragment = new WeatherFragment();
@@ -65,6 +80,7 @@ public class WeatherFragment extends BasePager {
         mStyleDataList = new ArrayList<>();
         initViews(view);
         onMoreInfo(mAqiData, mDailyWeatherDataList, mLifeIndexData);
+        initAd();
         return view;
     }
 
@@ -167,6 +183,9 @@ public class WeatherFragment extends BasePager {
             mMoreInfoAdapter.addData(guideData2);
             mMoreInfoAdapter.registerHolder(AqiViewHolder.class, aqiData);
         }
+        BannerData data = new BannerData(new ArrayList<IWeatherResponse.Data.LifeStyle>());
+        mMoreInfoAdapter.registerHolder(BannerHolder.class, data);
+        bannerAdLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(data.getContentViewId(), null);
         mWeatherItemList.setAdapter(mMoreInfoAdapter);
     }
 
@@ -174,4 +193,76 @@ public class WeatherFragment extends BasePager {
     public void reload() {
 
     }
+
+    private void initAd() {
+        String adUnitId = "A0491E423BADCABA1FDFD786B3DA9260";
+        bannerView = IFLYBannerAd.createBannerAd(getActivity(), adUnitId);
+        bannerView.setParameter(AdKeys.APP_VER, StringUtils.getVersionName(getActivity()));
+        //广告容器添加bannerView
+        if(bannerAdLayout != null) {
+            bannerAdLayout.removeAllViews();
+            bannerAdLayout.addView(bannerView);
+        }
+        //请求广告，添加监听器
+        bannerView.loadAd(mAdListener);
+    }
+
+    private IFLYAdListener mAdListener = new IFLYAdListener() {
+
+        /**
+         * 广告请求成功
+         */
+        @Override
+        public void onAdReceive() {
+            //展示广告
+            bannerView.showAd();
+            LogUtil.d(TAG, "onAdReceive");
+        }
+
+        @Override
+        public void onAdFailed(AdError error) {
+            //获取广告失败
+            LogUtil.d(TAG, "onAdFailed");
+        }
+
+        /**
+         * 广告被点击
+         */
+        @Override
+        public void onAdClick() {
+            LogUtil.d(TAG, "onAdClick");
+        }
+
+        /**
+         * 广告被关闭
+         */
+        @Override
+        public void onAdClose() {
+            LogUtil.d(TAG, "onAdClose");
+        }
+
+        /**
+         * 广告曝光
+         */
+        @Override
+        public void onAdExposure() {
+            LogUtil.d(TAG, "onAdExposure");
+        }
+
+        /**
+         * 下载确认
+         */
+        @Override
+        public void onConfirm() {
+            LogUtil.d(TAG, "onConfirm");
+        }
+
+        /**
+         * 下载取消
+         */
+        @Override
+        public void onCancel() {
+            LogUtil.d(TAG, "onCancel");
+        }
+    };
 }
