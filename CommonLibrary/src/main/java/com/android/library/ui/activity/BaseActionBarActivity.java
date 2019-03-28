@@ -239,7 +239,7 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
         }
     }
 
-    protected void addStatusViewWithColor(int color) {
+    protected void addStatusViewWithColor(int statusbarColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (false) {
                 //要在内容布局增加状态栏，否则会盖在侧滑菜单上
@@ -251,7 +251,7 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
                 View statusBarView = new View(this);
                 ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         getStatusBarHeight());
-                statusBarView.setBackgroundColor(color);
+                statusBarView.setBackgroundColor(statusbarColor);
                 //添加占位状态栏到线性布局中
                 linearLayout.addView(statusBarView, lp);
                 //侧滑菜单
@@ -270,13 +270,13 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
                 rootView.setPadding(0, getStatusBarHeight(), 0, 0);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     //直接设置状态栏颜色
-                    getWindow().setStatusBarColor(color);
+                    getWindow().setStatusBarColor(statusbarColor);
                 } else {
                     //增加占位状态栏
                     ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
                     View statusBarView = new View(this);
                     ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight());
-                    statusBarView.setBackgroundColor(color);
+                    statusBarView.setBackgroundColor(statusbarColor);
                     decorView.addView(statusBarView, lp);
                 }
             }

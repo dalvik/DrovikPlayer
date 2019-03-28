@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -38,8 +39,8 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         // 加载启动页面
         setContentView(R.layout.start_activity);
-        loadAD();
         handler.sendEmptyMessageDelayed(1, 4000);
+        loadAD();
     }
 
     public void loadAD() {
@@ -48,6 +49,14 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
         nativeAd.setParameter(AdKeys.DOWNLOAD_ALERT, true);
         nativeAd.setParameter(AdKeys.DEBUG_MODE, StringUtils.getVersionName(this));
         nativeAd.loadAd();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public void showAD() {
@@ -69,7 +78,6 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
 
     @Override
     public void onAdLoaded(NativeDataRef dataRef) {
-        handler.removeMessages(1);
         adItem = dataRef;
         showAD();
     }

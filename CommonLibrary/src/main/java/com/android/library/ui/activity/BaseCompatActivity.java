@@ -305,7 +305,7 @@ public abstract class BaseCompatActivity extends BaseActionBarActivity {
         setRightOptionView(null);
         setBackView(null);
         fullScreen(R.color.colorPrimary);
-        setActionBarBackgroundColor(R.color.colorPrimary, R.color.textColorAccent);
+        setActionBarBackgroundColor(R.color.colorPrimary, R.color.home_actionbar_background);
         return view;
     }
 

@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_16"
         android:gravity="center"
-        android:textColor="@color/colorAccent"/>
+        android:textColor="@color/base_main_title"/>
 
     <ImageView
         android:id="@+id/guide_icon"
