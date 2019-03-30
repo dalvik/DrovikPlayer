@@ -1,10 +1,6 @@
 package com.drovik.player.news.fragment;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -14,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -36,7 +31,6 @@ import com.drovik.player.news.base.SettingUtil;
 import com.drovik.player.news.bean.MultiNewsArticleDataBean;
 import com.drovik.player.news.contract.INewsContent;
 import com.drovik.player.news.utils.Constant;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> implements INewsContent.View {
 

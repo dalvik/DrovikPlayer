@@ -70,7 +70,7 @@ public class SailorCast extends AppApplication {
         HeConfig.init("HE1811132254161522", "80150e4b086847ee9fc4dbdc40035f4b");
         HeConfig.switchToFreeServerNode();
         SDKLogger.setDebug(true);
-        DexLoader.initIFLYADModule(this);
+        DexLoader.initIFLYADModule(getApplicationContext());
 		// Use cling factory
 		if (factory == null) {
             factory = new Factory();

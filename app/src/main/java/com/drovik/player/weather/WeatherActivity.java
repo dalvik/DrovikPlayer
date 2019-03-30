@@ -33,7 +33,7 @@ public class WeatherActivity extends BaseCompatActivity {
             mCityFragment = CityFragment.newInstance(citys, topCityJson);
             replaceFragment(R.id.weather_content, mCityFragment);
         } else {
-            WeatherFragment weatherDetailFragment = WeatherFragment.newInstance();
+            WeatherDetailFragment weatherDetailFragment = WeatherDetailFragment.newInstance();
             replaceFragment(R.id.weather_content, weatherDetailFragment);
         }
     }

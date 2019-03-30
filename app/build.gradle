@@ -37,14 +37,6 @@ android {
             storePassword '123456'
         }
     }
-    /*signingConfigs {
-        release  {
-            keyAlias 'china'
-            keyPassword 'sky123'
-            storeFile file('keystores/pro_key')
-            storePassword 'sky123'
-        }
-    }*/
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
     defaultConfig {

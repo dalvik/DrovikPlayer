@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.android.audiorecorder.utils.LogUtil;
 import com.android.audiorecorder.utils.StringUtils;
+import com.bumptech.glide.Glide;
 import com.crixmod.sailorcast.model.SCAlbum;
 import com.crixmod.sailorcast.model.SCAlbums;
 import com.crixmod.sailorcast.model.SCChannel;
@@ -87,7 +88,7 @@ public class AlbumListFragment extends Fragment implements
     private NativeDataRef adItem;
     private View mAdContainer;
 
-    private String TAG = "AlbumListFragment";
+    private String TAG = AlbumListFragment.class.getSimpleName();
 
     /**
      * Use this factory method to create a new instance of
@@ -143,8 +144,6 @@ public class AlbumListFragment extends Fragment implements
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         initView(view);
-        initDots();
-        initViewPager();
         mGridView = (PagingGridView) view.findViewById(R.id.result_grid);
         mEmptyView = (TextView) view.findViewById(android.R.id.empty);
         mEmptyView.setText(getResources().getString(R.string.loading));
@@ -274,7 +273,6 @@ public class AlbumListFragment extends Fragment implements
 
     @Override
     public void onGetChannelFilterFailed(SCFailLog err) {
-
         if(getActivity() != null) {
         }
     }
@@ -329,8 +327,8 @@ public class AlbumListFragment extends Fragment implements
     @Override
     public void onAdLoaded(NativeDataRef dataRef) {
         adItem = dataRef;
-        Toast.makeText(getActivity(), "onAdLoaded", Toast.LENGTH_SHORT).show();
         if(adItem != null) {
+            Toast.makeText(getActivity(), "onAdLoaded" + adItem.getImgList(), Toast.LENGTH_SHORT).show();
             showList();
             LogUtil.d(TAG, "onAdLoaded: " + adItem.getImgList());
         }
@@ -356,9 +354,6 @@ public class AlbumListFragment extends Fragment implements
         mNewWidth = (int) (divideWidth(mWidth, 1080, 6) * 17);
         mPadding = (int) (divideWidth(mWidth, 1080, 6) * 9);
         mImageRes = new ArrayList<>();
-        mImageRes.add("http://www.51mtw.com/UploadFiles/2011-11/admin/2011111815413979496.jpg");
-        mImageRes.add("http://www.51mtw.com/UploadFiles/2011-11/admin/2011111815413979496.jpg");
-        mImageRes.add("http://www.51mtw.com/UploadFiles/2011-11/admin/2011111815413979496.jpg");
         mImageViews = new ImageView[2][];
         mDots = new ImageView[mImageRes.size()];
         mImageViews[0] = new ImageView[mImageRes.size()];
@@ -366,6 +361,7 @@ public class AlbumListFragment extends Fragment implements
         mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
         mViewPager.setOnPageChangeListener(this);
         mLayoutDots = (LinearLayout) view.findViewById(R.id.dotLayout);
+        mAdContainer.setVisibility(View.GONE);
     }
 
     private void initViewPager() {
@@ -376,6 +372,7 @@ public class AlbumListFragment extends Fragment implements
             for (int j = 0; j < mImageViews[i].length; j++) {
                 ImageView iv = new ImageView(getActivity());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                iv.setScaleType(ImageView.ScaleType.FIT_XY);
                 iv.setLayoutParams(lp);
                 Picasso.with(getActivity()).load(mImageRes.get(j)).into(iv);
                 mImageViews[i][j] = iv;
@@ -421,14 +418,20 @@ public class AlbumListFragment extends Fragment implements
 
     private void loadAD() {
         String adUnitId = "5A2FC1A9477DD372965F2B9D3F122005";
-        nativeAd = new IFLYNativeAd(getActivity(), adUnitId, this);
+        nativeAd = new IFLYNativeAd(getContext(), adUnitId, this);
         nativeAd.setParameter(AdKeys.APP_VER, StringUtils.getVersionName(getActivity()));
         nativeAd.loadAd();
     }
 
     private void showList() {
         if (adItem != null && adItem.getImgList() != null && adItem.getImgList().size()>0) {
+            mImageRes.clear();
+            mImageRes.addAll(adItem.getImgList());
+            initDots();
+            initViewPager();
+            mAdContainer.setVisibility(View.VISIBLE);
         } else {
+            mAdContainer.setVisibility(View.GONE);
         }
     }
 

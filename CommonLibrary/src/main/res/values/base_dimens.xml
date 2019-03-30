@@ -51,10 +51,10 @@
     <dimen name="common_165_dp">165dp</dimen>
 
     <!-- text size -->
-    <dimen name="base_dafault_size">18sp</dimen>
-    <dimen name="base_title_size">18sp</dimen>
-    <dimen name="base_subtitle_size">12sp</dimen>
-    <dimen name="base_sencond_title_size">16sp</dimen>
+    <dimen name="base_dafault_size">17sp</dimen>
+    <dimen name="base_title_size">17sp</dimen>
+    <dimen name="base_subtitle_size">11sp</dimen>
+    <dimen name="base_sencond_title_size">15sp</dimen>
     <dimen name="common_15_sp">15sp</dimen>
     <dimen name="common_17_sp">17sp</dimen>
     <dimen name="common_34_sp">34sp</dimen>

@@ -2,6 +2,8 @@ package com.drovik.player.weather;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.audiorecorder.ui.SettingsActivity;
 import com.android.audiorecorder.utils.DateUtil;
@@ -19,13 +22,11 @@ import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.pager.BasePager;
 import com.drovik.player.R;
 import com.drovik.player.weather.data.AqiData;
-import com.drovik.player.weather.data.BannerData;
 import com.drovik.player.weather.data.DailyWeatherData;
 import com.drovik.player.weather.data.GuideData;
 import com.drovik.player.weather.data.LifeIndexData;
 import com.drovik.player.weather.data.LifeIndexGuideData;
 import com.drovik.player.weather.holder.AqiViewHolder;
-import com.drovik.player.weather.holder.BannerHolder;
 import com.drovik.player.weather.holder.DailyWeatherHolder;
 import com.drovik.player.weather.holder.GuideHolder;
 import com.drovik.player.weather.holder.LifeGuideHolder;
@@ -44,7 +45,11 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class WeatherFragment extends BasePager {
+public class WeatherDetailFragment extends BasePager {
+
+    private final static int MSG_REQUEST_AD = 1000;
+    private final static int MSG_HIDE_AD = 1001;
+    private final static String adUnitId = "A0491E423BADCABA1FDFD786B3DA9260";
 
     private SharedPreferences mSettings;
 
@@ -64,11 +69,11 @@ public class WeatherFragment extends BasePager {
 
     private LinearLayout bannerAdLayout;
 
-    private String TAG = WeatherFragment.class.getSimpleName();
+    private String TAG = WeatherDetailFragment.class.getSimpleName();
 
-    public static WeatherFragment newInstance() {
-        WeatherFragment weatherFragment;
-        weatherFragment = new WeatherFragment();
+    public static WeatherDetailFragment newInstance() {
+        WeatherDetailFragment weatherFragment;
+        weatherFragment = new WeatherDetailFragment();
         return weatherFragment;
     }
 
@@ -80,7 +85,7 @@ public class WeatherFragment extends BasePager {
         mStyleDataList = new ArrayList<>();
         initViews(view);
         onMoreInfo(mAqiData, mDailyWeatherDataList, mLifeIndexData);
-        initAd();
+        sendHandlerMessage(MSG_REQUEST_AD, 3000);
         return view;
     }
 
@@ -89,7 +94,22 @@ public class WeatherFragment extends BasePager {
         return null;
     }
 
-    public void initViews(View view) {
+    @Override
+    public void reload() {
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mHandler.removeMessages(MSG_REQUEST_AD);
+        if (bannerView != null) {
+            bannerView.destroy();
+            bannerView = null;
+        }
+    }
+
+    private void initViews(View view) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         view.findViewById(R.id.action_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +138,7 @@ public class WeatherFragment extends BasePager {
         String updateTime = String.format(getString(R.string.weather_post),
                 DateUtil.getTimeTips(mSettings.getString(ResourceProvider.PUBLISH_TIME, "2018-11-30 21:20:12")));
         postTime.setText(updateTime);
+        bannerAdLayout = view.findViewById(R.id.ad_container);
         mWeatherItemList = (RecyclerView) view.findViewById(R.id.weather_info_recyclerView);
         mWeatherItemList.setLayoutManager(linearLayoutManager);
         mWeatherItemList.setBackgroundResource(R.color.dark_background);
@@ -166,7 +187,7 @@ public class WeatherFragment extends BasePager {
     }
 
 
-    public void onMoreInfo(AqiData aqiData, List<DailyWeatherData> dailyForecastDatas, LifeIndexData lifeIndexData) {
+    private void onMoreInfo(AqiData aqiData, List<DailyWeatherData> dailyForecastDatas, LifeIndexData lifeIndexData) {
         mMoreInfoAdapter.clear();
         if (dailyForecastDatas != null) {
             GuideData guideData1 = new GuideData(getString(R.string.weather_future_weather));
@@ -183,29 +204,49 @@ public class WeatherFragment extends BasePager {
             mMoreInfoAdapter.addData(guideData2);
             mMoreInfoAdapter.registerHolder(AqiViewHolder.class, aqiData);
         }
-        BannerData data = new BannerData(new ArrayList<IWeatherResponse.Data.LifeStyle>());
-        mMoreInfoAdapter.registerHolder(BannerHolder.class, data);
-        bannerAdLayout = (LinearLayout) getActivity().getLayoutInflater().inflate(data.getContentViewId(), null);
         mWeatherItemList.setAdapter(mMoreInfoAdapter);
     }
 
-    @Override
-    public void reload() {
-
-    }
-
     private void initAd() {
-        String adUnitId = "A0491E423BADCABA1FDFD786B3DA9260";
-        bannerView = IFLYBannerAd.createBannerAd(getActivity(), adUnitId);
+        bannerView = IFLYBannerAd.createBannerAd(getActivity().getApplicationContext(), adUnitId);
         bannerView.setParameter(AdKeys.APP_VER, StringUtils.getVersionName(getActivity()));
         //广告容器添加bannerView
-        if(bannerAdLayout != null) {
-            bannerAdLayout.removeAllViews();
-            bannerAdLayout.addView(bannerView);
-        }
+        bannerAdLayout.removeAllViews();
+        bannerAdLayout.addView(bannerView);
         //请求广告，添加监听器
         bannerView.loadAd(mAdListener);
     }
+
+    private void hideAd() {
+        if (bannerView != null) {
+            bannerView.destroy();
+        }
+        bannerAdLayout.setVisibility(View.GONE);
+    }
+
+    private void sendHandlerMessage(int what, long delayed) {
+        mHandler.removeMessages(what);
+        mHandler.sendEmptyMessageDelayed(what, delayed);
+    }
+
+    //3秒钟后请求，显示1分钟自动隐藏，15分钟重新请求
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MSG_REQUEST_AD:
+                    initAd();
+                    break;
+                case MSG_HIDE_AD:
+                    hideAd();
+                    sendHandlerMessage(MSG_REQUEST_AD, 10*60*1000);//十分钟后重新请求
+                    break;
+                    default:
+                        break;
+            }
+        }
+    };
 
     private IFLYAdListener mAdListener = new IFLYAdListener() {
 
@@ -215,14 +256,20 @@ public class WeatherFragment extends BasePager {
         @Override
         public void onAdReceive() {
             //展示广告
+            bannerAdLayout.setVisibility(View.VISIBLE);
             bannerView.showAd();
-            LogUtil.d(TAG, "onAdReceive");
+            sendHandlerMessage(MSG_HIDE_AD, 60*1000);//1分钟后自动隐藏
+            LogUtil.d(TAG, "==> onAdReceive");
+            //Toast.makeText(getActivity(), "onAdReceive", Toast.LENGTH_SHORT).show();
+
         }
 
         @Override
         public void onAdFailed(AdError error) {
             //获取广告失败
-            LogUtil.d(TAG, "onAdFailed");
+            //Toast.makeText(getActivity(), "onAdFailed", Toast.LENGTH_SHORT).show();
+            LogUtil.d(TAG, "==> onAdFailed: " + error.getErrorDescription() + " " + error.getErrorCode());
+            sendHandlerMessage(MSG_REQUEST_AD, 10*60*1000);//十分钟后重新请求
         }
 
         /**
@@ -230,7 +277,7 @@ public class WeatherFragment extends BasePager {
          */
         @Override
         public void onAdClick() {
-            LogUtil.d(TAG, "onAdClick");
+            LogUtil.d(TAG, "==> onAdClick");
         }
 
         /**
@@ -238,7 +285,7 @@ public class WeatherFragment extends BasePager {
          */
         @Override
         public void onAdClose() {
-            LogUtil.d(TAG, "onAdClose");
+            LogUtil.d(TAG, "==> onAdClose");
         }
 
         /**
@@ -246,7 +293,7 @@ public class WeatherFragment extends BasePager {
          */
         @Override
         public void onAdExposure() {
-            LogUtil.d(TAG, "onAdExposure");
+            LogUtil.d(TAG, "==> onAdExposure");
         }
 
         /**
@@ -254,7 +301,7 @@ public class WeatherFragment extends BasePager {
          */
         @Override
         public void onConfirm() {
-            LogUtil.d(TAG, "onConfirm");
+            LogUtil.d(TAG, "==> onConfirm");
         }
 
         /**
@@ -262,7 +309,7 @@ public class WeatherFragment extends BasePager {
          */
         @Override
         public void onCancel() {
-            LogUtil.d(TAG, "onCancel");
+            LogUtil.d(TAG, "==> onCancel");
         }
     };
 }
