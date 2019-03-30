@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/base_bg">
-    
+
+    <!-- main home top tab -->
     <RelativeLayout
         android:id="@+id/title_container"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:visibility="gone"
         android:background="@color/actionbar_bg">
 
         <TextView
@@ -17,7 +19,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="3dip"
             android:background="@drawable/main_left" />
-
 
         <TextView
             android:id="@+id/title_tv"
@@ -40,12 +41,72 @@
 
     </RelativeLayout>
     
-    
+    <RelativeLayout
+        android:id="@+id/ad_container"
+        android:layout_below="@id/title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/base_actionbar_background">
+
+        <LinearLayout
+            android:id="@+id/ad_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="150.0dip"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/dotLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_margin="2.0dip"
+                android:orientation="horizontal"
+                android:padding="5.0dip" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/base_actionbar_height"
+            android:background="@color/transparent">
+
+            <TextView
+                android:id="@+id/title_temp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_10_dp"
+                android:textSize="@dimen/text_size_20"
+                android:textColor="@color/base_main_title"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/site_iqiyi"
+                android:layout_gravity="center_vertical" />
+
+            <ImageButton
+                android:id="@+id/action_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:paddingLeft="@dimen/common_10_dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/base_actionbar_back_selector"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/lib_id_viewpager_viewpager"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title_container" />
+        android:layout_below="@id/ad_container" />
 
     <!-- bottom navigation -->
     <com.viewpagerindicator.TabPageIndicator
