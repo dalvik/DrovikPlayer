@@ -131,7 +131,7 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                onHideLoading();
+                //onHideLoading();
             }
         });
 
@@ -240,7 +240,8 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
     public void onSetWebView(String url, boolean flag) {
         // 是否为头条的网站
         if (flag) {
-           // webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
+            webView.setBackgroundColor(getResources().getColor(R.color.base_bg));
+            webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
         } else {
             /*
                ScrollView 嵌套 WebView, 导致部分网页无法正常加载
