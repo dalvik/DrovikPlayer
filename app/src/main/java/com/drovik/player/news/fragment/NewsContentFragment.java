@@ -24,6 +24,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.util.ScreenUtils;
 import com.drovik.player.R;
 import com.drovik.player.news.base.AppBarStateChangeListener;
 import com.drovik.player.news.base.BaseFragment;
@@ -131,7 +132,7 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                //onHideLoading();
+                onHideLoading();
             }
         });
 
@@ -177,7 +178,7 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
         // 判断是否为无图模式
         settings.setBlockNetworkImage(SettingUtil.getInstance().getIsNoPhotoMode());
         int screenDensity = getResources().getDisplayMetrics().densityDpi;
-        WebSettings.ZoomDensity zoomDensity = WebSettings.ZoomDensity.MEDIUM;
+        WebSettings.ZoomDensity zoomDensity = WebSettings.ZoomDensity.FAR;
         switch (screenDensity)
         {
             case DisplayMetrics.DENSITY_LOW:
@@ -209,6 +210,19 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
             public void onPageFinished(WebView view, String url) {
                 onHideLoading();
                 super.onPageFinished(view, url);
+                String javascript = "javascript:function ResizeImages() {" +
+                        "var myimg,oldwidth;" +
+                        "var maxwidth = document.body.clientWidth;" +
+                        "for(i=0;i <document.images.length;i++){" +
+                        "myimg = document.images[i];" +
+                        "if(myimg.width > maxwidth){" +
+                        "oldwidth = myimg.width;" +
+                        "myimg.width = maxwidth;" +
+                        "}" +
+                        "}" +
+                        "}";
+                view.loadUrl(javascript);
+                view.loadUrl("javascript:ResizeImages();");
             }
         });
 
