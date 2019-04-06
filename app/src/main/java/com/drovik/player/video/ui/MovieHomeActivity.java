@@ -317,6 +317,7 @@ public class MovieHomeActivity extends BaseCompatActivity implements ViewPager.O
             initDots();
             initViewPager();
             mAdContainer.setVisibility(View.VISIBLE);
+            titleTv.setTextColor(getResources().getColor(R.color.white));
             adItem.onExposure(mAdContainer);
         } else {
             mAdContainer.setVisibility(View.GONE);

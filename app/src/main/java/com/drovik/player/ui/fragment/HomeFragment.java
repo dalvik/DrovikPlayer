@@ -159,7 +159,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         //view.findViewById(R.id.home_photo).setOnClickListener(this);
         view.findViewById(R.id.home_video).setOnClickListener(this);
         //view.findViewById(R.id.home_video).setVisibility(View.GONE);
-        view.findViewById(R.id.home_music).setOnClickListener(this);
+        view.findViewById(R.id.home_news).setOnClickListener(this);
         view.findViewById(R.id.home_recorder).setOnClickListener(this);
 
         mNativeSpotAdLayout = (RelativeLayout) view.findViewById(R.id.home_rl_native_spot_ad);
@@ -216,7 +216,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 Intent intentVideo = new Intent(mContext, com.drovik.player.video.ui.MovieHomeActivity.class);
                 startActivity(intentVideo);
                 break;
-            case R.id.home_music:
+            case R.id.home_news:
                 Intent intentMusic = new Intent(mContext, NewsFrameActivity.class);
                 startActivity(intentMusic);
                 break;

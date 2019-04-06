@@ -302,9 +302,9 @@
                     android:layout_height="match_parent"
                     android:background="@color/splite_grey" />
 
-                <!-- net music -->
+                <!-- net news -->
                 <RelativeLayout
-                    android:id="@+id/home_music"
+                    android:id="@+id/home_news"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -314,17 +314,17 @@
                     android:paddingBottom="5dp">
 
                     <ImageView
-                        android:id="@+id/home_music_iv"
+                        android:id="@+id/home_news_iv"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/common_8_dp"
-                        android:src="@drawable/selector_home_music" />
+                        android:src="@drawable/selector_home_news" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/home_music_iv"
+                        android:layout_below="@+id/home_news_iv"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
                         android:textColor="@color/white"
