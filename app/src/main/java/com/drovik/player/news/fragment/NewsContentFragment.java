@@ -3,6 +3,8 @@ package com.drovik.player.news.fragment;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -23,7 +25,10 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.android.audiorecorder.utils.StringUtils;
+import com.android.library.net.utils.LogUtil;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.drovik.player.R;
 import com.drovik.player.news.base.AppBarStateChangeListener;
@@ -32,6 +37,10 @@ import com.drovik.player.news.base.SettingUtil;
 import com.drovik.player.news.bean.MultiNewsArticleDataBean;
 import com.drovik.player.news.contract.INewsContent;
 import com.drovik.player.news.utils.Constant;
+import com.iflytek.voiceads.IFLYBannerAd;
+import com.iflytek.voiceads.config.AdError;
+import com.iflytek.voiceads.config.AdKeys;
+import com.iflytek.voiceads.listener.IFLYAdListener;
 
 public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> implements INewsContent.View {
 
@@ -55,6 +64,12 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ImageView imageView;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private final static int MSG_REQUEST_AD = 1000;
+    private final static int MSG_HIDE_AD = 1001;
+    private final static String adUnitId = "4EB378DDD1ACCC98DB5430437962ACF8";
+    private IFLYBannerAd bannerView;
+    private LinearLayout bannerAdLayout;
 
     public static NewsContentFragment newInstance(Parcelable dataBean, String imgUrl) {
         NewsContentFragment instance = new NewsContentFragment();
@@ -162,6 +177,8 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
             imageView = view.findViewById(R.id.iv_image);
         }
         setHasOptionsMenu(true);
+        bannerAdLayout = (LinearLayout)view.findViewById(R.id.ad_container);
+        sendHandlerMessage(MSG_REQUEST_AD, 3000);
     }
 
     private void initWebClient() {
@@ -329,4 +346,111 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void initAd() {
+        bannerView = IFLYBannerAd.createBannerAd(getActivity(), adUnitId);
+        bannerView.setParameter(AdKeys.APP_VER, StringUtils.getVersionName(getActivity()));
+        //广告容器添加bannerView
+        bannerAdLayout.removeAllViews();
+        bannerAdLayout.addView(bannerView);
+        //请求广告，添加监听器
+        bannerView.loadAd(mAdListener);
+    }
+
+    private void hideAd() {
+        if (bannerView != null) {
+            bannerView.destroy();
+        }
+        bannerAdLayout.setVisibility(View.GONE);
+    }
+
+    private void sendHandlerMessage(int what, long delayed) {
+        mHandler.removeMessages(what);
+        mHandler.sendEmptyMessageDelayed(what, delayed);
+    }
+
+    //3秒钟后请求，显示1分钟自动隐藏，15分钟重新请求
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case MSG_REQUEST_AD:
+                    initAd();
+                    break;
+                case MSG_HIDE_AD:
+                    hideAd();
+                    sendHandlerMessage(MSG_REQUEST_AD, 10*60*1000);//十分钟后重新请求
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+
+    private IFLYAdListener mAdListener = new IFLYAdListener() {
+
+        /**
+         * 广告请求成功
+         */
+        @Override
+        public void onAdReceive() {
+            //展示广告
+            bannerAdLayout.setVisibility(View.VISIBLE);
+            bannerView.showAd();
+            sendHandlerMessage(MSG_HIDE_AD, 60*1000);//1分钟后自动隐藏
+            LogUtil.d(TAG, "==> onAdReceive");
+            //Toast.makeText(getActivity(), "onAdReceive", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onAdFailed(AdError error) {
+            //获取广告失败
+            //Toast.makeText(getActivity(), "onAdFailed", Toast.LENGTH_SHORT).show();
+            LogUtil.d(TAG, "==> onAdFailed: " + error.getErrorDescription() + " " + error.getErrorCode());
+            sendHandlerMessage(MSG_REQUEST_AD, 10*60*1000);//十分钟后重新请求
+        }
+
+        /**
+         * 广告被点击
+         */
+        @Override
+        public void onAdClick() {
+            LogUtil.d(TAG, "==> onAdClick");
+        }
+
+        /**
+         * 广告被关闭
+         */
+        @Override
+        public void onAdClose() {
+            LogUtil.d(TAG, "==> onAdClose");
+        }
+
+        /**
+         * 广告曝光
+         */
+        @Override
+        public void onAdExposure() {
+            LogUtil.d(TAG, "==> onAdExposure");
+        }
+
+        /**
+         * 下载确认
+         */
+        @Override
+        public void onConfirm() {
+            LogUtil.d(TAG, "==> onConfirm");
+        }
+
+        /**
+         * 下载取消
+         */
+        @Override
+        public void onCancel() {
+            LogUtil.d(TAG, "==> onCancel");
+        }
+    };
 }

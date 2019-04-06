@@ -70,6 +70,15 @@
             android:layout_marginTop="@dimen/common_14_dp"
             android:textSize="16sp" />
 
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ad_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="50dp"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical" />
     </LinearLayout>
 
 </ScrollView>
