@@ -255,10 +255,10 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/base_splite_line_width"
-                android:visibility="visible"
                 android:background="@color/splite_grey" />
 
             <LinearLayout
+                android:id="@+id/dynamic_layout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -309,7 +309,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:visibility="visible"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp">
 

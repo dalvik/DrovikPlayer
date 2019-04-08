@@ -110,6 +110,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        mSettings = getActivity().getSharedPreferences(SettingsActivity.class.getName(), MODE_PRIVATE);
         initView(view);
         initData();
         initHome();
@@ -128,7 +129,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
 
     private void initData() {
         EventBus.getDefault().register(this);
-        mSettings = getActivity().getSharedPreferences(SettingsActivity.class.getName(), MODE_PRIVATE);
         mWeatherManager = new WeatherManager();
         mCityProvider = new CityProvider(getActivity(), mHandler);
         mLoadCitySuccess = false;
@@ -161,7 +161,13 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         //view.findViewById(R.id.home_video).setVisibility(View.GONE);
         view.findViewById(R.id.home_news).setOnClickListener(this);
         view.findViewById(R.id.home_recorder).setOnClickListener(this);
-
+        if(!mSettings.getBoolean(SettingsActivity.KEY_VALID, false)){
+            mOperate.setWeightSum(1);
+            view.findViewById(R.id.dynamic_layout).setVisibility(View.GONE);
+        } else {
+            mOperate.setWeightSum(2);
+            view.findViewById(R.id.dynamic_layout).setVisibility(View.VISIBLE);
+        }
         mNativeSpotAdLayout = (RelativeLayout) view.findViewById(R.id.home_rl_native_spot_ad);
 
         mWeatherLocation = (TextView) view.findViewById(R.id.weather_location);

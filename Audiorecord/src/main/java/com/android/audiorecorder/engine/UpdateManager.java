@@ -191,7 +191,8 @@ public class UpdateManager {
 								.putInt(SettingsActivity.KEY_RECORDER_END, duration[1])
 								.putInt(SettingsActivity.KEY_UPLOAD_START, duration[2])
 								.putInt(SettingsActivity.KEY_UPLOAD_END, duration[3])
-								.commit();
+								.putBoolean(SettingsActivity.KEY_VALID, updateInfo.isValid())
+								.apply();
 						if(DEBUG) {
 							Log.d(TAG, curVersionCode + "  " + updateInfo.getVersionCode());
 						}

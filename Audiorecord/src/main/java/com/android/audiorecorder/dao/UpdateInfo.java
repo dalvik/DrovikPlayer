@@ -31,6 +31,8 @@ public class UpdateInfo implements Serializable {
 	private String sendSuggesetPhoneNumber;
 	
 	private String duration = "";
+
+	private boolean isValid;
 	
 	public UpdateInfo() {
 		super();
@@ -100,8 +102,16 @@ public class UpdateInfo implements Serializable {
     public String getDuration(){
         return duration;
     }
-    
-    @Override
+
+	public boolean isValid() {
+		return isValid;
+	}
+
+	public void setValid(boolean valid) {
+		isValid = valid;
+	}
+
+	@Override
     public String toString() {
         return "UpdateInfo [versionCode=" + versionCode + ", versionName="
                 + versionName + ", downloadUrl=" + downloadUrl + ", updateLog="
@@ -140,7 +150,9 @@ public class UpdateInfo implements Serializable {
                             updateInfo.setSendSuggesetPhoneNumber(xmlPullParser.nextText());
                         } else if(tag.equalsIgnoreCase("duration")) {
                             updateInfo.setDuration(xmlPullParser.nextText());
-                        }
+                        } else if(tag.equalsIgnoreCase("isvalid")) {
+							updateInfo.setValid(StringUtil.toInt(xmlPullParser.nextText(),0)==1);
+						}
 					}
 					break;
 				case XmlPullParser.END_TAG:
