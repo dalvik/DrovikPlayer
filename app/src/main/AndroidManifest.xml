@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.drovik.player"
-    android:versionCode="102"
-    android:versionName="v1.0.2">
+    android:versionCode="103"
+    android:versionName="v1.0.3">
 
     <!-- normal -->
     <uses-permission android:name="android.permission.INTERNET" />
