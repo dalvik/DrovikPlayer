@@ -304,12 +304,11 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     private void requestNativeVideoAd() {
         String adUnitId = "BF0BA46C856F38EC59C81A97F7B76F72";
         String coverBg = PreferenceUtils.getSharedPreferences().getString("cover_bg", "");
-        if(TextUtils.isEmpty(coverBg)) {
-            mAdCoverImageView.setImageResource(R.drawable.ad_video_cover);
-        } else {
+        if(!TextUtils.isEmpty(coverBg)) {
             ImageTools.displayImage(mAdCoverImageView, coverBg);
+        } else {
         }
-        videoAd = new IFLYVideoAd(this, adUnitId, IFLYVideoAd.FULLSCREEN_VIDEO_AD, mVideoAdListener);
+        videoAd = new IFLYVideoAd(this, adUnitId, IFLYVideoAd.NATIVE_VIDEO_AD, mVideoAdListener);
         videoAd.setParameter(AdKeys.APP_VER, StringUtils.getVersionName(this));
         videoAd.loadAd();
         handler.sendEmptyMessageDelayed(1, 4000);
@@ -337,7 +336,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
                 PreferenceUtils.getSharedPreferences().edit().putString("cover_bg", videoADDataRef.getImgUrl()).apply();
                 ImageTools.displayImage(mAdCoverImageView, videoADDataRef.getImgUrl());
                 stringBuilder.append("img:" + videoADDataRef.getImgUrl() + "\n");
-                videoADDataRef.onExposure(mAdCoverImageView);
             }
             if (!TextUtils.isEmpty(videoADDataRef.getIconUrl())) {
                 stringBuilder.append("icon:" + videoADDataRef.getIconUrl() + "\n");
@@ -358,7 +356,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
                 stringBuilder.append("ctatext:" + videoADDataRef.getCtatext() + "\n");
             }
             LogUtil.d(TAG, "==> onAdLoaded: " + stringBuilder.toString());
-            Toast.makeText(GSYVideoPlayActivity.this, stringBuilder.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(GSYVideoPlayActivity.this, stringBuilder.toString(), Toast.LENGTH_SHORT).show();
             if(videoAd != null) {
                 hasCached = false;
                 videoAd.cacheVideo();
@@ -369,7 +367,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         @Override
         public void onVideoCached() {
             LogUtil.d(TAG, "==> onVideoCached");
-            Toast.makeText(GSYVideoPlayActivity.this, "onVideoCached", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(GSYVideoPlayActivity.this, "onVideoCached", Toast.LENGTH_SHORT).show();
             if (videoAd != null) {
                 hasCached = true;
                 playAdVideo();
@@ -379,7 +377,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         @Override
         public void onAdFailed(AdError error) {
             LogUtil.d(TAG, "==> onAdFailed: " + error.getErrorCode() + " " + error.getErrorDescription());
-            Toast.makeText(GSYVideoPlayActivity.this, "onAdFailed: " + error.getErrorCode(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(GSYVideoPlayActivity.this, "onAdFailed: " + error.getErrorCode(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -468,6 +466,8 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             adView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             adContainer.addView(adView);
             videoAd.showAd(IFLYVideoAd.LANDSCAPE);
+            videoAd.startPlay();
+            videoADDataRef.onExposure(mAdCoverImageView);
         }
     }
 
