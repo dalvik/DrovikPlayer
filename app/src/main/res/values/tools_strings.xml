@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
+    tools:ignore="MissingTranslation">
+
+    <!-- tools -->
+    <string name="tools_title">地理工具</string>
+
+</resources>

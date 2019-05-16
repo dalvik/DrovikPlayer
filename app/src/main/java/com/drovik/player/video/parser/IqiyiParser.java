@@ -1,5 +1,6 @@
 package com.drovik.player.video.parser;
 
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -11,12 +12,15 @@ import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.model.SCVideos;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -34,9 +38,13 @@ public class IqiyiParser extends BaseParser {
                     .userAgent(userAgent)
                     .timeout(TIMEOUT).get();
             Element element = document.body();
-            Elements div = element.select("div.wrapper-piclist");
+            Elements div = element.select("#block-D");
+            FileOutputStream fos = new FileOutputStream("/mnt/sdcard/temp.html");
+            fos.write(element.toString().getBytes());
+            fos.flush();
+            fos.close();
             if(div != null) {
-                content = div.toString();
+                content = "\"" + div.toString() + "\"";
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -94,15 +102,35 @@ public class IqiyiParser extends BaseParser {
     @Override
     public SCAlbums parseAlbums(String content) {
         SCAlbums albums = new SCAlbums();
-        Document divdivs = Jsoup.parse(content);
-        Elements itemLi = divdivs.getElementsByTag("li");
+        Document contentDocument = Jsoup.parse(content);
+
+
+        Html.fromHtml(content);
+        Elements contentElement = contentDocument.select("div.qy-list-wrap");
+        String firstSearchList = content.replaceAll("&quot;","");
+        int startIndex = firstSearchList.indexOf("first-search-list=");
+        int endIndex = firstSearchList.indexOf("}\"");
+        if(startIndex >=0 && endIndex>=0) {
+            String searchBodyInfo = firstSearchList.substring(startIndex + 19, endIndex+1);
+            System.out.println("===> " + searchBodyInfo);
+            try {
+                JSONObject oj = new JSONObject(searchBodyInfo);
+                System.out.println("===> " + oj.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(contentElement != null) {
+
+        }
+        Elements itemLi = contentDocument.getElementsByTag("li");
         for(Element ele:itemLi) {
-            Elements picListPicDiv = ele.select("div.site-piclist_pic");
+            Elements picListPicDiv = ele.select("div.qy-mod-link-wrap");
             Document picListPicDivDecument = Jsoup.parse(picListPicDiv.toString());
             Elements altaElements = picListPicDivDecument.getElementsByTag("a");
             Document altaDocument = Jsoup.parse(altaElements.toString());
             Elements imgElements = altaDocument.getElementsByTag("img");
-            Elements durationDivElements = altaDocument.select("div.mod-listTitle");
+            Elements durationDivElements = altaDocument.select("div.title-wrap");
             Elements duration = durationDivElements.select("span.icon-vInfo");
             String imgSrc   = imgElements.attr("src").replace("\\", "").trim();
             String link   = picListPicDivDecument.select("a").attr("href").replace("\\", "").trim();

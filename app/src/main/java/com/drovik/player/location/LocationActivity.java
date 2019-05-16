@@ -40,6 +40,7 @@ public class LocationActivity extends BaseCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.location);
+		setTitle(R.string.tools_title);
 		LocationResult = (TextView) findViewById(R.id.textView1);
 		LocationResult.setMovementMethod(ScrollingMovementMethod.getInstance());
 		locationService = new LocationService(this);
@@ -76,7 +77,27 @@ public class LocationActivity extends BaseCompatActivity {
 		}
 	}
 
-	
+	public void logMsg(SpannableStringBuilder ssb) {
+		final SpannableStringBuilder s = ssb;
+		try {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					LocationResult.post(new Runnable() {
+						@Override
+						public void run() {
+							LocationResult.setText(s);
+						}
+					});
+				}
+			}).start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
 	/***
 	 * Stop location service
 	 */
@@ -196,13 +217,14 @@ public class LocationActivity extends BaseCompatActivity {
 					sb.append("\n结果 : ");
 					sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
 				}
-				logMsg(sb.toString());
+				//logMsg(sb.toString());
+				logMsg(ssb);
 			}
 		}
 
 	};
 
 	private int getTextLength(String content){
-		return content.getBytes().length;
+		return content.length();
 	}
 }
