@@ -166,13 +166,8 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         view.findViewById(R.id.home_recorder).setOnClickListener(this);
         view.findViewById(R.id.home_tool_gps).setOnClickListener(this);
         mDynamicLayout = view.findViewById(R.id.dynamic_layout);
-        if(!mSettings.getBoolean(SettingsActivity.KEY_VALID, false)){
-            mOperate.setWeightSum(2);
-            mDynamicLayout.setVisibility(View.GONE);
-        } else {
-            mOperate.setWeightSum(3);
-            mDynamicLayout.setVisibility(View.VISIBLE);
-        }
+        mOperate.setWeightSum(2);
+        mDynamicLayout.setVisibility(View.GONE);
         mNativeSpotAdLayout = (RelativeLayout) view.findViewById(R.id.home_rl_native_spot_ad);
         mWeatherLocation = (TextView) view.findViewById(R.id.weather_location);
         mWeatherLocation.setOnClickListener(this);
@@ -417,12 +412,12 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if(SettingsActivity.KEY_VALID.equals(key)){
                 if(!mSettings.getBoolean(SettingsActivity.KEY_VALID, false)){
-                    mOperate.setWeightSum(1);
+                    mOperate.setWeightSum(2);
                     mDynamicLayout.setVisibility(View.GONE);
                 } else {
-                    mOperate.setWeightSum(2);
-                    mDynamicLayout.setVisibility(View.VISIBLE);
                 }
+                mOperate.setWeightSum(3);
+                mDynamicLayout.setVisibility(View.VISIBLE);
             }
         }
     };
