@@ -29,6 +29,7 @@ import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.pager.BasePager;
 import com.drovik.player.AppApplication;
 import com.drovik.player.R;
+import com.drovik.player.location.LocationActivity;
 import com.drovik.player.ui.HomeActivity;
 import com.drovik.player.news.NewsFrameActivity;
 import com.drovik.player.weather.BaseRecyclerAdapter;
@@ -163,12 +164,13 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         //view.findViewById(R.id.home_video).setVisibility(View.GONE);
         view.findViewById(R.id.home_news).setOnClickListener(this);
         view.findViewById(R.id.home_recorder).setOnClickListener(this);
+        view.findViewById(R.id.home_tool_gps).setOnClickListener(this);
         mDynamicLayout = view.findViewById(R.id.dynamic_layout);
         if(!mSettings.getBoolean(SettingsActivity.KEY_VALID, false)){
-            mOperate.setWeightSum(1);
+            mOperate.setWeightSum(2);
             mDynamicLayout.setVisibility(View.GONE);
         } else {
-            mOperate.setWeightSum(2);
+            mOperate.setWeightSum(3);
             mDynamicLayout.setVisibility(View.VISIBLE);
         }
         mNativeSpotAdLayout = (RelativeLayout) view.findViewById(R.id.home_rl_native_spot_ad);
@@ -232,6 +234,10 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
             case R.id.home_recorder:
                 Intent intentRecord = new Intent(mContext, SoundRecorder.class);
                 startActivity(intentRecord);
+                break;
+            case R.id.home_tool_gps:
+                Intent intentGPS = new Intent(mContext, LocationActivity.class);
+                startActivity(intentGPS);
                 break;
             /*case R.id.home_sur:
                 break;

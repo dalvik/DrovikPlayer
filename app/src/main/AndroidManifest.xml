@@ -227,6 +227,13 @@
             android:screenOrientation="portrait"/>
         <!-- end news -->
 
+        <!-- start tools -->
+        <activity android:name="com.drovik.player.location.LocationActivity"
+            android:theme="@style/AppTheme"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+        <!-- start tools -->
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.drovik.player"
