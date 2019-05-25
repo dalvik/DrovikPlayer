@@ -285,7 +285,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         });
         //设置视频控制器
         videoPlayer.setController(controller);
-        videoPlayer.enterFullScreen();
         videoPlayer.start();
     }
     protected void hideBottomUIMenu() {

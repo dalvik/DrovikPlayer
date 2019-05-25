@@ -11,6 +11,7 @@ import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.model.SCVideos;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,6 +19,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 
@@ -26,19 +29,28 @@ public class IqiyiParser extends BaseParser {
     private String TAG = "IqiyiParser";
 
     @Override
-    public String loadHtml(String url) {
+    public String loadHtml(String urlString) {
         String content = "";
-        Document document = null;
+        //Document document = null;
         try {
-            document = Jsoup.connect(url)
+            /*document = Jsoup.connect(urlString)
                     .userAgent(userAgent)
                     .timeout(TIMEOUT).get();
             Element element = document.body();
             Elements div = element.select("div.wrapper-piclist");
             if(div != null) {
                 content = div.toString();
-            }
+            }*/
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(5 * 1000);
+            InputStream inStream = conn.getInputStream();// 通过输入流获取html数据
+            byte[] data = readInputStream(inStream);//
+            content = new String(data);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return content;
@@ -76,13 +88,6 @@ public class IqiyiParser extends BaseParser {
             Elements roleEm = roleDocument.getElementsByTag("em");
             int index = 0;
             SCVideo video = new SCVideo();
-            for(Element role:roleEm) {
-                //Log.d(TAG, "==> roleEm : " + role.text());
-                if(index == 0){
-
-                }
-                index++;
-            }
             video.setVideoTitle(title);//video name
             video.setHorPic(imgSrc);
             video.setIqiyiVideoURL(link);
@@ -91,13 +96,81 @@ public class IqiyiParser extends BaseParser {
         return videos;
     }
 
+    /**
+     html struct
+     <body>
+        <<div class="qy-list-wrap">
+             <ul class="qy-mod-ul">
+                <li class="qy-mod-li  j-video-popup " .. > //data-original:{...}  data-module:""
+                    <div class="qy-list-img  vertical ">
+                        <div class="qy-mod-link-wrap">
+                            <a title="荒野女人" href="playurl"/> <img src:"//"/>
+                        </div>
+                        <div class="title-wrap ">
+                        </div>
+                    </div>
+                </li>
+             </ul>
+        </div>
+     </body>
+
+     {"issueTime":1453966210000,"docId":"2ad32de9f3fd92992b99697c2645af55",
+     "description":"沈默以舞台作为自己的毕生梦想，他深入诈骗团伙逢场作戏只是为了找寻真相。",
+     "qiyiProduced":false,"focus":"沈马组合爆笑黑色幽默","tvId":"444754700","formatPeriod":"2015-12-31","playUrl":"http://www.iqiyi.com/v_19rrlcgb4w.html","duration":"01:41:20","videoCount":1,
+     "videoInfoType":"video",
+     "cast":{"main_charactor":[{"image_url":"http://pic2.iqiyipic.com/image/20190312/2c/88/p_5037611_m_601_m6.jpg","name":"沈腾","id":213640105},{"image_url":"http://pic2.iqiyipic.com/image/20181228/f7/e5/p_2013841_m_601_m7.jpg","name":"马丽","id":208593805}]},
+     "score":8.7,
+     "latestOrder":1,"imageUrl":"http://pic5.iqiyipic.com/image/20180217/35/12/v_109991650_m_601_m7.jpg",
+     "name":"一念天堂","exclusive":false,"siteId":"iqiyi","categories":[{"name":"喜剧"}],"is1080p":true,"secondInfo":"主演:沈腾 / 马丽","contentType":1,"channelId":1}
+     */
     @Override
     public SCAlbums parseAlbums(String content) {
         SCAlbums albums = new SCAlbums();
-        Document divdivs = Jsoup.parse(content);
-        Elements itemLi = divdivs.getElementsByTag("li");
-        for(Element ele:itemLi) {
-            Elements picListPicDiv = ele.select("div.site-piclist_pic");
+        Document htmlContent = Jsoup.parse(content);
+        Element element = htmlContent.body();
+        Elements listContent = element.select("ul.qy-mod-ul");
+        if(listContent != null) {
+            Elements qyModeList = listContent.select("li.qy-mod-li");
+            if(qyModeList != null) {
+                for(Element liElement:qyModeList) {
+                    SCAlbum album = new SCAlbum(SCSite.IQIYI);
+                    Elements qyModeLink = liElement.select("div.qy-mod-link-wrap");
+                    if(qyModeLink != null) {
+                        Elements qyModeLinkA = qyModeLink.select("a");
+                        if(qyModeLinkA != null) {
+                            String imageUrl = qyModeLinkA.select("img").attr("src");
+                            if(!TextUtils.isEmpty(imageUrl)){
+                                if(imageUrl.startsWith("//")) {
+                                    album.setVerImageUrl("http:" + imageUrl);
+                                } else {
+                                    album.setVerImageUrl(imageUrl);
+                                }
+                            }
+                        }
+                    }
+                    String dataOriginal = liElement.attr("data-original");
+                    if(dataOriginal != null) {
+                        try {
+                            JSONObject dataOriginalJson = new JSONObject(dataOriginal);
+                            album.setTitle(dataOriginalJson.optString("name"));
+                            album.setHorImageUrl(dataOriginalJson.optString("imageUrl"));
+                            album.setVideosTotal(dataOriginalJson.optInt("videoCount"));
+                            album.setMainActor(dataOriginalJson.optString("secondInfo"));
+                            album.setAlbumId(dataOriginalJson.optString("docId"));
+                            album.setSubTitle(dataOriginalJson.optString("tvId"));
+                            album.setDesc(dataOriginalJson.optString("description"));
+                            albums.add(album);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+        for(Element ele:listContent) {
+            Elements qyModeLi = ele.select("li.qy-mod-li  j-video-popup");
+            Log.d(TAG, "==> qyModeLi : " + qyModeLi.toString());
+            /*Elements picListPicDiv = ele.select("div.site-piclist_pic");
             Document picListPicDivDecument = Jsoup.parse(picListPicDiv.toString());
             Elements altaElements = picListPicDivDecument.getElementsByTag("a");
             Document altaDocument = Jsoup.parse(altaElements.toString());
@@ -153,7 +226,7 @@ public class IqiyiParser extends BaseParser {
                 album.setVerImageUrl(imgSrc);
             }
             //album.setAlbumId(link);
-            albums.add(album);
+            albums.add(album);*/
         }
         return albums;
     }

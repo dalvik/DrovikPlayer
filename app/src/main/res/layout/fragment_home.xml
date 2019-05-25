@@ -412,7 +412,7 @@
                         android:layout_below="@+id/home_tools_gps_iv"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
-                        android:text="@string/home_file"
+                        android:text="@string/home_tool"
                         android:textColor="@color/white"/>
                 </RelativeLayout>
 
