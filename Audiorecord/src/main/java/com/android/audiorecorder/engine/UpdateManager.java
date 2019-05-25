@@ -233,7 +233,7 @@ public class UpdateManager {
 						msg.obj = updateInfo;
 						if(DEBUG) {
 							if(null != updateInfo) {
-								Log.d(TAG, "### " + updateInfo.toString());
+								Log.d(TAG, "### " + updateInfo.getVersionName() + " " + updateInfo.getVersionCode() + " isValid: " + updateInfo.isValid());
 							}
 						}
 					} catch (IOException e) {
@@ -374,9 +374,9 @@ public class UpdateManager {
 				}
 			}
 		}while(time<RETRY_TIME);
-		if(DEBUG) {
+		/*if(DEBUG) {
 			Log.i(TAG, "### " + responseBody);
-		}
+		}*/
 		//responseBody = responseBody.replace('', '?');
 		//if(responseBody.contains("result") && responseBody.contains("errorCode")) {
 

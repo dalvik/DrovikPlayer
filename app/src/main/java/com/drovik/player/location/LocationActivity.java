@@ -10,11 +10,13 @@ import com.crixmod.sailorcast.SailorCast;
 import com.drovik.player.R;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
@@ -40,7 +42,8 @@ public class LocationActivity extends BaseCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.location);
-		LocationResult = (TextView) findViewById(R.id.textView1);
+		setTitle(R.string.tools_gps_title);
+		LocationResult = (TextView) findViewById(R.id.gps_info);
 		LocationResult.setMovementMethod(ScrollingMovementMethod.getInstance());
 		locationService = new LocationService(this);
 		LocationClientOption option = locationService.getDefaultLocationClientOption();
@@ -76,7 +79,25 @@ public class LocationActivity extends BaseCompatActivity {
 		}
 	}
 
-	
+	public void logMsg(SpannableStringBuilder str) {
+		final SpannableStringBuilder s = str;
+		try {
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					LocationResult.post(new Runnable() {
+						@Override
+						public void run() {
+							LocationResult.setText(s);
+						}
+					});
+				}
+			}).start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	/***
 	 * Stop location service
 	 */
@@ -113,19 +134,33 @@ public class LocationActivity extends BaseCompatActivity {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
 			if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-				SpannableStringBuilder ssb = new SpannableStringBuilder();
+				SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
 				String locationName = "定位时间 : ";
-				StyleSpan styleSpan = new StyleSpan(Typeface.BOLD);//粗体
-				ssb.append(locationName);
-				ssb.setSpan(styleSpan, 0, getTextLength(locationName), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
+				String locationType = "\n定位类型 : ";
+				/*ForegroundColorSpan locationNameColorSpan = new ForegroundColorSpan(Color.parseColor("#0099EE"));
+				int index = 0;
+				int locationNameLength = getTextLength(locationName);
+				spannableStringBuilder.append(locationName);
+				spannableStringBuilder.setSpan(locationNameColorSpan, index, locationNameLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				index += locationNameLength;
+				if(!isEmpty(location.getTime())){
+					spannableStringBuilder.append(location.getTime());
+					index += getTextLength(location.getTime());
+				}
+				int locationTypeLength = getTextLength(locationType);
+				spannableStringBuilder.append(locationType);
+				ForegroundColorSpan locationTypeColorSpan = new ForegroundColorSpan(Color.parseColor("#0099EE"));
+				spannableStringBuilder.setSpan(locationTypeColorSpan, index, locationTypeLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				index += locationTypeLength;
+*/
 				StringBuffer sb = new StringBuffer(256);
 				/**
 				 * 时间也可以使用systemClock.elapsedRealtime()方法 获取的是自从开机以来，每次回调的时间；
 				 * location.getTime() 是指服务端出本次结果的时间，如果位置不发生变化，则时间不变
 				 */
+				sb.append(locationName);
 				sb.append(location.getTime());
-				sb.append("\n定位类型 : ");// 定位类型
+				sb.append(locationType);// 定位类型
 				sb.append(location.getLocType());
 				sb.append("\n类型描述 : ");// *****对应的定位类型说明*****
                 sb.append(location.getLocTypeDescription());
@@ -203,6 +238,10 @@ public class LocationActivity extends BaseCompatActivity {
 	};
 
 	private int getTextLength(String content){
-		return content.getBytes().length;
+		return content.length();
+	}
+
+	private boolean isEmpty(String content){
+		return TextUtils.isEmpty(content);
 	}
 }
