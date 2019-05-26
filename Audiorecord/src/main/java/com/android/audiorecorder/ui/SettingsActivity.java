@@ -17,7 +17,7 @@ public class SettingsActivity extends Activity {
     public static final String KEY_RECORDER_END = "key_recorder_end";
     public static final String KEY_UPLOAD_START = "key_upload_start";
     public static final String KEY_UPLOAD_END = "key_upload_end";
-    public static final String KEY_VALID = "key_valid";
+    public static final String KEY_VALID = "key_valid";//1:show 0:hide
     
     public static final String KEY_CUR_VERSION_CODE = "cur_version_code";
     public static final String KEY_CUR_VERSION_NAME = "cur_version_name";

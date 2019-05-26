@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/base_bg"
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/gps_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="2.89"
         android:scrollbars="vertical"
-        android:textColor="@color/font_title"
-        android:text=" "/>
+        android:textColor="@color/base_main_title"/>
 
 </LinearLayout>

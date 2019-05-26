@@ -113,7 +113,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         mSettings = getActivity().getSharedPreferences(SettingsActivity.class.getName(), MODE_PRIVATE);
-        //mSettings.registerOnSharedPreferenceChangeListener(mChangeListener);
+        mSettings.registerOnSharedPreferenceChangeListener(mChangeListener);
         initView(view);
         initData();
         initHome();
@@ -166,8 +166,13 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         view.findViewById(R.id.home_recorder).setOnClickListener(this);
         view.findViewById(R.id.home_tool_gps).setOnClickListener(this);
         mDynamicLayout = view.findViewById(R.id.dynamic_layout);
-        mOperate.setWeightSum(3);
-        mDynamicLayout.setVisibility(View.VISIBLE);
+        if(mSettings.getBoolean(SettingsActivity.KEY_VALID, false)){
+            mOperate.setWeightSum(3);
+            mDynamicLayout.setVisibility(View.VISIBLE);
+        } else {
+            mOperate.setWeightSum(2);
+            mDynamicLayout.setVisibility(View.GONE);
+        }
         mNativeSpotAdLayout = (RelativeLayout) view.findViewById(R.id.home_rl_native_spot_ad);
         mWeatherLocation = (TextView) view.findViewById(R.id.weather_location);
         mWeatherLocation.setOnClickListener(this);
@@ -310,7 +315,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
                 ArrayList<ICityResponse.Data.BasicData> basics = temp.getBasic();
                 JSONArray jsonArray = new JSONArray();
                 for(ICityResponse.Data.BasicData basicData:basics) {
-                    LogUtil.d(TAG, "==> cityBasic: " + basicData.toJSONString());
+                    //LogUtil.d(TAG, "==> cityBasic: " + basicData.toJSONString());
                     try {
                         JSONObject jsonItem = new JSONObject(basicData.toJSONString());
                         jsonArray.put(jsonItem);
@@ -410,12 +415,10 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
     private SharedPreferences.OnSharedPreferenceChangeListener mChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if(SettingsActivity.KEY_VALID.equals(key)){
-                if(!mSettings.getBoolean(SettingsActivity.KEY_VALID, false)){
-                    mOperate.setWeightSum(2);
-                    mDynamicLayout.setVisibility(View.GONE);
-                } else {
-                }
+            if(!mSettings.getBoolean(SettingsActivity.KEY_VALID, false)){
+                mOperate.setWeightSum(2);
+                mDynamicLayout.setVisibility(View.GONE);
+            } else {
                 mOperate.setWeightSum(3);
                 mDynamicLayout.setVisibility(View.VISIBLE);
             }

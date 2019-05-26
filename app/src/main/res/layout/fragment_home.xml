@@ -270,6 +270,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:layout_marginBottom="@dimen/common_4_dp">
 
                 <View
@@ -404,7 +405,7 @@
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/selector_home_file" />
+                        android:src="@drawable/home_tools_n" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -412,7 +413,7 @@
                         android:layout_below="@+id/home_tools_gps_iv"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
-                        android:text="@string/home_file"
+                        android:text="@string/home_tool"
                         android:textColor="@color/white"/>
                 </RelativeLayout>
 

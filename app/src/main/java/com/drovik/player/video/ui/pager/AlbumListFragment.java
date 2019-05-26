@@ -154,27 +154,29 @@ public class AlbumListFragment extends Fragment implements
     @Override
     public synchronized void onGetAlbumsSuccess(SCAlbums albums) {
 
-        if (mColumns == 3) {
-            if (albums.size() > 0) {
-                if (albums.get(0).getVerImageUrl() == null) {
-                    mColumns = 2;
+        if(albums != null) {
+            if (mColumns == 3) {
+                if (albums.size() > 0) {
+                    if (albums.get(0).getVerImageUrl() == null) {
+                        mColumns = 2;
 
-                    if(getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mGridView.setNumColumns(mColumns);
-                                mAdapter.setColumns(mColumns);
-                            }
-                        });
+                        if(getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mGridView.setNumColumns(mColumns);
+                                    mAdapter.setColumns(mColumns);
+                                }
+                            });
+                        }
                     }
                 }
             }
-        }
 
-        for(SCAlbum a : albums) {
-            if(mAdapter != null)
-                mAdapter.addAlbum(a);
+            for(SCAlbum a : albums) {
+                if(mAdapter != null)
+                    mAdapter.addAlbum(a);
+            }
         }
 
         if(getActivity() != null) {

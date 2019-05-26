@@ -7,7 +7,9 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 public abstract class BaseParser {
@@ -46,6 +48,22 @@ public abstract class BaseParser {
         //System.out.println(doc.title());
         //返回内容
         return doc.toString();
+    }
+
+    public byte[] readInputStream(InputStream inStream) throws Exception {
+        //此类实现了一个输出流，其中的数据被写入一个 byte 数组
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        // 字节数组
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        //从输入流中读取一定数量的字节，并将其存储在缓冲区数组buffer 中
+        while ((len = inStream.read(buffer)) != -1) {
+            // 将指定 byte 数组中从偏移量 off 开始的 len 个字节写入此输出流
+            outStream.write(buffer, 0, len);
+        }
+        inStream.close();
+        //toByteArray()创建一个新分配的 byte 数组。
+        return outStream.toByteArray();
     }
 
     public static String httpGetHeader(String url,String cook,String header) throws IOException{

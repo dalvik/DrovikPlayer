@@ -22,6 +22,8 @@ import org.jsoup.select.Elements;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
 
@@ -30,23 +32,19 @@ public class IqiyiParser extends BaseParser {
     private String TAG = "IqiyiParser";
 
     @Override
-    public String loadHtml(String url) {
+    public String loadHtml(String urlString) {
         String content = "";
-        Document document = null;
         try {
-            document = Jsoup.connect(url)
-                    .userAgent(userAgent)
-                    .timeout(TIMEOUT).get();
-            Element element = document.body();
-            Elements div = element.select("#block-D");
-            FileOutputStream fos = new FileOutputStream("/mnt/sdcard/temp.html");
-            fos.write(element.toString().getBytes());
-            fos.flush();
-            fos.close();
-            if(div != null) {
-                content = "\"" + div.toString() + "\"";
-            }
+            URL url = new URL(urlString);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(5 * 1000);
+            InputStream inStream = conn.getInputStream();// 通过输入流获取html数据
+            byte[] data = readInputStream(inStream);//
+            content = new String(data);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return content;
@@ -84,13 +82,6 @@ public class IqiyiParser extends BaseParser {
             Elements roleEm = roleDocument.getElementsByTag("em");
             int index = 0;
             SCVideo video = new SCVideo();
-            for(Element role:roleEm) {
-                //Log.d(TAG, "==> roleEm : " + role.text());
-                if(index == 0){
-
-                }
-                index++;
-            }
             video.setVideoTitle(title);//video name
             video.setHorPic(imgSrc);
             video.setIqiyiVideoURL(link);
@@ -99,89 +90,76 @@ public class IqiyiParser extends BaseParser {
         return videos;
     }
 
+    /**
+     html struct
+     <body>
+        <<div class="qy-list-wrap">
+             <ul class="qy-mod-ul">
+                <li class="qy-mod-li  j-video-popup " .. > //data-original:{...}  data-module:""
+                    <div class="qy-list-img  vertical ">
+                        <div class="qy-mod-link-wrap">
+                            <a title="荒野女人" href="playurl"/> <img src:"//"/>
+                        </div>
+                        <div class="title-wrap ">
+                        </div>
+                    </div>
+                </li>
+             </ul>
+        </div>
+     </body>
+
+     {"issueTime":1453966210000,"docId":"2ad32de9f3fd92992b99697c2645af55",
+     "description":"沈默以舞台作为自己的毕生梦想，他深入诈骗团伙逢场作戏只是为了找寻真相。",
+     "qiyiProduced":false,"focus":"沈马组合爆笑黑色幽默","tvId":"444754700","formatPeriod":"2015-12-31","playUrl":"http://www.iqiyi.com/v_19rrlcgb4w.html","duration":"01:41:20","videoCount":1,
+     "videoInfoType":"video",
+     "cast":{"main_charactor":[{"image_url":"http://pic2.iqiyipic.com/image/20190312/2c/88/p_5037611_m_601_m6.jpg","name":"沈腾","id":213640105},{"image_url":"http://pic2.iqiyipic.com/image/20181228/f7/e5/p_2013841_m_601_m7.jpg","name":"马丽","id":208593805}]},
+     "score":8.7,
+     "latestOrder":1,"imageUrl":"http://pic5.iqiyipic.com/image/20180217/35/12/v_109991650_m_601_m7.jpg",
+     "name":"一念天堂","exclusive":false,"siteId":"iqiyi","categories":[{"name":"喜剧"}],"is1080p":true,"secondInfo":"主演:沈腾 / 马丽","contentType":1,"channelId":1}
+     */
     @Override
     public SCAlbums parseAlbums(String content) {
         SCAlbums albums = new SCAlbums();
-        Document contentDocument = Jsoup.parse(content);
-
-
-        Html.fromHtml(content);
-        Elements contentElement = contentDocument.select("div.qy-list-wrap");
-        String firstSearchList = content.replaceAll("&quot;","");
-        int startIndex = firstSearchList.indexOf("first-search-list=");
-        int endIndex = firstSearchList.indexOf("}\"");
-        if(startIndex >=0 && endIndex>=0) {
-            String searchBodyInfo = firstSearchList.substring(startIndex + 19, endIndex+1);
-            System.out.println("===> " + searchBodyInfo);
-            try {
-                JSONObject oj = new JSONObject(searchBodyInfo);
-                System.out.println("===> " + oj.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        if(contentElement != null) {
-
-        }
-        Elements itemLi = contentDocument.getElementsByTag("li");
-        for(Element ele:itemLi) {
-            Elements picListPicDiv = ele.select("div.qy-mod-link-wrap");
-            Document picListPicDivDecument = Jsoup.parse(picListPicDiv.toString());
-            Elements altaElements = picListPicDivDecument.getElementsByTag("a");
-            Document altaDocument = Jsoup.parse(altaElements.toString());
-            Elements imgElements = altaDocument.getElementsByTag("img");
-            Elements durationDivElements = altaDocument.select("div.title-wrap");
-            Elements duration = durationDivElements.select("span.icon-vInfo");
-            String imgSrc   = imgElements.attr("src").replace("\\", "").trim();
-            String link   = picListPicDivDecument.select("a").attr("href").replace("\\", "").trim();
-            String title   = picListPicDivDecument.select("a").attr("title").replace("\\", "").trim();
-            String img   = picListPicDivDecument.select("a").attr("title").replace("\\", "").trim();
-            String src = picListPicDivDecument.getElementsByTag("img").text();
-            String vid   = picListPicDivDecument.select("a").attr("data-qidanadd-albumid").trim();
-            String tvid   = picListPicDivDecument.select("a").attr("data-qidanadd-tvid").trim();
-            //Log.d(TAG, "==> imgSrc : " + imgSrc);// +  " durationElements" + durationDivElements
-            //Log.d(TAG, "==> title : " + title + ", link: " + link + " duration: " + duration.text().trim());
-           // Log.d(TAG, "==> vid : " + vid + ", tvid: " + tvid);
-            Elements picListInfoDiv = ele.select("div.site-piclist_info");
-            Document picListInfoDocument = Jsoup.parse(picListInfoDiv.toString());
-            Elements scoreElement = picListInfoDocument.select("div.mod-listTitle_left");
-            Document scoreSpanDocument = Jsoup.parse(picListInfoDiv.toString());
-            Elements scor = scoreSpanDocument.getElementsByTag("span");
-            //Log.d(TAG, "==> scor : " + scor.text());
-
-            Elements roleInfoElement = picListInfoDocument.select("div.role_info");
-            Document roleDocument = Jsoup.parse(roleInfoElement.toString());
-            Elements roleEm = roleDocument.getElementsByTag("em");
-            StringBuilder sb = new StringBuilder();
-            int index = 0;
-            SCAlbum album = new SCAlbum(SCSite.IQIYI);
-            for(Element role:roleEm) {
-                String name = role.text();
-                sb.append(name +"\n");
-                if(index == 0){
-                    album.setDirector(name);
-                } else {
-                    sb.append(name + " ");
+        Document htmlContent = Jsoup.parse(content);
+        Element element = htmlContent.body();
+        Elements listContent = element.select("ul.qy-mod-ul");
+        if(listContent != null) {
+            Elements qyModeList = listContent.select("li.qy-mod-li");
+            if(qyModeList != null) {
+                for(Element liElement:qyModeList) {
+                    SCAlbum album = new SCAlbum(SCSite.IQIYI);
+                    Elements qyModeLink = liElement.select("div.qy-mod-link-wrap");
+                    if(qyModeLink != null) {
+                        Elements qyModeLinkA = qyModeLink.select("a");
+                        if(qyModeLinkA != null) {
+                            String imageUrl = qyModeLinkA.select("img").attr("src");
+                            if(!TextUtils.isEmpty(imageUrl)){
+                                if(imageUrl.startsWith("//")) {
+                                    album.setVerImageUrl("http:" + imageUrl);
+                                } else {
+                                    album.setVerImageUrl(imageUrl);
+                                }
+                            }
+                        }
+                    }
+                    String dataOriginal = liElement.attr("data-original");
+                    if(dataOriginal != null) {
+                        try {
+                            JSONObject dataOriginalJson = new JSONObject(dataOriginal);
+                            album.setTitle(dataOriginalJson.optString("name"));
+                            album.setHorImageUrl(dataOriginalJson.optString("imageUrl"));
+                            album.setVideosTotal(dataOriginalJson.optInt("videoCount"));
+                            album.setMainActor(dataOriginalJson.optString("secondInfo"));
+                            album.setAlbumId(dataOriginalJson.optString("docId"));
+                            album.setSubTitle(dataOriginalJson.optString("tvId"));
+                            album.setDesc(dataOriginalJson.optString("description"));
+                            albums.add(album);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
-                index++;
             }
-            //Log.d(TAG, "==> roleEm : " + sb.toString());
-            album.setTitle(title);//video name
-            album.setMainActor(sb.toString());
-            album.setAlbumId(vid);
-            album.setSubTitle(tvid);
-            if(imgSrc.startsWith("//")) {
-                album.setHorImageUrl("http:" + imgSrc);
-            } else {
-                album.setHorImageUrl(imgSrc);
-            }
-            if(imgSrc.startsWith("//")) {
-                album.setVerImageUrl("http:" + imgSrc);
-            } else {
-                album.setVerImageUrl(imgSrc);
-            }
-            //album.setAlbumId(link);
-            albums.add(album);
         }
         return albums;
     }

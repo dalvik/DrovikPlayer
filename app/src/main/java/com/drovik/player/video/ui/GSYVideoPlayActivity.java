@@ -97,7 +97,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             return;
         }
         mHasPlayComplete = false;
-        hideBottomUIMenu();
         requestNativeVideoAd();
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mRecorderWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DrovikVideoPlay_"+ powerManager.toString());
@@ -210,6 +209,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         if (videoAd != null) {
             videoAd.onPause();
         }
+        hideBottomUIMenu();
     }
 
     @Override
@@ -285,7 +285,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         });
         //设置视频控制器
         videoPlayer.setController(controller);
-        videoPlayer.enterFullScreen();
         videoPlayer.start();
     }
     protected void hideBottomUIMenu() {
