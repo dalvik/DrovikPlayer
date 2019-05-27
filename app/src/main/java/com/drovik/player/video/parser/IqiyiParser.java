@@ -1,5 +1,6 @@
 package com.drovik.player.video.parser;
 
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -13,11 +14,13 @@ import com.crixmod.sailorcast.model.SCVideos;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -31,16 +34,7 @@ public class IqiyiParser extends BaseParser {
     @Override
     public String loadHtml(String urlString) {
         String content = "";
-        //Document document = null;
         try {
-            /*document = Jsoup.connect(urlString)
-                    .userAgent(userAgent)
-                    .timeout(TIMEOUT).get();
-            Element element = document.body();
-            Elements div = element.select("div.wrapper-piclist");
-            if(div != null) {
-                content = div.toString();
-            }*/
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -166,67 +160,6 @@ public class IqiyiParser extends BaseParser {
                     }
                 }
             }
-        }
-        for(Element ele:listContent) {
-            Elements qyModeLi = ele.select("li.qy-mod-li  j-video-popup");
-            Log.d(TAG, "==> qyModeLi : " + qyModeLi.toString());
-            /*Elements picListPicDiv = ele.select("div.site-piclist_pic");
-            Document picListPicDivDecument = Jsoup.parse(picListPicDiv.toString());
-            Elements altaElements = picListPicDivDecument.getElementsByTag("a");
-            Document altaDocument = Jsoup.parse(altaElements.toString());
-            Elements imgElements = altaDocument.getElementsByTag("img");
-            Elements durationDivElements = altaDocument.select("div.mod-listTitle");
-            Elements duration = durationDivElements.select("span.icon-vInfo");
-            String imgSrc   = imgElements.attr("src").replace("\\", "").trim();
-            String link   = picListPicDivDecument.select("a").attr("href").replace("\\", "").trim();
-            String title   = picListPicDivDecument.select("a").attr("title").replace("\\", "").trim();
-            String img   = picListPicDivDecument.select("a").attr("title").replace("\\", "").trim();
-            String src = picListPicDivDecument.getElementsByTag("img").text();
-            String vid   = picListPicDivDecument.select("a").attr("data-qidanadd-albumid").trim();
-            String tvid   = picListPicDivDecument.select("a").attr("data-qidanadd-tvid").trim();
-            //Log.d(TAG, "==> imgSrc : " + imgSrc);// +  " durationElements" + durationDivElements
-            //Log.d(TAG, "==> title : " + title + ", link: " + link + " duration: " + duration.text().trim());
-           // Log.d(TAG, "==> vid : " + vid + ", tvid: " + tvid);
-            Elements picListInfoDiv = ele.select("div.site-piclist_info");
-            Document picListInfoDocument = Jsoup.parse(picListInfoDiv.toString());
-            Elements scoreElement = picListInfoDocument.select("div.mod-listTitle_left");
-            Document scoreSpanDocument = Jsoup.parse(picListInfoDiv.toString());
-            Elements scor = scoreSpanDocument.getElementsByTag("span");
-            //Log.d(TAG, "==> scor : " + scor.text());
-
-            Elements roleInfoElement = picListInfoDocument.select("div.role_info");
-            Document roleDocument = Jsoup.parse(roleInfoElement.toString());
-            Elements roleEm = roleDocument.getElementsByTag("em");
-            StringBuilder sb = new StringBuilder();
-            int index = 0;
-            SCAlbum album = new SCAlbum(SCSite.IQIYI);
-            for(Element role:roleEm) {
-                String name = role.text();
-                sb.append(name +"\n");
-                if(index == 0){
-                    album.setDirector(name);
-                } else {
-                    sb.append(name + " ");
-                }
-                index++;
-            }
-            //Log.d(TAG, "==> roleEm : " + sb.toString());
-            album.setTitle(title);//video name
-            album.setMainActor(sb.toString());
-            album.setAlbumId(vid);
-            album.setSubTitle(tvid);
-            if(imgSrc.startsWith("//")) {
-                album.setHorImageUrl("http:" + imgSrc);
-            } else {
-                album.setHorImageUrl(imgSrc);
-            }
-            if(imgSrc.startsWith("//")) {
-                album.setVerImageUrl("http:" + imgSrc);
-            } else {
-                album.setVerImageUrl(imgSrc);
-            }
-            //album.setAlbumId(link);
-            albums.add(album);*/
         }
         return albums;
     }

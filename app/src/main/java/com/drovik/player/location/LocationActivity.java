@@ -79,8 +79,8 @@ public class LocationActivity extends BaseCompatActivity {
 		}
 	}
 
-	public void logMsg(SpannableStringBuilder str) {
-		final SpannableStringBuilder s = str;
+	public void logMsg(SpannableStringBuilder ssb) {
+		final SpannableStringBuilder s = ssb;
 		try {
 			new Thread(new Runnable() {
 				@Override
@@ -134,7 +134,7 @@ public class LocationActivity extends BaseCompatActivity {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
 			if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-				SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+				//SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
 				String locationName = "定位时间 : ";
 				String locationType = "\n定位类型 : ";
 				/*ForegroundColorSpan locationNameColorSpan = new ForegroundColorSpan(Color.parseColor("#0099EE"));

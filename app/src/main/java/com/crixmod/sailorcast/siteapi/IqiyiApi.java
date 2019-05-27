@@ -546,7 +546,7 @@ public class IqiyiApi extends BaseSiteApi {
                 if(!TextUtils.isEmpty(content)) {
                     albums = mBaseParser.parseAlbums(content);
                 }
-                if(listener != null) {
+                if(listener != null && albums != null) {
                     listener.onGetAlbumsSuccess(albums);
                 }
             }

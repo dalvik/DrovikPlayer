@@ -173,7 +173,6 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
             mOperate.setWeightSum(2);
             mDynamicLayout.setVisibility(View.GONE);
         }
-
         mNativeSpotAdLayout = (RelativeLayout) view.findViewById(R.id.home_rl_native_spot_ad);
         mWeatherLocation = (TextView) view.findViewById(R.id.weather_location);
         mWeatherLocation.setOnClickListener(this);
