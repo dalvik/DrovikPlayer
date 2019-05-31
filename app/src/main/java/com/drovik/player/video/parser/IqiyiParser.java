@@ -149,9 +149,12 @@ public class IqiyiParser extends BaseParser {
                             album.setTitle(dataOriginalJson.optString("name"));
                             album.setHorImageUrl(dataOriginalJson.optString("imageUrl"));
                             album.setVideosTotal(dataOriginalJson.optInt("videoCount"));
-                            album.setMainActor(dataOriginalJson.optString("secondInfo"));
+                            album.setMainActor(dataOriginalJson.optString("secondInfo"));//主演
+                            album.setDirector(dataOriginalJson.optString("main_charactor"));//演员表
                             album.setAlbumId(dataOriginalJson.optString("docId"));
-                            album.setSubTitle(dataOriginalJson.optString("tvId"));
+                            album.setTVid(dataOriginalJson.optString("tvId"));
+                            album.setScore(dataOriginalJson.optString("score"));
+                            //album.setSubTitle(dataOriginalJson.optString("tvId"));
                             album.setDesc(dataOriginalJson.optString("description"));
                             albums.add(album);
                         } catch (JSONException e) {

@@ -22,6 +22,8 @@ public class SCAlbum implements Parcelable {
     private String mTip = null;
     private Boolean mIsCompleted = false;  /* 是否完结 */
     private String mLetvStyle = null;  /* Letv需要的字段, 其它站点不需要， 界面不显示 */
+    private String mTVid;
+    private String mScore;
 
     public SCAlbum(int siteID) {
         this.mSite = new SCSite(siteID);
@@ -132,6 +134,22 @@ public class SCAlbum implements Parcelable {
         this.mLetvStyle = mLetvStyle;
     }
 
+    public String getTVid() {
+        return mTVid;
+    }
+
+    public void setTVid(String mTVid) {
+        this.mTVid = mTVid;
+    }
+
+    public String getScore() {
+        return mScore;
+    }
+
+    public void setScore(String score) {
+        this.mScore = score;
+    }
+
     @Override
     public String toString() {
         return "SCAlbum{" +
@@ -171,7 +189,8 @@ public class SCAlbum implements Parcelable {
         parcel.writeString(mTip);
         parcel.writeByte((byte) (mIsCompleted ? 1 : 0)); //myBoolean = in.readByte() != 0;
         parcel.writeString(mLetvStyle);
-
+        parcel.writeString(mTVid);
+        parcel.writeString(mScore);
     }
 
     private SCAlbum (Parcel in) {
@@ -188,6 +207,8 @@ public class SCAlbum implements Parcelable {
         this.mTip = in.readString();
         this.mIsCompleted = in.readByte() != 0;
         this.mLetvStyle = in.readString();
+        this.mTVid = in.readString();
+        this.mScore = in.readString();
     }
 
     public static final Creator<SCAlbum> CREATOR = new Creator<SCAlbum>() {

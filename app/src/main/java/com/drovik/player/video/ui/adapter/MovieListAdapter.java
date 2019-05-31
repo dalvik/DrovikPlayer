@@ -26,6 +26,7 @@ import com.drovik.player.video.ui.MovieDetailActivity;
 import com.drovik.player.video.ui.VideoPlayActivity;
 
 public class MovieListAdapter extends BaseAdapter {
+    public static final String SC_ALBUM = "album";
     private Context mContext;
     private int mColumns = 3;
     private SCChannel mChannel;
@@ -144,12 +145,14 @@ public class MovieListAdapter extends BaseAdapter {
                 } else {
                     MovieDetailActivity.launch((Activity) mContext, album);
                 }*/
-                SCVideo video = new SCVideo();
+                /*SCVideo video = new SCVideo();
                 video.setVideoTitle(album.getTitle());
                 Intent mpdIntent = new Intent(mContext, GSYVideoPlayActivity.class)
                         .putExtra(VideoPlayActivity.SCVIDEO, video)
-                        .putExtra(VideoPlayActivity.SCSTREAM, album.getSubTitle())//tvid
+                        .putExtra(VideoPlayActivity.SCSTREAM, album.getTVid())//tvid
                         .putExtra(VideoPlayActivity.SCMEDIA, album.getAlbumId());//vid
+                mContext.startActivity(mpdIntent);*/
+                Intent mpdIntent = new Intent(mContext, MovieDetailActivity.class).putExtra(SC_ALBUM, album);
                 mContext.startActivity(mpdIntent);
             }
         });

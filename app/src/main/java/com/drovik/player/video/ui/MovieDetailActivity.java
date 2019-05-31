@@ -34,13 +34,16 @@ import com.crixmod.sailorcast.view.BaiduPlayerActivity;
 import com.crixmod.sailorcast.view.RendererDialog;
 import com.crixmod.sailorcast.view.fragments.AlbumPlayGridFragment;
 import com.drovik.player.R;
+import com.drovik.player.news.adpater.VideoArticleAdapter;
+import com.drovik.player.video.ui.adapter.MovieListAdapter;
 
 import java.util.Collection;
 import java.util.concurrent.Callable;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbumDescListener, AlbumPlayGridFragment.OnAlbumPlayGridListener, OnGetVideoPlayUrlListener {
+public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbumDescListener, AlbumPlayGridFragment.OnAlbumPlayGridListener, OnGetVideoPlayUrlListener, View.OnClickListener {
+
 
     private SCAlbum mAlbum;
     private SCVideo mCurrentVideo;
@@ -62,19 +65,24 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
     private boolean mIsFav;
     private AlbumPlayGridFragment mFragment;
 
+    /****  resource  ***/
+    private ImageView mAlbumImageView;//缩略图
+    private TextView mTitle;//名称
+    private TextView mDescribe;//描述
+    private TextView mScore;//评分
+    private TextView mDoctor;//演员表 [{"image_url":"http://pic2.iqiyipic.com/image/20190312/2c/88/p_5037611_m_601_m6.jpg","name":"沈腾","id":213640105},...]
+    private TextView mSecondInfo;//主演
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-        mAlbum = getIntent().getParcelableExtra("album");
-        mInitialVideoNoInAlbum = getIntent().getIntExtra("videoNo", 0);
-        mIsShowTitle = getIntent().getBooleanExtra("showTitle",false);
+        mAlbum = getIntent().getParcelableExtra(MovieListAdapter.SC_ALBUM);
         findViews();
         setTitle(mAlbum.getTitle());
         mBookmarkDb = new BookmarkDbHelper(this);
         mHistoryDb = new HistoryDbHelper(this);
-        mIsFav =  mBookmarkDb.getAlbumById(mAlbum.getAlbumId(),mAlbum.getSite().getSiteID()) != null;
-        SiteApi.doGetAlbumDesc(mAlbum, this);
     }
 
     @Override
@@ -82,7 +90,23 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
         super.onDestroy();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.album_play_back:
+                onPlayButtonClick();
+                break;
+        }
+    }
+
     private void findViews() {
+        mAlbumImageView = findViewById(R.id.album_image);
+        mTitle = findViewById(R.id.album_title);
+        mSecondInfo = findViewById(R.id.album_main_actor);
+        mScore = findViewById(R.id.album_score);
+        mDescribe = findViewById(R.id.album_desc);
+
+        findViewById(R.id.album_play_back).setOnClickListener(this);
         mPlayHighButton = (Button) findViewById(R.id.btn_phone_high);
         mPlayNorButton = (Button) findViewById(R.id.btn_phone_normal);
         mPlaySuperButton = (Button) findViewById(R.id.btn_phone_super);
@@ -91,116 +115,6 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
         mDlnaSuperButton = (Button) findViewById(R.id.btn_dlna_super);
 
     }
-
-    /*@Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem fave = menu.findItem(R.id.action_fav_button);
-        MenuItem unfave = menu.findItem(R.id.action_unfav_button);
-
-        MenuItem showTitle = menu.findItem(R.id.action_display_title);
-        MenuItem showButton = menu.findItem(R.id.action_display_button);
-
-
-        MenuItem backward = menu.findItem(R.id.action_order_backward);
-        MenuItem forward = menu.findItem(R.id.action_order_forward);
-
-        fave.setVisible(mIsFav);
-        unfave.setVisible(!mIsFav);
-
-        if(mAlbum.getVideosTotal() <= 1) {
-            showTitle.setVisible(false);
-            showButton.setVisible(false);
-            backward.setVisible(false);
-            forward.setVisible(false);
-        } else {
-            showTitle.setVisible(mIsShowTitle);
-            showButton.setVisible(!mIsShowTitle);
-
-            forward.setVisible(!mIsBackward);
-            backward.setVisible(mIsBackward);
-        }
-        return true;
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_album_detail, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        if (id == R.id.action_order_backward) {
-            if ( mIsBackward == true) {
-                mIsBackward = false;
-                mFragment.setBackward(mIsBackward);
-                invalidateOptionsMenu();
-            }
-            return true;
-        }
-
-        if (id == R.id.action_order_forward) {
-            if (mIsBackward == false) {
-                mIsBackward = true;
-                mFragment.setBackward(mIsBackward);
-                invalidateOptionsMenu();
-            }
-            return true;
-        }
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_display_button) {
-            if ( mIsShowTitle == false ) {
-                mIsShowTitle = true;
-                mFragment.setShowTitle(mIsShowTitle);
-                invalidateOptionsMenu();
-            }
-            return true;
-        }
-        if (id == R.id.action_display_title) {
-            if ( mIsShowTitle == true ) {
-                mIsShowTitle = false;
-                mFragment.setShowTitle(mIsShowTitle);
-                invalidateOptionsMenu();
-            }
-            return true;
-        }
-
-        if (id == R.id.action_unfav_button) {
-            if(mIsFav == false) {
-                mBookmarkDb.addAlbum(mAlbum);
-                mIsFav = true;
-                invalidateOptionsMenu();
-                Toast.makeText(this,getResources().getString(R.string.toast_bookmarked),Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        }
-
-
-        if (id == R.id.action_fav_button) {
-            if(mIsFav == true) {
-                mBookmarkDb.deleteAlbum(mAlbum.getAlbumId(),mAlbum.getSite().getSiteID());
-                Toast.makeText(this,getResources().getString(R.string.toast_unbookmarked),Toast.LENGTH_SHORT).show();
-                mIsFav = false;
-                invalidateOptionsMenu();
-            }
-            return true;
-        }
-
-        if(id == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
 
     public static void launch(Activity activity, SCAlbum album) {
         Intent mpdIntent = new Intent(activity, MovieDetailActivity.class)
@@ -471,44 +385,27 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
 
     /**
      * 该函数触发播放动作
-     * @param button
      */
-    public void onPlayButtonClick(View button) {
-        final String url = "aaa";//(String) button.getTag(R.id.key_video_url);
-        final SCVideo v = (SCVideo) button.getTag(R.id.key_video);
+    public void onPlayButtonClick() {
         boolean isWifi = SailorCast.isNetworkWifi();
-        final Activity from = this;
-        if(url != null) {
-            //BaiduPlayerActivity.launch(this,url);
-            //VitamioPlayerActivity.launch(this,v,url);
-            if(isWifi) {
-                mHistoryDb.addHistory(mAlbum, mCurrentVideo, 0);
-                launchDrovikPlayer(v, url);
-                //BaiduPlayerActivity.launch(from, v, url);
-                //startThirdPartyVideoPlayer(url);
-
-            }
-            else {
-                final SweetAlertDialog pDialog =  new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
-                pDialog.setTitleText("是否播放");
-                pDialog.setContentText("继续播放可能会耗费您的流量");
-                pDialog.setConfirmText("继续播放");
-                pDialog.setCancelable(true);
-                pDialog.setCancelText("取消");
-                pDialog.show();
-                pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.hide();
-                        mHistoryDb.addHistory(mAlbum, mCurrentVideo, 0);
-                        pDialog.hide();
-                        launchDrovikPlayer(v, url);
-                        //BaiduPlayerActivity.launch(from, v, url);
-                        //ExoPlayerActivity.launch(from, v, url);
-                        //startThirdPartyVideoPlayer(url);
-                    }
-                });
-            }
+        if(isWifi) {
+            openVideoPlayer();
+        } else {
+            final SweetAlertDialog pDialog =  new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+            pDialog.setTitleText("是否播放");
+            pDialog.setContentText("继续播放可能会耗费您的流量");
+            pDialog.setConfirmText("继续播放");
+            pDialog.setCancelable(true);
+            pDialog.setCancelText("取消");
+            pDialog.show();
+            pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.hide();
+                    pDialog.hide();
+                    openVideoPlayer();
+                }
+            });
         }
     }
 
@@ -538,11 +435,19 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
         }
     }
 
-	private void launchRenderer(SCVideo video, String url)
-	{
+	private void launchRenderer(SCVideo video, String url) {
         mHistoryDb.addHistory(mAlbum,video,0);
 		IRendererCommand rendererCommand = SailorCast.factory.createRendererCommand(SailorCast.factory.createRendererState());
 		rendererCommand.launchSCVideo(video, url);
 	}
 
+	private void openVideoPlayer(){
+        SCVideo video = new SCVideo();
+        video.setVideoTitle(mAlbum.getTitle());
+        Intent mpdIntent = new Intent(this, GSYVideoPlayActivity.class)
+                .putExtra(VideoPlayActivity.SCVIDEO, video)
+                .putExtra(VideoPlayActivity.SCSTREAM, mAlbum.getTVid())//tvid
+                .putExtra(VideoPlayActivity.SCMEDIA, mAlbum.getAlbumId());//vid
+        startActivity(mpdIntent);
+    }
 }
