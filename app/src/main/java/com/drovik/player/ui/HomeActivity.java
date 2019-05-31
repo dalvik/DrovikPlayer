@@ -69,7 +69,6 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
             "android.permission.READ_PHONE_STATE",
             "android.permission.ACCESS_FINE_LOCATION",
             "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.RECORD_AUDIO"
     };
 
     private final String TAG = "HomeActivity";

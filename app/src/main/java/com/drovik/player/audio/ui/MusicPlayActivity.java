@@ -30,17 +30,14 @@ import com.android.library.ui.activity.BaseCommonActivity;
 import com.android.library.ui.dialog.CustomDialog;
 import com.android.library.utils.NumberUtil;
 import com.baidu.mobstat.StatService;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.drovik.player.AppApplication;
 import com.drovik.player.R;
 import com.drovik.player.audio.MusicBean;
 import com.drovik.player.audio.mediaplayer.IMusicPlayView;
 import com.drovik.player.audio.mediaplayer.MusicPlayController;
 import com.drovik.player.audio.mediaplayer.Playlist;
-
-import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class MusicPlayActivity extends BaseCommonActivity implements IMusicPlayView {
     private static final String TAG = "MusicPlayActivity";
@@ -213,7 +210,7 @@ public class MusicPlayActivity extends BaseCommonActivity implements IMusicPlayV
 
             SimpleTarget target = new SimpleTarget<Bitmap>() {
                 @Override
-                public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> glideAnimation) {
                     if (Build.VERSION.SDK_INT >= 16) {
                         mainBg.setBackground(new BitmapDrawable(bitmap));
                     } else {
@@ -223,7 +220,7 @@ public class MusicPlayActivity extends BaseCommonActivity implements IMusicPlayV
                 }
             };
             if (musicBean.thumbpath == null || musicBean.thumbpath.trim().isEmpty()) {
-                Glide.with(getApplicationContext()).load(R.drawable.music_body_initialize_n).asBitmap().transform(new BlurTransformation(MusicPlayActivity.this, 20, 5)).into(target);
+               // Glide.with(getApplicationContext()).asBitmap().load(R.drawable.music_body_initialize_n).transforms(new BlurTransformation(MusicPlayActivity.this, 20, 5)).into(target);
             } else {
                 //TODO
                 //Glide.with(getApplicationContext()).load("http://" + LoginManager.getInstance().baseIp + ":" + LoginManager.getInstance().getP2PPort() + "/" + musicBean.thumbpath).asBitmap().transform(new BlurTransformation(MusicPlayActivity.this, 20, 5)).into(target);

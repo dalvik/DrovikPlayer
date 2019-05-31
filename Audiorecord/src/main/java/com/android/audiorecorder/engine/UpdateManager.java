@@ -341,9 +341,9 @@ public class UpdateManager {
 	}
 
 	private InputStream http_get(String url) throws IOException {
-		if(DEBUG) {
+		/*if(DEBUG) {
 			Log.d(TAG, "### update url = " + url);
-		}
+		}*/
 		HttpClient httpClient = null;
 		GetMethod httpGet = null;
 		String responseBody = "";

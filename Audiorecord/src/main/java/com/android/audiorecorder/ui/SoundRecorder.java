@@ -11,6 +11,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -45,8 +46,13 @@ import com.android.library.ui.activity.BaseCompatActivity;
 import com.android.library.ui.utils.ToastUtils;
 import com.android.library.utils.IntentUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SoundRecorder extends BaseCompatActivity implements View.OnClickListener {
-    
+
+    public final int PERMISSION_RESULT_CODE = 100;
+
     static final String ANY_ANY = "*/*";
     static final String AUDIO_3GPP = "audio/aac";
     static final String AUDIO_AMR = "audio/amr";
@@ -102,6 +108,14 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
        };  
     };
 
+    //android 6.0以上，需动态申请的权限
+    public static String permissionArray[] = {
+            "android.permission.READ_PHONE_STATE",
+            "android.permission.ACCESS_FINE_LOCATION",
+            "android.permission.WRITE_EXTERNAL_STORAGE",
+            "android.permission.RECORD_AUDIO"
+    };
+
     public void onCreate(Bundle paramBundle) {
         super.onCreate(paramBundle);
         if(bindService(IntentUtils.createExplicitFromImplicitIntent(this, new Intent(MultiMediaService.Action_Audio_Record)), mServiceConnection, Context.BIND_AUTO_CREATE)){
@@ -122,6 +136,7 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
             if (!"audio/*".equals(str3)) {
                 this.mRequestedType = "audio/aac";
             }
+            requestPermission();
         }else {
             Toast.makeText(this, getText(R.string.audio_bind_error), Toast.LENGTH_LONG).show();
             SoundRecorder.this.finish();
@@ -136,7 +151,7 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
     protected void onPause() {
     	super.onPause();
     }
-    
+
     private void initResourceRefs() {
         this.mRecordButton = (ImageButton) findViewById(R.id.recordButton);
         this.mPauseButton = (ImageButton) findViewById(R.id.pauseButton);
@@ -153,7 +168,22 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
         //String str = getResources().getString(2131099664);
         //this.mTimerFormat = str;
     }
-    
+
+    private void requestPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            List<String> permissionList = new ArrayList<>();
+            for (String permission : permissionArray) {
+                com.android.library.net.utils.LogUtil.d("==> And--M", permission);
+                if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                    permissionList.add(permission);
+                }
+            }
+            if (permissionList.size() > 0) {
+                requestPermissions(permissionList.toArray(new String[permissionList.size()]), PERMISSION_RESULT_CODE);
+            }
+        }
+    }
+
     private ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override

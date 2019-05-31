@@ -184,19 +184,19 @@ public class ImageUtil {
             return;
         }
         if(url!=null && url.length()>0){
-            Glide.with(context)
+            /*Glide.with(context)
                     .load(url)
                     .asBitmap()
                     .placeholder(resId)
                     .error(resId)
-                    .into(imageView);
+                    .into(imageView);*/
         }else {
-            Glide.with(context)
+            /*Glide.with(context)
                     .load(resId)
                     .asBitmap()
                     .placeholder(resId)
                     .error(resId)
-                    .into(imageView);
+                    .into(imageView);*/
         }
     }
 
@@ -211,7 +211,7 @@ public class ImageUtil {
      */
     public static void loadImgByPicassoWithRound(final Context activity, String path, final int round, int resId, final ImageView target) {
         if (path != null && path.length() > 0) {
-            Glide.with(activity)
+            /*Glide.with(activity)
                     .load(path)
                     .asBitmap()
                     .placeholder(resId)
@@ -227,7 +227,7 @@ public class ImageUtil {
                             circularBitmapDrawable.setCornerRadius(round);
                             target.setImageDrawable(circularBitmapDrawable);
                         }
-                    });
+                    });*/
         }
     }
 
