@@ -423,17 +423,17 @@
                     android:background="@color/splite_grey" />
 
                 <RelativeLayout
-                    android:id="@+id/home_tools_iv"
+                    android:id="@+id/home_tools_compass_rl"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp">
                     <!-- net video -->
                     <ImageView
-                        android:id="@+id/home_tools_other_iv"
+                        android:id="@+id/home_tools_compass_iv"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:layout_centerHorizontal="true"
@@ -442,7 +442,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/home_tools_other_iv"
+                        android:layout_below="@+id/home_tools_compass_iv"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
                         android:text="@string/home_video"

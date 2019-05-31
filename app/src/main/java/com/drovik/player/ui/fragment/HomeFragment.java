@@ -27,6 +27,7 @@ import com.android.audiorecorder.ui.activity.LoginActivity;
 import com.android.audiorecorder.utils.DateUtil;
 import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.pager.BasePager;
+import com.drovik.compass.CompassActivity;
 import com.drovik.player.AppApplication;
 import com.drovik.player.R;
 import com.drovik.player.location.LocationActivity;
@@ -165,6 +166,7 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
         view.findViewById(R.id.home_news).setOnClickListener(this);
         view.findViewById(R.id.home_recorder).setOnClickListener(this);
         view.findViewById(R.id.home_tool_gps).setOnClickListener(this);
+        view.findViewById(R.id.home_tools_compass_rl).setOnClickListener(this);
         mDynamicLayout = view.findViewById(R.id.dynamic_layout);
         if(mSettings.getBoolean(SettingsActivity.KEY_VALID, false)){
             mOperate.setWeightSum(3);
@@ -238,6 +240,10 @@ public class HomeFragment extends BasePager implements View.OnClickListener, IHo
             case R.id.home_tool_gps:
                 Intent intentGPS = new Intent(mContext, LocationActivity.class);
                 startActivity(intentGPS);
+                break;
+            case R.id.home_tools_compass_rl:
+                Intent intentCompass = new Intent(mContext, CompassActivity.class);
+                startActivity(intentCompass);
                 break;
             /*case R.id.home_sur:
                 break;
