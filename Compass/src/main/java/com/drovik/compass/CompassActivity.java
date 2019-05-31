@@ -43,6 +43,13 @@ public class CompassActivity extends BaseCompatActivity {
     LinearLayout mDirectionLayout;
     LinearLayout mAngleLayout;
 
+    //sensor data
+    private float[] r = new float[9];   //rotation matrix
+    private float[] values = new float[3];  //orientation values
+    private float[] accelerometerValues = new float[3];  //data of acclerometer sensor
+    private float[] magneticFieldValues = new float[3]; //data of magnetic field sensor
+
+
     protected Runnable mCompassViewUpdater = new Runnable() {
         @Override
         public void run() {
@@ -77,7 +84,13 @@ public class CompassActivity extends BaseCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compass_layout);
-        setTitle(R.string.tools_compass_title);
+        setActionBarVisiable(View.GONE);
+        findViewById(R.id.action_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CompassActivity.this.finish();
+            }
+        });
         initResources();
         initServices();
     }
@@ -265,8 +278,18 @@ public class CompassActivity extends BaseCompatActivity {
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            float direction = event.values[0] * -1.0f;
-            mTargetDirection = normalizeDegree(direction);
+            //float direction = event.values[0] * -1.0f;
+            //mTargetDirection = normalizeDegree(direction);
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+                accelerometerValues = event.values;
+            }
+            if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+                magneticFieldValues = event.values;
+            }
+            SensorManager.getRotationMatrix(r, null, accelerometerValues, magneticFieldValues);
+            SensorManager.getOrientation(r, values);
+            values[0] = (float) Math.toDegrees(values[0]);
+            mTargetDirection = values[0];
         }
 
         @Override

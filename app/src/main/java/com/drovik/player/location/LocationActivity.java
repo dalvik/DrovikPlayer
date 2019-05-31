@@ -42,7 +42,13 @@ public class LocationActivity extends BaseCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.location);
-		setTitle(R.string.tools_gps_title);
+		setActionBarVisiable(View.GONE);
+		findViewById(R.id.action_back).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				LocationActivity.this.finish();
+			}
+		});
 		LocationResult = (TextView) findViewById(R.id.gps_info);
 		LocationResult.setMovementMethod(ScrollingMovementMethod.getInstance());
 		locationService = new LocationService(this);

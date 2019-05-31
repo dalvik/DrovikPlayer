@@ -8,6 +8,37 @@
         android:layout_height="fill_parent"
         android:background="@mipmap/background">
 
+        <RelativeLayout
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/base_actionbar_height"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/title_temp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/common_10_dp"
+                android:gravity="center"
+                android:text="@string/tools_compass_title"
+                android:textColor="@color/base_main_title"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/action_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:paddingLeft="@dimen/common_10_dp"
+                android:src="@drawable/base_actionbar_back_selector" />
+        </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/view_compass"
             android:layout_width="fill_parent"

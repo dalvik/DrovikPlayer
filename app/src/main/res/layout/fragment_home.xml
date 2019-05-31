@@ -445,7 +445,7 @@
                         android:layout_below="@+id/home_tools_compass_iv"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
-                        android:text="@string/home_video"
+                        android:text="@string/home_compass"
                         android:textColor="@color/white"/>
                 </RelativeLayout>
 
