@@ -12,6 +12,7 @@ import android.location.Criteria;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AccelerateInterpolator;
@@ -140,7 +141,7 @@ public class CompassActivity extends BaseCompatActivity {
     private void initServices() {
         // sensor manager
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mOrientationSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        mOrientationSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);//TYPE_MAGNETIC_FIELD
         mPressureSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
 
         // location manager
@@ -278,18 +279,15 @@ public class CompassActivity extends BaseCompatActivity {
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            //float direction = event.values[0] * -1.0f;
-            //mTargetDirection = normalizeDegree(direction);
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 accelerometerValues = event.values;
             }
-            if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+            if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
                 magneticFieldValues = event.values;
+                mDirection = -event.values[0];
             }
-            SensorManager.getRotationMatrix(r, null, accelerometerValues, magneticFieldValues);
-            SensorManager.getOrientation(r, values);
-            values[0] = (float) Math.toDegrees(values[0]);
-            mTargetDirection = values[0];
+            Log.d(TAG, "==> onSensorChanged: " + mDirection);
+            //getOritation();
         }
 
         @Override
@@ -317,5 +315,20 @@ public class CompassActivity extends BaseCompatActivity {
 
     private float normalizeDegree(float degree) {
         return (degree + 720) % 360;
+    }
+
+    /**
+     * 获取手机旋转角度
+     */
+    public void getOritation() {
+        // r从这里返回
+        SensorManager.getRotationMatrix(r, null, magneticFieldValues, accelerometerValues);
+        //values从这里返回
+        SensorManager.getOrientation(r, values);
+        //提取数据
+        double degreeZ = Math.toDegrees(values[0]);
+        double degreeX = Math.toDegrees(values[1]);
+        double degreeY = Math.toDegrees(values[2]);
+        //mDirection = (float) degreeZ;
     }
 }
