@@ -45,8 +45,8 @@ public class CompassActivity extends BaseCompatActivity implements SensorEventLi
     //sensor data
     private float[] accelerometerValues = new float[3];  //data of acclerometer sensor
     private float[] magneticFieldValues = new float[3]; //data of magnetic field sensor
-    private float[] i = new float[16];
-    private float[] r = new float[16];
+    private float[] ABC = new float[16];
+    private float[] DEF = new float[16];
 
     private static final String TAG = "CompassActivity";
 
@@ -304,9 +304,9 @@ public class CompassActivity extends BaseCompatActivity implements SensorEventLi
                 break;
         }
         if (accelerometerValues != null && magneticFieldValues != null) {
-            boolean success = SensorManager.getRotationMatrix(r, i, accelerometerValues, magneticFieldValues);
+            boolean success = SensorManager.getRotationMatrix(ABC, DEF, accelerometerValues, magneticFieldValues);
             if (success) {
-                SensorManager.getOrientation(i, orientation);
+                SensorManager.getOrientation(ABC, orientation);
                 double azimuth = Math.toDegrees(orientation[0]);
                 //double pitch = Math.toDegrees(orientation[1]);
                 //double roll = Math.toDegrees(orientation[2]);
