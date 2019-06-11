@@ -24,12 +24,10 @@ import com.android.library.ui.activity.BaseCompatActivity;
 
 import java.util.Locale;
 
-public class CompassActivity extends BaseCompatActivity {
+public class CompassActivity extends BaseCompatActivity implements SensorEventListener{
 
     private final float MAX_ROATE_DEGREE = 1.0f;
     private SensorManager mSensorManager;
-    private Sensor mOrientationSensor;
-    private Sensor mPressureSensor;
     private float mDirection;
     private float mTargetDirection;
     private AccelerateInterpolator mInterpolator;
@@ -45,11 +43,12 @@ public class CompassActivity extends BaseCompatActivity {
     LinearLayout mAngleLayout;
 
     //sensor data
-    private float[] r = new float[9];   //rotation matrix
-    private float[] values = new float[3];  //orientation values
     private float[] accelerometerValues = new float[3];  //data of acclerometer sensor
     private float[] magneticFieldValues = new float[3]; //data of magnetic field sensor
+    private float[] i = new float[16];
+    private float[] r = new float[16];
 
+    private static final String TAG = "CompassActivity";
 
     protected Runnable mCompassViewUpdater = new Runnable() {
         @Override
@@ -99,12 +98,9 @@ public class CompassActivity extends BaseCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (mOrientationSensor != null) {
-            mSensorManager.registerListener(mOrientationSensorEventListener, mOrientationSensor,SensorManager.SENSOR_DELAY_GAME);
-        }
-        if (mPressureSensor != null) {
-            mSensorManager.registerListener(mPressureSensorEventListener, mPressureSensor, SensorManager.SENSOR_DELAY_GAME);
-        }
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL );
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_NORMAL );
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE), SensorManager.SENSOR_DELAY_NORMAL );
         mStopDrawing = false;
         mHandler.postDelayed(mCompassViewUpdater, 20);
     }
@@ -113,12 +109,7 @@ public class CompassActivity extends BaseCompatActivity {
     protected void onPause() {
         super.onPause();
         mStopDrawing = true;
-        if (mOrientationSensor != null) {
-            mSensorManager.unregisterListener(mOrientationSensorEventListener);
-        }
-        if (mPressureSensor != null) {
-            mSensorManager.unregisterListener(mPressureSensorEventListener);
-        }
+        mSensorManager.unregisterListener(this);
     }
 
     private void initResources() {
@@ -141,9 +132,6 @@ public class CompassActivity extends BaseCompatActivity {
     private void initServices() {
         // sensor manager
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mOrientationSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);//TYPE_MAGNETIC_FIELD
-        mPressureSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
-
         // location manager
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
@@ -275,25 +263,7 @@ public class CompassActivity extends BaseCompatActivity {
         return image;
     }
 
-    private SensorEventListener mOrientationSensorEventListener = new SensorEventListener() {
-
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                accelerometerValues = event.values;
-            }
-            if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
-                magneticFieldValues = event.values;
-                mDirection = -event.values[0];
-            }
-            Log.d(TAG, "==> onSensorChanged: " + mDirection);
-            //getOritation();
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        }
-    };
+    float orientation[] = new float[3];
 
     private SensorEventListener mPressureSensorEventListener = new SensorEventListener() {
 
@@ -308,6 +278,7 @@ public class CompassActivity extends BaseCompatActivity {
         }
     };
 
+
     private float calculateAltitude(float pressure) {
         float sp = 1013.25f; //standard pressure
         return (sp - pressure) * 100.0f / 12.7f;
@@ -317,18 +288,39 @@ public class CompassActivity extends BaseCompatActivity {
         return (degree + 720) % 360;
     }
 
-    /**
-     * 获取手机旋转角度
-     */
-    public void getOritation() {
-        // r从这里返回
-        SensorManager.getRotationMatrix(r, null, magneticFieldValues, accelerometerValues);
-        //values从这里返回
-        SensorManager.getOrientation(r, values);
-        //提取数据
-        double degreeZ = Math.toDegrees(values[0]);
-        double degreeX = Math.toDegrees(values[1]);
-        double degreeY = Math.toDegrees(values[2]);
-        //mDirection = (float) degreeZ;
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        Log.d(TAG, "==> onSensorChanged: " + event.sensor.getType());
+        if (event.accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE)
+            return;
+
+        // Gets the value of the sensor that has been changed
+        switch (event.sensor.getType()) {
+            case Sensor.TYPE_ACCELEROMETER:
+                accelerometerValues = event.values.clone();
+                break;
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                magneticFieldValues = event.values.clone();
+                break;
+        }
+        if (accelerometerValues != null && magneticFieldValues != null) {
+            boolean success = SensorManager.getRotationMatrix(r, i, accelerometerValues, magneticFieldValues);
+            if (success) {
+                SensorManager.getOrientation(i, orientation);
+                double azimuth = Math.toDegrees(orientation[0]);
+                //double pitch = Math.toDegrees(orientation[1]);
+                //double roll = Math.toDegrees(orientation[2]);
+                //float direction = orientation[0];
+                mTargetDirection = (float) -azimuth;
+                //Log.d(TAG, "==> " + mTargetDirection + " " + direction + " " + azimuth);
+            }
+        }
+        //Log.d(TAG, "==> onSensorChanged: " + mDirection);
+        //getOritation();
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }
