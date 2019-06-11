@@ -172,7 +172,7 @@ public class IqiyiPager extends BaseMoviePager {
         mTabTitle = new MovieHomeActivity.TitleInfo[1];//11
         MovieHomeActivity.TitleInfo infoMovie = new MovieHomeActivity.TitleInfo(R.string.channel_movie, 1);
         mTabTitle[0] =  infoMovie;
-        /*MovieHomeActivity.TitleInfo infoShow = new MovieHomeActivity.TitleInfo(R.string.channel_show, 2);
+        MovieHomeActivity.TitleInfo infoShow = new MovieHomeActivity.TitleInfo(R.string.channel_show, 2);
         mTabTitle[1] =  infoShow;
         MovieHomeActivity.TitleInfo infoDocumentary = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_documentary, 3);
         mTabTitle[2] =  infoDocumentary;
@@ -191,7 +191,7 @@ public class IqiyiPager extends BaseMoviePager {
         MovieHomeActivity.TitleInfo infoEducation = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_education, 12);
         mTabTitle[9] =  infoEducation;
         MovieHomeActivity.TitleInfo infoFashion = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_fashion, 13);
-        mTabTitle[10] =  infoFashion;*/
+        mTabTitle[10] =  infoFashion;
     }
     public static class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
