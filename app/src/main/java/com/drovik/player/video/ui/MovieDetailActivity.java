@@ -79,10 +79,15 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         mAlbum = getIntent().getParcelableExtra(MovieListAdapter.SC_ALBUM);
-        findViews();
-        setTitle(mAlbum.getTitle());
-        mBookmarkDb = new BookmarkDbHelper(this);
-        mHistoryDb = new HistoryDbHelper(this);
+        if(mAlbum != null) {
+            findViews();
+            init();
+            setTitle(mAlbum.getTitle());
+            mBookmarkDb = new BookmarkDbHelper(this);
+            mHistoryDb = new HistoryDbHelper(this);
+        } else {
+            MovieDetailActivity.this.finish();
+        }
     }
 
     @Override
@@ -449,5 +454,13 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
                 .putExtra(VideoPlayActivity.SCSTREAM, mAlbum.getTVid())//tvid
                 .putExtra(VideoPlayActivity.SCMEDIA, mAlbum.getAlbumId());//vid
         startActivity(mpdIntent);
+    }
+
+    private void init() {
+        ImageTools.displayImage(mAlbumImageView, mAlbum.getVerImageUrl());
+        mTitle.setText(mAlbum.getTitle());
+        mDescribe.setText(mAlbum.getDesc());
+        mSecondInfo.setText(mAlbum.getMainActor());
+        mScore.setText(mAlbum.getScore());
     }
 }

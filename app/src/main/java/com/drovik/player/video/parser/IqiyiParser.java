@@ -36,6 +36,7 @@ public class IqiyiParser extends BaseParser {
         String content = "";
         try {
             URL url = new URL(urlString);
+            Log.d(TAG, "==> " + urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setConnectTimeout(5 * 1000);
