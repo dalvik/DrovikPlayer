@@ -45,7 +45,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -58,21 +57,20 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <supports-screens android:anyDensity="true"
         android:smallScreens="true" android:normalScreens="true"
         android:largeScreens="true" android:resizeable="true" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:persistent="true"
         android:icon="@drawable/ic_laucher_h"
         android:label="@string/app_name"
         android:name="com.crixmod.sailorcast.SailorCast"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon">
+        tools:replace="android:icon,android:allowBackup">
         <!--com.drovik.player.ui.HomeActivity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"-->
         <activity android:name="com.drovik.player.ui.LaunchActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
@@ -132,8 +130,6 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
 
-        <service android:name="com.drovik.player.audio.mediaplayer.PlayerService" />
-
         <activity
             android:name="com.drovik.player.video.ui.VideoMainActivity"
             android:theme="@style/AppTheme"
@@ -191,7 +187,6 @@
         </activity>
 
         <!--  movie  -->
-
         <activity android:name="com.drovik.player.video.ui.MovieHomeActivity"
             android:theme="@style/AppTheme"
             android:configChanges="keyboardHidden|orientation"
@@ -268,7 +263,7 @@
         <service
             android:name="com.android.audiorecorder.provider.FileProviderService"
             android:enabled="true"
-            android:exported="true"
+            android:exported="false"
             android:process=":remote">
         </service>
 

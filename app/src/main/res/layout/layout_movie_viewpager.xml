@@ -74,6 +74,7 @@
             android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/base_actionbar_height"
+            android:visibility="gone"
             android:background="@color/transparent">
 
             <TextView

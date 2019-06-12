@@ -66,8 +66,8 @@ public class IqiyiPager extends BaseMoviePager {
     @Override
     public void onResume() {
     	super.onResume();
-    	RadioButton br = (RadioButton)mRadioContent.getChildAt(0);
-    	br.setChecked(true);
+    	//RadioButton br = (RadioButton)mRadioContent.getChildAt(0);
+    	//br.setChecked(true);
     }
 
     private void findViewById(View view) {
@@ -78,7 +78,6 @@ public class IqiyiPager extends BaseMoviePager {
         mScrollTabLeft = (ImageView) view.findViewById(R.id.lib_id_viewpager_scroll_tab_left);
         mScrollTabRight = (ImageView) view.findViewById(R.id.lib_id_viewpager_scroll_tab_right);
         mScrollTabViewContent = (ViewPager) view.findViewById(R.id.lib_id_viewpager_scroll_tab_content);
-        mHsv.setVisibility(View.GONE);
     }
 
     private void setListener() {
@@ -193,6 +192,7 @@ public class IqiyiPager extends BaseMoviePager {
         MovieHomeActivity.TitleInfo infoFashion = new MovieHomeActivity.TitleInfo(R.string.channel_iqiyi_fashion, 13);
         mTabTitle[10] =  infoFashion;
     }
+
     public static class TabFragmentPagerAdapter extends FragmentPagerAdapter {
 
         private Context mContext;
