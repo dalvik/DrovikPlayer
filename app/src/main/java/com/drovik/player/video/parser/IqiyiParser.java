@@ -1,6 +1,5 @@
 package com.drovik.player.video.parser;
 
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -14,40 +13,35 @@ import com.crixmod.sailorcast.model.SCVideos;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.security.MessageDigest;
 
 public class IqiyiParser extends BaseParser {
 
     private String TAG = "IqiyiParser";
 
+    private static String mUserAgent;
+
+    public IqiyiParser() {
+        int uaIndex = Integer.parseInt(Math.round(Math.random() * (UserAgent.length - 1))+"");
+        if(mUserAgent == null) {
+            mUserAgent = UserAgent[uaIndex];
+        }
+        Log.d(TAG, "==> rdua: " + uaIndex + " " + mUserAgent);
+    }
+
+    @Override
+    public String getUserAgent() {
+        return mUserAgent;
+    }
+
     @Override
     public String loadHtml(String urlString) {
-        String content = "";
-        try {
-            URL url = new URL(urlString);
-            Log.d(TAG, "==> " + urlString);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setConnectTimeout(5 * 1000);
-            InputStream inStream = conn.getInputStream();// 通过输入流获取html数据
-            byte[] data = readInputStream(inStream);//
-            content = new String(data);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String content = getHtmlContent(urlString);
         return content;
     }
 
@@ -166,6 +160,21 @@ public class IqiyiParser extends BaseParser {
             }
         }
         return albums;
+    }
+
+
+    public EpisodeList parseEpisodeList(String urlString){
+        EpisodeList episodeList = new EpisodeList();
+        String content = getHtmlContent(urlString);
+        Document htmlContent = Jsoup.parse(content);
+        Element element = htmlContent.body();
+        Elements listContent = element.select("ul.qy-mod-ul");
+        if(listContent != null) {
+
+        }
+
+
+        return episodeList;
     }
 
     @Override

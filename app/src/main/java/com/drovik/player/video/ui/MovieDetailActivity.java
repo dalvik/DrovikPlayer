@@ -35,6 +35,7 @@ import com.crixmod.sailorcast.view.RendererDialog;
 import com.crixmod.sailorcast.view.fragments.AlbumPlayGridFragment;
 import com.drovik.player.R;
 import com.drovik.player.news.adpater.VideoArticleAdapter;
+import com.drovik.player.video.parser.IqiyiParser;
 import com.drovik.player.video.ui.adapter.MovieListAdapter;
 
 import java.util.Collection;
@@ -72,6 +73,7 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
     private TextView mScore;//评分
     private TextView mDoctor;//演员表 [{"image_url":"http://pic2.iqiyipic.com/image/20190312/2c/88/p_5037611_m_601_m6.jpg","name":"沈腾","id":213640105},...]
     private TextView mSecondInfo;//主演
+    private IqiyiParser mIqiyiParser;
 
 
     @Override
@@ -79,12 +81,14 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         mAlbum = getIntent().getParcelableExtra(MovieListAdapter.SC_ALBUM);
+        mIqiyiParser = new IqiyiParser();
         if(mAlbum != null) {
             findViews();
             init();
             setTitle(mAlbum.getTitle());
             mBookmarkDb = new BookmarkDbHelper(this);
             mHistoryDb = new HistoryDbHelper(this);
+            mIqiyiParser.parseEpisodeList(mAlbum.getTitle());
         } else {
             MovieDetailActivity.this.finish();
         }
