@@ -127,11 +127,11 @@ public abstract class BaseParser {
             URL url = new URL(urlString);
             Log.d(TAG, "==> " + urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setDoOutput(true);
-            conn.setRequestProperty("Pragma", "no-cache");
-            conn.setRequestProperty("Cache-Control", "no-cache");
-            conn.setRequestProperty("User-Agent", getUserAgent());//模拟浏览器
-            conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            //conn.setDoOutput(true);
+            //conn.setRequestProperty("Pragma", "no-cache");
+            //conn.setRequestProperty("Cache-Control", "no-cache");
+            //conn.setRequestProperty("User-Agent", getUserAgent());//模拟浏览器
+            //conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
             conn.setRequestMethod("GET");
             conn.setConnectTimeout(30 * 1000);
             InputStream inStream = conn.getInputStream();// 通过输入流获取html数据

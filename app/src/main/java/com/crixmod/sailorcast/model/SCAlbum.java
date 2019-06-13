@@ -24,6 +24,7 @@ public class SCAlbum implements Parcelable {
     private String mLetvStyle = null;  /* Letv需要的字段, 其它站点不需要， 界面不显示 */
     private String mTVid;
     private String mScore;
+    private String mPlayUrl;//http://www.iqiyi.com/a_19rrhrra2l.html
 
     public SCAlbum(int siteID) {
         this.mSite = new SCSite(siteID);
@@ -150,6 +151,14 @@ public class SCAlbum implements Parcelable {
         this.mScore = score;
     }
 
+    public String getPlayUrl() {
+        return mPlayUrl;
+    }
+
+    public void setPlayUrl(String mPlayUrl) {
+        this.mPlayUrl = mPlayUrl;
+    }
+
     @Override
     public String toString() {
         return "SCAlbum{" +
@@ -191,6 +200,7 @@ public class SCAlbum implements Parcelable {
         parcel.writeString(mLetvStyle);
         parcel.writeString(mTVid);
         parcel.writeString(mScore);
+        parcel.writeString(mPlayUrl);
     }
 
     private SCAlbum (Parcel in) {
@@ -209,6 +219,7 @@ public class SCAlbum implements Parcelable {
         this.mLetvStyle = in.readString();
         this.mTVid = in.readString();
         this.mScore = in.readString();
+        this.mPlayUrl = in.readString();
     }
 
     public static final Creator<SCAlbum> CREATOR = new Creator<SCAlbum>() {

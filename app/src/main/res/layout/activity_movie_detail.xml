@@ -83,6 +83,7 @@
         </LinearLayout>
 
         <FrameLayout
+            android:id="@+id/desc_layout"
             android:layout_width="match_parent"
             android:layout_weight="2"
             android:layout_height="0dp">
@@ -107,7 +108,8 @@
                 android:id="@+id/album_desc_container"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
-                <RelativeLayout android:orientation="vertical"
+                <RelativeLayout
+                    android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:padding="2dp">
@@ -127,11 +129,11 @@
                     </ScrollView>
 
                 </RelativeLayout>
+
                 <Button
                     android:layout_alignParentRight="true"
                     android:text="X"
                     android:textColor="#FFF"
-                    android:background="@mipmap/bg_blue"
                     android:gravity="center_vertical|center_horizontal"
                     android:layout_margin="5dp"
                     android:layout_height="25dp"
@@ -145,8 +147,11 @@
             </RelativeLayout>
 
         </FrameLayout>
+        <GridView
+            android:id="@+id/frame_list_view_episode"
+            android:layout_below="@+id/desc_layout"
+            style="@style/widget_gridview"/>
         <Button
-            android:layout_centerInParent="true"
             android:text="xxxx"
             android:textColor="#FFF"
             android:gravity="center_vertical|center_horizontal"
@@ -157,7 +162,7 @@
             android:textStyle="bold"
             android:onClick="closeAlbumDesc"
             android:id="@+id/album_play_back"
-            android:visibility="visible"
+            android:visibility="gone"
             />
         <LinearLayout
             android:layout_width="match_parent"

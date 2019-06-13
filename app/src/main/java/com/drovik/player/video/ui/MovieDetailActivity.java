@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,6 +24,7 @@ import com.crixmod.sailorcast.SailorCast;
 import com.crixmod.sailorcast.database.BookmarkDbHelper;
 import com.crixmod.sailorcast.database.HistoryDbHelper;
 import com.crixmod.sailorcast.model.SCAlbum;
+import com.crixmod.sailorcast.model.SCAlbums;
 import com.crixmod.sailorcast.model.SCFailLog;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.model.upnp.CallableRendererFilter;
@@ -35,6 +40,8 @@ import com.crixmod.sailorcast.view.RendererDialog;
 import com.crixmod.sailorcast.view.fragments.AlbumPlayGridFragment;
 import com.drovik.player.R;
 import com.drovik.player.news.adpater.VideoArticleAdapter;
+import com.drovik.player.video.adapter.EpisodeListAdapter;
+import com.drovik.player.video.parser.EpisodeList;
 import com.drovik.player.video.parser.IqiyiParser;
 import com.drovik.player.video.ui.adapter.MovieListAdapter;
 
@@ -75,6 +82,11 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
     private TextView mSecondInfo;//主演
     private IqiyiParser mIqiyiParser;
 
+    private GridView mEpisodeGridView;
+    private EpisodeListAdapter mEpisodeListAdapter;
+
+    private EpisodeList mEpisodeList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +100,28 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
             setTitle(mAlbum.getTitle());
             mBookmarkDb = new BookmarkDbHelper(this);
             mHistoryDb = new HistoryDbHelper(this);
-            mIqiyiParser.parseEpisodeList(mAlbum.getTitle());
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    EpisodeList episodeList = mIqiyiParser.parseEpisodeList(mAlbum.getPlayUrl());
+                    episodeList.debugLog();
+                    Message msg = mHandler.obtainMessage(0, episodeList);
+                    mHandler.sendMessage(msg);
+                }
+            }).start();
         } else {
             MovieDetailActivity.this.finish();
         }
     }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            EpisodeList episodeList = (EpisodeList)msg.obj;
+            mEpisodeListAdapter.setData(episodeList);
+        }
+    };
 
     @Override
     protected void onDestroy() {
@@ -115,6 +144,10 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
         mScore = findViewById(R.id.album_score);
         mDescribe = findViewById(R.id.album_desc);
 
+        mEpisodeGridView = findViewById(R.id.frame_list_view_episode);
+        mEpisodeList = new EpisodeList();
+        mEpisodeListAdapter = new EpisodeListAdapter(this, mEpisodeList, R.layout.item_video_episode_list);
+        mEpisodeGridView.setAdapter(mEpisodeListAdapter);
         findViewById(R.id.album_play_back).setOnClickListener(this);
         mPlayHighButton = (Button) findViewById(R.id.btn_phone_high);
         mPlayNorButton = (Button) findViewById(R.id.btn_phone_normal);
@@ -161,7 +194,6 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
         TextView albumActor = (TextView) findViewById(R.id.album_main_actor);
         TextView albumDesc = (TextView) findViewById(R.id.album_desc);
         LinearLayout albumTopInfo = (LinearLayout) findViewById(R.id.album_topinfo_container);
-
 
         albumTitle.setText(album.getTitle());
         if(album.getDirector() != null && !album.getDirector().isEmpty()) {

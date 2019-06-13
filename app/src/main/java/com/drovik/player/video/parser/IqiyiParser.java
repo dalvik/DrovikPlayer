@@ -9,6 +9,7 @@ import com.crixmod.sailorcast.model.SCAlbums;
 import com.crixmod.sailorcast.model.SCSite;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.model.SCVideos;
+import com.drovik.player.video.ui.SaveFile;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,7 @@ public class IqiyiParser extends BaseParser {
 
     @Override
     public String getUserAgent() {
+        mUserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; InfoPath.3; rv:11.0) like Gecko";
         return mUserAgent;
     }
 
@@ -118,6 +120,7 @@ public class IqiyiParser extends BaseParser {
         Document htmlContent = Jsoup.parse(content);
         Element element = htmlContent.body();
         Elements listContent = element.select("ul.qy-mod-ul");
+        SaveFile.getInstance().writeString(element.toString());
         if(listContent != null) {
             Elements qyModeList = listContent.select("li.qy-mod-li");
             if(qyModeList != null) {
@@ -138,7 +141,7 @@ public class IqiyiParser extends BaseParser {
                         }
                     }
                     String dataOriginal = liElement.attr("data-original");
-                    if(dataOriginal != null) {
+                    if(dataOriginal != null && dataOriginal.length()>0) {
                         try {
                             JSONObject dataOriginalJson = new JSONObject(dataOriginal);
                             album.setTitle(dataOriginalJson.optString("name"));
@@ -151,6 +154,7 @@ public class IqiyiParser extends BaseParser {
                             album.setScore(dataOriginalJson.optString("score"));
                             //album.setSubTitle(dataOriginalJson.optString("tvId"));
                             album.setDesc(dataOriginalJson.optString("description"));
+                            album.setPlayUrl(dataOriginalJson.optString("playUrl"));
                             albums.add(album);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -163,17 +167,49 @@ public class IqiyiParser extends BaseParser {
     }
 
 
+    /**
+     <li>
+        <div> <a href="">第一集</a></div>
+        <p></p>
+     </li>
+
+     */
     public EpisodeList parseEpisodeList(String urlString){
         EpisodeList episodeList = new EpisodeList();
         String content = getHtmlContent(urlString);
         Document htmlContent = Jsoup.parse(content);
         Element element = htmlContent.body();
-        Elements listContent = element.select("ul.qy-mod-ul");
+        Elements listContent = element.select("#album-avlist-data");
+        SaveFile.getInstance().writeString(content);
+        //Log.d(TAG, "==> " + content);
         if(listContent != null) {
-
+            String value = listContent.attr("value");
+            if(value != null && value.length()>0) {
+                try {
+                    JSONObject episodeJson = new JSONObject(value);
+                    JSONArray epsodeListArray = episodeJson.getJSONArray("epsodelist");
+                    if(epsodeListArray != null) {
+                        int length = epsodeListArray.length();
+                        for(int i=0; i<length; i++) {
+                            Episode episode = new Episode();
+                            JSONObject episodeJsonItem = epsodeListArray.getJSONObject(i);
+                            episode.setDescription(episodeJsonItem.optString("description"));
+                            episode.setTvId(episodeJsonItem.optString("tvId"));
+                            episode.setShortTitle(episodeJsonItem.optString("shortTitle"));
+                            episode.setSubTitle(episodeJsonItem.optString("subtitle"));
+                            episode.setDuration(episodeJsonItem.optString("duration"));
+                            episode.setVid(episodeJsonItem.optString("vid"));
+                            episode.setName(episodeJsonItem.optString("name"));
+                            episode.setOrder(episodeJsonItem.optString("order"));
+                            episode.setImageUrl(episodeJsonItem.optString("imageUrl"));
+                            episodeList.add(episode);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
-
         return episodeList;
     }
 
