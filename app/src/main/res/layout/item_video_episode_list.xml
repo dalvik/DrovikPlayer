@@ -1,60 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="1dip" >
+    android:padding="1dp"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/episode_cover"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:scaleType="fitXY" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/episode_info"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal" >
+        <ImageView
+            android:id="@+id/episode_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:scaleType="fitXY" />
 
-        <TextView
-            android:id="@+id/episode_order"
+        <LinearLayout
+            android:id="@+id/episode_info"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center|left"
-            android:gravity="left|center"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:textSize="11sp"
-            android:text="第一集"
-            android:textColor="@color/font_normal"
-            android:layout_marginLeft="5dip"/>
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="@color/half_transparent"
+            android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/episode_duration"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:layout_weight="1"
-            android:layout_marginRight="5dip"
-            android:textSize="10sp"
-            android:text="42:23"
-            android:textColor="@color/font_normal"
-            android:gravity="right|center" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/episode_order"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:gravity="left|center"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:textSize="11sp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="5dip"/>
+
+            <TextView
+                android:id="@+id/episode_duration"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|right"
+                android:layout_weight="1"
+                android:layout_marginRight="5dip"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:gravity="right|center" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/episode_subtitle"
-        android:layout_below="@+id/episode_info"
+        android:layout_below="@+id/episode_cover"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center"
-        android:gravity="left|center"
+        android:gravity="center"
         android:singleLine="true"
-        android:textSize="11sp"
+        android:layout_weight="1"
+        android:textSize="12sp"
         android:textColor="@color/font_normal"
-        android:layout_marginLeft="5dip"/>
-</RelativeLayout>
+        android:padding="2dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="5dip"/>
+</LinearLayout>

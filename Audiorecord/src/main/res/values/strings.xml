@@ -353,4 +353,5 @@
     <string name="file_input_detail_path">路径 : </string>
     <string name="file_input_detail_duration">时长 : </string>
 
+    <string name="video_episode_index">第 %1$s 集</string>
 </resources>

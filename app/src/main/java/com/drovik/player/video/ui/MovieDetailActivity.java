@@ -140,6 +140,8 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
         mEpisodeGridView = findViewById(R.id.frame_list_view_episode);
         mEpisodeList = new EpisodeList();
         mEpisodeListAdapter = new EpisodeListAdapter(this, mEpisodeList, R.layout.item_video_episode_list);
+        int width = getResources().getDisplayMetrics().widthPixels/3;
+        mEpisodeListAdapter.setItemHeight(width);
         mEpisodeGridView.setAdapter(mEpisodeListAdapter);
         findViewById(R.id.album_play_back).setOnClickListener(this);
     }

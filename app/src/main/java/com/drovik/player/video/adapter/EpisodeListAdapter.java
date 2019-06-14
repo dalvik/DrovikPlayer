@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,8 +36,7 @@ public class EpisodeListAdapter extends BaseAdapter {
 		this.listContainer = LayoutInflater.from(context);
 		listItems = data;
 		itemViewResource = resource;
-		mImageViewLayoutParams = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		mImageViewLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class EpisodeListAdapter extends BaseAdapter {
             convertView = listContainer.inflate(itemViewResource, null);
             itemView = new ListItemView();
             itemView.cover = convertView.findViewById(R.id.episode_cover);
-            //itemView.cover.setLayoutParams(mImageViewLayoutParams);
+            itemView.cover.setLayoutParams(mImageViewLayoutParams);
             itemView.order = (TextView)convertView.findViewById(R.id.episode_order);
             itemView.duration = (TextView)convertView.findViewById(R.id.episode_duration);
             itemView.subTitle = (TextView)convertView.findViewById(R.id.episode_subtitle);
@@ -70,8 +70,8 @@ public class EpisodeListAdapter extends BaseAdapter {
             itemView = (ListItemView)convertView.getTag();
         }
         final Episode episode = getItem(position);
-        itemView.order.setText(episode.getOrder());
         itemView.duration.setText(episode.getDuration());
+        itemView.order.setText(context.getString(R.string.video_episode_index, episode.getOrder()));
         itemView.subTitle.setText(episode.getSubTitle());
         ImageTools.displayImage(itemView.cover, episode.getImageUrl());
         convertView.setOnClickListener(new View.OnClickListener() {

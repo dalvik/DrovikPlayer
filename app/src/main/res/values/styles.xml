@@ -71,4 +71,17 @@
         <item name="android:layout_height">@dimen/common_24_dp</item>
     </style>
 
+    <style name="widget_video_gridview">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:columnWidth">@dimen/image_thumbnail_size</item>
+        <item name="android:numColumns">3</item>
+        <item name="android:stretchMode">columnWidth</item>
+        <item name="android:scrollbarStyle">insideOverlay</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:gravity">fill</item>
+        <item name="android:scrollingCache">false</item>
+        <item name="android:cacheColorHint">#00000000</item>
+        <item name="android:listSelector">@drawable/listview_item_selector</item>
+    </style>
 </resources>
