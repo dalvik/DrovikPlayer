@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.library.ui.activity.BaseCommonActivity;
+import com.android.library.ui.activity.BaseCompatActivity;
 import com.crixmod.sailorcast.SailorCast;
 import com.crixmod.sailorcast.database.BookmarkDbHelper;
 import com.crixmod.sailorcast.database.HistoryDbHelper;
@@ -50,20 +51,13 @@ import java.util.concurrent.Callable;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbumDescListener, AlbumPlayGridFragment.OnAlbumPlayGridListener, OnGetVideoPlayUrlListener, View.OnClickListener {
+public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbumDescListener, AlbumPlayGridFragment.OnAlbumPlayGridListener, OnGetVideoPlayUrlListener, View.OnClickListener {
 
 
     private SCAlbum mAlbum;
     private SCVideo mCurrentVideo;
     private int mVideoInAlbum; /* start from 0, item position */
 
-
-    private Button mPlaySuperButton;
-    private Button mPlayNorButton;
-    private Button mPlayHighButton;
-    private Button mDlnaSuperButton;
-    private Button mDlnaHighButton;
-    private Button mDlnaNorButton;
 
     private int mInitialVideoNoInAlbum = 0;
     private boolean mIsShowTitle = false;
@@ -86,7 +80,6 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
     private EpisodeListAdapter mEpisodeListAdapter;
 
     private EpisodeList mEpisodeList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,43 +142,7 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
         mEpisodeListAdapter = new EpisodeListAdapter(this, mEpisodeList, R.layout.item_video_episode_list);
         mEpisodeGridView.setAdapter(mEpisodeListAdapter);
         findViewById(R.id.album_play_back).setOnClickListener(this);
-        mPlayHighButton = (Button) findViewById(R.id.btn_phone_high);
-        mPlayNorButton = (Button) findViewById(R.id.btn_phone_normal);
-        mPlaySuperButton = (Button) findViewById(R.id.btn_phone_super);
-        mDlnaHighButton = (Button) findViewById(R.id.btn_dlna_high);
-        mDlnaNorButton = (Button) findViewById(R.id.btn_dlna_normal);
-        mDlnaSuperButton = (Button) findViewById(R.id.btn_dlna_super);
-
     }
-
-    public static void launch(Activity activity, SCAlbum album) {
-        Intent mpdIntent = new Intent(activity, MovieDetailActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                .putExtra("album",album);
-
-        activity.startActivity(mpdIntent);
-    }
-
-
-    public static void launch(Activity activity, SCAlbum album, int videoNo) {
-        Intent mpdIntent = new Intent(activity, MovieDetailActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                .putExtra("videoNo",videoNo)
-                .putExtra("album",album);
-
-        activity.startActivity(mpdIntent);
-    }
-
-    public static void launch(Activity activity, SCAlbum album, int videoNo, boolean mIsShowTitle) {
-        Intent mpdIntent = new Intent(activity, MovieDetailActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                .putExtra("videoNo",videoNo)
-                .putExtra("showTitle",mIsShowTitle)
-                .putExtra("album",album);
-
-        activity.startActivity(mpdIntent);
-    }
-
 
     private void fillAlbumDescView(SCAlbum album) {
         ImageView albumImage = (ImageView) findViewById(R.id.album_image);
@@ -243,31 +200,6 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
         textView.setVisibility(View.VISIBLE);
     }
 
-    private void hideAllPlayButton() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mDlnaHighButton.setVisibility(View.VISIBLE);
-                mDlnaNorButton.setVisibility(View.VISIBLE);
-                mDlnaSuperButton.setVisibility(View.VISIBLE);
-                mPlayHighButton.setVisibility(View.VISIBLE);
-                mPlayNorButton.setVisibility(View.VISIBLE);
-                mPlaySuperButton.setVisibility(View.VISIBLE);
-            }
-        });
-
-    }
-
-
-    private void hideAlbumCloseButton() {
-        Button b = (Button) findViewById(R.id.album_desc_close);
-        b.setVisibility(View.GONE);
-    }
-
-    private void showAlbumCloseButton() {
-        Button b = (Button) findViewById(R.id.album_desc_close);
-        b.setVisibility(View.VISIBLE);
-    }
 
     @Override
     public void onGetAlbumDescSuccess(final SCAlbum album) {
@@ -276,7 +208,6 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
 
             @Override
             public void run() {
-
                 fillAlbumDescView(album);
                 invalidateOptionsMenu();
                 try {
@@ -292,14 +223,11 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
                 }
 
                 if(mAlbum.getVideosTotal() == 1) {
-                    hideAlbumCloseButton();
                     openAlbumDesc();
                 }
 
                 if(mAlbum.getVideosTotal() == 0) {
-                    hideAlbumCloseButton();
                     openAlbumDesc();
-                    hideAllPlayButton();
                     openErrorMsg(getResources().getString(R.string.album_no_videos));
                 }
             }
@@ -319,7 +247,6 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
             v.setSeqInAlbum(positionInGrid + 1);
         else
             v.setSeqInAlbum(mAlbum.getVideosTotal() - positionInGrid);
-        hideAllPlayButton();
         Log.i("fire3","onAlbumPlayVideoSelected" + v.toJson());
         SiteApi.doGetVideoPlayUrl(v, this);
 
@@ -327,64 +254,18 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
 
     @Override
     public void onGetVideoPlayUrlNormal(final SCVideo v, final String urlNormal) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mDlnaNorButton.setVisibility(View.VISIBLE);
-                mPlayNorButton.setVisibility(View.VISIBLE);
-
-
-                mPlayNorButton.setTag(R.id.key_video_url, urlNormal);
-                mPlayNorButton.setTag(R.id.key_video, v);
-                mPlayNorButton.setTag(R.id.key_video_number_in_album, mVideoInAlbum);
-                mDlnaNorButton.setTag(R.id.key_video_url, urlNormal);
-                mDlnaNorButton.setTag(R.id.key_video, v);
-                mDlnaNorButton.setTag(R.id.key_video_number_in_album, mVideoInAlbum);
-            }
-        });
     }
 
     @Override
     public void onGetVideoPlayUrlHigh(final SCVideo v, final String urlHigh) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mDlnaHighButton.setVisibility(View.VISIBLE);
-                mPlayHighButton.setVisibility(View.VISIBLE);
-
-
-                mPlayHighButton.setTag(R.id.key_video_url,urlHigh);
-                mPlayHighButton.setTag(R.id.key_video,v);
-                mPlayHighButton.setTag(R.id.key_video_number_in_album,mVideoInAlbum);
-                mDlnaHighButton.setTag(R.id.key_video_url,urlHigh);
-                mDlnaHighButton.setTag(R.id.key_video,v);
-                mDlnaHighButton.setTag(R.id.key_video_number_in_album,mVideoInAlbum);
-            }
-        });
     }
 
     @Override
     public void onGetVideoPlayUrlSuper(final SCVideo v, final String urlSuper) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mDlnaSuperButton.setVisibility(View.VISIBLE);
-                mPlaySuperButton.setVisibility(View.VISIBLE);
-
-
-                mPlaySuperButton.setTag(R.id.key_video_url, urlSuper);
-                mPlaySuperButton.setTag(R.id.key_video, v);
-                mPlaySuperButton.setTag(R.id.key_video_number_in_album, mVideoInAlbum);
-                mDlnaSuperButton.setTag(R.id.key_video_url,urlSuper);
-                mDlnaSuperButton.setTag(R.id.key_video,v);
-                mDlnaSuperButton.setTag(R.id.key_video_number_in_album, mVideoInAlbum);
-            }
-        });
     }
 
     @Override
     public void onGetVideoPlayUrlFailed(SCFailLog err) {
-        hideAllPlayButton();
     }
 
 
@@ -405,14 +286,6 @@ public class MovieDetailActivity extends BaseCommonActivity implements OnGetAlbu
     @Override
     protected void onStop() {
         super.onStop();
-    }
-
-    private void startThirdPartyVideoPlayer(String url) {
-        Intent intentVideo = new Intent(Intent.ACTION_VIEW);
-        Uri uri = Uri.parse(url);
-        String type="video/*";
-        intentVideo.setDataAndType(uri, type);
-        startActivity(intentVideo);
     }
 
     private void launchDrovikPlayer(SCVideo video, String url) {
