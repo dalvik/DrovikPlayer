@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movie_play_immediately" translatable="false">立即播放</string>
+    <string name="movie_play_failed" translatable="false">该影片无法播放</string>
+
+</resources>

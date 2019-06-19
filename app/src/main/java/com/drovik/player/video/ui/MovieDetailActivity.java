@@ -45,6 +45,7 @@ import com.drovik.player.video.adapter.EpisodeListAdapter;
 import com.drovik.player.video.parser.EpisodeList;
 import com.drovik.player.video.parser.IqiyiParser;
 import com.drovik.player.video.ui.adapter.MovieListAdapter;
+import com.drovik.utils.ToastUtils;
 
 import java.util.Collection;
 import java.util.concurrent.Callable;
@@ -113,6 +114,13 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
             super.handleMessage(msg);
             EpisodeList episodeList = (EpisodeList)msg.obj;
             mEpisodeListAdapter.setData(episodeList);
+            if(episodeList != null && episodeList.size()>0) {
+                findViewById(R.id.album_play_back).setVisibility(View.GONE);
+                mEpisodeGridView.setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.album_play_back).setVisibility(View.VISIBLE);
+                mDescribe.setMaxLines(10);
+            }
         }
     };
 
@@ -358,13 +366,17 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
 	}
 
 	private void openVideoPlayer(){
-        SCVideo video = new SCVideo();
-        video.setVideoTitle(mAlbum.getTitle());
-        Intent mpdIntent = new Intent(this, GSYVideoPlayActivity.class)
-                .putExtra(VideoPlayActivity.SCVIDEO, video)
-                .putExtra(VideoPlayActivity.SCSTREAM, mAlbum.getTVid())//tvid
-                .putExtra(VideoPlayActivity.SCMEDIA, mAlbum.getAlbumId());//vid
-        startActivity(mpdIntent);
+        if(!TextUtils.isEmpty(mAlbum.getTVid()) && !TextUtils.isEmpty(mAlbum.getTVid())){
+            SCVideo video = new SCVideo();
+            video.setVideoTitle(mAlbum.getTitle());
+            Intent mpdIntent = new Intent(this, GSYVideoPlayActivity.class)
+                    .putExtra(VideoPlayActivity.SCVIDEO, video)
+                    .putExtra(VideoPlayActivity.SCSTREAM, mAlbum.getTVid())//tvid
+                    .putExtra(VideoPlayActivity.SCMEDIA, mAlbum.getAlbumId());//vid
+            startActivity(mpdIntent);
+        } else {
+            ToastUtils.showToast(this, R.string.movie_play_failed);
+        }
     }
 
     private void init() {

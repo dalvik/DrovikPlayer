@@ -83,18 +83,19 @@
     <GridView
         android:id="@+id/frame_list_view_episode"
         android:layout_below="@+id/album_desc"
-        android:visibility="visible"
+        android:visibility="gone"
         style="@style/widget_video_gridview"/>
 
     <Button
-        android:text="xxxx"
-        android:textColor="#FFF"
+        android:text="@string/movie_play_immediately"
         android:gravity="center_vertical|center_horizontal"
         android:layout_margin="35dp"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@color/blue_extra_dark"
         android:onClick="closeAlbumDesc"
         android:id="@+id/album_play_back"
         android:visibility="visible"
