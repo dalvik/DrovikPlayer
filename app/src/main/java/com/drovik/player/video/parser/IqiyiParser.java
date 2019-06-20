@@ -37,7 +37,9 @@ public class IqiyiParser extends BaseParser {
 
     @Override
     public String getUserAgent() {
+        //mUserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; InfoPath.3; rv:11.0) like Gecko";
         mUserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729; InfoPath.3; rv:11.0) like Gecko";
+        mUserAgent = UserAgent[0];
         return mUserAgent;
     }
 
@@ -49,42 +51,7 @@ public class IqiyiParser extends BaseParser {
 
     @Override
     public SCVideos parseVideos(String content) {
-        SCVideos videos = new SCVideos();
-        Document divdivs = Jsoup.parse(content);
-        Elements itemLi = divdivs.getElementsByTag("li");
-        for(Element ele:itemLi) {
-            Elements picListPicDiv = ele.select("div.site-piclist_pic");
-            Document picListPicDivDecument = Jsoup.parse(picListPicDiv.toString());
-            Elements altaElements = picListPicDivDecument.getElementsByTag("a");
-            Document altaDocument = Jsoup.parse(altaElements.toString());
-            Elements imgElements = altaDocument.getElementsByTag("img");
-            Elements durationDivElements = altaDocument.select("div.mod-listTitle");
-            Elements duration = durationDivElements.select("span.icon-vInfo");
-            String imgSrc   = imgElements.attr("src").replace("\\", "").trim();
-            String link   = picListPicDivDecument.select("a").attr("href").replace("\\", "").trim();
-            String title   = picListPicDivDecument.select("a").attr("title").replace("\\", "").trim();
-            String img   = picListPicDivDecument.select("a").attr("title").replace("\\", "").trim();
-            String src = picListPicDivDecument.getElementsByTag("img").text();
-            //Log.d(TAG, "==> imgSrc : " + imgSrc);// +  " durationElements" + durationDivElements
-            //Log.d(TAG, "==> title : " + title + ", link: " + link + " duration: " + duration.text().trim());
-            Elements picListInfoDiv = ele.select("div.site-piclist_info");
-            Document picListInfoDocument = Jsoup.parse(picListInfoDiv.toString());
-            Elements scoreElement = picListInfoDocument.select("div.mod-listTitle_left");
-            Document scoreSpanDocument = Jsoup.parse(picListInfoDiv.toString());
-            Elements scor = scoreSpanDocument.getElementsByTag("span");
-            //Log.d(TAG, "==> scor : " + scor.text());
-
-            Elements roleInfoElement = picListInfoDocument.select("div.role_info");
-            Document roleDocument = Jsoup.parse(roleInfoElement.toString());
-            Elements roleEm = roleDocument.getElementsByTag("em");
-            int index = 0;
-            SCVideo video = new SCVideo();
-            video.setVideoTitle(title);//video name
-            video.setHorPic(imgSrc);
-            video.setIqiyiVideoURL(link);
-            videos.add(video);
-        }
-        return videos;
+        return null;
     }
 
     /**
@@ -152,7 +119,6 @@ public class IqiyiParser extends BaseParser {
                             album.setAlbumId(dataOriginalJson.optString("docId"));
                             album.setTVid(dataOriginalJson.optString("tvId"));
                             album.setScore(dataOriginalJson.optString("score"));
-                            //album.setSubTitle(dataOriginalJson.optString("tvId"));
                             album.setDesc(dataOriginalJson.optString("description"));
                             album.setPlayUrl(dataOriginalJson.optString("playUrl"));
                             albums.add(album);

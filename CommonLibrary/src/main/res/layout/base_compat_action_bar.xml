@@ -29,37 +29,6 @@
             android:singleLine="true" />
     </FrameLayout>
 
-    <!--标题-->
-    <LinearLayout
-        android:id="@+id/title_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.0"
-        android:layout_gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/title"
-            style="@style/ActionBar.LargeTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/sub_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            style="@style/ActionBar.LargeTitle"
-            android:textSize="@dimen/base_subtitle_size"
-            android:textColor="@color/gray"
-            android:visibility="gone"
-            android:singleLine="true" />
-    </LinearLayout>
 
     <!-- 中间其他元素-->
     <LinearLayout
@@ -92,6 +61,42 @@
             style="@style/ActionBar.LargeTitle"
             android:singleLine="true" />
     </FrameLayout>
+    <!--标题-->
+    <LinearLayout
+        android:id="@+id/title_view"
+        android:layout_toRightOf="@+id/back"
+        android:layout_toLeftOf="@+id/left_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:layout_gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/common_5_dp"
+        android:layout_marginRight="@dimen/common_5_dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/ActionBar.LargeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="aaaaa"
+            android:layout_weight="1"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            style="@style/ActionBar.LargeTitle"
+            android:textSize="@dimen/base_subtitle_size"
+            android:textColor="@color/gray"
+            android:visibility="gone"
+            android:singleLine="true" />
+    </LinearLayout>
     <!--左边按钮-->
     <FrameLayout
         android:id="@+id/right_option"

@@ -10,6 +10,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CommonAppTheme" parent="Theme.App.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+    </style>
+
     <style name="Widget.App.ActionButton" parent="@style/Widget.AppCompat.ActionButton">
         <item name="textAllCaps">false</item>
     </style>

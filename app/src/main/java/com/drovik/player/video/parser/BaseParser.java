@@ -76,13 +76,13 @@ public abstract class BaseParser {
 
     public abstract String loadHtml(String url);
 
-    public abstract SCVideos parseVideos(String content);
-
     public abstract SCAlbums parseAlbums(String content);
 
-    public abstract String parseVideoSource(String url);
-
     public abstract EpisodeList parseEpisodeList(String url);
+
+    public abstract SCVideos parseVideos(String content);
+
+    public abstract String parseVideoSource(String url);
 
     public String parseVideoSource(String vid, String tvid) {
         return "";

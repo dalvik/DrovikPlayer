@@ -141,10 +141,7 @@ public class AlbumListFragment extends Fragment implements
 
     public void loadMoreAlbums() {
         mPageNo ++ ;
-        if(inFilterMode)
-            SiteApi.doGetChannelAlbumsByFilter(mSiteID, mChannelID, mPageNo, mPageSize, mFilter, this);
-        else
-            SiteApi.doGetChannelAlbums(mSiteID, mChannelID, mPageNo, mPageSize, this);
+        SiteApi.doGetChannelAlbums(mSiteID, mChannelID, mPageNo, mPageSize, this);
     }
 
 

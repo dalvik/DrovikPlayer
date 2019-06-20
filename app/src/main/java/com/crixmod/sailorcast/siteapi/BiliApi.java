@@ -48,8 +48,6 @@ public class BiliApi  extends BaseSiteApi {
         return "";
     }
 
-
-
     @Override
     public void doSearch(String key, OnGetAlbumsListener listener) {
 

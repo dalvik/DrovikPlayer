@@ -19,6 +19,50 @@ public class SiteApi {
     public static int SITE_ID_LETV = SCSite.LETV;
     public static int SITE_ID_IQIYI = SCSite.IQIYI;
 
+    /**
+     * 根据索引获取封面列表
+     * @param siteID
+     * @param channelID
+     * @param pageNo
+     * @param pageSize
+     * @param cat
+     * @param area
+     * @param listener
+     */
+    public static void doGetChannelAlbums(int siteID, int channelID, int pageNo, int pageSize, String cat, String area, OnGetAlbumsListener listener) {
+        if(siteID == SCSite.LETV)
+            new LetvApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,listener);
+        if(siteID == SCSite.YOUKU)
+            new YouKuApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,listener);
+        if(siteID == SCSite.SOHU)
+            new SohuApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,listener);
+        if(siteID == SCSite.IQIYI)
+            new IqiyiApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,cat, area, listener);
+    }
+
+    /**
+     * 获取电视剧列表
+     * @param siteID
+     * @param channelID
+     * @param url
+     * @param listener
+     */
+    public static void doGetEpisodes(int siteID, int channelID, String url, OnGetAlbumsListener.OnGetEpisodeListener listener){
+        if(siteID == SCSite.LETV) {
+            //new LetvApi().doGetChannelFilter(new SCChannel(channelID), listener);
+        }
+        if(siteID == SCSite.YOUKU) {
+            //new YouKuApi().doGetChannelFilter(new SCChannel(channelID), listener);
+        }
+        if(siteID == SCSite.SOHU) {
+            //new SohuApi().doGetChannelFilter(new SCChannel(channelID), listener);
+        }
+        if(siteID == SCSite.IQIYI) {
+            new IqiyiApi().doGetEposideLis(new SCChannel(channelID), url, listener);
+        }
+    }
+
+
     public static void cancel() {
         HttpUtils.cancelAll();
     }
@@ -112,18 +156,6 @@ public class SiteApi {
             new SohuApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,listener);
         if(siteID == SCSite.IQIYI)
             new IqiyiApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,listener);
-
-    }
-
-    public static void doGetChannelAlbums(int siteID, int channelID, int pageNo, int pageSize, String cat, String area, OnGetAlbumsListener listener) {
-        if(siteID == SCSite.LETV)
-            new LetvApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,listener);
-        if(siteID == SCSite.YOUKU)
-            new YouKuApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,listener);
-        if(siteID == SCSite.SOHU)
-            new SohuApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,listener);
-        if(siteID == SCSite.IQIYI)
-            new IqiyiApi().doGetChannelAlbums(new SCChannel(channelID),pageNo,pageSize,cat, area, listener);
 
     }
 

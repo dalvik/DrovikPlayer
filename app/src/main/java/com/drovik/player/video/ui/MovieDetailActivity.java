@@ -1,61 +1,39 @@
 package com.drovik.player.video.ui;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.library.ui.activity.BaseCommonActivity;
 import com.android.library.ui.activity.BaseCompatActivity;
 import com.crixmod.sailorcast.SailorCast;
-import com.crixmod.sailorcast.database.BookmarkDbHelper;
-import com.crixmod.sailorcast.database.HistoryDbHelper;
 import com.crixmod.sailorcast.model.SCAlbum;
-import com.crixmod.sailorcast.model.SCAlbums;
-import com.crixmod.sailorcast.model.SCFailLog;
+import com.crixmod.sailorcast.model.SCChannel;
 import com.crixmod.sailorcast.model.SCVideo;
-import com.crixmod.sailorcast.model.upnp.CallableRendererFilter;
-import com.crixmod.sailorcast.model.upnp.IRendererCommand;
-import com.crixmod.sailorcast.model.upnp.IUpnpDevice;
-import com.crixmod.sailorcast.siteapi.OnGetAlbumDescListener;
-import com.crixmod.sailorcast.siteapi.OnGetVideoPlayUrlListener;
+import com.crixmod.sailorcast.siteapi.OnGetAlbumsListener;
 import com.crixmod.sailorcast.siteapi.SiteApi;
-import com.crixmod.sailorcast.uiutils.BaseToolbarActivity;
 import com.crixmod.sailorcast.utils.ImageTools;
-import com.crixmod.sailorcast.view.BaiduPlayerActivity;
-import com.crixmod.sailorcast.view.RendererDialog;
 import com.crixmod.sailorcast.view.fragments.AlbumPlayGridFragment;
 import com.drovik.player.R;
-import com.drovik.player.news.adpater.VideoArticleAdapter;
+import com.drovik.player.video.Const;
 import com.drovik.player.video.adapter.EpisodeListAdapter;
 import com.drovik.player.video.parser.EpisodeList;
 import com.drovik.player.video.parser.IqiyiParser;
-import com.drovik.player.video.ui.adapter.MovieListAdapter;
 import com.drovik.utils.ToastUtils;
-
-import java.util.Collection;
-import java.util.concurrent.Callable;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbumDescListener, AlbumPlayGridFragment.OnAlbumPlayGridListener, OnGetVideoPlayUrlListener, View.OnClickListener {
-
+public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbumsListener.OnGetEpisodeListener, View.OnClickListener {
 
     private SCAlbum mAlbum;
+    private int mChannelId;
     private SCVideo mCurrentVideo;
     private int mVideoInAlbum; /* start from 0, item position */
 
@@ -63,8 +41,6 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     private int mInitialVideoNoInAlbum = 0;
     private boolean mIsShowTitle = false;
     private boolean mIsBackward = false;
-    private BookmarkDbHelper mBookmarkDb;
-    private HistoryDbHelper mHistoryDb;
     private boolean mIsFav;
     private AlbumPlayGridFragment mFragment;
 
@@ -86,23 +62,19 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-        mAlbum = getIntent().getParcelableExtra(MovieListAdapter.SC_ALBUM);
-        mIqiyiParser = new IqiyiParser();
-        if(mAlbum != null) {
-            findViews();
-            init();
-            setTitle(mAlbum.getTitle());
-            mBookmarkDb = new BookmarkDbHelper(this);
-            mHistoryDb = new HistoryDbHelper(this);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    EpisodeList episodeList = mIqiyiParser.parseEpisodeList(mAlbum.getPlayUrl());
-                    episodeList.debugLog();
-                    Message msg = mHandler.obtainMessage(0, episodeList);
-                    mHandler.sendMessage(msg);
-                }
-            }).start();
+        Intent intent = getIntent();
+        if(intent != null){
+            mAlbum = intent.getParcelableExtra(Const.ALUMB_DETAIL);
+            mChannelId = intent.getIntExtra(Const.CHANNEL_ID, SCChannel.MOVIE);
+            mIqiyiParser = new IqiyiParser();
+            if(mAlbum != null) {
+                findViews();
+                init();
+                setTitle(mAlbum.getTitle());
+                SiteApi.doGetEpisodes(mAlbum.getSite().getSiteID(),mChannelId, mAlbum.getPlayUrl(),this);
+            } else {
+                MovieDetailActivity.this.finish();
+            }
         } else {
             MovieDetailActivity.this.finish();
         }
@@ -154,130 +126,31 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
         findViewById(R.id.album_play_back).setOnClickListener(this);
     }
 
-    private void fillAlbumDescView(SCAlbum album) {
-        ImageView albumImage = (ImageView) findViewById(R.id.album_image);
-        TextView albumTitle = (TextView) findViewById(R.id.album_title);
-        TextView albumDirector = (TextView) findViewById(R.id.album_director);
-        TextView albumActor = (TextView) findViewById(R.id.album_main_actor);
-        TextView albumDesc = (TextView) findViewById(R.id.album_desc);
-        LinearLayout albumTopInfo = (LinearLayout) findViewById(R.id.album_topinfo_container);
-
-        albumTitle.setText(album.getTitle());
-        if(album.getDirector() != null && !album.getDirector().isEmpty()) {
-            albumDirector.setText(getResources().getString(R.string.director) + album.getDirector());
-            albumDirector.setVisibility(View.VISIBLE);
-        }
-        else
-            albumDirector.setVisibility(View.GONE);
-
-        if(album.getMainActor() != null && !album.getMainActor().isEmpty()) {
-            albumActor.setText(getResources().getString(R.string.actor) + album.getMainActor());
-            albumActor.setVisibility(View.VISIBLE);
-        }
-        else
-            albumActor.setVisibility(View.GONE);
-
-        if(album.getDesc() != null && !album.getDesc().isEmpty())
-            albumDesc.setText(album.getDesc());
-
-        albumImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openAlbumDesc();
-            }
-        });
-
-        if(album.getVerImageUrl() != null) {
-            ImageTools.displayImage(albumImage, album.getVerImageUrl());
-        } else if(album.getHorImageUrl() != null) {
-            ImageTools.displayImage(albumImage,album.getHorImageUrl());
-        }
-    }
-
     public void closeAlbumDesc(View view) {
         RelativeLayout albumDescContainer = (RelativeLayout) findViewById(R.id.album_desc_container);
         albumDescContainer.setVisibility(View.GONE);
     }
 
-    public void openAlbumDesc() {
-        RelativeLayout albumDescContainer = (RelativeLayout) findViewById(R.id.album_desc_container);
-        albumDescContainer.setVisibility(View.VISIBLE);
-    }
-
-    private void openErrorMsg(String msg) {
-        TextView textView = (TextView) findViewById(R.id.error_message);
-        textView.setText(msg);
-        textView.setVisibility(View.VISIBLE);
-    }
-
-
     @Override
-    public void onGetAlbumDescSuccess(final SCAlbum album) {
-        mAlbum = album;
-        runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                fillAlbumDescView(album);
-                invalidateOptionsMenu();
-                try {
-                    mFragment = AlbumPlayGridFragment.newInstance(mAlbum, mIsShowTitle, mIsBackward, mInitialVideoNoInAlbum);
-                    mFragment.setShowTitle(mIsShowTitle);
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragment_container, mFragment);
-                    ft.commit();
-                    getFragmentManager().executePendingTransactions();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    finish();
-                }
-
-                if(mAlbum.getVideosTotal() == 1) {
-                    openAlbumDesc();
-                }
-
-                if(mAlbum.getVideosTotal() == 0) {
-                    openAlbumDesc();
-                    openErrorMsg(getResources().getString(R.string.album_no_videos));
-                }
-            }
-        });
-
+    public void onGetEpisodeSuccess(EpisodeList episodes) {
+        if(episodes != null) {
+            episodes.debugLog();
+            Message msg = mHandler.obtainMessage(0, episodes);
+            mHandler.sendMessage(msg);
+        } else {
+            EpisodeList episodes2 = new EpisodeList();
+            Message msg = mHandler.obtainMessage(0, episodes2);
+            mHandler.sendMessage(msg);
+            Log.w(TAG, "==> onGetEpisodeSuccess empty.");
+        }
     }
 
     @Override
-    public void onGetAlbumDescFailed(SCFailLog err) {
+    public void onGetEpisodeFailed(String failReason) {
+        EpisodeList episodes = new EpisodeList();
+        Message msg = mHandler.obtainMessage(0, episodes);
+        mHandler.sendMessage(msg);
     }
-
-    @Override
-    public void onAlbumPlayVideoSelected(SCVideo v, int positionInGrid) {
-        mCurrentVideo = v;
-        mVideoInAlbum = positionInGrid;
-        if(mIsBackward == false)
-            v.setSeqInAlbum(positionInGrid + 1);
-        else
-            v.setSeqInAlbum(mAlbum.getVideosTotal() - positionInGrid);
-        Log.i("fire3","onAlbumPlayVideoSelected" + v.toJson());
-        SiteApi.doGetVideoPlayUrl(v, this);
-
-    }
-
-    @Override
-    public void onGetVideoPlayUrlNormal(final SCVideo v, final String urlNormal) {
-    }
-
-    @Override
-    public void onGetVideoPlayUrlHigh(final SCVideo v, final String urlHigh) {
-    }
-
-    @Override
-    public void onGetVideoPlayUrlSuper(final SCVideo v, final String urlSuper) {
-    }
-
-    @Override
-    public void onGetVideoPlayUrlFailed(SCFailLog err) {
-    }
-
 
     @Override
     protected void onResume() {
@@ -286,8 +159,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     }
 
 	@Override
-	public void onPause()
-	{
+	public void onPause() {
 		super.onPause();
         SailorCast.upnpServiceController.pause();
         SailorCast.upnpServiceController.getServiceListener().getServiceConnexion().onServiceDisconnected(null);
@@ -296,15 +168,6 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     @Override
     protected void onStop() {
         super.onStop();
-    }
-
-    private void launchDrovikPlayer(SCVideo video, String url) {
-        video = new SCVideo();
-        video.setIqiyiVideoURL("https://gaqoqingv.jongta.com/2018/07/12/MeJX0X1kkEDXGYVk/playlist.m3u8");
-        Intent mpdIntent = new Intent(MovieDetailActivity.this, VideoPlayActivity.class)
-                .putExtra(VideoPlayActivity.SCVIDEO, video)
-                .putExtra(VideoPlayActivity.SCMEDIA, "https://gaqoqingv.jongta.com/2018/07/12/MeJX0X1kkEDXGYVk/playlist.m3u8");
-        startActivity(mpdIntent);
     }
 
     /**
@@ -333,38 +196,6 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
         }
     }
 
-    /**
-     * 该函数触发播放动作
-     */
-    public void onDlnaButtonClick(View button) {
-        final String url = (String) button.getTag(R.id.key_video_url);
-        final SCVideo v = (SCVideo) button.getTag(R.id.key_video);
-
-		final Collection<IUpnpDevice> upnpDevices = SailorCast.upnpServiceController.getServiceListener()
-				.getFilteredDeviceList(new CallableRendererFilter());
-        if(upnpDevices.size() > 0) {
-
-            FragmentManager fm = getSupportFragmentManager();
-            RendererDialog dialog = new RendererDialog();
-            dialog.setCallback(new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    launchRenderer(v, url);
-                    return null;
-                }
-            });
-            dialog.show(fm, "Render");
-        } else {
-            Toast.makeText(this,getResources().getString(R.string.noRenderer),Toast.LENGTH_SHORT).show();
-        }
-    }
-
-	private void launchRenderer(SCVideo video, String url) {
-        mHistoryDb.addHistory(mAlbum,video,0);
-		IRendererCommand rendererCommand = SailorCast.factory.createRendererCommand(SailorCast.factory.createRendererState());
-		rendererCommand.launchSCVideo(video, url);
-	}
-
 	private void openVideoPlayer(){
         if(!TextUtils.isEmpty(mAlbum.getTVid()) && !TextUtils.isEmpty(mAlbum.getTVid())){
             SCVideo video = new SCVideo();
@@ -381,9 +212,25 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
 
     private void init() {
         ImageTools.displayImage(mAlbumImageView, mAlbum.getVerImageUrl());
-        mTitle.setText(mAlbum.getTitle());
-        mDescribe.setText(mAlbum.getDesc());
-        mSecondInfo.setText(mAlbum.getMainActor());
-        mScore.setText(mAlbum.getScore());
+        if(!TextUtils.isEmpty(mAlbum.getTitle())){
+            mTitle.setText(mAlbum.getTitle());
+        } else {
+            mTitle.setVisibility(View.GONE);
+        }
+        if(!TextUtils.isEmpty(mAlbum.getMainActor())){
+            mSecondInfo.setText(mAlbum.getMainActor());
+        } else {
+            mSecondInfo.setVisibility(View.GONE);
+        }
+        if(!TextUtils.isEmpty(mAlbum.getScore())){
+            mScore.setText(mAlbum.getScore());
+        } else {
+            mScore.setVisibility(View.GONE);
+        }
+        if(!TextUtils.isEmpty(mAlbum.getDesc())){
+            mDescribe.setText(mAlbum.getDesc());
+        } else {
+            mDescribe.setVisibility(View.GONE);
+        }
     }
 }

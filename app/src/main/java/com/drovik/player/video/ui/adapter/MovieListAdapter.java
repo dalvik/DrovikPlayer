@@ -17,16 +17,12 @@ import com.crixmod.sailorcast.SailorCast;
 import com.crixmod.sailorcast.model.SCAlbum;
 import com.crixmod.sailorcast.model.SCAlbums;
 import com.crixmod.sailorcast.model.SCChannel;
-import com.crixmod.sailorcast.model.SCSite;
-import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
-import com.drovik.player.video.ui.GSYVideoPlayActivity;
+import com.drovik.player.video.Const;
 import com.drovik.player.video.ui.MovieDetailActivity;
-import com.drovik.player.video.ui.VideoPlayActivity;
 
 public class MovieListAdapter extends BaseAdapter {
-    public static final String SC_ALBUM = "album";
     private Context mContext;
     private int mColumns = 3;
     private SCChannel mChannel;
@@ -128,31 +124,7 @@ public class MovieListAdapter extends BaseAdapter {
         viewHolder.resultContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               /* if(mChannel.getChannelID() == SCChannel.VARIETY ||
-                        mChannel.getChannelID() == SCChannel.DOCUMENTARY ||
-                        mChannel.getChannelID() == SCChannel.MOVIE ||
-                        mChannel.getChannelID() == SCChannel.MUSIC
-                        ){
-                    //MovieDetailActivity.launch((Activity) mContext, album, 0,true);
-                    SCVideo video = new SCVideo();
-                    video.setVideoTitle(album.getTitle());
-                    Intent mpdIntent = new Intent(mContext, VideoPlayActivity.class)
-                            .putExtra(VideoPlayActivity.SCVIDEO, video)
-                            .putExtra(VideoPlayActivity.SCMEDIA, album.getAlbumId());
-                    mContext.startActivity(mpdIntent);
-                } else if(mChannel.getChannelID() == SCChannel.MOVIE && album.getSite().getSiteID() == SCSite.LETV) {
-                    MovieDetailActivity.launch((Activity) mContext, album, 0,true);
-                } else {
-                    MovieDetailActivity.launch((Activity) mContext, album);
-                }*/
-                /*SCVideo video = new SCVideo();
-                video.setVideoTitle(album.getTitle());
-                Intent mpdIntent = new Intent(mContext, GSYVideoPlayActivity.class)
-                        .putExtra(VideoPlayActivity.SCVIDEO, video)
-                        .putExtra(VideoPlayActivity.SCSTREAM, album.getTVid())//tvid
-                        .putExtra(VideoPlayActivity.SCMEDIA, album.getAlbumId());//vid
-                mContext.startActivity(mpdIntent);*/
-                Intent mpdIntent = new Intent(mContext, MovieDetailActivity.class).putExtra(SC_ALBUM, album);
+                Intent mpdIntent = new Intent(mContext, MovieDetailActivity.class).putExtra(Const.ALUMB_DETAIL, album).putExtra(Const.CHANNEL_ID, mChannel.getChannelID());
                 mContext.startActivity(mpdIntent);
             }
         });

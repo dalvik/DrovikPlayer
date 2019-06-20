@@ -62,7 +62,7 @@ public class AlbumListFragment extends Fragment implements
     public static AlbumListFragment newInstance(int mSiteID, int mChannelID) {
         AlbumListFragment fragment = new AlbumListFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_CHANNEL_ID, mChannelID);
+        args.putInt(ARG_CHANNEL_ID, mChannelID);//TitleInfo index
         args.putInt(ARG_SITE_ID, mSiteID);
         fragment.setArguments(args);
         return fragment;
@@ -78,7 +78,7 @@ public class AlbumListFragment extends Fragment implements
         if (getArguments() != null) {
             mPageNo = 0;
             mSiteID = getArguments().getInt(ARG_SITE_ID);
-            mChannelID = getArguments().getInt(ARG_CHANNEL_ID);
+            mChannelID = getArguments().getInt(ARG_CHANNEL_ID);//index
             mIndex = getArguments().getInt(BaseMoviePager.EXTRA_CHANNEL_ID);
             loadMoreAlbums();
             mAdapter = new MovieListAdapter(getActivity(), new SCChannel(mChannelID));
@@ -144,10 +144,7 @@ public class AlbumListFragment extends Fragment implements
 
     public void loadMoreAlbums() {
         mPageNo ++ ;
-        if(inFilterMode)
-            SiteApi.doGetChannelAlbumsByFilter(mSiteID, mChannelID, mPageNo, mPageSize, mFilter, this);
-        else
-            SiteApi.doGetChannelAlbums(mSiteID, mChannelID, mPageNo, mIndex, "", "", this);
+        SiteApi.doGetChannelAlbums(mSiteID, mChannelID, mPageNo, mIndex, "", "", this);
     }
 
 

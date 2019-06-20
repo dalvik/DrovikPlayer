@@ -110,7 +110,6 @@ public class LetvApi extends BaseSiteApi{
         doUpdateTmOffset();
     }
 
-
     private synchronized void updateTmOffset(int serverTime) {
         if(tmOffset == Long.MAX_VALUE) {
             tmOffset = (System.currentTimeMillis() / 1000) - serverTime;

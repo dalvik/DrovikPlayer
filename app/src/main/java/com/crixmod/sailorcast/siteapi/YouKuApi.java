@@ -111,6 +111,7 @@ public class YouKuApi extends BaseSiteApi {
             "sub_channel_id=%s&sub_channel_type=4&filter=%s&ob=2&pg=%s&pz=%s";
     private static final String TAG = "YoukuApi";
 
+
     /* filter = 中是类似  area:|movie_genre:|releaseyear:2015|pay_type:|paid:  字段，经过URLencode escape */
 
     private int channelToCid(SCChannel channel) {

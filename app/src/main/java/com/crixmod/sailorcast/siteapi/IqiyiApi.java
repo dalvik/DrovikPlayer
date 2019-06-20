@@ -14,6 +14,7 @@ import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.model.SCVideos;
 import com.crixmod.sailorcast.utils.HttpUtils;
 import com.drovik.player.video.parser.BaseParser;
+import com.drovik.player.video.parser.EpisodeList;
 import com.drovik.player.video.parser.IqiyiParser;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
@@ -87,6 +88,30 @@ public class IqiyiApi extends BaseSiteApi {
 
     public IqiyiApi() {
         mBaseParser = new IqiyiParser();
+    }
+
+    /**
+     * 根据编号获取封面列表
+     */
+    @Override
+    public void doGetChannelAlbums(SCChannel channel, int pageNo, int pageSize, String cat, String area, final OnGetAlbumsListener listener) {
+        String url = getAlbumListUrlByFilter(channel, pageNo, pageSize, cat, area);
+        //String url = getDefaultChannelUrl(channel, pageNo, pageSize);
+        if(url == null) {
+            return;
+        }
+        getChannelAlbumsByUrl(url, listener);
+    }
+
+    /**
+     * 根据url解析视频列表
+     * @param channel
+     * @param url
+     * @param listener
+     */
+    @Override
+    public void doGetEposideLis(SCChannel channel, String url, OnGetAlbumsListener.OnGetEpisodeListener listener) {
+        getEpisodeListByUrl(channel, url, listener);
     }
 
     @Override
@@ -409,23 +434,9 @@ public class IqiyiApi extends BaseSiteApi {
 
     @Override
     public void doGetChannelAlbums(SCChannel channel, int pageNo, int pageSize, final OnGetAlbumsListener listener) {
-        String url = getDefaultChannelUrl(channel, pageNo, pageSize);
-        url = "http://list.iqiyi.com/www/1/----------0---11-1-1-iqiyi--.html";
-        if(url == null) {
-            return;
-        }
-        getChannelAlbumsByUrl(url, listener);
     }
 
-    @Override
-    public void doGetChannelAlbums(SCChannel channel, int pageNo, int pageSize, String cat, String area, final OnGetAlbumsListener listener) {
-        String url = getAlbumListUrlByFilter(channel, pageNo, pageSize, cat, area);
-        //String url = getDefaultChannelUrl(channel, pageNo, pageSize);
-        if(url == null) {
-            return;
-        }
-        getChannelAlbumsByUrl(url, listener);
-    }
+
 
     private String getRealM3U8(String m3u8Url) {
         String FORMAT = "http://cache.m.iqiyi.com/dc/dt/mobile/%s?qd_src=5be6a2fdfe4f4a1a8c7b08ee46a18887";
@@ -535,9 +546,13 @@ public class IqiyiApi extends BaseSiteApi {
         });
     }
 
-    public void getChannelAlbumsByUrl(final String url, final OnGetAlbumsListener listener) {
+    /**
+     * 根据编号获取封面列表
+     * @param url
+     * @param listener
+     */
+    private void getChannelAlbumsByUrl(final String url, final OnGetAlbumsListener listener) {
                 Hashtable<String, String> head = getGalaxyHeader();
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -551,96 +566,28 @@ public class IqiyiApi extends BaseSiteApi {
                 }
             }
         }).start();
+    }
 
-        /*Request request = new Request.Builder().url(url)
-                //.addHeader("Accept-Encoding", "gzip")
-                .addHeader("t", head.get("t"))
-                .addHeader("sign",head.get("sign"))
-                .build();
-
-        HttpUtils.asyncGet(request, new Callback() {
+    /**
+     * 根据url解析视频列表
+     * @param channel
+     * @param url
+     * @param listener
+     */
+    private void getEpisodeListByUrl(SCChannel channel, final String url, final OnGetAlbumsListener.OnGetEpisodeListener listener){
+        new Thread(new Runnable() {
             @Override
-            public void onFailure(Request request, IOException e) {
-
-                SCFailLog err = makeHttpFailLog(url, "getChannelAlbumsByUrl", e);
-                if (listener != null) {
-                    listener.onGetAlbumsFailed(err);
+            public void run() {
+                String content = mBaseParser.loadHtml(url);
+                EpisodeList albums = null;
+                if(!TextUtils.isEmpty(content)) {
+                    albums = mBaseParser.parseEpisodeList(content);
+                }
+                if(listener != null && albums != null) {
+                    listener.onGetEpisodeSuccess(albums);
                 }
             }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                String ret = response.body().string();
-                try {
-                    JSONObject retJson = new JSONObject(ret);
-                    JSONArray albumIdList = retJson.optJSONArray("albumIdList").getJSONObject(0).optJSONArray("idlist");
-                    JSONObject albumArray = retJson.optJSONObject("albumArray");
-                    SCAlbums albums = new SCAlbums();
-                    for (int i = 0; i < albumIdList.length(); i++) {
-                        String id = albumIdList.optString(i);
-                        JSONObject albumJson = albumArray.optJSONObject(id);
-                        //有时会出现"_a"这个对象，剧集信息会放在这个里面，比如动漫栏目
-                        if (albumJson.has("_a"))
-                            albumJson = albumJson.optJSONObject("_a");
-                        if (albumJson != null) {
-                            SCAlbum album = new SCAlbum(SCSite.IQIYI);
-
-                            String albumID = id;
-                            album.setAlbumId(albumID);
-
-                            String title = albumJson.optString("_t");
-                            album.setTitle(title);
-
-                            String h1Image = albumJson.optString("h1_img");
-                            String h2Image = albumJson.optString("h2_img");
-                            String h3Image = albumJson.optString("h3_img");
-                            if (h1Image != null && !h1Image.isEmpty())
-                                album.setVerImageUrl(h1Image);
-                            else if (h2Image != null && !h2Image.isEmpty())
-                                album.setVerImageUrl(h2Image);
-                            else if (h3Image != null && !h3Image.isEmpty())
-                                album.setVerImageUrl(h3Image);
-
-                            String v1Image = albumJson.optString("v1_img");
-                            String v2Image = albumJson.optString("v2_img");
-                            String v3Image = albumJson.optString("v3_img");
-                            if (v1Image != null && !v1Image.isEmpty())
-                                album.setHorImageUrl(v1Image);
-                            else if (v2Image != null && !v2Image.isEmpty())
-                                album.setHorImageUrl(v2Image);
-                            else if (v3Image != null && !v3Image.isEmpty())
-                                album.setHorImageUrl(v3Image);
-
-                            String tip = albumJson.optString("tvfcs");
-                            album.setTip(tip);
-
-                            int _tvs = albumJson.optInt("_tvs");
-                            album.setVideosTotal(_tvs);
-
-                            albums.add(album);
-                        }
-                    }
-                    if (albums.size() > 0) {
-                        if (listener != null) {
-                            listener.onGetAlbumsSuccess(albums);
-                        }
-                    } else if (albums.size() == 0) {
-                        SCFailLog err = makeNoResultFailLog(url, "getChannelAlbumsByUrl");
-                        if (listener != null) {
-                            listener.onGetAlbumsFailed(err);
-                        }
-                    }
-                } catch (Exception e) {
-
-                    SCFailLog err = makeFatalFailLog(url, "getChannelAlbumsByUrl", e);
-                    if (listener != null) {
-                        listener.onGetAlbumsFailed(err);
-                    }
-                    e.printStackTrace();
-                }
-
-            }
-        });*/
+        }).start();
     }
 
 
@@ -681,6 +628,7 @@ public class IqiyiApi extends BaseSiteApi {
         return String.format(ALUMB_VIDEO_FORMAT_JSOUP, String.valueOf(pageSize), c1, c2, c3, c4, "0", "", String.valueOf(11), String.valueOf(pageNo));//index c1 c1 c3 c4 paytype year order page
     }
 
+    //this method no used
     @Override
     public void doGetChannelAlbumsByFilter(SCChannel channel, int pageNo, int pageSize, SCChannelFilter filter, OnGetAlbumsListener listener) {
         // pageSize replace index
