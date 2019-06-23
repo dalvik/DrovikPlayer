@@ -150,11 +150,18 @@ public class IqiyiParser extends BaseParser {
             if(alumList != null) {
                 for(Element ulElement:alumList) {
                     Elements qyModeLink = ulElement.select("div.site-piclist_pic");
-                    Episode node = new Episode();
                     if(qyModeLink != null) {
-                        Elements qyModeLinkA = qyModeLink.select("a");
-                        if (qyModeLinkA != null) {
-                            String imageUrl = qyModeLinkA.select("img").attr("src");
+                        for (Element divNode:qyModeLink){
+                            Episode node = new Episode();
+                            String dataOrder = divNode.attr("data-order");
+                            String name = divNode.select("a").attr("title");
+                            String playUrl = divNode.select("a").attr("href");
+                            String duration = divNode.select("span.mod-listTitle_right").text();
+                            node.setSubTitle(name);
+                            node.setOrder(dataOrder);
+                            node.setPlayUrl(playUrl);
+                            node.setDuration(duration);
+                            String imageUrl = divNode.select("img").attr("src");
                             if (!TextUtils.isEmpty(imageUrl)) {
                                 if (imageUrl.startsWith("//")) {
                                     node.setImageUrl("http:" + imageUrl);
@@ -162,25 +169,16 @@ public class IqiyiParser extends BaseParser {
                                     node.setImageUrl(imageUrl);
                                 }
                             }
+                            episodeList.add(node);
                         }
                     }
-                    String duratioon = ulElement.attr("span[mod-listTitle_right]");
-                    node.setDuration(duratioon);
-                    Elements picListElements = ulElement.select("div.site-piclist_info");
-                    if(picListElements != null) {
-                        for(Element pic:picListElements) {
-                            String playUrl = pic.attr("a[href]");
-                            Elements aModeValue = pic.select("a");
-                            if (!TextUtils.isEmpty(playUrl)) {
-                                if (playUrl.startsWith("//")) {
-                                    node.setPlayUrl("http:" + playUrl);
-                                } else {
-                                    node.setPlayUrl(playUrl);
-                                }
-                            }
+                    Elements qyModeInfo = ulElement.select("div.site-piclist_info");
+                    if(qyModeInfo != null){
+                        for(Element noteInfo:qyModeInfo){
+                            String orderData = noteInfo.select("p.site-piclist_info_title").select("a").text();
+                            String describe = noteInfo.select("p.site-piclist_info_describe").select("a").text();
                         }
                     }
-                    episodeList.add(node);
                 }
             }
         } else {
