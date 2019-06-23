@@ -78,7 +78,7 @@ public abstract class BaseParser {
 
     public abstract SCAlbums parseAlbums(String content);
 
-    public abstract EpisodeList parseEpisodeList(String url);
+    public abstract EpisodeList parseEpisodeList(String url, int channelID);
 
     public abstract SCVideos parseVideos(String content);
 

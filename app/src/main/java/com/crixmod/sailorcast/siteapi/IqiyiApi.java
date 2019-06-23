@@ -574,14 +574,14 @@ public class IqiyiApi extends BaseSiteApi {
      * @param url
      * @param listener
      */
-    private void getEpisodeListByUrl(SCChannel channel, final String url, final OnGetAlbumsListener.OnGetEpisodeListener listener){
+    private void getEpisodeListByUrl(final SCChannel channel, final String url, final OnGetAlbumsListener.OnGetEpisodeListener listener){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String content = mBaseParser.loadHtml(url);
                 EpisodeList albums = null;
                 if(!TextUtils.isEmpty(content)) {
-                    albums = mBaseParser.parseEpisodeList(content);
+                    albums = mBaseParser.parseEpisodeList(content, channel.getChannelID());
                 }
                 if(listener != null && albums != null) {
                     listener.onGetEpisodeSuccess(albums);

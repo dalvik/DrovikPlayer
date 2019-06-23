@@ -9,6 +9,7 @@ import com.crixmod.sailorcast.model.SCAlbums;
 import com.crixmod.sailorcast.model.SCSite;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.model.SCVideos;
+import com.drovik.player.video.Const;
 import com.drovik.player.video.ui.SaveFile;
 
 import org.json.JSONArray;
@@ -140,39 +141,78 @@ public class IqiyiParser extends BaseParser {
      </li>
 
      */
-    public EpisodeList parseEpisodeList(String urlString){
+    public EpisodeList parseEpisodeList(String content, int channelID){
         EpisodeList episodeList = new EpisodeList();
-        String content = getHtmlContent(urlString);
         Document htmlContent = Jsoup.parse(content);
         Element element = htmlContent.body();
-        Elements listContent = element.select("#album-avlist-data");
-        SaveFile.getInstance().writeString(content);
-        //Log.d(TAG, "==> " + content);
-        if(listContent != null) {
-            String value = listContent.attr("value");
-            if(value != null && value.length()>0) {
-                try {
-                    JSONObject episodeJson = new JSONObject(value);
-                    JSONArray epsodeListArray = episodeJson.getJSONArray("epsodelist");
-                    if(epsodeListArray != null) {
-                        int length = epsodeListArray.length();
-                        for(int i=0; i<length; i++) {
-                            Episode episode = new Episode();
-                            JSONObject episodeJsonItem = epsodeListArray.getJSONObject(i);
-                            episode.setDescription(episodeJsonItem.optString("description"));
-                            episode.setTvId(episodeJsonItem.optString("tvId"));
-                            episode.setShortTitle(episodeJsonItem.optString("shortTitle"));
-                            episode.setSubTitle(episodeJsonItem.optString("subtitle"));
-                            episode.setDuration(episodeJsonItem.optString("duration"));
-                            episode.setVid(episodeJsonItem.optString("vid"));
-                            episode.setName(episodeJsonItem.optString("name"));
-                            episode.setOrder(episodeJsonItem.optString("order"));
-                            episode.setImageUrl(episodeJsonItem.optString("imageUrl"));
-                            episodeList.add(episode);
+        if(channelID == Const.channel_iqiyi_comic){
+            Elements alumList  = element.select("ul[data-albumlist-play]");
+            if(alumList != null) {
+                for(Element ulElement:alumList) {
+                    Elements qyModeLink = ulElement.select("div.site-piclist_pic");
+                    Episode node = new Episode();
+                    if(qyModeLink != null) {
+                        Elements qyModeLinkA = qyModeLink.select("a");
+                        if (qyModeLinkA != null) {
+                            String imageUrl = qyModeLinkA.select("img").attr("src");
+                            if (!TextUtils.isEmpty(imageUrl)) {
+                                if (imageUrl.startsWith("//")) {
+                                    node.setImageUrl("http:" + imageUrl);
+                                } else {
+                                    node.setImageUrl(imageUrl);
+                                }
+                            }
                         }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    String duratioon = ulElement.attr("span[mod-listTitle_right]");
+                    node.setDuration(duratioon);
+                    Elements picListElements = ulElement.select("div.site-piclist_info");
+                    if(picListElements != null) {
+                        for(Element pic:picListElements) {
+                            String playUrl = pic.attr("a[href]");
+                            Elements aModeValue = pic.select("a");
+                            if (!TextUtils.isEmpty(playUrl)) {
+                                if (playUrl.startsWith("//")) {
+                                    node.setPlayUrl("http:" + playUrl);
+                                } else {
+                                    node.setPlayUrl(playUrl);
+                                }
+                            }
+                        }
+                    }
+                    episodeList.add(node);
+                }
+            }
+        } else {
+            Elements listContent = element.select("#album-avlist-data");
+            SaveFile.getInstance().writeString(content);
+            //Log.d(TAG, "==> " + content);
+            if(listContent != null) {
+                String value = listContent.attr("value");
+                if(value != null && value.length()>0) {
+                    try {
+                        JSONObject episodeJson = new JSONObject(value);
+                        JSONArray epsodeListArray = episodeJson.getJSONArray("epsodelist");
+                        if(epsodeListArray != null) {
+                            int length = epsodeListArray.length();
+                            for(int i=0; i<length; i++) {
+                                Episode episode = new Episode();
+                                JSONObject episodeJsonItem = epsodeListArray.getJSONObject(i);
+                                episode.setDescription(episodeJsonItem.optString("description"));
+                                episode.setTvId(episodeJsonItem.optString("tvId"));
+                                episode.setShortTitle(episodeJsonItem.optString("shortTitle"));
+                                episode.setSubTitle(episodeJsonItem.optString("subtitle"));
+                                episode.setDuration(episodeJsonItem.optString("duration"));
+                                episode.setVid(episodeJsonItem.optString("vid"));
+                                episode.setName(episodeJsonItem.optString("name"));
+                                episode.setOrder(episodeJsonItem.optString("order"));
+                                episode.setImageUrl(episodeJsonItem.optString("imageUrl"));
+                                episodeList.add(episode);
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
