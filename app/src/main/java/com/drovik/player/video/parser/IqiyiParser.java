@@ -148,37 +148,34 @@ public class IqiyiParser extends BaseParser {
         if(channelID == Const.channel_iqiyi_comic){
             Elements alumList  = element.select("ul[data-albumlist-play]");
             if(alumList != null) {
-                for(Element ulElement:alumList) {
-                    Elements qyModeLink = ulElement.select("div.site-piclist_pic");
-                    if(qyModeLink != null) {
-                        for (Element divNode:qyModeLink){
-                            Episode node = new Episode();
-                            String dataOrder = divNode.attr("data-order");
-                            String name = divNode.select("a").attr("title");
-                            String playUrl = divNode.select("a").attr("href");
-                            String duration = divNode.select("span.mod-listTitle_right").text();
-                            node.setSubTitle(name);
-                            node.setOrder(dataOrder);
+                Elements elemList = alumList.select("li[data-albumlist-elem]");
+                for(Element ulElement:elemList) {
+                    Episode node = new Episode();
+                    String dataOrder = ulElement.attr("data-order");
+                    Elements picList = ulElement.select("div.site-piclist_pic");
+                    String playUrl = picList.select("a").attr("href");
+                    String name = picList.select("a").attr("title");
+                    Elements modListTitle = ulElement.select("div.mod-listTitle");
+                    String duration = modListTitle.select("span.mod-listTitle_right").text();
+                    String imageUrl = ulElement.select("img").attr("src");
+                    node.setSubTitle(name);
+                    node.setOrder(dataOrder);
+                    node.setDuration(duration);
+                    if(!TextUtils.isEmpty(playUrl)){
+                        if(playUrl.startsWith("//")){
+                            node.setPlayUrl("http:" + playUrl);
+                        } else {
                             node.setPlayUrl(playUrl);
-                            node.setDuration(duration);
-                            String imageUrl = divNode.select("img").attr("src");
-                            if (!TextUtils.isEmpty(imageUrl)) {
-                                if (imageUrl.startsWith("//")) {
-                                    node.setImageUrl("http:" + imageUrl);
-                                } else {
-                                    node.setImageUrl(imageUrl);
-                                }
-                            }
-                            episodeList.add(node);
                         }
                     }
-                    Elements qyModeInfo = ulElement.select("div.site-piclist_info");
-                    if(qyModeInfo != null){
-                        for(Element noteInfo:qyModeInfo){
-                            String orderData = noteInfo.select("p.site-piclist_info_title").select("a").text();
-                            String describe = noteInfo.select("p.site-piclist_info_describe").select("a").text();
+                    if (!TextUtils.isEmpty(imageUrl)) {
+                        if (imageUrl.startsWith("//")) {
+                            node.setImageUrl("http:" + imageUrl);
+                        } else {
+                            node.setImageUrl(imageUrl);
                         }
                     }
+                    episodeList.add(node);
                 }
             }
         } else {
