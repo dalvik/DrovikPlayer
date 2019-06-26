@@ -23,6 +23,9 @@ public class Const {
     public static final String SC_PLAY_URL = "sc_ply_url";
     public final static String VIDEO = "video";
 
+    public final static String ACTION_REFRESH = "action_refresh";
+    public final static String EXTRA_REFRESH = "extra_refresh";
+
     private Const() {
 
     }

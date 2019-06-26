@@ -93,6 +93,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         mAdCoverImageView = (ImageView) findViewById(R.id.rewarded_video_ad_cover_view);
         adContainer = (RelativeLayout) findViewById(R.id.rewarded_video_ad_view);
         videoPlayer =  (VideoPlayer)findViewById(R.id.video_player);
+        mIqiyiParser = new IqiyiParser();
         Log.d(TAG, "==> video play onCreate");
         PreferenceUtils.init(this);
         if(!initData()) {
@@ -191,7 +192,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         mAdCoverImageView.setVisibility(View.GONE);
         videoPlayer.setVisibility(View.VISIBLE);
         if(mVideo != null) {
-            mIqiyiParser = new IqiyiParser();
             new ParseVideoSourceAysncTask().execute();
         }
     }
@@ -315,7 +315,9 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         videoAd.setParameter(AdKeys.APP_VER, StringUtils.getVersionName(this));
         videoAd.loadAd();
         handler.sendEmptyMessageDelayed(1, 4000);
-
+        if(TextUtils.isEmpty(mTvid) || TextUtils.isEmpty(mVid)){
+            new ParseScciptHeaderAysncTask().execute();
+        }
     }
 
     private void loadInfo(){
@@ -443,7 +445,10 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
 
         @Override
         protected String doInBackground(Void[] objects) {
-            String m3u8Path = mIqiyiParser.parseVideoSource(mVid, mTvid);
+            String m3u8Path = null;
+            if(!TextUtils.isEmpty(mVid) && !TextUtils.isEmpty(mTvid)) {
+                m3u8Path = mIqiyiParser.parseVideoSource(mVid, mTvid);
+            }
             return m3u8Path;
         }
 
@@ -486,19 +491,31 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
 
         @Override
         protected SCAlbums doInBackground(Void[] objects) {
-            SCAlbums alumbs = mIqiyiParser.parseAlbums(mPlayUrl);
+            SCAlbums alumbs = mIqiyiParser.getSCAlbum(mIqiyiParser.loadHtml(mPlayUrl));
             for(SCAlbum album:alumbs){
-                if(mPlayUrl.equals(album.getPlayUrl())){
+                int startIndexPlayUrl = mPlayUrl.indexOf("//");
+                int startIndexAlumbUrl = album.getPlayUrl().indexOf("//");
+                String playUrl = mPlayUrl.substring(startIndexPlayUrl + 2);
+                String alumbUrl = album.getPlayUrl().substring(startIndexAlumbUrl + 2);
+                System.out.println(playUrl + "=" + alumbUrl);
+                if(playUrl.equals(alumbUrl)){
                     mVid = album.getAlbumId();
                     mTvid = album.getTVid();
+                    break;
                 }
             }
             return alumbs;
         }
 
         @Override
-        protected void onPostExecute(SCAlbums  path){
-            super.onPostExecute(path);
+        protected void onPostExecute(SCAlbums  list){
+            super.onPostExecute(list);
+            Intent intent = new Intent(Const.ACTION_REFRESH);
+            intent.putParcelableArrayListExtra(Const.EXTRA_REFRESH, list);
+            sendBroadcast(intent);
+            /*if(!TextUtils.isEmpty(mTvid) && !TextUtils.isEmpty(mVid)){
+                new ParseVideoSourceAysncTask().execute();
+            }*/
         }
     }
 

@@ -82,7 +82,8 @@ public class EpisodeListAdapter extends BaseAdapter {
                 Intent mpdIntent = new Intent(context, GSYVideoPlayActivity.class)
                         .putExtra(Const.SC_VIDEO, video)
                         .putExtra(Const.SC_TVID, episode.getTvId())//tvid
-                        .putExtra(Const.SC_VID, episode.getVid());//vid
+                        .putExtra(Const.SC_VID, episode.getVid())
+                        .putExtra(Const.SC_PLAY_URL, episode.getPlayUrl());//vid
                 context.startActivity(mpdIntent);
             }
         });

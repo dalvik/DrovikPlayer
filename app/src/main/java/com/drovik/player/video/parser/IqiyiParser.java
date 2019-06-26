@@ -163,7 +163,7 @@ public class IqiyiParser extends BaseParser {
                     node.setDuration(duration);
                     if(!TextUtils.isEmpty(playUrl)){
                         if(playUrl.startsWith("//")){
-                            node.setPlayUrl("http:" + playUrl);
+                            node.setPlayUrl("https:" + playUrl);
                         } else {
                             node.setPlayUrl(playUrl);
                         }
@@ -231,7 +231,6 @@ public class IqiyiParser extends BaseParser {
                     String item = e.toString();
                     String playPageData = "playPageData";
                     if (item.contains(playPageData)) {
-                        SCAlbum scVideo = new SCAlbum(SCSite.IQIYI);
                         int index = item.indexOf(playPageData);
                         String body = item.substring(index);
                         int startIndex = body.indexOf("{");
@@ -244,6 +243,7 @@ public class IqiyiParser extends BaseParser {
                                 JSONArray array = rootObject.getJSONArray("list");
                                 int length = array.length();
                                 for (int i = 0; i < length; i++) {
+                                    SCAlbum scVideo = new SCAlbum(SCSite.IQIYI);
                                     JSONObject itemObject = array.getJSONObject(i);
                                     String url = itemObject.getString("url");
                                     String subtitle = itemObject.getString("subtitle");
@@ -255,7 +255,8 @@ public class IqiyiParser extends BaseParser {
                                     scVideo.setAlbumId(vid);
                                     scVideo.setDesc(description);
                                     scVideo.setPlayUrl(url);
-                                    System.out.println(subtitle + "=" + tvid + "=" + vid + "=" + description);
+                                    scVideos.add(scVideo);
+                                    System.out.println(subtitle + "=" + tvid + "=" + vid + "=" + url);
                                 }
                             } catch (JSONException e1) {
                                 e1.printStackTrace();

@@ -30,12 +30,94 @@ public class SCAlbum implements Parcelable {
         this.mSite = new SCSite(siteID);
     }
 
+    protected SCAlbum(Parcel in) {
+        mAlbumId = in.readString();
+        if (in.readByte() == 0) {
+            mVideosTotal = null;
+        } else {
+            mVideosTotal = in.readInt();
+        }
+        mTitle = in.readString();
+        mSubTitle = in.readString();
+        mDirector = in.readString();
+        mMainActor = in.readString();
+        mVerImageUrl = in.readString();
+        mHorImageUrl = in.readString();
+        mDesc = in.readString();
+        mTip = in.readString();
+        byte tmpMIsCompleted = in.readByte();
+        mIsCompleted = tmpMIsCompleted == 0 ? null : tmpMIsCompleted == 1;
+        mLetvStyle = in.readString();
+        mTVid = in.readString();
+        mScore = in.readString();
+        mPlayUrl = in.readString();
+    }
+
+    public static final Creator<SCAlbum> CREATOR = new Creator<SCAlbum>() {
+        @Override
+        public SCAlbum createFromParcel(Parcel in) {
+            return new SCAlbum(in);
+        }
+
+        @Override
+        public SCAlbum[] newArray(int size) {
+            return new SCAlbum[size];
+        }
+    };
+
+    public String toJson() {
+        String ret = SailorCast.getGson().toJson(this);
+        return ret;
+    }
+
+    public static SCAlbum fromJson(String json) {
+        SCAlbum album  = SailorCast.getGson().fromJson(json,SCAlbum.class);
+        return album;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mAlbumId);
+        if (mVideosTotal == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(mVideosTotal);
+        }
+        dest.writeString(mTitle);
+        dest.writeString(mSubTitle);
+        dest.writeString(mDirector);
+        dest.writeString(mMainActor);
+        dest.writeString(mVerImageUrl);
+        dest.writeString(mHorImageUrl);
+        dest.writeString(mDesc);
+        dest.writeString(mTip);
+        dest.writeByte((byte) (mIsCompleted == null ? 0 : mIsCompleted ? 1 : 2));
+        dest.writeString(mLetvStyle);
+        dest.writeString(mTVid);
+        dest.writeString(mScore);
+        dest.writeString(mPlayUrl);
+    }
+
     public String getAlbumId() {
         return mAlbumId;
     }
 
     public void setAlbumId(String mAlbumId) {
         this.mAlbumId = mAlbumId;
+    }
+
+    public Integer getVideosTotal() {
+        return mVideosTotal;
+    }
+
+    public void setVideosTotal(Integer mVideosTotal) {
+        this.mVideosTotal = mVideosTotal;
     }
 
     public String getTitle() {
@@ -86,14 +168,6 @@ public class SCAlbum implements Parcelable {
         this.mHorImageUrl = mHorImageUrl;
     }
 
-    public SCSite getSite() {
-        return mSite;
-    }
-
-    public void setSite(int siteID) {
-        this.mSite = new SCSite(siteID);
-    }
-
     public String getDesc() {
         return mDesc;
     }
@@ -102,6 +176,13 @@ public class SCAlbum implements Parcelable {
         this.mDesc = mDesc;
     }
 
+    public SCSite getSite() {
+        return mSite;
+    }
+
+    public void setSite(SCSite mSite) {
+        this.mSite = mSite;
+    }
 
     public String getTip() {
         return mTip;
@@ -117,14 +198,6 @@ public class SCAlbum implements Parcelable {
 
     public void setIsCompleted(Boolean mIsCompleted) {
         this.mIsCompleted = mIsCompleted;
-    }
-
-    public Integer getVideosTotal() {
-        return mVideosTotal;
-    }
-
-    public void setVideosTotal(Integer mVideosTotal) {
-        this.mVideosTotal = mVideosTotal;
     }
 
     public String getLetvStyle() {
@@ -147,8 +220,8 @@ public class SCAlbum implements Parcelable {
         return mScore;
     }
 
-    public void setScore(String score) {
-        this.mScore = score;
+    public void setScore(String mScore) {
+        this.mScore = mScore;
     }
 
     public String getPlayUrl() {
@@ -157,91 +230,5 @@ public class SCAlbum implements Parcelable {
 
     public void setPlayUrl(String mPlayUrl) {
         this.mPlayUrl = mPlayUrl;
-    }
-
-    @Override
-    public String toString() {
-        return "SCAlbum{" +
-                "mAlbumId='" + mAlbumId + '\'' +
-                ", mVideosTotal=" + mVideosTotal +
-                ", mTitle='" + mTitle + '\'' +
-                ", mSubTitle='" + mSubTitle + '\'' +
-                ", mDirector='" + mDirector + '\'' +
-                ", mMainActor='" + mMainActor + '\'' +
-                ", mVerImageUrl='" + mVerImageUrl + '\'' +
-                ", mHorImageUrl='" + mHorImageUrl + '\'' +
-                ", mDesc='" + mDesc + '\'' +
-                ", mSite=" + mSite +
-                ", mTip='" + mTip + '\'' +
-                ", mIsCompleted=" + mIsCompleted +
-                '}';
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-
-        parcel.writeString(mAlbumId);
-        parcel.writeInt(mVideosTotal);
-        parcel.writeString(mTitle);
-        parcel.writeString(mSubTitle);
-        parcel.writeString(mDirector);
-        parcel.writeString(mMainActor);
-        parcel.writeString(mVerImageUrl);
-        parcel.writeString(mHorImageUrl);
-        parcel.writeString(mDesc);
-        parcel.writeInt(mSite.getSiteID());
-        parcel.writeString(mTip);
-        parcel.writeByte((byte) (mIsCompleted ? 1 : 0)); //myBoolean = in.readByte() != 0;
-        parcel.writeString(mLetvStyle);
-        parcel.writeString(mTVid);
-        parcel.writeString(mScore);
-        parcel.writeString(mPlayUrl);
-    }
-
-    private SCAlbum (Parcel in) {
-        this.mAlbumId = in.readString();
-        this.mVideosTotal = in.readInt();
-        this.mTitle = in.readString();
-        this.mSubTitle = in.readString();
-        this.mDirector = in.readString();
-        this.mMainActor = in.readString();
-        this.mVerImageUrl = in.readString();
-        this.mHorImageUrl = in.readString();
-        this.mDesc = in.readString();
-        this.mSite = new SCSite(in.readInt());
-        this.mTip = in.readString();
-        this.mIsCompleted = in.readByte() != 0;
-        this.mLetvStyle = in.readString();
-        this.mTVid = in.readString();
-        this.mScore = in.readString();
-        this.mPlayUrl = in.readString();
-    }
-
-    public static final Creator<SCAlbum> CREATOR = new Creator<SCAlbum>() {
-
-        @Override
-        public SCAlbum createFromParcel(Parcel source) {
-            return new SCAlbum(source);
-        }
-
-        @Override
-        public SCAlbum[] newArray(int size) {
-            return new SCAlbum[size];
-        }
-    };
-
-    public String toJson() {
-        String ret = SailorCast.getGson().toJson(this);
-        return ret;
-    }
-
-    public static SCAlbum fromJson(String json) {
-        SCAlbum album  = SailorCast.getGson().fromJson(json,SCAlbum.class);
-        return album;
     }
 }

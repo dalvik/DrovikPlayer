@@ -1,6 +1,9 @@
 package com.drovik.player.video.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,7 +18,9 @@ import android.widget.TextView;
 import com.android.library.ui.activity.BaseCompatActivity;
 import com.crixmod.sailorcast.SailorCast;
 import com.crixmod.sailorcast.model.SCAlbum;
+import com.crixmod.sailorcast.model.SCAlbums;
 import com.crixmod.sailorcast.model.SCChannel;
+import com.crixmod.sailorcast.model.SCSite;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.siteapi.OnGetAlbumsListener;
 import com.crixmod.sailorcast.siteapi.SiteApi;
@@ -24,9 +29,12 @@ import com.crixmod.sailorcast.view.fragments.AlbumPlayGridFragment;
 import com.drovik.player.R;
 import com.drovik.player.video.Const;
 import com.drovik.player.video.adapter.EpisodeListAdapter;
+import com.drovik.player.video.parser.Episode;
 import com.drovik.player.video.parser.EpisodeList;
 import com.drovik.player.video.parser.IqiyiParser;
 import com.drovik.utils.ToastUtils;
+
+import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -58,6 +66,8 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
 
     private EpisodeList mEpisodeList;
 
+    private BroadcastReceiver mRecv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +81,8 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
                 findViews();
                 init();
                 setTitle(mAlbum.getTitle());
-                SiteApi.doGetEpisodes(mAlbum.getSite().getSiteID(),mChannelId, mAlbum.getPlayUrl(),this);
+                initRecv();
+                SiteApi.doGetEpisodes(SCSite.IQIYI,mChannelId, mAlbum.getPlayUrl(),this);
             } else {
                 MovieDetailActivity.this.finish();
             }
@@ -99,6 +110,10 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(mRecv != null) {
+            unregisterReceiver(mRecv);
+            mRecv = null;
+        }
     }
 
     @Override
@@ -232,6 +247,36 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
             mDescribe.setText(mAlbum.getDesc());
         } else {
             mDescribe.setVisibility(View.GONE);
+        }
+    }
+
+    private void initRecv() {
+        if(mRecv == null) {
+            mRecv = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    if(Const.ACTION_REFRESH.equalsIgnoreCase(intent.getAction())){
+                        ArrayList<SCAlbum> list = intent.getParcelableArrayListExtra(Const.EXTRA_REFRESH);
+                        updateAlumbDetail(list);
+                    }
+                }
+            };
+            IntentFilter filter = new IntentFilter(Const.ACTION_REFRESH);
+            registerReceiver(mRecv, filter);
+        }
+    }
+
+    private void updateAlumbDetail(ArrayList<SCAlbum> list) {
+        if(list != null && list.size()>0) {
+            for(Episode episode: mEpisodeList) {
+                for(SCAlbum album:list) {
+                    if(!TextUtils.isEmpty(episode.getPlayUrl()) && episode.getPlayUrl().equals(album.getPlayUrl())){
+                        episode.setTvId(album.getTVid());
+                        episode.setVid(album.getAlbumId());
+                        episode.setDescription(album.getDesc());
+                    }
+                }
+            }
         }
     }
 }
