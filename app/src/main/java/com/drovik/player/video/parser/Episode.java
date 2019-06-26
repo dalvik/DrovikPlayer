@@ -9,7 +9,7 @@ public class Episode implements Parcelable {
     private String duration;//42:10
     private String name;//xxxx第1集
     private String playUrl;//http://www.iqiyi.com/v_19rsjr50nw.html
-    private String shortTitle;//题目
+    private String shortTitle;//标题
     private String subTitle;//摘要
     private String tvId;//2256822000
     private String vid;//b97d2d10d8b4d8d36b3b93288cf7c6c9

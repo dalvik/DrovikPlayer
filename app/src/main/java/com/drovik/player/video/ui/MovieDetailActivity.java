@@ -197,13 +197,14 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     }
 
 	private void openVideoPlayer(){
-        if(!TextUtils.isEmpty(mAlbum.getTVid()) && !TextUtils.isEmpty(mAlbum.getTVid())){
+        if(!TextUtils.isEmpty(mAlbum.getTVid()) && !TextUtils.isEmpty(mAlbum.getTVid()) || !TextUtils.isEmpty(mAlbum.getPlayUrl())){
             SCVideo video = new SCVideo();
             video.setVideoTitle(mAlbum.getTitle());
             Intent mpdIntent = new Intent(this, GSYVideoPlayActivity.class)
-                    .putExtra(VideoPlayActivity.SCVIDEO, video)
-                    .putExtra(VideoPlayActivity.SCSTREAM, mAlbum.getTVid())//tvid
-                    .putExtra(VideoPlayActivity.SCMEDIA, mAlbum.getAlbumId());//vid
+                    .putExtra(Const.SC_VIDEO, video)
+                    .putExtra(Const.SC_VID, mAlbum.getAlbumId())//vid
+                    .putExtra(Const.SC_TVID, mAlbum.getTVid())//tvid
+                    .putExtra(Const.SC_PLAY_URL, mAlbum.getPlayUrl());//play url
             startActivity(mpdIntent);
         } else {
             ToastUtils.showToast(this, R.string.movie_play_failed);

@@ -214,6 +214,60 @@ public class IqiyiParser extends BaseParser {
         return episodeList;
     }
 
+    /**
+     * 获取tvid 和vid
+     * @param htmlContent
+     * @return
+     */
+    @Override
+    public SCAlbums getSCAlbum(String htmlContent) {
+        SCAlbums scVideos = new SCAlbums();
+        if(!TextUtils.isEmpty(htmlContent)) {
+            Document doc = Jsoup.parse(htmlContent);
+            Element element = doc.body();
+            Elements alumList  = element.select("script");
+            if(alumList != null) {
+                for (Element e : alumList) {
+                    String item = e.toString();
+                    String playPageData = "playPageData";
+                    if (item.contains(playPageData)) {
+                        SCAlbum scVideo = new SCAlbum(SCSite.IQIYI);
+                        int index = item.indexOf(playPageData);
+                        String body = item.substring(index);
+                        int startIndex = body.indexOf("{");
+                        int endIndex = body.lastIndexOf("}");
+                        if (startIndex >= 0 && endIndex >= 0) {
+                            String content = body.substring(startIndex, endIndex + 1);
+                            try {
+                                JSONObject jsonObject = new JSONObject(content);
+                                JSONObject rootObject = jsonObject.getJSONObject("albumData");
+                                JSONArray array = rootObject.getJSONArray("list");
+                                int length = array.length();
+                                for (int i = 0; i < length; i++) {
+                                    JSONObject itemObject = array.getJSONObject(i);
+                                    String url = itemObject.getString("url");
+                                    String subtitle = itemObject.getString("subtitle");
+                                    String tvid = itemObject.getString("tvId");
+                                    String vid = itemObject.getString("vid");
+                                    String description = itemObject.getString("description");
+                                    String albumId = itemObject.getString("albumId");
+                                    scVideo.setTVid(tvid);
+                                    scVideo.setAlbumId(vid);
+                                    scVideo.setDesc(description);
+                                    scVideo.setPlayUrl(url);
+                                    System.out.println(subtitle + "=" + tvid + "=" + vid + "=" + description);
+                                }
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return scVideos;
+    }
+
     @Override
     public String parseVideoSource(String vid) {
         String videoPlaySource = null;

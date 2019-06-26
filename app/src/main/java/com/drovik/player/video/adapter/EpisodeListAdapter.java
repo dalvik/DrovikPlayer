@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
+import com.drovik.player.video.Const;
 import com.drovik.player.video.parser.Episode;
 import com.drovik.player.video.ui.GSYVideoPlayActivity;
 import com.drovik.player.video.ui.VideoPlayActivity;
@@ -80,9 +80,9 @@ public class EpisodeListAdapter extends BaseAdapter {
                 SCVideo video = new SCVideo();
                 video.setVideoTitle(episode.getShortTitle());
                 Intent mpdIntent = new Intent(context, GSYVideoPlayActivity.class)
-                        .putExtra(VideoPlayActivity.SCVIDEO, video)
-                        .putExtra(VideoPlayActivity.SCSTREAM, episode.getTvId())//tvid
-                        .putExtra(VideoPlayActivity.SCMEDIA, episode.getVid());//vid
+                        .putExtra(Const.SC_VIDEO, video)
+                        .putExtra(Const.SC_TVID, episode.getTvId())//tvid
+                        .putExtra(Const.SC_VID, episode.getVid());//vid
                 context.startActivity(mpdIntent);
             }
         });

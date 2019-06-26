@@ -17,6 +17,12 @@ public class Const {
     public final static int channel_iqiyi_education = 12;
     public final static int channel_iqiyi_fashion = 13;
 
+    public static final String SC_VID = "sc_vid";
+    public static final String SC_TVID = "sc_tvid";
+    public static final String SC_VIDEO = "sc_video";
+    public static final String SC_PLAY_URL = "sc_ply_url";
+    public final static String VIDEO = "video";
+
     private Const() {
 
     }

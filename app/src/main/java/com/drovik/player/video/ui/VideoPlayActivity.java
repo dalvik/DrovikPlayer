@@ -19,6 +19,7 @@ import com.android.library.utils.PreferenceUtils;
 import com.crixmod.sailorcast.model.SCLiveStream;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.drovik.player.R;
+import com.drovik.player.video.Const;
 import com.drovik.player.video.VideoBean;
 import com.drovik.player.video.parser.IqiyiParser;
 
@@ -28,10 +29,6 @@ import java.net.URL;
 //import com.drovik.player.video.mediaplayer.SuperPlayer;
 
 public class VideoPlayActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final String SCMEDIA = "sc_media";
-    public static final String SCSTREAM = "sc_stream";
-    public static final String SCVIDEO = "sc_video";
-    public final static String VIDEO = "video";
     private String mVideoPath;
     private String mVid;
     private String mTvid;
@@ -80,7 +77,7 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
         boolean result = false;
         Intent intent = getIntent();
         if(intent != null) {
-            data = intent.getParcelableExtra(VIDEO);
+            data = intent.getParcelableExtra(Const.VIDEO);
             if(data != null) {
                 mVideoPath =data.origpath;;
                 String temp = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
@@ -88,11 +85,11 @@ public class VideoPlayActivity extends AppCompatActivity implements View.OnClick
                 Log.d(TAG, "initPlayer path:" + mVideoPath + " mVideoName: " + mVideoName);
                 result = true;
             } else {
-                mVideo = intent.getParcelableExtra(SCVIDEO);
+                mVideo = intent.getParcelableExtra(Const.SC_VIDEO);
                 if(mVideo != null)  {
-                    mVid = intent.getStringExtra(SCMEDIA);//vid
-                    mTvid = intent.getStringExtra(SCSTREAM);//tvid
-                    /*String mStreamString = intent.getStringExtra(SCSTREAM);
+                    mVid = intent.getStringExtra(Const.SC_VID);//vid
+                    mTvid = intent.getStringExtra(Const.SC_TVID);//tvid
+                    /*String mStreamString = intent.getStringExtra(SC_TVID);
                     if(mStreamString != null && !mStreamString.isEmpty()) {
                         mStream = SCLiveStream.fromJson(mStreamString);
                     }

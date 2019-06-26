@@ -20,15 +20,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.android.audiorecorder.utils.StringUtils;
 import com.android.library.net.utils.LogUtil;
 import com.android.library.utils.PreferenceUtils;
+import com.crixmod.sailorcast.model.SCAlbum;
+import com.crixmod.sailorcast.model.SCAlbums;
 import com.crixmod.sailorcast.model.SCLiveStream;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
+import com.drovik.player.video.Const;
 import com.drovik.player.video.VideoBean;
 import com.drovik.player.video.parser.IqiyiParser;
 import com.iflytek.voiceads.IFLYVideoAd;
@@ -55,6 +57,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     private String mVideoPath;
     private String mVid;
     private String mTvid;
+    private String mPlayUrl;
     private String mVideoName = "";
     private Uri mVideoUri;
     private VideoBean data;
@@ -125,7 +128,8 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
                     mVid = intent.getStringExtra(SCMEDIA);//vid
                     mTvid = intent.getStringExtra(SCSTREAM);//tvid
                     mVideoName = mVideo.getVideoTitle();
-                    /*String mStreamString = intent.getStringExtra(SCSTREAM);
+                    mPlayUrl = intent.getStringExtra(Const.SC_PLAY_URL);
+                    /*String mStreamString = intent.getStringExtra(SC_TVID);
                     if(mStreamString != null && !mStreamString.isEmpty()) {
                         mStream = SCLiveStream.fromJson(mStreamString);
                     }
@@ -311,6 +315,13 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         videoAd.setParameter(AdKeys.APP_VER, StringUtils.getVersionName(this));
         videoAd.loadAd();
         handler.sendEmptyMessageDelayed(1, 4000);
+
+    }
+
+    private void loadInfo(){
+        if(!TextUtils.isEmpty(mPlayUrl)){
+
+        }
     }
 
     private IFLYVideoListener mVideoAdListener = new IFLYVideoListener() {
@@ -469,6 +480,28 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             videoADDataRef.onExposure(mAdCoverImageView);
         }
     }
+
+
+    private class ParseScciptHeaderAysncTask extends AsyncTask<Void, Void, SCAlbums>{
+
+        @Override
+        protected SCAlbums doInBackground(Void[] objects) {
+            SCAlbums alumbs = mIqiyiParser.parseAlbums(mPlayUrl);
+            for(SCAlbum album:alumbs){
+                if(mPlayUrl.equals(album.getPlayUrl())){
+                    mVid = album.getAlbumId();
+                    mTvid = album.getTVid();
+                }
+            }
+            return alumbs;
+        }
+
+        @Override
+        protected void onPostExecute(SCAlbums  path){
+            super.onPostExecute(path);
+        }
+    }
+
 
     private Handler handler = new Handler() {
         @Override

@@ -3,6 +3,7 @@ package com.drovik.player.video.parser;
 import android.util.Log;
 
 import com.crixmod.sailorcast.model.SCAlbums;
+import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.model.SCVideos;
 
 import org.jsoup.Connection;
@@ -83,6 +84,16 @@ public abstract class BaseParser {
     public abstract SCVideos parseVideos(String content);
 
     public abstract String parseVideoSource(String url);
+
+
+    /**
+     * 获取tvid 和vid
+     * @param content
+     * @return
+     */
+    public SCAlbums getSCAlbum(String content){
+        return null;
+    }
 
     public String parseVideoSource(String vid, String tvid) {
         return "";
