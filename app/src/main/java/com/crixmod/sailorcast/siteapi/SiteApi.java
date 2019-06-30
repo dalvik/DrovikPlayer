@@ -47,7 +47,7 @@ public class SiteApi {
      * @param url
      * @param listener
      */
-    public static void doGetEpisodes(int siteID, int channelID, String url, OnGetAlbumsListener.OnGetEpisodeListener listener){
+    public static void doGetEpisodes(int siteID, int channelID, int pageNo, int pageSize, String url, String alumbId, OnGetAlbumsListener.OnGetEpisodeListener listener){
         if(siteID == SCSite.LETV) {
             //new LetvApi().doGetChannelFilter(new SCChannel(channelID), listener);
         }
@@ -58,7 +58,7 @@ public class SiteApi {
             //new SohuApi().doGetChannelFilter(new SCChannel(channelID), listener);
         }
         if(siteID == SCSite.IQIYI) {
-            new IqiyiApi().doGetEposideLis(new SCChannel(channelID), url, listener);
+            new IqiyiApi().doGetEposideLis(new SCChannel(channelID), pageNo, pageSize, url, alumbId, listener);
         }
     }
 

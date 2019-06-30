@@ -81,6 +81,8 @@ public abstract class BaseParser {
 
     public abstract EpisodeList parseEpisodeList(String url, int channelID);
 
+    public abstract EpisodeList parseEpisodeList(int channelID, int pageNo, int pageSize, String url, String alumbId);
+
     public abstract SCVideos parseVideos(String content);
 
     public abstract String parseVideoSource(String url);

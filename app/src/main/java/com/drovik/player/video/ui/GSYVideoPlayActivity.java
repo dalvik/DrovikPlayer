@@ -50,10 +50,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final String SCMEDIA = "sc_media";
-    public static final String SCSTREAM = "sc_stream";
-    public static final String SCVIDEO = "sc_video";
-    public final static String VIDEO = "video";
     private String mVideoPath;
     private String mVid;
     private String mTvid;
@@ -101,7 +97,8 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             return;
         }
         mHasPlayComplete = false;
-        requestNativeVideoAd();
+        //requestNativeVideoAd();
+        loadVideoSource();
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mRecorderWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DrovikVideoPlay_"+ powerManager.toString());
         if(!mRecorderWakeLock.isHeld()){
@@ -116,7 +113,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         boolean result = false;
         Intent intent = getIntent();
         if(intent != null) {
-            data = intent.getParcelableExtra(VIDEO);
+            data = intent.getParcelableExtra(Const.VIDEO);
             if(data != null) {
                 mVideoPath =data.origpath;;
                 String temp = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
@@ -124,10 +121,10 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
                 Log.d(TAG, "initPlayer path:" + mVideoPath + " mVideoName: " + mVideoName);
                 result = true;
             } else {
-                mVideo = intent.getParcelableExtra(SCVIDEO);
+                mVideo = intent.getParcelableExtra(Const.SC_VIDEO);
                 if(mVideo != null)  {
-                    mVid = intent.getStringExtra(SCMEDIA);//vid
-                    mTvid = intent.getStringExtra(SCSTREAM);//tvid
+                    mVid = intent.getStringExtra(Const.SC_VID);//vid
+                    mTvid = intent.getStringExtra(Const.SC_TVID);//tvid
                     mVideoName = mVideo.getVideoTitle();
                     mPlayUrl = intent.getStringExtra(Const.SC_PLAY_URL);
                     /*String mStreamString = intent.getStringExtra(SC_TVID);
@@ -192,7 +189,11 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         mAdCoverImageView.setVisibility(View.GONE);
         videoPlayer.setVisibility(View.VISIBLE);
         if(mVideo != null) {
-            new ParseVideoSourceAysncTask().execute();
+            if(TextUtils.isEmpty(mTvid) || TextUtils.isEmpty(mVid)){
+                new ParseScciptHeaderAysncTask().execute();
+            } else {
+                new ParseVideoSourceAysncTask().execute();
+            }
         }
     }
 
@@ -317,12 +318,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         handler.sendEmptyMessageDelayed(1, 4000);
         if(TextUtils.isEmpty(mTvid) || TextUtils.isEmpty(mVid)){
             new ParseScciptHeaderAysncTask().execute();
-        }
-    }
-
-    private void loadInfo(){
-        if(!TextUtils.isEmpty(mPlayUrl)){
-
         }
     }
 

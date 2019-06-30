@@ -15,7 +15,7 @@ abstract public class BaseSiteApi {
 
     }
 
-    public void doGetEposideLis(SCChannel channel, String url, OnGetAlbumsListener.OnGetEpisodeListener listener){
+    public void doGetEposideLis(SCChannel channel, int pageNo, int pageSize, String url, String alumbId, OnGetAlbumsListener.OnGetEpisodeListener listener){
 
     }
 

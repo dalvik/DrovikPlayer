@@ -80,11 +80,18 @@
         android:ellipsize="middle"
         android:maxLines="3" />
 
-    <GridView
-        android:id="@+id/frame_list_view_episode"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_below="@+id/album_desc"
-        android:visibility="gone"
-        style="@style/widget_video_gridview"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.crixmod.sailorcast.uiutils.pagingridview.PagingGridView
+            android:id="@+id/frame_list_view_episode"
+            android:visibility="gone"
+            style="@style/widget_video_gridview"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <Button
         android:text="@string/movie_play_immediately"

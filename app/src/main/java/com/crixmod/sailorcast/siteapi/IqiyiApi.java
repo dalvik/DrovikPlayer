@@ -110,8 +110,8 @@ public class IqiyiApi extends BaseSiteApi {
      * @param listener
      */
     @Override
-    public void doGetEposideLis(SCChannel channel, String url, OnGetAlbumsListener.OnGetEpisodeListener listener) {
-        getEpisodeListByUrl(channel, url, listener);
+    public void doGetEposideLis(SCChannel channel, int pageNo, int pageSize, String url, String alumbId, OnGetAlbumsListener.OnGetEpisodeListener listener) {
+        getEpisodeListByUrl(channel, pageNo, pageSize, url, alumbId, listener);
     }
 
     @Override
@@ -574,14 +574,25 @@ public class IqiyiApi extends BaseSiteApi {
      * @param url
      * @param listener
      */
-    private void getEpisodeListByUrl(final SCChannel channel, final String url, final OnGetAlbumsListener.OnGetEpisodeListener listener){
+    private void getEpisodeListByUrl(final SCChannel channel, final int pageNo, final int pageSize, final String url, final String alumbId, final OnGetAlbumsListener.OnGetEpisodeListener listener){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String content = mBaseParser.loadHtml(url);
                 EpisodeList albums = null;
-                if(!TextUtils.isEmpty(content)) {
-                    albums = mBaseParser.parseEpisodeList(content, channel.getChannelID());
+                String content = null;
+                if(!TextUtils.isEmpty(alumbId)) {
+                    albums = mBaseParser.parseEpisodeList(channel.getChannelID(), pageNo, pageSize, url, alumbId);
+                    if(albums == null || albums.size() ==0) {
+                        content = mBaseParser.loadHtml(url);
+                        if(!TextUtils.isEmpty(content)) {
+                            albums = mBaseParser.parseEpisodeList(content, channel.getChannelID());
+                        }
+                    }
+                } else {
+                    content = mBaseParser.loadHtml(url);
+                    if(!TextUtils.isEmpty(content)) {
+                        albums = mBaseParser.parseEpisodeList(content, channel.getChannelID());
+                    }
                 }
                 if(listener != null && albums != null) {
                     listener.onGetEpisodeSuccess(albums);

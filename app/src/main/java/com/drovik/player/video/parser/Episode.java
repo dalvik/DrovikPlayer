@@ -15,6 +15,7 @@ public class Episode implements Parcelable {
     private String vid;//b97d2d10d8b4d8d36b3b93288cf7c6c9
     private String order;// 1 2 3
     private String imageUrl;//
+    private int contentType;
 
     public Episode(){
 
@@ -31,6 +32,7 @@ public class Episode implements Parcelable {
         vid = in.readString();
         order = in.readString();
         imageUrl = in.readString();
+        contentType = in.readInt();
     }
 
     public String getDescription() {
@@ -113,6 +115,14 @@ public class Episode implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
+    public int getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(int contentType) {
+        this.contentType = contentType;
+    }
+
     public static final Creator<Episode> CREATOR = new Creator<Episode>() {
         @Override
         public Episode createFromParcel(Parcel in) {
@@ -142,6 +152,7 @@ public class Episode implements Parcelable {
         dest.writeString(vid);
         dest.writeString(order);
         dest.writeString(imageUrl);
+        dest.writeInt(contentType);
     }
 
     @Override

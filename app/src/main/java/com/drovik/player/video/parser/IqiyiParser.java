@@ -78,7 +78,7 @@ public class IqiyiParser extends BaseParser {
      "qiyiProduced":false,"focus":"沈马组合爆笑黑色幽默","tvId":"444754700","formatPeriod":"2015-12-31","playUrl":"http://www.iqiyi.com/v_19rrlcgb4w.html","duration":"01:41:20","videoCount":1,
      "videoInfoType":"video",
      "cast":{"main_charactor":[{"image_url":"http://pic2.iqiyipic.com/image/20190312/2c/88/p_5037611_m_601_m6.jpg","name":"沈腾","id":213640105},{"image_url":"http://pic2.iqiyipic.com/image/20181228/f7/e5/p_2013841_m_601_m7.jpg","name":"马丽","id":208593805}]},
-     "score":8.7,
+     "score":8.7,parseAlbums
      "latestOrder":1,"imageUrl":"http://pic5.iqiyipic.com/image/20180217/35/12/v_109991650_m_601_m7.jpg",
      "name":"一念天堂","exclusive":false,"siteId":"iqiyi","categories":[{"name":"喜剧"}],"is1080p":true,"secondInfo":"主演:沈腾 / 马丽","contentType":1,"channelId":1}
      */
@@ -117,12 +117,14 @@ public class IqiyiParser extends BaseParser {
                             album.setVideosTotal(dataOriginalJson.optInt("videoCount"));
                             album.setMainActor(dataOriginalJson.optString("secondInfo"));//主演
                             album.setDirector(dataOriginalJson.optString("main_charactor"));//演员表
-                            album.setAlbumId(dataOriginalJson.optString("docId"));
+                            //album.setAlbumId(dataOriginalJson.optString("docId"));
+                            album.setAlbumId(dataOriginalJson.optString("albumId"));
                             album.setTVid(dataOriginalJson.optString("tvId"));
                             album.setScore(dataOriginalJson.optString("score"));
                             album.setDesc(dataOriginalJson.optString("description"));
                             album.setPlayUrl(dataOriginalJson.optString("playUrl"));
                             albums.add(album);
+                            System.out.println("==> albumId: " + album.getAlbumId());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -209,6 +211,54 @@ public class IqiyiParser extends BaseParser {
                         e.printStackTrace();
                     }
                 }
+            }
+        }
+        return episodeList;
+    }
+
+    public EpisodeList parseEpisodeList(int channelID, int pageNo, int pageSize, String url, String alumbId){
+        EpisodeList episodeList = new EpisodeList();
+        String alumbListUrl = "https://pcw-api.iqiyi.com/albums/album/avlistinfo?aid=" + alumbId + "&size=" + pageSize + "&page=" + pageNo;
+        String content = loadHtml(alumbListUrl);
+        if(!TextUtils.isEmpty(content)) {
+            try {
+                JSONObject jsonObject = new JSONObject(content);
+                JSONObject dataObject = jsonObject.optJSONObject("data");
+                if(dataObject != null) {
+                    JSONArray epsodeList = dataObject.optJSONArray("epsodelist");
+                    if(epsodeList != null) {
+                        int length = epsodeList.length();
+                        for(int i=0; i<length; i++) {
+                            JSONObject itemObject = epsodeList.getJSONObject(i);
+                            int tvId = itemObject.optInt("tvId");
+                            //String desc = itemObject.getString("description");
+                            String vid = itemObject.optString("vid");
+                            String name = itemObject.optString("name");
+                            String playUrl = itemObject.optString("playUrl");
+                            int contentType = itemObject.optInt("contentType");
+                            String imageUrl = itemObject.optString("imageUrl");
+                            String duration = itemObject.optString("duration");
+                            int order = itemObject.optInt("order");
+                            String shortTitle = itemObject.optString("shortTitle");
+                            String period = itemObject.optString("period");
+
+                            Episode node = new Episode();
+                            node.setTvId(String.valueOf(tvId));
+                            //node.setDescription(desc);
+                            node.setVid(vid);
+                            node.setSubTitle(name);
+                            node.setPlayUrl(playUrl);
+                            node.setImageUrl(imageUrl);
+                            node.setDuration(duration);
+                            node.setOrder(String.valueOf(order));
+                            node.setShortTitle(shortTitle);
+                            episodeList.add(node);
+                            System.out.println(node.toString());
+                        }
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
         return episodeList;

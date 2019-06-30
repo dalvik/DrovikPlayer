@@ -96,6 +96,11 @@ public class EpisodeListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void addData(List<Episode> data) {
+        listItems.addAll(data);
+        notifyDataSetChanged();
+    }
+
     public void setItemHeight(int height) {
         if (height == mItemHeight) {
             return;
