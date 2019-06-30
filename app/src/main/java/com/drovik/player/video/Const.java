@@ -4,6 +4,7 @@ public class Const {
 
     public final static String CHANNEL_ID = "channel_id";
     public final static String ALUMB_DETAIL = "alumb_detail";
+    public final static String INDEX_ID = "index_id";
 
     public final static int channel_movie = 1;
     public final static int channel_show = 2;

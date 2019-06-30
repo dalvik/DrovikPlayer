@@ -26,6 +26,7 @@ public class MovieListAdapter extends BaseAdapter {
     private Context mContext;
     private int mColumns = 3;
     private SCChannel mChannel;
+    private int mIndex;
 
     private SCAlbums mAlbums = new SCAlbums();
 
@@ -36,10 +37,12 @@ public class MovieListAdapter extends BaseAdapter {
             TextView videoTip;
     }
 
-    public MovieListAdapter(Context mContext, SCChannel channel) {
+    public MovieListAdapter(Context mContext, SCChannel channel, int index) {
         this.mContext = mContext;
         this.mChannel = channel;
+        this.mIndex = index;
     }
+
     public void clear() {
         mAlbums.clear();
     }
@@ -124,7 +127,10 @@ public class MovieListAdapter extends BaseAdapter {
         viewHolder.resultContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mpdIntent = new Intent(mContext, MovieDetailActivity.class).putExtra(Const.ALUMB_DETAIL, album).putExtra(Const.CHANNEL_ID, mChannel.getChannelID());
+                Intent mpdIntent = new Intent(mContext, MovieDetailActivity.class)
+                        .putExtra(Const.ALUMB_DETAIL, album)
+                        .putExtra(Const.CHANNEL_ID, mChannel.getChannelID())
+                        .putExtra(Const.INDEX_ID, mIndex);
                 mContext.startActivity(mpdIntent);
             }
         });

@@ -23,6 +23,7 @@ public class SCAlbum implements Parcelable {
     private Boolean mIsCompleted = false;  /* 是否完结 */
     private String mLetvStyle = null;  /* Letv需要的字段, 其它站点不需要， 界面不显示 */
     private String mTVid;
+    private String mVid;
     private String mScore;
     private String mPlayUrl;//http://www.iqiyi.com/a_19rrhrra2l.html
 
@@ -49,6 +50,7 @@ public class SCAlbum implements Parcelable {
         mIsCompleted = tmpMIsCompleted == 0 ? null : tmpMIsCompleted == 1;
         mLetvStyle = in.readString();
         mTVid = in.readString();
+        mVid = in.readString();
         mScore = in.readString();
         mPlayUrl = in.readString();
     }
@@ -100,6 +102,7 @@ public class SCAlbum implements Parcelable {
         dest.writeByte((byte) (mIsCompleted == null ? 0 : mIsCompleted ? 1 : 2));
         dest.writeString(mLetvStyle);
         dest.writeString(mTVid);
+        dest.writeString(mVid);
         dest.writeString(mScore);
         dest.writeString(mPlayUrl);
     }
@@ -214,6 +217,14 @@ public class SCAlbum implements Parcelable {
 
     public void setTVid(String mTVid) {
         this.mTVid = mTVid;
+    }
+
+    public String getVid() {
+        return mVid;
+    }
+
+    public void setVid(String mVid) {
+        this.mVid = mVid;
     }
 
     public String getScore() {

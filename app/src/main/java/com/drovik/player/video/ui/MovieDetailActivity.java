@@ -47,6 +47,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     public static final int PAGE_SIZE = 60;
     private SCAlbum mAlbum;
     private int mChannelId;
+    private int mIndex;
     private SCVideo mCurrentVideo;
     private int mVideoInAlbum; /* start from 0, item position */
 
@@ -84,13 +85,19 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
         if(intent != null){
             mAlbum = intent.getParcelableExtra(Const.ALUMB_DETAIL);
             mChannelId = intent.getIntExtra(Const.CHANNEL_ID, SCChannel.MOVIE);
+            mIndex = intent.getIntExtra(Const.INDEX_ID, 0);
             mIqiyiParser = new IqiyiParser();
             if(mAlbum != null) {
                 findViews();
                 init();
                 setTitle(mAlbum.getTitle());
                 initRecv();
-                loadMoreAlbums();
+                if(mIndex == 1) {
+                    findViewById(R.id.album_play_back).setVisibility(View.VISIBLE);
+                } else {
+                    findViewById(R.id.album_play_back).setVisibility(View.GONE);
+                    loadMoreAlbums();
+                }
             } else {
                 MovieDetailActivity.this.finish();
             }
@@ -117,11 +124,15 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
                 } else {
                     mEpisodeGridView.setHasMoreItems(false);
                 }
-                findViewById(R.id.album_play_back).setVisibility(View.GONE);
-                mEpisodeGridView.setVisibility(View.VISIBLE);
             } else {
-                findViewById(R.id.album_play_back).setVisibility(View.VISIBLE);
                 mDescribe.setMaxLines(10);
+            }
+            if(mEpisodeListAdapter.getCount()>0){
+                mSwipeContainer.setVisibility(View.VISIBLE);
+                findViewById(R.id.album_play_back).setVisibility(View.GONE);
+            } else {
+                mSwipeContainer.setVisibility(View.GONE);
+                findViewById(R.id.album_play_back).setVisibility(View.VISIBLE);
             }
         }
     };
@@ -274,7 +285,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
             video.setVideoTitle(mAlbum.getTitle());
             Intent mpdIntent = new Intent(this, GSYVideoPlayActivity.class)
                     .putExtra(Const.SC_VIDEO, video)
-                    .putExtra(Const.SC_VID, mAlbum.getAlbumId())//vid
+                    .putExtra(Const.SC_VID, mAlbum.getVid())//vid
                     .putExtra(Const.SC_TVID, mAlbum.getTVid())//tvid
                     .putExtra(Const.SC_PLAY_URL, mAlbum.getPlayUrl());//play url
             startActivity(mpdIntent);

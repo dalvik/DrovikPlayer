@@ -81,7 +81,7 @@ public class AlbumListFragment extends Fragment implements
             mChannelID = getArguments().getInt(ARG_CHANNEL_ID);//index
             mIndex = getArguments().getInt(BaseMoviePager.EXTRA_CHANNEL_ID);
             loadMoreAlbums();
-            mAdapter = new MovieListAdapter(getActivity(), new SCChannel(mChannelID));
+            mAdapter = new MovieListAdapter(getActivity(), new SCChannel(mChannelID), mIndex);
             if(mSiteID == SCSite.LETV) {
                 mColumns = 2;
                 mAdapter.setColumns(mColumns);
@@ -247,7 +247,7 @@ public class AlbumListFragment extends Fragment implements
 
     @Override
     public void onRefresh() {
-        mAdapter = new MovieListAdapter(getActivity(), new SCChannel(mChannelID));
+        mAdapter = new MovieListAdapter(getActivity(), new SCChannel(mChannelID), mIndex);
         mPageNo = 0;
         mGridView.setHasMoreItems(true);
         if(mSiteID == SCSite.LETV) {

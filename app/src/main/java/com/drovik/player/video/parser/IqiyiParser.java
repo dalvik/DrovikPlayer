@@ -117,8 +117,12 @@ public class IqiyiParser extends BaseParser {
                             album.setVideosTotal(dataOriginalJson.optInt("videoCount"));
                             album.setMainActor(dataOriginalJson.optString("secondInfo"));//主演
                             album.setDirector(dataOriginalJson.optString("main_charactor"));//演员表
-                            //album.setAlbumId(dataOriginalJson.optString("docId"));
-                            album.setAlbumId(dataOriginalJson.optString("albumId"));
+                            if(dataOriginalJson.has("docId")) {
+                                album.setVid(dataOriginalJson.optString("docId"));
+                            }
+                            if(dataOriginalJson.has("albumId")){
+                                album.setAlbumId(dataOriginalJson.optString("albumId"));
+                            }
                             album.setTVid(dataOriginalJson.optString("tvId"));
                             album.setScore(dataOriginalJson.optString("score"));
                             album.setDesc(dataOriginalJson.optString("description"));
@@ -230,8 +234,12 @@ public class IqiyiParser extends BaseParser {
                         int length = epsodeList.length();
                         for(int i=0; i<length; i++) {
                             JSONObject itemObject = epsodeList.getJSONObject(i);
-                            int tvId = itemObject.optInt("tvId");
-                            //String desc = itemObject.getString("description");
+                            Episode node = new Episode();
+                            long tvId = itemObject.optLong("tvId");
+                            if(itemObject.has("description")) {
+                                String desc = itemObject.getString("description");
+                                node.setDescription(desc);
+                            }
                             String vid = itemObject.optString("vid");
                             String name = itemObject.optString("name");
                             String playUrl = itemObject.optString("playUrl");
@@ -242,9 +250,7 @@ public class IqiyiParser extends BaseParser {
                             String shortTitle = itemObject.optString("shortTitle");
                             String period = itemObject.optString("period");
 
-                            Episode node = new Episode();
                             node.setTvId(String.valueOf(tvId));
-                            //node.setDescription(desc);
                             node.setVid(vid);
                             node.setSubTitle(name);
                             node.setPlayUrl(playUrl);
@@ -253,7 +259,6 @@ public class IqiyiParser extends BaseParser {
                             node.setOrder(String.valueOf(order));
                             node.setShortTitle(shortTitle);
                             episodeList.add(node);
-                            System.out.println(node.toString());
                         }
                     }
                 }
