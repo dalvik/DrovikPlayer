@@ -87,9 +87,10 @@
         android:layout_height="wrap_content"
         android:visibility="gone">
 
-        <com.crixmod.sailorcast.uiutils.pagingridview.PagingGridView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/frame_list_view_episode"
-            style="@style/widget_video_gridview"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -105,7 +106,7 @@
         android:background="@color/white"
         android:onClick="closeAlbumDesc"
         android:id="@+id/album_play_back"
-        android:visibility="visible"
+        android:visibility="invisible"
         />
 
 </LinearLayout>

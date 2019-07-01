@@ -8,25 +8,25 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.library.ui.activity.BaseCompatActivity;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.crixmod.sailorcast.SailorCast;
 import com.crixmod.sailorcast.model.SCAlbum;
-import com.crixmod.sailorcast.model.SCAlbums;
 import com.crixmod.sailorcast.model.SCChannel;
 import com.crixmod.sailorcast.model.SCSite;
 import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.siteapi.OnGetAlbumsListener;
 import com.crixmod.sailorcast.siteapi.SiteApi;
-import com.crixmod.sailorcast.uiutils.pagingridview.PagingGridView;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.crixmod.sailorcast.view.fragments.AlbumPlayGridFragment;
 import com.drovik.player.R;
@@ -35,7 +35,6 @@ import com.drovik.player.video.adapter.EpisodeListAdapter;
 import com.drovik.player.video.parser.Episode;
 import com.drovik.player.video.parser.EpisodeList;
 import com.drovik.player.video.parser.IqiyiParser;
-import com.drovik.player.video.ui.adapter.MovieListAdapter;
 import com.drovik.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -44,7 +43,11 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbumsListener.OnGetEpisodeListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    public static final int PAGE_SIZE = 60;
+    private final static int MSG_LOAD_MSG = 1000;
+    private final static int PAGE_SIZE = 30;
+    private final static int PAGE_START = 1;
+    private int mPageIndex = PAGE_START;
+
     private SCAlbum mAlbum;
     private int mChannelId;
     private int mIndex;
@@ -68,12 +71,11 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     private IqiyiParser mIqiyiParser;
 
     private SwipeRefreshLayout mSwipeContainer;
-    private PagingGridView mEpisodeGridView;
+    private RecyclerView mEpisodeGridView;
     private EpisodeListAdapter mEpisodeListAdapter;
 
     private EpisodeList mEpisodeList;
 
-    private int mPageNo;
     private BroadcastReceiver mRecv;
 
     @Override
@@ -81,7 +83,6 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         Intent intent = getIntent();
-        mPageNo = 0;
         if(intent != null){
             mAlbum = intent.getParcelableExtra(Const.ALUMB_DETAIL);
             mChannelId = intent.getIntExtra(Const.CHANNEL_ID, SCChannel.MOVIE);
@@ -110,29 +111,41 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            EpisodeList episodeList = (EpisodeList)msg.obj;
-            if(mPageNo ==1 ) {
-                mEpisodeListAdapter.setData(episodeList);
-            } else {
-                mEpisodeListAdapter.addData(episodeList);
-            }
-            mEpisodeGridView.setIsLoading(false);
-            mSwipeContainer.setRefreshing(false);
-            if(episodeList != null && episodeList.size()>0) {
-                if(episodeList.size() == PAGE_SIZE) {
-                    mEpisodeGridView.setHasMoreItems(true);
-                } else {
-                    mEpisodeGridView.setHasMoreItems(false);
-                }
-            } else {
-                mDescribe.setMaxLines(10);
-            }
-            if(mEpisodeListAdapter.getCount()>0){
-                mSwipeContainer.setVisibility(View.VISIBLE);
-                findViewById(R.id.album_play_back).setVisibility(View.GONE);
-            } else {
-                mSwipeContainer.setVisibility(View.GONE);
-                findViewById(R.id.album_play_back).setVisibility(View.VISIBLE);
+            switch (msg.what){
+                case MSG_LOAD_MSG:
+                    EpisodeList episodeList = (EpisodeList)msg.obj;
+                    if(episodeList != null) {
+                        if(mPageIndex == PAGE_START){
+                            mEpisodeListAdapter.setNewData(episodeList);
+                        } else {
+                            mEpisodeListAdapter.addData(episodeList);
+                        }
+
+                        int dataSize = episodeList.size();
+                        if(dataSize == 0) {
+                            mSwipeContainer.setVisibility(View.GONE);
+                            findViewById(R.id.album_play_back).setVisibility(View.VISIBLE);
+                            mEpisodeListAdapter.setEnableLoadMore(false);
+                            mDescribe.setMaxLines(20);
+                        } else {
+                            mSwipeContainer.setVisibility(View.VISIBLE);
+                            mDescribe.setMaxLines(3);
+                            findViewById(R.id.album_play_back).setVisibility(View.GONE);
+                            if(dataSize % PAGE_SIZE == 0){
+                                mEpisodeListAdapter.setEnableLoadMore(true);
+                            } else {
+                                mEpisodeListAdapter.setEnableLoadMore(false);
+                            }
+                        }
+                    } else {
+                        mEpisodeListAdapter.setEnableLoadMore(false);
+                    }
+                    Log.i(TAG, "==> pageIndex: " + mPageIndex);
+                    mSwipeContainer.setRefreshing(false);
+                    mEpisodeListAdapter.loadMoreComplete();
+                    break;
+                    default:
+                        break;
             }
         }
     };
@@ -157,8 +170,9 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
 
     @Override
     public void onRefresh() {
-        mPageNo = 0;
-        mEpisodeGridView.setHasMoreItems(true);
+        //这里的作用是防止下拉刷新的时候还可以上拉加载
+        mEpisodeListAdapter.setEnableLoadMore(false);
+        mPageIndex = PAGE_START;
         loadMoreAlbums();
     }
 
@@ -169,42 +183,33 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
         mScore = findViewById(R.id.album_score);
         mDescribe = findViewById(R.id.album_desc);
         mSwipeContainer = findViewById(R.id.swipe_refresh_layout);
-        mSwipeContainer.setOnRefreshListener((SwipeRefreshLayout.OnRefreshListener) this);
         mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
         mEpisodeGridView = findViewById(R.id.frame_list_view_episode);
-        mEpisodeGridView.setNumColumns(3);
-        mEpisodeGridView.setHasMoreItems(true);
-        mEpisodeGridView.setScrollableListener(new PagingGridView.Scrollable() {
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                boolean enable = false;
-                if (mEpisodeGridView != null && mEpisodeGridView.getChildCount() > 0) {
-                    // check if the first item of the list is visible
-                    boolean firstItemVisible = mEpisodeGridView.getFirstVisiblePosition() == 0;
-                    // check if the top of the first item is visible
-                    boolean topOfFirstItemVisible = mEpisodeGridView.getChildAt(0).getTop() >= 0;
-                    // enabling or disabling the refresh layout
-
-                    enable = firstItemVisible && topOfFirstItemVisible;
-                }
-                mSwipeContainer.setEnabled(enable);
-            }
-        });
-        mEpisodeGridView.setPagingableListener(new PagingGridView.Pagingable() {
-
-            @Override
-            public void onLoadMoreItems() {
-                //loadMoreAlbums();
-            }
-        });
+        mEpisodeGridView.setLayoutManager(new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false));
         mEpisodeList = new EpisodeList();
-        mEpisodeListAdapter = new EpisodeListAdapter(this, mEpisodeList, R.layout.item_video_episode_list);
-        int width = getResources().getDisplayMetrics().widthPixels/3;
-        mEpisodeListAdapter.setItemHeight(width);
+        mEpisodeListAdapter = new EpisodeListAdapter(this);
+        mEpisodeListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                mPageIndex = mPageIndex + 1;
+                // 请求数据
+                mHandler.sendEmptyMessage(MSG_LOAD_MSG);
+            }
+        }, mEpisodeGridView);
+        mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //这里的作用是防止下拉刷新的时候还可以上拉加载
+                mEpisodeListAdapter.setEnableLoadMore(false);
+                mPageIndex = PAGE_START;
+                // 刷新数据
+                mHandler.sendEmptyMessage(MSG_LOAD_MSG);
+
+            }
+        });
         mEpisodeGridView.setAdapter(mEpisodeListAdapter);
         findViewById(R.id.album_play_back).setOnClickListener(this);
     }
@@ -218,11 +223,11 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     public void onGetEpisodeSuccess(EpisodeList episodes) {
         if(episodes != null) {
             episodes.debugLog();
-            Message msg = mHandler.obtainMessage(0, episodes);
+            Message msg = mHandler.obtainMessage(MSG_LOAD_MSG, episodes);
             mHandler.sendMessage(msg);
         } else {
             EpisodeList episodes2 = new EpisodeList();
-            Message msg = mHandler.obtainMessage(0, episodes2);
+            Message msg = mHandler.obtainMessage(MSG_LOAD_MSG, episodes2);
             mHandler.sendMessage(msg);
             Log.w(TAG, "==> onGetEpisodeSuccess empty.");
         }
@@ -349,7 +354,6 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     }
 
     public void loadMoreAlbums() {
-        mPageNo ++ ;
-        SiteApi.doGetEpisodes(SCSite.IQIYI,mChannelId, 1, PAGE_SIZE, mAlbum.getPlayUrl(), mAlbum.getAlbumId(), this);
+        SiteApi.doGetEpisodes(SCSite.IQIYI,mChannelId, mPageIndex, mPageIndex, mAlbum.getPlayUrl(), mAlbum.getAlbumId(), this);
     }
 }
