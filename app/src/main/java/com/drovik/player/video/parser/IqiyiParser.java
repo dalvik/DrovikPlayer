@@ -240,6 +240,9 @@ public class IqiyiParser extends BaseParser {
                                 String desc = itemObject.getString("description");
                                 node.setDescription(desc);
                             }
+                            if(itemObject.has("subtitle")) {
+                                node.setSubTitle(itemObject.optString("subtitle"));
+                            }
                             String vid = itemObject.optString("vid");
                             String name = itemObject.optString("name");
                             String playUrl = itemObject.optString("playUrl");
@@ -252,7 +255,7 @@ public class IqiyiParser extends BaseParser {
 
                             node.setTvId(String.valueOf(tvId));
                             node.setVid(vid);
-                            node.setSubTitle(name);
+                            node.setName(name);
                             node.setPlayUrl(playUrl);
                             node.setImageUrl(imageUrl);
                             node.setDuration(duration);

@@ -55,10 +55,6 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     private int mVideoInAlbum; /* start from 0, item position */
 
 
-    private int mInitialVideoNoInAlbum = 0;
-    private boolean mIsShowTitle = false;
-    private boolean mIsBackward = false;
-    private boolean mIsFav;
     private AlbumPlayGridFragment mFragment;
 
     /****  resource  ***/
@@ -120,16 +116,13 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
                         } else {
                             mEpisodeListAdapter.addData(episodeList);
                         }
-
                         int dataSize = episodeList.size();
                         if(dataSize == 0) {
                             mSwipeContainer.setVisibility(View.GONE);
                             findViewById(R.id.album_play_back).setVisibility(View.VISIBLE);
                             mEpisodeListAdapter.setEnableLoadMore(false);
-                            mDescribe.setMaxLines(20);
                         } else {
                             mSwipeContainer.setVisibility(View.VISIBLE);
-                            mDescribe.setMaxLines(3);
                             findViewById(R.id.album_play_back).setVisibility(View.GONE);
                             if(dataSize % PAGE_SIZE == 0){
                                 mEpisodeListAdapter.setEnableLoadMore(true);
@@ -196,7 +189,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
             public void onLoadMoreRequested() {
                 mPageIndex = mPageIndex + 1;
                 // 请求数据
-                mHandler.sendEmptyMessage(MSG_LOAD_MSG);
+                loadMoreAlbums();
             }
         }, mEpisodeGridView);
         mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -206,8 +199,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
                 mEpisodeListAdapter.setEnableLoadMore(false);
                 mPageIndex = PAGE_START;
                 // 刷新数据
-                mHandler.sendEmptyMessage(MSG_LOAD_MSG);
-
+                loadMoreAlbums();
             }
         });
         mEpisodeGridView.setAdapter(mEpisodeListAdapter);
@@ -354,6 +346,6 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     }
 
     public void loadMoreAlbums() {
-        SiteApi.doGetEpisodes(SCSite.IQIYI,mChannelId, mPageIndex, mPageIndex, mAlbum.getPlayUrl(), mAlbum.getAlbumId(), this);
+        SiteApi.doGetEpisodes(SCSite.IQIYI,mChannelId, mPageIndex, PAGE_SIZE, mAlbum.getPlayUrl(), mAlbum.getAlbumId(), this);
     }
 }

@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="120dp">
 
         <ImageView
             android:id="@+id/episode_cover"
@@ -57,7 +57,7 @@
         android:id="@+id/episode_subtitle"
         android:layout_below="@+id/episode_cover"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:singleLine="true"
