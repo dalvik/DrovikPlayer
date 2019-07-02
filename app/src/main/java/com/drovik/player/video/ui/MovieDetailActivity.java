@@ -39,7 +39,7 @@ import com.drovik.utils.ToastUtils;
 
 import java.util.ArrayList;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
+//import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbumsListener.OnGetEpisodeListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
@@ -258,7 +258,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
         if(isWifi) {
             openVideoPlayer();
         } else {
-            final SweetAlertDialog pDialog =  new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+            /*final SweetAlertDialog pDialog =  new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
             pDialog.setTitleText("是否播放");
             pDialog.setContentText("继续播放可能会耗费您的流量");
             pDialog.setConfirmText("继续播放");
@@ -272,7 +272,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
                     pDialog.hide();
                     openVideoPlayer();
                 }
-            });
+            });*/
         }
     }
 

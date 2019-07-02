@@ -11,7 +11,7 @@ import com.drovik.player.weather.BaseRecyclerAdapter;
 import com.drovik.player.weather.IWeatherResponse;
 import com.drovik.player.weather.LevelView;
 import com.drovik.player.weather.data.AqiData;
-import com.silencedut.expandablelayout.ExpandableLayout;
+//import com.silencedut.expandablelayout.ExpandableLayout;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -47,8 +47,8 @@ public class AqiViewHolder extends BaseViewHolder<AqiData> {
     TextView pm10Value;
     @BindView(R.id.aqi_advice)
     TextView aqiAdvice;
-    @BindView(R.id.expandable_layout)
-    ExpandableLayout expandableLayout;
+    //@BindView(R.id.expandable_layout)
+    //ExpandableLayout expandableLayout;
     @BindView(R.id.rank)
     TextView rank;
 
@@ -66,12 +66,12 @@ public class AqiViewHolder extends BaseViewHolder<AqiData> {
         iconDownAnimator = generateAnimator(expandIcon, 0, 180);
         iconUpAnimator = generateAnimator(expandIcon, 180, 0);
 
-        expandableLayout.setOnExpandListener(new ExpandableLayout.OnExpandListener() {
+        /*expandableLayout.setOnExpandListener(new ExpandableLayout.OnExpandListener() {
             @Override
             public void onExpand(boolean expanded) {
                 isExpanded = expanded;
             }
-        });
+        });*/
 
         aqiView.setColorLever(COlORS_ID, AQI_LEVELS);
         pm2_5View.setColorLever(COlORS_ID, PM2_5_LEVELS);

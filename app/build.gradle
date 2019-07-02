@@ -38,7 +38,7 @@ android {
         }
     }
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.drovik.player"
         minSdkVersion 17
@@ -120,8 +120,6 @@ dependencies {
     //api 'com.google.android.exoplayer:exoplayer:r1.5.5'
     //api 'com.umeng.analytics:analytics:latest.integration'
     api 'com.umeng:fb:5.1.0'
-    api 'cn.pedant.sweetalert:library:1.3'
-    api 'com.google.android.gms:play-services-appindexing:9.8.0'
     api project(':Audiorecord')
     api project(':decapi')
     api 'org.jsoup:jsoup:1.9.2'
@@ -142,7 +140,6 @@ dependencies {
     api 'com.silencedut:router:1.3.0'
     annotationProcessor "com.silencedut:router-compiler:1.0.1"
     api 'com.github.SilenceDut:TaskScheduler:1.2.5'
-    api 'com.github.SilenceDut:ExpandableLayout:1.2.0'
     api 'com.blankj:utilcode:1.7.1'
     api 'io.reactivex.rxjava2:rxjava:2.1.3'
     api 'io.reactivex.rxjava2:rxandroid:2.0.1'
