@@ -27,11 +27,9 @@ import com.android.library.utils.PreferenceUtils;
 import com.crixmod.sailorcast.model.SCAlbum;
 import com.crixmod.sailorcast.model.SCAlbums;
 import com.crixmod.sailorcast.model.SCLiveStream;
-import com.crixmod.sailorcast.model.SCVideo;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
 import com.drovik.player.video.Const;
-import com.drovik.player.video.VideoBean;
 import com.drovik.player.video.parser.IqiyiParser;
 import com.iflytek.voiceads.IFLYVideoAd;
 import com.iflytek.voiceads.config.AdError;
@@ -56,11 +54,9 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     private String mPlayUrl;
     private String mVideoName = "";
     private Uri mVideoUri;
-    private VideoBean data;
-    private View mVideoGuideLL;
 
-    private SCVideo mVideo;
-    private SCLiveStream mStream;
+    private boolean mIsSCVideo;
+
     private PowerManager.WakeLock mRecorderWakeLock;
 
     private VideoPlayer videoPlayer;
@@ -95,14 +91,15 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         if(!initData()) {
             finish();
             return;
-        }
-        mHasPlayComplete = false;
-        //requestNativeVideoAd();
-        loadVideoSource();
-        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        mRecorderWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DrovikVideoPlay_"+ powerManager.toString());
-        if(!mRecorderWakeLock.isHeld()){
-            mRecorderWakeLock.acquire();
+        } else {
+            mHasPlayComplete = false;
+            //requestNativeVideoAd();
+            loadVideoSource();
+            PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            mRecorderWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DrovikVideoPlay_"+ powerManager.toString());
+            if(!mRecorderWakeLock.isHeld()){
+                mRecorderWakeLock.acquire();
+            }
         }
     }
 
@@ -113,67 +110,49 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         boolean result = false;
         Intent intent = getIntent();
         if(intent != null) {
-            data = intent.getParcelableExtra(Const.VIDEO);
-            if(data != null) {
-                mVideoPath =data.origpath;;
-                String temp = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
-                mVideoName = temp.substring(0,temp.lastIndexOf("."));
-                Log.d(TAG, "initPlayer path:" + mVideoPath + " mVideoName: " + mVideoName);
+            if(intent.hasExtra(Const.SC_TVID) && intent.hasExtra(Const.SC_VID)) {
+                mVid = intent.getStringExtra(Const.SC_VID);//vid
+                mTvid = intent.getStringExtra(Const.SC_TVID);//tvid
+                mVideoName = intent.getStringExtra(Const.SC_TITLE);
+                mPlayUrl = intent.getStringExtra(Const.SC_PLAY_URL);
+                mIsSCVideo = true;
                 result = true;
             } else {
-                mVideo = intent.getParcelableExtra(Const.SC_VIDEO);
-                if(mVideo != null)  {
-                    mVid = intent.getStringExtra(Const.SC_VID);//vid
-                    mTvid = intent.getStringExtra(Const.SC_TVID);//tvid
-                    mVideoName = mVideo.getVideoTitle();
-                    mPlayUrl = intent.getStringExtra(Const.SC_PLAY_URL);
-                    /*String mStreamString = intent.getStringExtra(SC_TVID);
-                    if(mStreamString != null && !mStreamString.isEmpty()) {
-                        mStream = SCLiveStream.fromJson(mStreamString);
-                    }
-                    if(mStream != null) {
-                        mVideoName = mStream.getChannelName();
-                    }*/
-                    return true;
-                } else {
-                    String intentAction = intent.getAction();
-                    if (!TextUtils.isEmpty(intentAction)) {
-                        if (intentAction.equals(Intent.ACTION_VIEW)) {
-                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                mVideoUri = intent.getData();
-                                Log.d(TAG, "==> mVideoUri: " + mVideoUri);
-                                if(mVideoUri != null) {
-                                    String tempPath = mVideoUri.getPath();
-                                    String temp = tempPath.substring(tempPath.lastIndexOf("/") + 1);
-                                    mVideoName = temp.substring(0,temp.lastIndexOf("."));
-                                    return true;
-                                } else{
-                                    return false;
-                                }
-                            } else {
-                                mVideoPath = intent.getDataString();
-                                String temp = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
+                String intentAction = intent.getAction();
+                if (!TextUtils.isEmpty(intentAction)) {
+                    if (intentAction.equals(Intent.ACTION_VIEW)) {
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            mVideoUri = intent.getData();
+                            Log.d(TAG, "==> mVideoUri: " + mVideoUri);
+                            if(mVideoUri != null) {
+                                String tempPath = mVideoUri.getPath();
+                                String temp = tempPath.substring(tempPath.lastIndexOf("/") + 1);
                                 mVideoName = temp.substring(0,temp.lastIndexOf("."));
                                 result = true;
                             }
-                        } else if (intentAction.equals(Intent.ACTION_SEND)) {
-                            mVideoUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-                            Log.d(TAG, "initPlayer mVideoUri:" + mVideoUri);
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                                String scheme = mVideoUri.getScheme();
-                                if (!TextUtils.isEmpty(scheme)) {
-                                    if (scheme.equals(ContentResolver.SCHEME_ANDROID_RESOURCE)) {
-                                        mVideoPath = mVideoUri.getPath();
-                                        String temp = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
-                                        mVideoName = temp.substring(0,temp.lastIndexOf("."));
-                                        result = true;
-                                    } else if (scheme.equals(ContentResolver.SCHEME_CONTENT)) {
-                                        Log.e(TAG, "Can not resolve content below Android-ICS\n");
-                                        result = false;
-                                    } else {
-                                        Log.e(TAG, "Unknown scheme " + scheme + "\n");
-                                        result = false;
-                                    }
+                        } else {
+                            mVideoPath = intent.getDataString();
+                            String temp = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
+                            mVideoName = temp.substring(0,temp.lastIndexOf("."));
+                            result = true;
+                        }
+                    } else if (intentAction.equals(Intent.ACTION_SEND)) {
+                        mVideoUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                        Log.d(TAG, "initPlayer mVideoUri:" + mVideoUri);
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                            String scheme = mVideoUri.getScheme();
+                            if (!TextUtils.isEmpty(scheme)) {
+                                if (scheme.equals(ContentResolver.SCHEME_ANDROID_RESOURCE)) {
+                                    mVideoPath = mVideoUri.getPath();
+                                    String temp = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
+                                    mVideoName = temp.substring(0,temp.lastIndexOf("."));
+                                    result = true;
+                                } else if (scheme.equals(ContentResolver.SCHEME_CONTENT)) {
+                                    Log.e(TAG, "Can not resolve content below Android-ICS\n");
+                                    result = false;
+                                } else {
+                                    Log.e(TAG, "Unknown scheme " + scheme + "\n");
+                                    result = false;
                                 }
                             }
                         }
@@ -188,12 +167,14 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         adContainer.setVisibility(View.GONE);
         mAdCoverImageView.setVisibility(View.GONE);
         videoPlayer.setVisibility(View.VISIBLE);
-        if(mVideo != null) {
+        if(mIsSCVideo){
             if(TextUtils.isEmpty(mTvid) || TextUtils.isEmpty(mVid)){
                 new ParseScciptHeaderAysncTask().execute();
             } else {
                 new ParseVideoSourceAysncTask().execute();
             }
+        } else {
+            setVideoPlayer(mVideoPath);
         }
     }
 

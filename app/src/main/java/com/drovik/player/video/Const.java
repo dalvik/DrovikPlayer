@@ -20,6 +20,7 @@ public class Const {
 
     public static final String SC_VID = "sc_vid";
     public static final String SC_TVID = "sc_tvid";
+    public static final String SC_TITLE = "sc_title";
     public static final String SC_VIDEO = "sc_video";
     public static final String SC_PLAY_URL = "sc_ply_url";
     public final static String VIDEO = "video";
