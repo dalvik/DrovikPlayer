@@ -124,8 +124,8 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
                 if (!TextUtils.isEmpty(intentAction)) {
                     if (intentAction.equals(Intent.ACTION_VIEW)) {
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            File file = new File(getFilesDir(), "DrovikPlayer");
-                            mVideoUri = FileProvider.getUriForFile(this, "com.drovik.player", file);
+                            mVideoUri = intent.getData();
+                            mVideoPath = mVideoUri.toString();
                             Log.d(TAG, "==> mVideoUri: " + mVideoUri);
                             if(mVideoUri != null) {
                                 String tempPath = mVideoUri.getPath();

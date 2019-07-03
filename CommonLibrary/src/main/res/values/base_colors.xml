@@ -2,10 +2,13 @@
 <resources>
     
     <!-- base common color resource-->
-    <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorCommonPrimary">#FFFFFF</color>
+    <color name="colorCommonPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#77FFFFFF</color>
     <color name="textColorAccent">#394163</color>
+
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#303F9F</color>
 
     <!-- top actionbar color -->
     <color name="actionbar_bg">@android:color/white</color>
