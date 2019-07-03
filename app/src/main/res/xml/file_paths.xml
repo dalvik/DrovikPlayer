@@ -9,4 +9,6 @@
     <external-path
         name="download"
         path="." />
+    <external-path path="/" name="DrovikPlayer" />
+    <external-files-path name="." path="DrovikPlayer" />
 </paths>

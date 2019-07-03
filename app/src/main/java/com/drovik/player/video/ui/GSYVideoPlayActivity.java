@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -44,6 +45,7 @@ import org.yczbj.ycvideoplayerlib.inter.listener.OnVideoBackListener;
 import org.yczbj.ycvideoplayerlib.manager.VideoPlayerManager;
 import org.yczbj.ycvideoplayerlib.player.VideoPlayer;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -122,7 +124,8 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
                 if (!TextUtils.isEmpty(intentAction)) {
                     if (intentAction.equals(Intent.ACTION_VIEW)) {
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            mVideoUri = intent.getData();
+                            File file = new File(getFilesDir(), "DrovikPlayer");
+                            mVideoUri = FileProvider.getUriForFile(this, "com.drovik.player", file);
                             Log.d(TAG, "==> mVideoUri: " + mVideoUri);
                             if(mVideoUri != null) {
                                 String tempPath = mVideoUri.getPath();
