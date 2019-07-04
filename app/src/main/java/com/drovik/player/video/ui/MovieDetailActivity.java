@@ -78,6 +78,8 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
+        fullScreen(R.color.base_actionbar_background);
+        setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.base_actionbar_background);
         Intent intent = getIntent();
         if(intent != null){
             mAlbum = intent.getParcelableExtra(Const.ALUMB_DETAIL);

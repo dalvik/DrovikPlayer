@@ -121,6 +121,8 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
         if(bindService(IntentUtils.createExplicitFromImplicitIntent(this, new Intent(MultiMediaService.Action_Audio_Record)), mServiceConnection, Context.BIND_AUTO_CREATE)){
             this.mPreferences = getSharedPreferences(SettingsActivity.class.getName(), Context.MODE_PRIVATE);
             setContentView(R.layout.layout_sound_record);
+            fullScreen(R.color.record_color_primary);//navigation bg
+            setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.base_actionbar_background);///actionbar and status bar
             setTitle(R.string.records_title);
             Intent localIntent = getIntent();
             String type = "";

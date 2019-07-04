@@ -12,10 +12,12 @@
 
     <!-- top actionbar color -->
     <color name="actionbar_bg">@android:color/white</color>
-    <color name="base_actionbar_background">@android:color/white</color>
+    <color name="base_actionbar_background">#FFFFFE</color>
     <color name="base_content_background">#ffededed</color>
 
     <color name="home_actionbar_background">#316fb4</color>
+    <color name="home_color_primary">#3B1F82</color>
+    <color name="record_color_primary">#022640</color>
     <!--base common font color resource -->
     <!--font -->
     <color name="base_main_title">#394163</color>
@@ -26,7 +28,7 @@
     <color name="font_title">#FF38354A</color>
 
     <!-- base color -->
-    <color name="transparent">@android:color/transparent</color>
+    <color name="transparent">#00000000</color>
     <color name="white">#ffffffff</color>
     <color name="black">@android:color/black</color>
     <color name="red">#ffff0000</color>
@@ -38,6 +40,7 @@
     <color name="black_harf">#10000000</color>
     <color name="black_gray">#333333</color>
     <color name="white_gray">#F0F0F0</color>
+    <color name="transparent1">#00000001</color>
 
     <!-- external color -->
     <color name="splite_grey">#33ffffff</color>

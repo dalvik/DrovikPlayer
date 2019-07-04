@@ -85,6 +85,7 @@ public class MovieHomeActivity extends BaseCompatActivity implements ViewPager.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_movie_viewpager);
         setActionBarVisiable(View.GONE);
+        fullScreen(R.color.base_actionbar_background);
         findViewById(R.id.action_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

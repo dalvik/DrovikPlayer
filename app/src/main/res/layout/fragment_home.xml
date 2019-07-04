@@ -171,8 +171,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp">
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
                     <!-- local file: record, image, video,record  -->
                     <ImageView
                         android:id="@+id/home_file_iv"
@@ -203,8 +203,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:visibility="visible"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp">
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
                     <!-- bluetooth recorder -->
                     <ImageView
                         android:id="@+id/home_recorder_iv"
@@ -281,18 +281,17 @@
                 <RelativeLayout
                     android:id="@+id/home_video"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp">
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
                     <!-- net video -->
                     <ImageView
                         android:id="@+id/home_video_iv"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/common_8_dp"
                         android:src="@drawable/selector_home_video"/>
 
                     <TextView
@@ -317,15 +316,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp">
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
 
                     <ImageView
                         android:id="@+id/home_news_iv"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/common_8_dp"
                         android:src="@drawable/selector_home_news" />
 
                     <TextView
@@ -397,8 +395,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp">
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
                     <!-- local file: record, image, video,record  -->
                     <ImageView
                         android:id="@+id/home_tools_gps_iv"
@@ -429,8 +427,8 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:visibility="visible"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp">
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
                     <!-- net video -->
                     <ImageView
                         android:id="@+id/home_tools_compass_iv"

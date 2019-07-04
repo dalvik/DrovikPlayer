@@ -73,6 +73,7 @@ public class IqiyiPager extends BaseMoviePager {
     private void findViewById(View view) {
         mScrollLayout = (RelativeLayout) view.findViewById(R.id.lib_id_viewpager_scroll_tab_item_layout);
         mHsv = (SyncHorizontalScrollView) view.findViewById(R.id.lib_id_viewpager_scroll_tab_view);
+        mHsv.setBackgroundColor(R.color.base_actionbar_background);
         mRadioContent = (RadioGroup) view.findViewById(R.id.lib_id_viewpager_scroll_tab_item_radio);
         mScrollTabIndicator = (ImageView) view.findViewById(R.id.lib_id_viewpager_scroll_tab_item_indicator);
         mScrollTabLeft = (ImageView) view.findViewById(R.id.lib_id_viewpager_scroll_tab_left);

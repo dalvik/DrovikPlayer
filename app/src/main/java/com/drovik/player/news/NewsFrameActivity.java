@@ -65,6 +65,8 @@ public class NewsFrameActivity extends BaseActivity implements MainContract.View
         setActionBarVisiable(View.GONE);
         this.savedInstanceState = savedInstanceState;
         setActionBarVisiable(View.GONE);
+        fullScreen(R.color.base_actionbar_background);
+        setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.base_actionbar_background);
         presenter.bindView(this);
         presenter.subscribe();
     }
