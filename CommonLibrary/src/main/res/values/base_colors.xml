@@ -6,13 +6,13 @@
     <color name="colorCommonPrimaryDark">#FFFFFF</color>
     <color name="textColorAccent">#394163</color>
 
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#316fb4</color>
+    <color name="colorPrimaryDark">#316fb4</color>
     <color name="colorAccent">#FF4081</color>
 
     <!-- top actionbar color -->
     <color name="actionbar_bg">@android:color/white</color>
-    <color name="base_actionbar_background">@android:color/white</color>
+    <color name="base_actionbar_background">#FFFFFE</color>
     <color name="base_content_background">#ffededed</color>
 
     <color name="home_actionbar_background">#316fb4</color>

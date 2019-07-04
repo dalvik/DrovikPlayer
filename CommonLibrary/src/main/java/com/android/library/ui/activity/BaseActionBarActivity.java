@@ -209,7 +209,7 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
                 window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
                 decorView.setSystemUiVisibility(option);
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(getResources().getColor(colorId));
+                window.setStatusBarColor(getResources().getColor(R.color.transparent));
                 //导航栏颜色也可以正常设置
                 window.setNavigationBarColor(getResources().getColor(colorId));
             } else {
@@ -282,7 +282,7 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
                 rootView.setPadding(0, getStatusBarHeight(), 0, 0);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     //直接设置状态栏颜色
-                    getWindow().setStatusBarColor(statusbarColor);
+                    getWindow().setStatusBarColor(R.color.black);
                 } else {
                     //增加占位状态栏
                     ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
