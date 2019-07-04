@@ -62,9 +62,14 @@ public abstract class BaseCompatActivity extends BaseActionBarActivity {
         mActionBarView.setBackgroundResource(resourceId);
     }
     
-    protected void setActionBarBackgroundColor(int colorId, int fontColor){
-        mActionBarView.setBackgroundColor(getResources().getColor(colorId));
-        initStatusBar(getResources().getColor(fontColor));
+    protected void setActionBarBackgroundColor(int actionBarColor, int statusBarBackgroundColor){
+        mActionBarView.setBackgroundColor(getResources().getColor(actionBarColor));
+        initStatusBar(getResources().getColor(statusBarBackgroundColor));
+    }
+
+    protected void setActionBarBackgroundDrawable(int actionBarDrawable, int statusBarBackgroundColor){
+        mActionBarView.setBackgroundResource(actionBarDrawable);
+        initStatusBarDrawable(actionBarDrawable, getResources().getColor(statusBarBackgroundColor));
     }
 
     /**
@@ -304,8 +309,8 @@ public abstract class BaseCompatActivity extends BaseActionBarActivity {
         setLeftOptionView(null);
         setRightOptionView(null);
         setBackView(null);
-        fullScreen(R.color.colorPrimary);
-        setActionBarBackgroundColor(R.color.colorPrimary, R.color.home_actionbar_background);
+        fullScreen(mColorPrimaryNavigation);
+        setActionBarBackgroundColor(mColorPrimaryNavigation, mColorPrimaryNavigation);
         return view;
     }
 

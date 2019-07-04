@@ -42,10 +42,13 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
      */
     protected View mBodyContentView = null;
     protected View mFooterBarView;
+
+    protected int mColorPrimaryNavigation = R.color.base_actionbar_background;
     /**
      * reload view
      */
     private View mReloadView = null;
+
 
     @Override
     public void setContentView(int layoutResID) {
@@ -191,6 +194,10 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
         return true;
     }
 
+    protected void setColorPrimary(int colorPrimary) {
+        this.mColorPrimaryNavigation = colorPrimary;
+    }
+
     protected void fullScreen(int colorId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -222,14 +229,20 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
             //设置了状态栏颜色
             addStatusViewWithColor(color);
         }
-        /*if (mDrawable != null) {
-            //设置了状态栏 drawble，例如渐变色
-            addStatusViewWithDrawble(mActivity, mDrawable);
+        if (getActionBar() != null) {
+            //要增加内容视图的 paddingTop,否则内容被 ActionBar 遮盖
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                ViewGroup rootView = (ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content);
+                rootView.setPadding(0, getStatusBarHeight() + getActionBarHeight(this), 0, 0);
+            }
         }
-        if (isDrawerLayout()) {
-            //未设置 fitsSystemWindows 且是侧滑菜单，需要设置 fitsSystemWindows 以解决 4.4 上侧滑菜单上方白条问题
-            fitsSystemWindows(this);
-        }*/
+    }
+
+    protected void initStatusBarDrawable(int statusBarDrawable, int defaultStartBarColor) {
+        if (statusBarDrawable != -1 && defaultStartBarColor != -1) {
+            //设置了状态栏颜色
+            addStatusViewWithDrawble(statusBarDrawable, defaultStartBarColor);
+        }
         if (getActionBar() != null) {
             //要增加内容视图的 paddingTop,否则内容被 ActionBar 遮盖
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -249,8 +262,7 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
                 LinearLayout linearLayout = new LinearLayout(this);
                 linearLayout.setOrientation(LinearLayout.VERTICAL);
                 View statusBarView = new View(this);
-                ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        getStatusBarHeight());
+                ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight());
                 statusBarView.setBackgroundColor(statusbarColor);
                 //添加占位状态栏到线性布局中
                 linearLayout.addView(statusBarView, lp);
@@ -277,6 +289,55 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
                     View statusBarView = new View(this);
                     ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight());
                     statusBarView.setBackgroundColor(statusbarColor);
+                    decorView.addView(statusBarView, lp);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * only for home
+     * @param resId
+     */
+    protected void addStatusViewWithDrawble(int resId, int statusbarColor) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (false) {
+                //要在内容布局增加状态栏，否则会盖在侧滑菜单上
+                ViewGroup rootView = (ViewGroup) findViewById(android.R.id.content);
+                //DrawerLayout 则需要在第一个子视图即内容试图中添加padding
+                View parentView = rootView.getChildAt(0);
+                LinearLayout linearLayout = new LinearLayout(this);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                View statusBarView = new View(this);
+                ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight());
+
+                statusBarView.setBackgroundResource(resId);
+                //添加占位状态栏到线性布局中
+                linearLayout.addView(statusBarView, lp);
+                //侧滑菜单
+                DrawerLayout drawer = (DrawerLayout) parentView;
+                //内容视图
+                View content = findViewById(0);
+                //将内容视图从 DrawerLayout 中移除
+                drawer.removeView(content);
+                //添加内容视图
+                linearLayout.addView(content, content.getLayoutParams());
+                //将带有占位状态栏的新的内容视图设置给 DrawerLayout
+                drawer.addView(linearLayout, 0);
+            } else {
+                //设置 paddingTop
+                ViewGroup rootView = (ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content);
+                rootView.setPadding(0, getStatusBarHeight(), 0, 0);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    //直接设置状态栏颜色
+                    getWindow().setStatusBarColor(statusbarColor);
+                } else {
+                    //增加占位状态栏
+                    ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
+                    View statusBarView = new View(this);
+                    ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight());
+                    statusBarView.setBackgroundResource(resId);
                     decorView.addView(statusBarView, lp);
                 }
             }
