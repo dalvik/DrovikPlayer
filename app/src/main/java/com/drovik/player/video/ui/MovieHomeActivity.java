@@ -13,20 +13,13 @@ import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.audiorecorder.utils.LogUtil;
 import com.android.audiorecorder.utils.StringUtils;
-import com.android.library.ui.activity.BaseCommonActivity;
 import com.android.library.ui.activity.BaseCompatActivity;
+import com.android.library.utils.Utils;
 import com.drovik.player.R;
 import com.drovik.player.video.ViewPagerAdapter;
-import com.drovik.player.video.ui.pager.AlbumListFragment;
 import com.drovik.player.video.ui.pager.IqiyiPager;
-import com.drovik.player.video.ui.pager.LetvPager;
-import com.drovik.player.video.ui.pager.SohuPager;
-import com.drovik.player.video.ui.pager.TestPager;
-import com.drovik.player.video.ui.pager.YoukuPager;
 import com.iflytek.voiceads.IFLYNativeAd;
 import com.iflytek.voiceads.config.AdError;
 import com.iflytek.voiceads.config.AdKeys;
@@ -85,7 +78,9 @@ public class MovieHomeActivity extends BaseCompatActivity implements ViewPager.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_movie_viewpager);
         setActionBarVisiable(View.GONE);
-        fullScreen(R.color.base_actionbar_background);
+        fullScreen(R.color.base_content_background);
+        com.android.library.utils.Utils.setStatusTextColor(true, this);
+        setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.base_actionbar_background);
         findViewById(R.id.action_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

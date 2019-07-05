@@ -40,8 +40,8 @@ public class LaunchActivity extends BaseCompatActivity implements IFLYNativeList
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         // 加载启动页面
         setContentView(R.layout.start_activity);
-        setActionBarBackgroundColor(R.color.white, R.color.white);///actionbar and status bar
         setActionBarVisiable(View.GONE);
+        setActionBarBackgroundColor(R.color.white, R.color.white);///actionbar and status bar
         hideBottomUIMenu();
         handler.sendEmptyMessageDelayed(1, 4000);
         loadAD();

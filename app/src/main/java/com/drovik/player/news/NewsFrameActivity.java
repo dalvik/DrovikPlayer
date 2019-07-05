@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.android.library.utils.Utils;
 import com.drovik.player.R;
 import com.drovik.player.news.fragment.NewsFragment;
 import com.drovik.player.news.mvp.BaseActivity;
@@ -66,6 +67,7 @@ public class NewsFrameActivity extends BaseActivity implements MainContract.View
         this.savedInstanceState = savedInstanceState;
         setActionBarVisiable(View.GONE);
         fullScreen(R.color.base_actionbar_background);
+        Utils.setStatusTextColor(true, this);
         setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.base_actionbar_background);
         presenter.bindView(this);
         presenter.subscribe();

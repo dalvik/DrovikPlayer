@@ -80,6 +80,9 @@ public class NewsVideoContentActivity extends BaseCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_video_detail);
         setTitle(R.string.home_news);
+        fullScreen(R.color.base_actionbar_background);
+        com.android.library.utils.Utils.setStatusTextColor(true, this);
+        setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.base_actionbar_background);
         videoPlayer = (VideoPlayer) findViewById(R.id.detail_player);
         mNewsSource = (TextView) findViewById(R.id.news_source);
         mNewsContent = (TextView) findViewById(R.id.news_content);

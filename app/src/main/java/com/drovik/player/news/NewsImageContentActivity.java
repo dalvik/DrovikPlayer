@@ -73,6 +73,9 @@ public class NewsImageContentActivity extends BaseCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_news_detail);
         setTitle(R.string.home_news);
+        fullScreen(R.color.base_actionbar_background);
+        com.android.library.utils.Utils.setStatusTextColor(true, this);
+        setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.base_actionbar_background);
         mNewsTitle = (TextView) findViewById(R.id.news_title);
         mNewsAvatar = (ImageView) findViewById(R.id.news_avatar);
         mReadCount =  (TextView) findViewById(R.id.news_read_cound);

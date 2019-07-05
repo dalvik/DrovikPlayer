@@ -42,6 +42,7 @@ import com.android.audiorecorder.ui.view.ImageClock;
 import com.android.audiorecorder.utils.ActivityUtil;
 import com.android.audiorecorder.utils.LogUtil;
 import com.android.audiorecorder.utils.UIHelper;
+import com.android.audiorecorder.utils.Utils;
 import com.android.library.ui.activity.BaseCompatActivity;
 import com.android.library.ui.utils.ToastUtils;
 import com.android.library.utils.IntentUtils;
@@ -122,6 +123,7 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
             this.mPreferences = getSharedPreferences(SettingsActivity.class.getName(), Context.MODE_PRIVATE);
             setContentView(R.layout.layout_sound_record);
             fullScreen(R.color.record_color_primary);//navigation bg
+            com.android.library.utils.Utils.setStatusTextColor(true, this);
             setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.base_actionbar_background);///actionbar and status bar
             setTitle(R.string.records_title);
             Intent localIntent = getIntent();

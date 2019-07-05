@@ -32,6 +32,9 @@ public class NewsTextContentActivity extends BaseCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_container);
         setTitle(R.string.home_news);
+        fullScreen(R.color.base_actionbar_background);
+        com.android.library.utils.Utils.setStatusTextColor(true, this);
+        setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.base_actionbar_background);
         Intent intent = getIntent();
         getSupportFragmentManager().beginTransaction().replace(R.id.container,  NewsContentFragment.newInstance(intent.getParcelableExtra(TAG), intent.getStringExtra(IMG))).commit();
     }
