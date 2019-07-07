@@ -61,6 +61,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     private ImageView mAlbumImageView;//缩略图
     private TextView mTitle;//名称
     private TextView mDescribe;//描述
+    private TextView mDirctor;//主演
     private TextView mScore;//评分
     private TextView mDoctor;//演员表 [{"image_url":"http://pic2.iqiyipic.com/image/20190312/2c/88/p_5037611_m_601_m6.jpg","name":"沈腾","id":213640105},...]
     private TextView mSecondInfo;//主演
@@ -79,6 +80,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         fullScreen(R.color.base_actionbar_background);
+        com.android.library.utils.Utils.setStatusTextColor(true, this);
         setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.base_actionbar_background);
         Intent intent = getIntent();
         if(intent != null){
@@ -174,6 +176,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     private void findViews() {
         mAlbumImageView = findViewById(R.id.album_image);
         mTitle = findViewById(R.id.album_title);
+        mDirctor = findViewById(R.id.album_director);
         mSecondInfo = findViewById(R.id.album_main_actor);
         mScore = findViewById(R.id.album_score);
         mDescribe = findViewById(R.id.album_desc);
@@ -299,6 +302,11 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
             mTitle.setText(mAlbum.getTitle());
         } else {
             mTitle.setVisibility(View.GONE);
+        }
+        if(!TextUtils.isEmpty(mAlbum.getDirector())){
+            mDirctor.setText(mAlbum.getDirector());
+        } else {
+            mDirctor.setVisibility(View.GONE);
         }
         if(!TextUtils.isEmpty(mAlbum.getMainActor())){
             mSecondInfo.setText(mAlbum.getMainActor());
