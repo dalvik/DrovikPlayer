@@ -20,7 +20,6 @@ import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.activity.BaseCompatActivity;
 import com.android.library.ui.utils.ToastUtils;
 import com.android.library.utils.PermissionHelper;
-import com.android.library.utils.Utils;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.crixmod.sailorcast.SailorCast;

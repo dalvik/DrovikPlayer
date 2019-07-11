@@ -6,17 +6,17 @@
     <color name="colorCommonPrimaryDark">#FFFFFF</color>
     <color name="textColorAccent">#394163</color>
 
-    <color name="colorPrimary">#316fb4</color>
-    <color name="colorPrimaryDark">#316fb4</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
     <!-- top actionbar color -->
     <color name="actionbar_bg">#FFFFFE</color>
-    <color name="base_actionbar_background">#FFFFFFFE</color>
+    <color name="base_actionbar_background">#FFFFFE</color>
     <color name="base_content_background">#FFEDEDED</color>
 
     <color name="home_actionbar_background">#316fb4</color>
-    <color name="home_color_primary">#FF3B1F82</color>
+    <color name="home_color_primary">#3B1F82</color>
     <color name="record_color_primary">#0B395B</color>
     <!--base common font color resource -->
     <!--font -->
@@ -29,7 +29,7 @@
 
     <!-- base color -->
     <color name="transparent">#00000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#ffffffff</color>
     <color name="black">@android:color/black</color>
     <color name="red">#ffff0000</color>
     <color name="green">#ff00ff00</color>
