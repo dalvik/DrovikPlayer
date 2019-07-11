@@ -94,6 +94,9 @@ public class FileExplorerActivity extends BaseCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_explorer_viewpager);
         setActionBarVisiable(View.GONE);
+        fullScreen(R.color.base_actionbar_background);//navigation bg
+        com.android.library.utils.Utils.setStatusTextColor(true, this);
+        setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.base_actionbar_background);///actionbar and status
         viewPager = (ViewPager) findViewById(R.id.lib_id_viewpager_viewpager);
         // 标题
         titleTv = (TextView) findViewById(R.id.title_tv);

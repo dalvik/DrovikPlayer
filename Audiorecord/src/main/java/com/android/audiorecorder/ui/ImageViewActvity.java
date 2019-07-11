@@ -168,6 +168,7 @@ public class ImageViewActvity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        com.android.library.utils.Utils.setStatusTextColor(true, this);
         mFileDeleteHandlerThread = new HandlerThread("ImageView");
         mFileDeleteHandlerThread.start();
         mFileDeleteHandler = new Handler(mFileDeleteHandlerThread.getLooper(), mFileProcHandlerCallback);

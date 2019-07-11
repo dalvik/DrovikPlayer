@@ -5,12 +5,21 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.App.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="CommoAppTheme" parent="Theme.App.Light.NoActionBar">
+    <style name="CommoAppLaunch" parent="Theme.App.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorCommonPrimary</item>
+        <item name="colorPrimaryDark">@color/colorCommonPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    
+    <style name="CommoAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorCommonPrimary</item>
         <item name="colorPrimaryDark">@color/colorCommonPrimaryDark</item>

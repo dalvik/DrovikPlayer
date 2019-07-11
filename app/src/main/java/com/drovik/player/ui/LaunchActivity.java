@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.android.audiorecorder.utils.LogUtil;
 import com.android.audiorecorder.utils.StringUtils;
+import com.android.library.ui.activity.BaseCompatActivity;
 import com.androidquery.AQuery;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
@@ -24,7 +25,7 @@ import com.iflytek.voiceads.config.AdKeys;
 import com.iflytek.voiceads.conn.NativeDataRef;
 import com.iflytek.voiceads.listener.IFLYNativeListener;
 
-public class LaunchActivity extends Activity implements IFLYNativeListener {
+public class LaunchActivity extends BaseCompatActivity implements IFLYNativeListener {
 
     private IFLYNativeAd nativeAd;
     private NativeDataRef adItem;
@@ -35,10 +36,13 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
+        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         // 加载启动页面
         setContentView(R.layout.start_activity);
+        setActionBarVisiable(View.GONE);
+        //setActionBarBackgroundColor(R.color.white, R.color.white);///actionbar and status bar
+        hideBottomUIMenu();
         handler.sendEmptyMessageDelayed(1, 4000);
         loadAD();
     }

@@ -43,6 +43,10 @@ public class LocationActivity extends BaseCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.location);
 		setActionBarVisiable(View.GONE);
+		//actionbar and status bar
+		fullScreen(R.color.base_content_background);
+		com.android.library.utils.Utils.setStatusTextColor(true, this);
+		setActionBarBackgroundColor(R.color.base_content_background, R.color.base_actionbar_background);
 		findViewById(R.id.action_back).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

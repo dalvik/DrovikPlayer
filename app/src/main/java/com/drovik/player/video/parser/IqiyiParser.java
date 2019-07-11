@@ -120,6 +120,15 @@ public class IqiyiParser extends BaseParser {
                             if(dataOriginalJson.has("docId")) {
                                 album.setVid(dataOriginalJson.optString("docId"));
                             }
+                            if(dataOriginalJson.has("categories") && TextUtils.isEmpty(album.getDirector())) {
+                                JSONArray categoriesArray = dataOriginalJson.optJSONArray("categories");
+                                if(categoriesArray != null && categoriesArray.length()>0) {
+                                    JSONObject cateObject = categoriesArray.getJSONObject(0);
+                                    if(cateObject.has("")) {
+                                        album.setDirector(cateObject.optString("name"));
+                                    }
+                                }
+                            }
                             if(dataOriginalJson.has("albumId")){
                                 album.setAlbumId(dataOriginalJson.optString("albumId"));
                             }

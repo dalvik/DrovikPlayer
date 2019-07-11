@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.activity.BaseCompatActivity;
+import com.android.library.utils.Utils;
 import com.drovik.player.R;
 import com.drovik.player.weather.data.CityInfoData;
 
@@ -24,6 +25,9 @@ public class WeatherActivity extends BaseCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
         setActionBarVisiable(View.GONE);
+        Utils.setStatusTextColor(false, this);
+        fullScreen(R.color.base_content_background);
+        setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.home_actionbar_background);
         Intent intent = getIntent();
         type = intent.getIntExtra(ResourceProvider.TYPE, 0);
         String topCityJson = intent.getStringExtra(ResourceProvider.TOP_CITY_JSON);

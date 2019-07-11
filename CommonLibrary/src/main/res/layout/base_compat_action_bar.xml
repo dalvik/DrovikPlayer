@@ -52,7 +52,9 @@
             android:id="@+id/left_option_imageview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true" />
+            android:adjustViewBounds="true"
+            android:visibility="invisible"
+            android:src="@drawable/base_actionbar_back_selector" />
 
         <TextView
             android:id="@+id/left_option_textview"
@@ -75,6 +77,7 @@
         android:layout_marginLeft="@dimen/common_5_dp"
         android:layout_marginRight="@dimen/common_5_dp"
         android:gravity="center"
+        android:layout_centerInParent="true"
         android:orientation="vertical">
 
         <TextView
@@ -82,7 +85,6 @@
             style="@style/ActionBar.LargeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="aaaaa"
             android:layout_weight="1"
             android:singleLine="true" />
 

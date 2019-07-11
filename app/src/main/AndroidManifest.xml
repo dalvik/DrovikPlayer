@@ -73,7 +73,7 @@
         tools:replace="android:icon,android:allowBackup">
         <!--com.drovik.player.ui.HomeActivity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"-->
         <activity android:name="com.drovik.player.ui.LaunchActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:theme="@style/CommoAppLaunch"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait">
             <intent-filter>

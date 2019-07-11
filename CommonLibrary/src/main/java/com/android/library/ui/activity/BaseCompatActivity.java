@@ -62,7 +62,7 @@ public abstract class BaseCompatActivity extends BaseActionBarActivity {
         mActionBarView.setBackgroundResource(resourceId);
     }
     
-    protected void setActionBarBackgroundColor(int actionBarColor, int statusBarBackgroundColor){
+    protected void setActionBarBackgroundColor(int actionBarColor, int statusBarBackgroundColor){///actionbar and status bar
         mActionBarView.setBackgroundColor(getResources().getColor(actionBarColor));
         initStatusBar(getResources().getColor(statusBarBackgroundColor));
     }

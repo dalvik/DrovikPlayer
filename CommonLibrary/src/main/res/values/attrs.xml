@@ -22,4 +22,10 @@
         <!--HFRecyclerView是否开启默认动画-->
         <attr name="hfr_default_animator_open" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="ExpandableLayout">
+        <attr name="expDuration" format="integer|reference"/>
+        <attr name="expWithParentScroll" format="boolean"/>
+        <attr name="expExpandScrollTogether" format="boolean"/>
+    </declare-styleable>
 </resources>

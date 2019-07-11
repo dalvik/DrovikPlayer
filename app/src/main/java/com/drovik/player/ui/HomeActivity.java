@@ -20,6 +20,7 @@ import com.android.library.net.utils.LogUtil;
 import com.android.library.ui.activity.BaseCompatActivity;
 import com.android.library.ui.utils.ToastUtils;
 import com.android.library.utils.PermissionHelper;
+import com.android.library.utils.Utils;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.crixmod.sailorcast.SailorCast;
@@ -79,6 +80,7 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         startService(new Intent(HomeActivity.this, MultiMediaService.class));
         startService(new Intent(HomeActivity.this, FileProviderService.class));
         setContentView(R.layout.activity_home);
+        Utils.setStatusTextColor(false, this);
         fullScreen(R.color.home_color_primary);
         setActionBarBackgroundColor(R.color.home_color_primary, R.color.home_actionbar_background);
         //setActionBarBackgroundDrawable(R.drawable.home_actionbar_bg, R.color.home_actionbar_background);
