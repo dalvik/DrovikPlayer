@@ -244,7 +244,6 @@ public class MultiMediaService extends Service {
                         int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
                         if(level != mBatteryLevel){
                             mBatteryLevel = level;
-                            Log.i(TAG, "--> mBatteryLevel = " + mBatteryLevel);
                         }
                     } else if(action.equals(Intent.ACTION_SCREEN_OFF)){
                         isScreenOn = false;

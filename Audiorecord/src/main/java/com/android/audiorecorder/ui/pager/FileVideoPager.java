@@ -319,28 +319,6 @@ public class FileVideoPager extends BasePager implements FileExplorerActivity.On
         }
     };
 
-    private void loadThumbByCatalog(final int catalog, final int pageIndex, final Handler handler, final int action, final int objType){
-        new Thread(){
-            public void run() {
-                Message msg = new Message();
-                try {
-                    LogUtil.d(TAG, "==> loadThumbByCatalog catalog: " + catalog + " " + pageIndex + mOffset + " " + FileUtils.getLaunchModeSet(mMode));
-                    List<FileDetail> localAlumbListTmp = mFileManager.loadFileList(true, catalog, "", pageIndex, mOffset, FileUtils.getLaunchModeSet(mMode));
-                    LogUtil.d(TAG, "==> catalog: " + localAlumbListTmp.size());
-                    msg.what = localAlumbListTmp.size();
-                    msg.obj = localAlumbListTmp;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    msg.what = -1;
-                    msg.obj = e;
-                }
-                msg.arg1 = action;
-                msg.arg2 = objType;
-                handler.sendMessage(msg);
-            }
-        }.start();
-    }
-
     private void handleImageListData(int what, Object obj, int action, int objtype) {
         switch (action) {
             case UIHelper.LISTVIEW_ACTION_INIT:
@@ -374,6 +352,28 @@ public class FileVideoPager extends BasePager implements FileExplorerActivity.On
                 }
                 break;
         }
+    }
+
+    private void loadThumbByCatalog(final int catalog, final int pageIndex, final Handler handler, final int action, final int objType){
+        new Thread(){
+            public void run() {
+                Message msg = new Message();
+                try {
+                    LogUtil.d(TAG, "==> loadThumbByCatalog catalog: " + catalog + " " + pageIndex + mOffset + " " + FileUtils.getLaunchModeSet(mMode));
+                    List<FileDetail> localAlumbListTmp = mFileManager.loadFileList(true, catalog, "", pageIndex, mOffset, FileUtils.getLaunchModeSet(mMode));
+                    LogUtil.d(TAG, "==> catalog: " + localAlumbListTmp.size());
+                    msg.what = localAlumbListTmp.size();
+                    msg.obj = localAlumbListTmp;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    msg.what = -1;
+                    msg.obj = e;
+                }
+                msg.arg1 = action;
+                msg.arg2 = objType;
+                handler.sendMessage(msg);
+            }
+        }.start();
     }
 
     private void initImageFetcher() {
