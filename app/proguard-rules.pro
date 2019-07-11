@@ -19,3 +19,15 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-dontwarn org.apache.http.**
+-dontwarn android.graphics.drawable.**
+-dontwarn org.eclipse.jetty.**
+-dontwarn org.fourthline.cling.**
+-dontwarn org.seamless.**
+-dontwarn com.androidquery.**
+-dontwarn com.r0adkll.**
+-dontwarn com.umeng.update.**
+-dontwarn org.jacoco.**
+-dontwarn okio.**
+-dontwarn retrofit2.**
+-dontwarn org.xmlpull.v1.**
