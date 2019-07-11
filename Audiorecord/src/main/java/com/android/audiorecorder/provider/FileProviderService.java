@@ -79,7 +79,37 @@ public class FileProviderService extends Service {
         mediaFileProducer = new MediaFileProducer(this);
         mFileTransport.registerObserver();
         mFileTransport.resetTaskState();
-        Log.i(TAG, "---> onCreate.");
+        Log.i(TAG, "==> onCreate.");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        //Notification note = new Notification(0, null, System.currentTimeMillis());
+        //note.flags |= Notification.FLAG_NO_CLEAR;
+        //startForeground(42, note);
+        Log.i(TAG, "==> onStartCommand.");
+        sendMessage(mUpDownloadHandler, MSG_LOAD_TASK, 2000);
+        if(intent != null && intent.hasExtra("_list")){
+            Message msg = mUpDownloadHandler.obtainMessage(MSG_DELETE_FILES);
+            Bundle bundle = msg.getData();
+            bundle.putStringArray("_list", intent.getStringArrayExtra("_list"));
+            msg.setData(bundle);
+            mUpDownloadHandler.sendMessage(msg);
+        }
+        return START_STICKY;
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopForeground(true);
+        unregisterReceiver();
+        Log.i(TAG, "===> onDestroy.");
     }
 
     private class UpDownloadHandlerCallback implements Handler.Callback {
@@ -191,41 +221,12 @@ public class FileProviderService extends Service {
         handler.sendEmptyMessageDelayed(msgCode, delayMillis);
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        //Notification note = new Notification(0, null, System.currentTimeMillis());
-        //note.flags |= Notification.FLAG_NO_CLEAR;
-        //startForeground(42, note);
-        Log.i(TAG, "onStartCommand.");
-        sendMessage(mUpDownloadHandler, MSG_LOAD_TASK, 2000);
-        if(intent != null && intent.hasExtra("_list")){
-            Message msg = mUpDownloadHandler.obtainMessage(MSG_DELETE_FILES);
-            Bundle bundle = msg.getData();
-            bundle.putStringArray("_list", intent.getStringArrayExtra("_list"));
-            msg.setData(bundle);
-            mUpDownloadHandler.sendMessage(msg);
-        }
-        return START_STICKY;
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopForeground(true);
-        unregisterReceiver();
-    }
-    
     private void initReceiver(){
         if(exteranalStorageStateReceiver == null){
             exteranalStorageStateReceiver = new BroadcastReceiver(){
               @Override
                 public void onReceive(Context arg0, Intent intent) {
-                  Log.i(TAG, "===> Action : " + intent.getAction());
+                  Log.i(TAG, "==> Action : " + intent.getAction());
                   if(Intent.ACTION_MEDIA_MOUNTED.equals(intent.getAction()) && Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
                       sendMessage(mUpDownloadHandler, MSG_REBUILD_DATABASE, 3000);
                   } else if ((Intent.ACTION_MEDIA_REMOVED.equals(intent.getAction()) || Intent.ACTION_MEDIA_EJECT.equals(intent.getAction())) && Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {

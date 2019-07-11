@@ -21,7 +21,6 @@
     <color name="color_control_highlight">@color/blue_extra_light</color>
 
     <!-- Default colors -->
-    <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="default_background">@color/grey_extra_light</color>
 

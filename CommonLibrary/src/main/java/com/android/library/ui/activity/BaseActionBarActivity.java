@@ -43,7 +43,7 @@ public abstract class BaseActionBarActivity extends BaseCommonActivity {
     protected View mBodyContentView = null;
     protected View mFooterBarView;
 
-    protected int mColorPrimaryNavigation = R.color.base_actionbar_background;
+    protected int mColorPrimaryNavigation = R.color.home_color_primary;
     /**
      * reload view
      */

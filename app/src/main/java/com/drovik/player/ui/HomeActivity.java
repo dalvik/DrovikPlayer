@@ -80,8 +80,8 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         startService(new Intent(HomeActivity.this, MultiMediaService.class));
         startService(new Intent(HomeActivity.this, FileProviderService.class));
         setContentView(R.layout.activity_home);
+        com.android.library.utils.Utils.setStatusTextColor(false, this);
         fullScreen(R.color.home_color_primary);
-        Utils.setStatusTextColor(false, this);
         setActionBarBackgroundColor(R.color.home_color_primary, R.color.home_actionbar_background);
         //setActionBarBackgroundDrawable(R.drawable.home_actionbar_bg, R.color.home_actionbar_background);
         setActionBarVisiable(View.GONE);

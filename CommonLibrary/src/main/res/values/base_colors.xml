@@ -12,7 +12,7 @@
 
     <!-- top actionbar color -->
     <color name="actionbar_bg">#FFFFFE</color>
-    <color name="base_actionbar_background">#FFFFFE</color>
+    <color name="base_actionbar_background">#FFFFFFFE</color>
     <color name="base_content_background">#FFEDEDED</color>
 
     <color name="home_actionbar_background">#316fb4</color>
@@ -29,7 +29,7 @@
 
     <!-- base color -->
     <color name="transparent">#00000000</color>
-    <color name="white">#ffffffff</color>
+    <color name="white">#FFFFFFFF</color>
     <color name="black">@android:color/black</color>
     <color name="red">#ffff0000</color>
     <color name="green">#ff00ff00</color>
