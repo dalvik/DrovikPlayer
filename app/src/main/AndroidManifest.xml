@@ -35,6 +35,7 @@
     <!-- 发送粘性广播 -->
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
@@ -81,6 +82,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--
+        <activity android:name="com.drovik.player.ui.LaunchActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
+         -->
 
         <activity android:name="com.drovik.player.ui.HomeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
@@ -273,6 +281,23 @@
         </service>
 
         <service android:name="com.android.audiorecorder.audio.MediaPlaybackService" android:exported="false" />
+
+        <service android:name=".ui.KeepAliveJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+        <service android:name="com.android.library.CancelNoticeService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":hw_deamon"/>
+
+        <receiver android:name="com.android.audiorecorder.engine.SystemRebootReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name="com.iflytek.voiceads.download.DownloadService"

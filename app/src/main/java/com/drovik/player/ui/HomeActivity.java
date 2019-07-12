@@ -63,7 +63,7 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
     private PermissionHelper mPermissionHelper;
 
     private LocationService locationService;
-
+    private JobSchedulerManager mJobManager;
     //android 6.0以上，需动态申请的权限
     public static String permissionArray[] = {
             "android.permission.READ_PHONE_STATE",
@@ -76,9 +76,9 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
         startService(new Intent(HomeActivity.this, MultiMediaService.class));
         startService(new Intent(HomeActivity.this, FileProviderService.class));
-        setContentView(R.layout.activity_home);
         com.android.library.utils.Utils.setStatusTextColor(false, this);
         fullScreen(R.color.home_color_primary);
         setActionBarBackgroundColor(R.color.home_color_primary, R.color.home_actionbar_background);
@@ -98,6 +98,8 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         }*/
         initYouMi();
         initLocationSDK();
+        mJobManager = JobSchedulerManager.getJobSchedulerInstance(this);
+        mJobManager.startJobScheduler();
     }
 
     @Override

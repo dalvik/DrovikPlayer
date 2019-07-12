@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.android.audiorecorder.ui.SettingsActivity;
 import com.android.library.ui.activity.BaseGuideActivity;
@@ -17,6 +19,8 @@ public class DrovikPlayerGuide extends BaseGuideActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         SharedPreferences preferences = getSharedPreferences(SettingsActivity.class.getName(), Context.MODE_PRIVATE);
         if(preferences.getBoolean(drovikPlayerGuide, false)){
             gotoHome();

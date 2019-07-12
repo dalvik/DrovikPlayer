@@ -42,10 +42,16 @@
 -keep public class * extends android.support.v4.app.Fragment
 -keep public class * extends android.app.Fragment
 -keep public class * extends android.view.view
--keep class org.xmlpull.v1.** { *;}
--keep class com.baidu.** {*;}
--keep class org.jsoup.** {*;}
+-keep class org.xmlpull.v1.** { *; }
+-keep class com.baidu.** {  *; }
+-keep class org.jsoup.** { *; }
 -keep class com.iflytek.** { *; }
+-keep class tv.danmaku.ijk.** { *; }
+-keep class com.baidu.mobstat.** { *; }
+-keep class *.R
+-keep class org.apache.commons.httpclient.** { *; }
+-keep class com.drovik.player.weather.** { *; }
+-keep public class com.iflytek.voiceads.** { *; }
 -keepattributes *Annotation*
 -keepclassmembers class ** {
     @org.greenrobot.eventbus.Subscribe <methods>;
@@ -55,6 +61,14 @@
 -keep public class * extends android.preference.Preference
 -keep public class com.android.vending.licensing.ILicensingService
 
+#-libraryjars libs/Ad_Android_SDK.jar
+#-libraryjars libs/android-query-full.0.26.7.jar
+#-libraryjars libs/Baidu_CyberPlayer_SDK_1.7s.jar
+#-libraryjars libs/BaiduLBS_Android.jar
+#-libraryjars libs/sdk_HeWeather_Public_Android_V2.0.jar
+-libraryjars  ../app/libs/armeabi/liblocSDK7b.so
+-libraryjars  ../app/libs/armeabi/libindoor.so
+#-libraryjars  ../app/src/main/assets/AdDex.4.0.1.dex
 -keepclasseswithmembernames class * {
     native <methods>;
 }
@@ -80,6 +94,11 @@
   public static final android.os.Parcelable$Creator *;
 }
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
+-keep class vi.com.gdi.bgl.** { *; }
+-keep class interfaces.heweather.com.interfacesmodule.** { *;}
+-keep class u.upd.** { *; }
+-keep class com.alimama.mobile.** { *; }
+-keep class com.umeng.update.** { *; }
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
 -dontoptimize
