@@ -435,7 +435,7 @@
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:layout_centerHorizontal="true"
-                        android:src="@drawable/selector_home_video"/>
+                        android:src="@drawable/selector_home_compass"/>
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -289,6 +289,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
                     .putExtra(Const.SC_VIDEO, video)
                     .putExtra(Const.SC_VID, mAlbum.getVid())//vid
                     .putExtra(Const.SC_TVID, mAlbum.getTVid())//tvid
+                    .putExtra(Const.SC_TITLE, mAlbum.getTitle())
                     .putExtra(Const.SC_PLAY_URL, mAlbum.getPlayUrl());//play url
             startActivity(mpdIntent);
         } else {

@@ -42,6 +42,7 @@ public class EpisodeListAdapter extends BaseQuickAdapter<Episode, BaseViewHolder
                         .putExtra(Const.SC_VIDEO, video)
                         .putExtra(Const.SC_TVID, episode.getTvId())//tvid
                         .putExtra(Const.SC_VID, episode.getVid())
+                        .putExtra(Const.SC_TITLE, episode.getShortTitle())
                         .putExtra(Const.SC_PLAY_URL, episode.getPlayUrl());//vid
                 context.startActivity(mpdIntent);
             }

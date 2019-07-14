@@ -126,17 +126,20 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             mVideoUri = intent.getData();
                             mVideoPath = mVideoUri.toString();
-                            Log.d(TAG, "==> mVideoUri: " + mVideoUri);
+                            Log.i(TAG, "==> mVideoUri: " + mVideoPath);
                             if(mVideoUri != null) {
                                 String tempPath = mVideoUri.getPath();
                                 String temp = tempPath.substring(tempPath.lastIndexOf("/") + 1);
-                                mVideoName = temp.substring(0,temp.lastIndexOf("."));
+                                //mVideoName = temp.substring(0,temp.lastIndexOf("."));
+                                mVideoName = intent.getStringExtra(Const.SC_TITLE);
                                 result = true;
                             }
                         } else {
                             mVideoPath = intent.getDataString();
                             String temp = mVideoPath.substring(mVideoPath.lastIndexOf("/") + 1);
-                            mVideoName = temp.substring(0,temp.lastIndexOf("."));
+                            //mVideoName = temp.substring(0,temp.lastIndexOf("."));
+                            mVideoName = intent.getStringExtra(Const.SC_TITLE);
+                            Log.i(TAG, "==> mVideoUri: " + mVideoPath);
                             result = true;
                         }
                     } else if (intentAction.equals(Intent.ACTION_SEND)) {

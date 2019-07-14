@@ -33,6 +33,8 @@
 -dontwarn org.xmlpull.v1.**
 
 -keep public class * extends android.app.Activity
+-keep public class * extends android.app.AppCompatActivity
+-keep public class * extends android.app.BaseActionBarActivity
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
 -keep public class * extends android.content.BroadcastReceiver
@@ -52,6 +54,8 @@
 -keep class org.apache.commons.httpclient.** { *; }
 -keep class com.drovik.player.weather.** { *; }
 -keep public class com.iflytek.voiceads.** { *; }
+-keep public class com.androidquery.** {  *; }
+-keep public class com.drovik.player.news.** { *; }
 -keepattributes *Annotation*
 -keepclassmembers class ** {
     @org.greenrobot.eventbus.Subscribe <methods>;
