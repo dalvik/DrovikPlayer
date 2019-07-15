@@ -239,8 +239,6 @@ public class MainThumbList extends Activity {
 		this.initFrameButton();
 		this.initFrameListView();
 		initObserver();
-		startService(new Intent(this, MultiMediaService.class));
-		startService(new Intent(this, FileProviderService.class));
 		mImagePlatFormManager = new PlatFormManager(mResultListener);
 		//UpdateManager.getUpdateManager().checkAppUpdate(this, true);
 	}

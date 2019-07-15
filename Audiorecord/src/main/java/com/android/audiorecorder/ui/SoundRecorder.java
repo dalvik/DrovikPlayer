@@ -36,7 +36,6 @@ import com.android.audiorecorder.R;
 import com.android.audiorecorder.engine.IAudioService;
 import com.android.audiorecorder.engine.IAudioStateListener;
 import com.android.audiorecorder.engine.MultiMediaService;
-import com.android.audiorecorder.engine.UpdateManager;
 import com.android.audiorecorder.provider.FileProviderService;
 import com.android.audiorecorder.ui.view.ImageClock;
 import com.android.audiorecorder.utils.ActivityUtil;
@@ -193,8 +192,15 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             iRecorderService = IAudioService.Stub.asInterface(service);
-            startService(new Intent(SoundRecorder.this, MultiMediaService.class));
-            startService(new Intent(SoundRecorder.this, FileProviderService.class));
+            Intent mutiService = new Intent(SoundRecorder.this, MultiMediaService.class);
+            Intent fileService = new Intent(SoundRecorder.this, FileProviderService.class);
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                startForegroundService(mutiService);
+                startForegroundService(fileService);
+            } else {
+                startService(mutiService);
+                startService(fileService);
+            }
             if(iRecorderService != null) {
                 try {
                     iRecorderService.regStateListener(iAudioStateListener);

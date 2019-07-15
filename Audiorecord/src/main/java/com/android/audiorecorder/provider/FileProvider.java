@@ -510,7 +510,11 @@ public class FileProvider extends ContentProvider {
         if(list != null){
             Intent intent = new Intent(this.getContext(), FileProviderService.class);
             intent.putExtra("_list", list);
-            getContext().startService(intent);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                getContext().startForegroundService(intent);
+            } else {
+                getContext().startService(intent);
+            }
         } else {
             Log.w(TAG, "---> none find will deleted files.");
         }

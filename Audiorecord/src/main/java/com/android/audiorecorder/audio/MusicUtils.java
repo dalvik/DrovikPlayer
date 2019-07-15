@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -56,7 +57,12 @@ public class MusicUtils {
             realActivity = context;
         }
         ContextWrapper cw = new ContextWrapper(realActivity);
-        cw.startService(new Intent(cw, MediaPlaybackService.class));
+        Intent intent = new Intent(cw, MediaPlaybackService.class);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            cw.startForegroundService(intent);
+        } else {
+            cw.startService(intent);
+        }
         ServiceBinder sb = new ServiceBinder(callback);
         if (cw.bindService((new Intent()).setClass(cw, MediaPlaybackService.class), sb, 0)) {
             sConnectionMap.put(cw, sb);

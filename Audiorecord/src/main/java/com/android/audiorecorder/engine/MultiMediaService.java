@@ -2,6 +2,9 @@ package com.android.audiorecorder.engine;
 
 import android.Manifest;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;
@@ -34,9 +37,12 @@ import com.android.audiorecorder.ui.data.resp.UserResp;
 import com.android.audiorecorder.utils.LogUtil;
 import com.android.audiorecorder.utils.StringUtils;
 import com.android.library.CancelNoticeService;
+import com.android.library.utils.NotificationUtil;
 
 import java.util.Calendar;
 import java.util.List;
+
+import static android.app.NotificationManager.IMPORTANCE_HIGH;
 
 public class MultiMediaService extends Service {
 
@@ -180,17 +186,21 @@ public class MultiMediaService extends Service {
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mCurMode = LUNCH_MODE_MANLY;
         //如果API大于18，需要弹出一个可见通知
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
-            Notification.Builder builder = new Notification.Builder(this);
-            builder.setSmallIcon(R.drawable.ic_launcher);
-            builder.setContentTitle("muti-meidia service");
-            builder.setContentText("muti-meidia service is runing...");
-            startForeground(CancelNoticeService.NOTICE_ID,builder.build());
-            // 如果觉得常驻通知栏体验不好
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, NotificationUtil.makeTarget("0"), PendingIntent.FLAG_UPDATE_CURRENT);
+            Notification notification = NotificationUtil.getNotification(this, NotificationUtil.title, NotificationUtil.content, R.drawable.ic_launcher, pendingIntent, NotificationUtil.CHANNEL_ONE_ID);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                NotificationChannel notificationChannel = new NotificationChannel(NotificationUtil.CHANNEL_ONE_ID, NotificationUtil.CHANNEL_ONE_NAME, IMPORTANCE_HIGH);
+                notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+                notificationChannel.setImportance(NotificationManager.IMPORTANCE_MIN);
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.createNotificationChannel(notificationChannel);
+            }
+            startForeground(CancelNoticeService.NOTICE_ID, notification);
             // 可以通过启动CancelNoticeService，将通知移除，oom_adj值不变
             Intent intent = new Intent(this, CancelNoticeService.class);
             startService(intent);
-        }else{
+        } else {
             startForeground(CancelNoticeService.NOTICE_ID, new Notification());
         }
         getAudioService();

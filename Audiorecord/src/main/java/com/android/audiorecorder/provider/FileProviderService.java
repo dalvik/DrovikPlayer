@@ -1,7 +1,9 @@
 package com.android.audiorecorder.provider;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -23,6 +26,9 @@ import com.android.audiorecorder.provider.FileTransport.ITransportListener;
 import com.android.audiorecorder.ui.SettingsActivity;
 import com.android.audiorecorder.utils.StringUtils;
 import com.android.library.net.utils.LogUtil;
+import com.android.library.utils.NotificationUtil;
+
+import static android.app.NotificationManager.IMPORTANCE_HIGH;
 
 public class FileProviderService extends Service {
 
@@ -271,25 +277,20 @@ public class FileProviderService extends Service {
     
     
     private void updateNotifiaction(boolean isUpload, long max, long progress, String title, String contentText) {
-        Notification notification = new Notification.Builder(this)
-        .setSmallIcon(R.drawable.ic_launcher_recorder)
-        .setContentTitle(title)
-        .setContentText(contentText)
-        .setOngoing(true)
-        .setWhen(0)
-        //.setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, FileUploadTaskActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))
-        .build();
-
-        // Notification.Builder will helpfully fill these out for you no
-        // matter what you do
-        notification.tickerView = null;
-        notification.tickerText = null;
-        
-        notification.priority = Notification.PRIORITY_HIGH;
-        //notification.flags |= Notification.FLAG_NO_CLEAR;
-        
         //notification.contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, FileManagerActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        mNotificationManager.notify(CUSTOM_VIEW_IMAGE_ID, notification);
+        //.setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, FileUploadTaskActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, NotificationUtil.makeTarget("0"), PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notification = NotificationUtil.getNotification(this, title, contentText, R.drawable.ic_launcher_recorder, pendingIntent, NotificationUtil.CHANNEL_ONE_ID);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(NotificationUtil.CHANNEL_ONE_ID, NotificationUtil.CHANNEL_ONE_NAME, IMPORTANCE_HIGH);
+            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            notificationChannel.setImportance(NotificationManager.IMPORTANCE_MIN);
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.createNotificationChannel(notificationChannel);
+            mNotificationManager.notify(CUSTOM_VIEW_IMAGE_ID, notification);
+        } else {
+            mNotificationManager.notify(CUSTOM_VIEW_IMAGE_ID, notification);
+        }
     }
     
     private void unregisterReceiver(){

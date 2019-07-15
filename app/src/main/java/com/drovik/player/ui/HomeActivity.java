@@ -77,8 +77,15 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        startService(new Intent(HomeActivity.this, MultiMediaService.class));
-        startService(new Intent(HomeActivity.this, FileProviderService.class));
+        Intent mutiService = new Intent(HomeActivity.this, MultiMediaService.class);
+        Intent fileService = new Intent(HomeActivity.this, FileProviderService.class);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            startForegroundService(mutiService);
+            startForegroundService(fileService);
+        } else {
+            startService(mutiService);
+            startService(fileService);
+        }
         com.android.library.utils.Utils.setStatusTextColor(false, this);
         fullScreen(R.color.home_color_primary);
         setActionBarBackgroundColor(R.color.home_color_primary, R.color.home_actionbar_background);
@@ -89,13 +96,6 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         UpdateManager.getUpdateManager().checkAppUpdate(this, false);
         //申请权限
         requestPermission();
-        /*if(!hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                showToast(com.android.audiorecorder.R.string.permission_should_granted);
-            } else {
-                requestPermission(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, EXTERNAL_STORAGE_REQ_CODE);
-            }
-        }*/
         initYouMi();
         initLocationSDK();
         mJobManager = JobSchedulerManager.getJobSchedulerInstance(this);

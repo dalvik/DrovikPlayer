@@ -10,6 +10,8 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.android.library.utils.NotificationUtil;
+
 public class CancelNoticeService extends Service {
 
     public static int NOTICE_ID = 188080;
@@ -29,18 +31,17 @@ public class CancelNoticeService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
-            Notification.Builder builder = new Notification.Builder(this);
-            builder.setSmallIcon(R.drawable.ic_launche);
-            startForeground(NOTICE_ID, builder.build());
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     SystemClock.sleep(2000);
-                    // 取消CancelNoticeService的前台
-                    stopForeground(false);
                     // 移除DaemonService弹出的通知
                     NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-                    manager.cancel(NOTICE_ID);
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        manager.deleteNotificationChannel(NotificationUtil.CHANNEL_ONE_ID);
+                    } else {
+                        manager.cancel(NOTICE_ID);
+                    }
                     // 任务完成，终止自己
                     Log.i("MqttDaemonService","==> CancelNoticeService---->onStartCommand");
                     stopSelf();

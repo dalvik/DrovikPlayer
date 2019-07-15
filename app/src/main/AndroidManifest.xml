@@ -58,6 +58,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <supports-screens android:anyDensity="true"
         android:smallScreens="true" android:normalScreens="true"
@@ -71,6 +72,7 @@
         android:name="com.crixmod.sailorcast.SailorCast"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:replace="android:icon,android:allowBackup">
         <!--com.drovik.player.ui.HomeActivity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"-->
         <activity android:name="com.drovik.player.ui.LaunchActivity"
@@ -424,6 +426,7 @@
         </service>
 
         -->
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
     </application>
 
 </manifest>

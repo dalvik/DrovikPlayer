@@ -53,9 +53,10 @@
 -keep class *.R
 -keep class org.apache.commons.httpclient.** { *; }
 -keep class com.drovik.player.weather.** { *; }
--keep public class com.iflytek.voiceads.** { *; }
--keep public class com.androidquery.** {  *; }
--keep public class com.drovik.player.news.** { *; }
+-keep class com.iflytek.voiceads.** { *; }
+-keep class com.androidquery.** {  *; }
+-keep class com.drovik.player.news.** { *; }
+-keep class org.apache.commons.** { *; }
 -keepattributes *Annotation*
 -keepclassmembers class ** {
     @org.greenrobot.eventbus.Subscribe <methods>;
@@ -64,7 +65,6 @@
 -keep public class * extends android.app.backup.BackupAgentHelper
 -keep public class * extends android.preference.Preference
 -keep public class com.android.vending.licensing.ILicensingService
-
 #-libraryjars libs/Ad_Android_SDK.jar
 #-libraryjars libs/android-query-full.0.26.7.jar
 #-libraryjars libs/Baidu_CyberPlayer_SDK_1.7s.jar
@@ -103,6 +103,7 @@
 -keep class u.upd.** { *; }
 -keep class com.alimama.mobile.** { *; }
 -keep class com.umeng.update.** { *; }
+-keep class org.greenrobot.eventbus.** { *; }
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
 -dontoptimize

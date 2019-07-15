@@ -26,6 +26,7 @@ def getVersionName() {
 }
 
 android {
+    useLibrary 'org.apache.http.legacy'
     dexOptions {
         javaMaxHeapSize "4g"
     }
@@ -42,7 +43,7 @@ android {
     defaultConfig {
         applicationId "com.drovik.player"
         minSdkVersion 17
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode getVersionCode()
         versionName getVersionName()
         multiDexEnabled true

@@ -43,8 +43,6 @@ public class MainFrameActivity extends BaseCommonActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startService(new Intent(this, MultiMediaService.class));
-        startService(new Intent(this, FileProviderService.class));
         setContentView(R.layout.layout_main_viewpager);
         viewPager = (ViewPager) findViewById(R.id.lib_id_viewpager_viewpager);
         indicator = (TabPageIndicator) findViewById(R.id.indicator);

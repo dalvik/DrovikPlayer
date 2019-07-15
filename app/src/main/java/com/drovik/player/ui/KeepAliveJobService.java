@@ -32,7 +32,11 @@ public class KeepAliveJobService extends JobService {
             // 具体任务逻辑
             if(!isAPPALive(getApplicationContext(), getPackageName())){
                 Intent intent = new Intent(getApplicationContext(), MultiMediaService.class);
-                startService(intent);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    startForegroundService(intent);
+                } else {
+                    startService(intent);
+                }
             }
             // 通知系统任务执行结束
             jobFinished( (JobParameters) msg.obj, false );
