@@ -195,7 +195,7 @@ public class LocationActivity extends BaseCompatActivity {
 				sb.append("\n地址信息 : ");// 地址信息
 				sb.append(location.getAddrStr());
 				sb.append("\n室内状态: ");// *****返回用户室内外判断结果*****
-				sb.append(location.getUserIndoorState());
+				sb.append(location.getUserIndoorState() == 1 ? "是" : "否");
 				sb.append("\n方向 : ");
 				sb.append(location.getDirection());// 方向
 				sb.append("\n位置描述: ");

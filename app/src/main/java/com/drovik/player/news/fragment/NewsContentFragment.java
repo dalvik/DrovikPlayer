@@ -1,5 +1,6 @@
 package com.drovik.player.news.fragment;
 
+import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -70,6 +71,7 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
     private final static String adUnitId = "4EB378DDD1ACCC98DB5430437962ACF8";
     private IFLYBannerAd bannerView;
     private LinearLayout bannerAdLayout;
+    private Context mContext;
 
     public static NewsContentFragment newInstance(Parcelable dataBean, String imgUrl) {
         NewsContentFragment instance = new NewsContentFragment();
@@ -98,6 +100,7 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
             mediaName = bean.getMedia_name();
             mediaUrl = "http://toutiao.com/m" + bean.getMedia_info().getMedia_id();
             mediaId = bean.getMedia_info().getMedia_id();
+            mContext = getActivity();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -178,7 +181,7 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
         }
         setHasOptionsMenu(true);
         bannerAdLayout = (LinearLayout)view.findViewById(R.id.ad_container);
-        sendHandlerMessage(MSG_REQUEST_AD, 3000);
+        sendHandlerMessage(MSG_REQUEST_AD, 1000);
     }
 
     private void initWebClient() {
@@ -347,9 +350,16 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mHandler.removeMessages(MSG_REQUEST_AD);
+    }
+
     private void initAd() {
+
         bannerView = IFLYBannerAd.createBannerAd(getActivity(), adUnitId);
-        bannerView.setParameter(AdKeys.APP_VER, StringUtils.getVersionName(getActivity()));
+        bannerView.setParameter(AdKeys.APP_VER, StringUtils.getVersionName(mContext));
         //广告容器添加bannerView
         bannerAdLayout.removeAllViews();
         bannerAdLayout.addView(bannerView);

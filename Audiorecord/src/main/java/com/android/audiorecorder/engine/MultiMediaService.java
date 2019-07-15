@@ -43,6 +43,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static android.app.NotificationManager.IMPORTANCE_HIGH;
+import static com.android.library.CancelNoticeService.NOTICE_ID;
 
 public class MultiMediaService extends Service {
 
@@ -196,12 +197,12 @@ public class MultiMediaService extends Service {
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.createNotificationChannel(notificationChannel);
             }
-            startForeground(CancelNoticeService.NOTICE_ID, notification);
+            startForeground(NOTICE_ID, notification);
             // 可以通过启动CancelNoticeService，将通知移除，oom_adj值不变
             Intent intent = new Intent(this, CancelNoticeService.class);
             startService(intent);
         } else {
-            startForeground(CancelNoticeService.NOTICE_ID, new Notification());
+            startForeground(NOTICE_ID, new Notification());
         }
         getAudioService();
         IntentFilter filter = new IntentFilter();

@@ -260,8 +260,8 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
      */
     public void onPlayButtonClick() {
         boolean isWifi = SailorCast.isNetworkWifi();
+        openVideoPlayer();
         if(isWifi) {
-            openVideoPlayer();
         } else {
             /*final SweetAlertDialog pDialog =  new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
             pDialog.setTitleText("是否播放");
