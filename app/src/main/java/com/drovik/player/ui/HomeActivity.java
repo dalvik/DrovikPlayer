@@ -37,8 +37,6 @@ import java.util.List;
 
 public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnFolderChangeListener {
 
-    public final int PERMISSION_RESULT_CODE = 100;
-    public final int PERMISSION_STORAGE_CODE = 101;
     public final static int MENU_DEVICE = 1001;
     public final static int MENU_DOWNLOAD = 1002;
     public final static int MENU_TRANSPORT = 1003;
@@ -64,12 +62,6 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
 
     private LocationService locationService;
     private JobSchedulerManager mJobManager;
-    //android 6.0以上，需动态申请的权限
-    public static String permissionArray[] = {
-            "android.permission.READ_PHONE_STATE",
-            "android.permission.ACCESS_FINE_LOCATION",
-            "android.permission.WRITE_EXTERNAL_STORAGE",
-    };
 
     private final String TAG = "HomeActivity";
 
@@ -94,8 +86,6 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         initData();
         initView();
         UpdateManager.getUpdateManager().checkAppUpdate(this, false);
-        //申请权限
-        requestPermission();
         initYouMi();
         initLocationSDK();
         mJobManager = JobSchedulerManager.getJobSchedulerInstance(this);
@@ -233,20 +223,6 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case EXTERNAL_STORAGE_REQ_CODE:
-                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    ToastUtils.showToast(com.android.library.R.string.permission_not_granted_write_storage);
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
     private void initYouMi() {
         // 当系统为6.0以上时，需要申请权限
         mPermissionHelper = new PermissionHelper(activity);
@@ -284,21 +260,6 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
             locationService.setLocationOption(locationService.getOption());
         }
         locationService.start();// 定位SDK
-    }
-
-    private void requestPermission() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            List<String> permissionList = new ArrayList<>();
-            for (String permission : permissionArray) {
-                LogUtil.d("==> And--M", permission);
-                if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                    permissionList.add(permission);
-                }
-            }
-            if (permissionList.size() > 0) {
-                requestPermissions(permissionList.toArray(new String[permissionList.size()]), PERMISSION_RESULT_CODE);
-            }
-        }
     }
 
     private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {

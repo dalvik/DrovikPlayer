@@ -25,10 +25,12 @@ import com.android.audiorecorder.R;
 import com.android.audiorecorder.provider.FileTransport.ITransportListener;
 import com.android.audiorecorder.ui.SettingsActivity;
 import com.android.audiorecorder.utils.StringUtils;
+import com.android.library.CancelNoticeService;
 import com.android.library.net.utils.LogUtil;
 import com.android.library.utils.NotificationUtil;
 
 import static android.app.NotificationManager.IMPORTANCE_HIGH;
+import static com.android.library.CancelNoticeService.NOTICE_ID;
 
 public class FileProviderService extends Service {
 
@@ -85,6 +87,24 @@ public class FileProviderService extends Service {
         mediaFileProducer = new MediaFileProducer(this);
         mFileTransport.registerObserver();
         mFileTransport.resetTaskState();
+        //如果API大于18，需要弹出一个可见通知
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, NotificationUtil.makeTarget("0"), PendingIntent.FLAG_UPDATE_CURRENT);
+            Notification notification = NotificationUtil.getNotification(this, NotificationUtil.title, NotificationUtil.content, R.drawable.ic_launcher, pendingIntent, NotificationUtil.CHANNEL_ONE_ID);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                NotificationChannel notificationChannel = new NotificationChannel(NotificationUtil.CHANNEL_ONE_ID, NotificationUtil.CHANNEL_ONE_NAME, IMPORTANCE_HIGH);
+                notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+                notificationChannel.setImportance(NotificationManager.IMPORTANCE_MIN);
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.createNotificationChannel(notificationChannel);
+            }
+            startForeground(NOTICE_ID, notification);
+            // 可以通过启动CancelNoticeService，将通知移除，oom_adj值不变
+            Intent intent = new Intent(this, CancelNoticeService.class);
+            startService(intent);
+        } else {
+            startForeground(NOTICE_ID, new Notification());
+        }
         Log.i(TAG, "==> onCreate.");
     }
 

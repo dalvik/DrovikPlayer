@@ -12,9 +12,11 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.android.library.BaseApplication;
 import com.android.library.R;
@@ -45,6 +47,8 @@ public abstract class BaseCommonActivity extends AppCompatActivity implements ID
     public static final int AUDIO_RECORD_REQ_CODE = EXTERNAL_STORAGE_REQ_CODE + 1;
     public static final int PHONE_CALL_REQ_CODE = AUDIO_RECORD_REQ_CODE + 1;
 
+    public static final String APP_ID = "da88c11617dad28f";
+    public static final String APP_SECRET = "d8cdfdb2eb696a0b";
 
     public static final String TAG = "CommonBaseActivity";
     public static final String INTENT_CLOSE = "activity.close";
@@ -412,6 +416,41 @@ public abstract class BaseCommonActivity extends AppCompatActivity implements ID
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    protected void logInfo(String format, Object... args) {
+        logMessage(Log.INFO, format, args);
+    }
+
+    protected void logError(String format, Object... args) {
+        logMessage(Log.ERROR, format, args);
+    }
+
+    protected void logDebug(String format, Object... args) {
+        logMessage(Log.DEBUG, format, args);
+    }
+
+    protected void showShortToast(String format, Object... args) {
+        showToast(Toast.LENGTH_SHORT, format, args);
+    }
+
+    private void showToast(int duration, String format, Object... args) {
+        Toast.makeText(this, String.format(format, args), duration).show();
+    }
+
+    private void logMessage(int level, String format, Object... args) {
+        String formattedString = String.format(format, args);
+        switch (level) {
+            case Log.DEBUG:
+                Log.d(TAG, formattedString);
+                break;
+            case Log.INFO:
+                Log.i(TAG, formattedString);
+                break;
+            case Log.ERROR:
+                Log.e(TAG, formattedString);
+                break;
         }
     }
 

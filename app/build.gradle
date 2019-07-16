@@ -145,6 +145,7 @@ dependencies {
     api 'com.squareup.retrofit2:retrofit:2.3.0'
     api 'com.squareup.retrofit2:converter-gson:2.1.0'
     api files('libs/sdk_HeWeather_Public_Android_V2.0.jar')
+    api(name: 'YoumiSdk_v8.3.0_2018-10-11', ext: 'aar')
     api 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     api 'org.greenrobot:eventbus:3.0.0'
