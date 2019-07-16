@@ -292,7 +292,7 @@ public class CompassActivity extends BaseCompatActivity implements SensorEventLi
         return (degree + 720) % 360;
     }
 
-    @Override
+   /* @Override
     public void onSensorChanged(SensorEvent event) {
         Log.d(TAG, "==> onSensorChanged: " + event.sensor.getType());
         if (event.accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE)
@@ -321,7 +321,57 @@ public class CompassActivity extends BaseCompatActivity implements SensorEventLi
         }
         //Log.d(TAG, "==> onSensorChanged: " + mDirection);
         //getOritation();
-    }
+    }*/
+
+   private  boolean ready;
+
+   @Override
+    public void onSensorChanged(SensorEvent event) {
+        switch (event.sensor.getType()) {
+            case Sensor.TYPE_ACCELEROMETER:
+                for(int i=0; i<3; i++){
+                    accelerometerValues[i] =  event.values[i];
+                }
+                if(magneticFieldValues[0] != 0)
+                    ready = true;
+
+                break;
+
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                for(int i=0; i<3; i++){
+                    magneticFieldValues[i] = event.values[i];
+                }
+                if(accelerometerValues[2] != 0)
+                    ready = true;
+
+                break;
+        }
+
+        if(!ready)
+            return;
+
+        boolean cek = SensorManager.getRotationMatrix(ABC, DEF, accelerometerValues, magneticFieldValues);
+        //Log.d(TAG, "==> onSensorChanged: " + cek);
+       if (cek) {
+           SensorManager.getOrientation(ABC, orientation);
+           double azimuth = Math.toDegrees(orientation[0]);
+           //double pitch = Math.toDegrees(orientation[1]);
+           //double roll = Math.toDegrees(orientation[2]);
+           //float direction = orientation[0];
+           mTargetDirection = (float) -azimuth;
+           //Log.d(TAG, "==> " + mTargetDirection + " " + mTargetDirection + " " + azimuth);
+       }
+        /*if(cek){
+            SensorManager.getOrientation(ABC, DEF);
+            mInclination = SensorManager.getInclination(inclineMatrix);
+
+            //display every 30th values
+            if(counter++ % 30 == 0){
+                //do your code, what you want to do to the result
+                counter = 1;
+            }
+        }*/
+   }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
