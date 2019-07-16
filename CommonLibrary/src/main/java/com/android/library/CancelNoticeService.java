@@ -40,6 +40,10 @@ public class CancelNoticeService extends Service {
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         manager.deleteNotificationChannel(NotificationUtil.CHANNEL_ONE_ID);
                     } else {
+                        Notification.Builder builder = new Notification.Builder(CancelNoticeService.this);
+                        builder.setSmallIcon(R.drawable.ic_launche);
+                        startForeground(NOTICE_ID, builder.build());
+                        stopForeground(false);
                         manager.cancel(NOTICE_ID);
                     }
                     // 任务完成，终止自己
