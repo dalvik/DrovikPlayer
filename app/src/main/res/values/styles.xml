@@ -16,6 +16,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppMovieHomeTheme" parent="Theme.App.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <style name="CommonAppLaunch">
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item>

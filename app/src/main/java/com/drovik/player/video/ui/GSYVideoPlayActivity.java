@@ -19,8 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.audiorecorder.utils.StringUtils;
 import com.android.library.net.utils.LogUtil;
@@ -41,6 +43,7 @@ import com.iflytek.voiceads.listener.IFLYVideoListener;
 import org.yczbj.ycvideoplayerlib.constant.ConstantKeys;
 import org.yczbj.ycvideoplayerlib.controller.VideoPlayerController;
 import org.yczbj.ycvideoplayerlib.inter.listener.OnCompletedListener;
+import org.yczbj.ycvideoplayerlib.inter.listener.OnPlayOrPauseListener;
 import org.yczbj.ycvideoplayerlib.inter.listener.OnVideoBackListener;
 import org.yczbj.ycvideoplayerlib.manager.VideoPlayerManager;
 import org.yczbj.ycvideoplayerlib.player.VideoPlayer;
@@ -49,7 +52,11 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnClickListener {
+import cdc.sed.yff.nm.cm.ErrorCode;
+import cdc.sed.yff.nm.sp.SpotListener;
+import cdc.sed.yff.nm.sp.SpotManager;
+
+public class GSYVideoPlayActivity extends AppCompatActivity{
     private String mVideoPath;
     private String mVid;
     private String mTvid;
@@ -76,11 +83,14 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
     private ViewGroup adView;
     private ImageView mAdCoverImageView;
     private boolean hasCached;
+    private boolean mPlaying;
+    private Context mContext;
     private String TAG = "GSYVideoPlayActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_sample_play);
@@ -88,6 +98,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         adContainer = (RelativeLayout) findViewById(R.id.rewarded_video_ad_view);
         videoPlayer =  (VideoPlayer)findViewById(R.id.video_player);
         mIqiyiParser = new IqiyiParser();
+        setupSlideableSpotAd();
         Log.d(TAG, "==> video play onCreate");
         PreferenceUtils.init(this);
         if(!initData()) {
@@ -193,6 +204,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         if (videoAd != null) {
             videoAd.onResume();
         }
+        SpotManager.getInstance(mContext).onPause();
     }
 
     @Override
@@ -216,6 +228,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             adView = null;
             videoAd = null;
         }
+        SpotManager.getInstance(mContext).onDestroy();
     }
 
     @Override
@@ -236,12 +249,11 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             videoPlayer.getFullscreenButton().performClick();
             return;
         }*/
-        super.onBackPressed();
-    }
-
-    @Override
-    public void onClick(View view) {
-
+        if (SpotManager.getInstance(mContext).isSlideableSpotShowing()) {
+            SpotManager.getInstance(mContext).hideSlideableSpot();
+        } else {
+            GSYVideoPlayActivity.this.finish();
+        }
     }
 
     private void setVideoPlayer(String urls) {
@@ -256,15 +268,16 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
         //创建视频控制器
         controller = new VideoPlayerController(this);
         controller.setTitle(mVideoName);
+        controller.setHideTime(10000);
         controller.setOnCompletedListener(new OnCompletedListener() {
             @Override
             public void onCompleted() {
                 mHasPlayComplete = true;
-                if(hasCached){
+                /*if(hasCached){
                     playAdVideo();
                 } else {
-                    GSYVideoPlayActivity.this.finish();
-                }
+                }*/
+                GSYVideoPlayActivity.this.finish();
             }
         });
         controller.setLoadingType(ConstantKeys.Loading.LOADING_QQ);
@@ -273,6 +286,20 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onBackClick() {
                 GSYVideoPlayActivity.this.finish();
+            }
+        });
+        controller.setOnPlayOrPauseListener(new OnPlayOrPauseListener() {
+            @Override
+            public void onPlayOrPauseClick(boolean isPlaying) {
+                if(!isPlaying){
+                    if(SpotManager.getInstance(mContext).isSlideableSpotShowing()){
+                        SpotManager.getInstance(mContext).hideSlideableSpot();
+                    }
+                } else {
+                    if(!SpotManager.getInstance(mContext).isSlideableSpotShowing()){
+                        showPotAd();
+                    }
+                }
             }
         });
         //设置视频控制器
@@ -514,4 +541,106 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements View.OnCl
             }
         }
     };
+
+    private void setupSlideableSpotAd() {
+        // 设置插屏图片类型，默认竖图
+        //		// 横图
+        //		SpotManager.getInstance(mContext).setImageType(SpotManager
+        // .IMAGE_TYPE_HORIZONTAL);
+        // 竖图
+        SpotManager.getInstance(this).setImageType(SpotManager.IMAGE_TYPE_HORIZONTAL);
+
+        // 设置动画类型，默认高级动画
+        //		// 无动画
+        //		SpotManager.getInstance(mContext).setAnimationType(SpotManager
+        //				.ANIMATION_TYPE_NONE);
+        //		// 简单动画
+        //		SpotManager.getInstance(mContext)
+        //		                    .setAnimationType(SpotManager.ANIMATION_TYPE_SIMPLE);
+        // 高级动画
+        SpotManager.getInstance(this).setAnimationType(SpotManager.ANIMATION_TYPE_ADVANCED);
+    }
+
+    private void showPotAd() {
+        // 展示轮播插屏广告
+        SpotManager.getInstance(this)
+                .showSlideableSpot(this, new SpotListener() {
+
+                    @Override
+                    public void onShowSuccess() {
+                        logInfo("轮播插屏展示成功");
+                    }
+
+                    @Override
+                    public void onShowFailed(int errorCode) {
+                        logError("轮播插屏展示失败");
+                        switch (errorCode) {
+                            case ErrorCode.NON_NETWORK:
+                                //showShortToast("网络异常");
+                                break;
+                            case ErrorCode.NON_AD:
+                                //showShortToast("暂无轮播插屏广告");
+                                break;
+                            case ErrorCode.RESOURCE_NOT_READY:
+                                //showShortToast("轮播插屏资源还没准备好");
+                                break;
+                            case ErrorCode.SHOW_INTERVAL_LIMITED:
+                                //showShortToast("请勿频繁展示");
+                                break;
+                            case ErrorCode.WIDGET_NOT_IN_VISIBILITY_STATE:
+                                //showShortToast("请设置插屏为可见状态");
+                                break;
+                            default:
+                                //showShortToast("请稍后再试");
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onSpotClosed() {
+                        logDebug("轮播插屏被关闭");
+                    }
+
+                    @Override
+                    public void onSpotClicked(boolean isWebPage) {
+                        logDebug("轮播插屏被点击");
+                        logInfo("是否是网页广告？%s", isWebPage ? "是" : "不是");
+                    }
+                });
+    }
+
+    protected void logInfo(String format, Object... args) {
+        logMessage(Log.INFO, format, args);
+    }
+
+    protected void logError(String format, Object... args) {
+        logMessage(Log.ERROR, format, args);
+    }
+
+    protected void logDebug(String format, Object... args) {
+        logMessage(Log.DEBUG, format, args);
+    }
+
+    protected void showShortToast(String format, Object... args) {
+        showToast(Toast.LENGTH_SHORT, format, args);
+    }
+
+    private void showToast(int duration, String format, Object... args) {
+        Toast.makeText(this, String.format(format, args), duration).show();
+    }
+
+    private void logMessage(int level, String format, Object... args) {
+        String formattedString = String.format(format, args);
+        switch (level) {
+            case Log.DEBUG:
+                Log.d(TAG, formattedString);
+                break;
+            case Log.INFO:
+                Log.i(TAG, formattedString);
+                break;
+            case Log.ERROR:
+                Log.e(TAG, formattedString);
+                break;
+        }
+    }
 }

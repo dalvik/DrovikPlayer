@@ -35,6 +35,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
+import cdc.sed.yff.nm.sp.SpotManager;
+
 public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnFolderChangeListener {
 
     public final static int MENU_DEVICE = 1001;
@@ -97,6 +99,7 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         super.onDestroy();
         locationService.unregisterListener(mListener);//注销掉监听
         locationService.stop();//停止定位服务
+        SpotManager.getInstance(this).onAppExit();
     }
 
     private void initData() {

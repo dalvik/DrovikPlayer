@@ -1,5 +1,6 @@
 package com.drovik.player.weather;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,11 +8,14 @@ import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +47,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import cdc.sed.yff.nm.bn.BannerManager;
+import cdc.sed.yff.nm.bn.BannerViewListener;
+import cdc.sed.yff.nm.cm.ErrorCode;
+import cdc.sed.yff.nm.sp.SpotListener;
+import cdc.sed.yff.nm.sp.SpotManager;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class WeatherDetailFragment extends BasePager {
@@ -69,6 +79,7 @@ public class WeatherDetailFragment extends BasePager {
 
     private LinearLayout bannerAdLayout;
 
+    private Context mContext;
     private String TAG = WeatherDetailFragment.class.getSimpleName();
 
     public static WeatherDetailFragment newInstance() {
@@ -79,13 +90,14 @@ public class WeatherDetailFragment extends BasePager {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mContext = getActivity();
         View view = inflater.inflate(R.layout.activity_weather_detail, container, false);
         mSettings = getActivity().getSharedPreferences(SettingsActivity.class.getName(), MODE_PRIVATE);
         mDailyWeatherDataList = new ArrayList<DailyWeatherData>();
         mStyleDataList = new ArrayList<>();
         initViews(view);
         onMoreInfo(mAqiData, mDailyWeatherDataList, mLifeIndexData);
-        sendHandlerMessage(MSG_REQUEST_AD, 3000);
+        //sendHandlerMessage(MSG_REQUEST_AD, 3000);
         return view;
     }
 
@@ -142,7 +154,8 @@ public class WeatherDetailFragment extends BasePager {
         mWeatherItemList = (RecyclerView) view.findViewById(R.id.weather_info_recyclerView);
         mWeatherItemList.setLayoutManager(linearLayoutManager);
         mWeatherItemList.setBackgroundResource(R.color.dark_background);
-        mMoreInfoAdapter = new BaseRecyclerAdapter(getActivity());
+        mMoreInfoAdapter = new BaseRecyclerAdapter(mContext);
+        setupNativeSpotAd();
         String dailyJsonStrig = mSettings.getString(ResourceProvider.DAILY_FORECAST, "");
         if(!TextUtils.isEmpty(dailyJsonStrig)){
             try {
@@ -310,6 +323,134 @@ public class WeatherDetailFragment extends BasePager {
         @Override
         public void onCancel() {
             LogUtil.d(TAG, "==> onCancel");
+        }
+    };
+
+    public void setupNativeSpotAd() {
+        //	设置插屏图片类型，默认竖图
+        //		//	横图
+        //		SpotManager.getInstance(mContext).setImageType(SpotManager
+        // .IMAGE_TYPE_HORIZONTAL);
+        // 竖图
+        SpotManager.getInstance(mContext).setImageType(SpotManager.IMAGE_TYPE_HORIZONTAL);
+
+        // 设置动画类型，默认高级动画
+        //		// 无动画
+        //		SpotManager.getInstance(mContext).setAnimationType(SpotManager
+        //				.ANIMATION_TYPE_NONE);
+        //		// 简单动画
+        //		SpotManager.getInstance(mContext)
+        //		                    .setAnimationType(SpotManager.ANIMATION_TYPE_SIMPLE);
+        // 高级动画
+        SpotManager.getInstance(mContext).setAnimationType(SpotManager.ANIMATION_TYPE_ADVANCED);
+
+        // 获取原生插屏控件
+        /*View nativeSpotView = SpotManager.getInstance(mContext)
+                .getNativeSpot(mContext, new SpotListener() {
+
+                    @Override
+                    public void onShowSuccess() {
+                        Log.i(TAG,"原生插屏展示成功");
+                    }
+
+                    @Override
+                    public void onShowFailed(int errorCode) {
+                        Log.e(TAG, "原生插屏展示失败");
+                        switch (errorCode) {
+                            case ErrorCode.NON_NETWORK:
+                               // showShortToast("网络异常");
+                                break;
+                            case ErrorCode.NON_AD:
+                                //showShortToast("暂无原生插屏广告");
+                                break;
+                            case ErrorCode.RESOURCE_NOT_READY:
+                                //showShortToast("原生插屏资源还没准备好");
+                                break;
+                            case ErrorCode.SHOW_INTERVAL_LIMITED:
+                                //showShortToast("请勿频繁展示");
+                                break;
+                            case ErrorCode.WIDGET_NOT_IN_VISIBILITY_STATE:
+                                //showShortToast("请设置插屏为可见状态");
+                                break;
+                            default:
+                               // showShortToast("请稍后再试");
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onSpotClosed() {
+                        //logDebug("原生插屏被关闭");
+                    }
+
+                    @Override
+                    public void onSpotClicked(boolean isWebPage) {
+                        //logDebug("原生插屏被点击");
+                        //logInfo("是否是网页广告？%s", isWebPage ? "是" : "不是");
+                    }
+                });
+        if (nativeSpotView != null) {
+            RelativeLayout.LayoutParams layoutParams =
+                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                    );
+            layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+            if (bannerAdLayout != null) {
+                bannerAdLayout.removeAllViews();
+                // 添加原生插屏控件到容器中
+                bannerAdLayout.addView(nativeSpotView, layoutParams);
+                if (bannerAdLayout.getVisibility() != View.VISIBLE) {
+                    bannerAdLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        }*/
+        BannerManager bannerManager = BannerManager.getInstance(mContext);
+        View bannerBiew = bannerManager.getBannerView(mContext, new BannerViewListener(){
+
+            @Override
+            public void onRequestSuccess() {
+                if (bannerAdLayout.getVisibility() != View.VISIBLE) {
+                    bannerAdLayout.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onSwitchBanner() {
+
+            }
+
+            @Override
+            public void onRequestFailed() {
+
+            }
+        });
+        if (bannerAdLayout != null) {
+            RelativeLayout.LayoutParams layoutParams =
+                    new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                    );
+            layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+            bannerAdLayout.removeAllViews();
+            // 添加原生插屏控件到容器中
+            bannerAdLayout.addView(bannerBiew, layoutParams);
+        }
+    }
+
+    BannerViewListener listener = new BannerViewListener(){
+
+        @Override
+        public void onRequestSuccess() {
+            LogUtil.d(TAG, "==> onRequestSuccess");
+        }
+
+        @Override
+        public void onSwitchBanner() {
+            LogUtil.d(TAG, "==> onSwitchBanner");
+        }
+
+        @Override
+        public void onRequestFailed() {
+            LogUtil.d(TAG, "==> onRequestFailed");
         }
     };
 }

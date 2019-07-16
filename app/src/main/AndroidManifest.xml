@@ -196,7 +196,7 @@
 
         <!--  movie  -->
         <activity android:name="com.drovik.player.video.ui.MovieHomeActivity"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppMovieHomeTheme"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
 
