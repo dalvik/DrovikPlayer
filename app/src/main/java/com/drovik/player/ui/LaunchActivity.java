@@ -99,7 +99,7 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
         }
         //申请权限
         requestPermission();
-        //handler.sendEmptyMessageDelayed(1, 4000);
+        handler.sendEmptyMessageDelayed(1, 4000);
         //loadAD();
     }
 
@@ -267,8 +267,8 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
 
         // 对开屏进行设置
         SplashViewSettings splashViewSettings = new SplashViewSettings();
-        //		// 设置是否展示失败自动跳转，默认自动跳转
-        //		splashViewSettings.setAutoJumpToTargetWhenShowFailed(false);
+        // 设置是否展示失败自动跳转，默认自动跳转
+        splashViewSettings.setAutoJumpToTargetWhenShowFailed(false);
         // 设置跳转的窗口类
         splashViewSettings.setTargetClass(HomeActivity.class);
         // 设置开屏的容器
