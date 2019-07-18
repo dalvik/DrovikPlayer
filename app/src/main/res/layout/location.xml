@@ -44,4 +44,15 @@
         android:scrollbars="vertical"
         android:textColor="@color/base_main_title" />
 
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ad_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="50dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="0.5dip"
+        android:paddingRight="0.5dip"/>
 </LinearLayout>

@@ -1,50 +1,50 @@
 package com.drovik.player.ui;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.audiorecorder.utils.LogUtil;
 import com.android.audiorecorder.utils.StringUtils;
-import com.android.library.ui.activity.BaseCompatActivity;
-import com.android.library.ui.utils.ToastUtils;
-import com.android.library.utils.PermissionHelper;
 import com.androidquery.AQuery;
-import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
+import com.drovik.player.adv.AdvConst;
 import com.iflytek.voiceads.IFLYNativeAd;
 import com.iflytek.voiceads.config.AdError;
 import com.iflytek.voiceads.config.AdKeys;
 import com.iflytek.voiceads.conn.NativeDataRef;
 import com.iflytek.voiceads.listener.IFLYNativeListener;
+import com.kuaiyou.loader.AdViewSpreadManager;
+import com.kuaiyou.loader.InitSDKManager;
+import com.kuaiyou.loader.loaderInterface.AdViewSpreadListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cdc.sed.yff.AdManager;
-import cdc.sed.yff.nm.cm.ErrorCode;
-import cdc.sed.yff.nm.sp.SplashViewSettings;
-import cdc.sed.yff.nm.sp.SpotListener;
-import cdc.sed.yff.nm.sp.SpotManager;
-import cdc.sed.yff.nm.sp.SpotRequestListener;
+public class LaunchActivity extends Activity implements IFLYNativeListener, AdViewSpreadListener {
 
-public class LaunchActivity extends Activity implements IFLYNativeListener {
-
+    public static final int MSG_FINISH = 1000;
     public static final int BASE_REQ_CODE = 1;
     public static final int EXTERNAL_STORAGE_REQ_CODE = BASE_REQ_CODE + 1 ;
     public static final int AUDIO_RECORD_REQ_CODE = EXTERNAL_STORAGE_REQ_CODE + 1;
@@ -58,8 +58,8 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
     private NativeDataRef adItem;
     private AQuery aQuery;
 
-    private PermissionHelper mPermissionHelper;
-
+    public String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.READ_PHONE_STATE};
+    ;
     //android 6.0以上，需动态申请的权限
     public static String permissionArray[] = {
             /*"android.permission.READ_PHONE_STATE",
@@ -73,40 +73,21 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
         super.onCreate(savedInstanceState);
         // 加载启动页面
         setContentView(R.layout.start_activity);
+        initAdView();
         hideBottomUIMenu();
-        mPermissionHelper = new PermissionHelper(this);
-        mPermissionHelper.setOnApplyPermissionListener(new PermissionHelper.OnApplyPermissionListener() {
-            @Override
-            public void onAfterApplyAllPermission() {
-                Log.i(TAG, "All of requested permissions has been granted, so run app logic.");
-                runApp();
-            }
-        });
-        if (Build.VERSION.SDK_INT < 23) {
-            // 如果系统版本低于23，直接跑应用的逻辑
-            Log.d(TAG, "The api level of system is lower than 23, so run app logic directly.");
-            runApp();
-        } else {
-            // 如果权限全部申请了，那就直接跑应用逻辑
-            if (mPermissionHelper.isAllRequestedPermissionGranted()) {
-                Log.d(TAG, "All of requested permissions has been granted, so run app logic directly.");
-                runApp();
-            } else {
-                // 如果还有权限为申请，而且系统版本大于23，执行申请权限逻辑
-                Log.i(TAG, "Some of requested permissions hasn't been granted, so apply permissions first.");
-                mPermissionHelper.applyPermissions();
-            }
+        if (Build.VERSION.SDK_INT >= 23) {
+            requestRunTimePermission(permissions);
+        }else{
+            requestSpreadAd();
         }
-        //申请权限
-        requestPermission();
-        handler.sendEmptyMessageDelayed(1, 4000);
-        //loadAD();
+        handler.sendEmptyMessageDelayed(MSG_FINISH, 4000);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SpotManager.getInstance(this).onDestroy();
+        handler.removeMessages(MSG_FINISH);
+        LogUtil.d(TAG, "==> onDestroy.");
     }
 
     public void loadAD() {
@@ -127,40 +108,8 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case EXTERNAL_STORAGE_REQ_CODE:
-                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    ToastUtils.showToast(com.android.library.R.string.permission_not_granted_write_storage);
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void showAD() {
-        final ImageView adImageView = (ImageView) findViewById(R.id.fullscreen_img);
-        if (adItem.getImgUrl() != null) {
-            ImageTools.displayImage(adImageView, adItem.getImgUrl());
-        }
-        adImageView.setVisibility(View.VISIBLE);
-        adImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adItem.onClick(adImageView);
-            }
-        });
-        if (adItem.onExposure(this.findViewById(R.id.fullscreen_img))) {
-            Log.d(TAG, "onExposure");
-        }
-    }
-
-    @Override
     public void onAdLoaded(NativeDataRef dataRef) {
         adItem = dataRef;
-        showAD();
     }
 
     @Override
@@ -189,7 +138,7 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case 1:
+                case MSG_FINISH:
                     gotoTarget();
                     break;
                 default:
@@ -197,163 +146,6 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
             }
         }
     };
-
-    private void requestPermission() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            List<String> permissionList = new ArrayList<>();
-            for (String permission : permissionArray) {
-                com.android.library.net.utils.LogUtil.d("==> And--M", permission);
-                if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                    permissionList.add(permission);
-                }
-            }
-            if (permissionList.size() > 0) {
-                requestPermissions(permissionList.toArray(new String[permissionList.size()]), PERMISSION_RESULT_CODE);
-            }
-        }
-    }
-
-    /**
-     * 跑应用的逻辑
-     */
-    private void runApp() {
-        //初始化SDK
-        AdManager.getInstance(this).init(APP_ID, APP_SECRET, true);
-        preloadAd();
-        setupSplashAd(); // 如果需要首次展示开屏，请注释掉本句代码
-    }
-
-    /**
-     * 预加载广告
-     */
-    private void preloadAd() {
-        // 注意：不必每次展示插播广告前都请求，只需在应用启动时请求一次
-        SpotManager.getInstance(this).requestSpot(new SpotRequestListener() {
-            @Override
-            public void onRequestSuccess() {
-                logInfo("请求插屏广告成功");
-                //				// 应用安装后首次展示开屏会因为本地没有数据而跳过
-                //              // 如果开发者需要在首次也能展示开屏，可以在请求广告成功之前展示应用的logo，请求成功后再加载开屏
-                //				setupSplashAd();
-            }
-
-            @Override
-            public void onRequestFailed(int errorCode) {
-                logError("请求插屏广告失败，errorCode: %s", errorCode);
-                switch (errorCode) {
-                    case ErrorCode.NON_NETWORK:
-                        //showShortToast("网络异常");
-                        break;
-                    case ErrorCode.NON_AD:
-                        //showShortToast("暂无插屏广告");
-                        break;
-                    default:
-                        //showShortToast("请稍后再试");
-                        break;
-                }
-            }
-        });
-    }
-
-
-    /**
-     * 设置开屏广告
-     */
-    private void setupSplashAd() {
-        // 创建开屏容器
-        final RelativeLayout splashLayout = (RelativeLayout) findViewById(R.id.rl_splash);
-        RelativeLayout.LayoutParams params =  new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.addRule(RelativeLayout.ABOVE, R.id.view_divider);
-
-        // 对开屏进行设置
-        SplashViewSettings splashViewSettings = new SplashViewSettings();
-        // 设置是否展示失败自动跳转，默认自动跳转
-        splashViewSettings.setAutoJumpToTargetWhenShowFailed(false);
-        // 设置跳转的窗口类
-        splashViewSettings.setTargetClass(HomeActivity.class);
-        // 设置开屏的容器
-        splashViewSettings.setSplashViewContainer(splashLayout);
-
-        // 展示开屏广告
-        SpotManager.getInstance(this).showSplash(this, splashViewSettings, new SpotListener() {
-
-                    @Override
-                    public void onShowSuccess() {
-                        logInfo("开屏展示成功");
-                    }
-
-                    @Override
-                    public void onShowFailed(int errorCode) {
-                        logError("开屏展示失败");
-                        switch (errorCode) {
-                            case ErrorCode.NON_NETWORK:
-                                logError("网络异常");
-                                break;
-                            case ErrorCode.NON_AD:
-                                logError("暂无开屏广告");
-                                break;
-                            case ErrorCode.RESOURCE_NOT_READY:
-                                logError("开屏资源还没准备好");
-                                break;
-                            case ErrorCode.SHOW_INTERVAL_LIMITED:
-                                logError("开屏展示间隔限制");
-                                break;
-                            case ErrorCode.WIDGET_NOT_IN_VISIBILITY_STATE:
-                                logError("开屏控件处在不可见状态");
-                                break;
-                            default:
-                                logError("errorCode: %d", errorCode);
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onSpotClosed() {
-                        logDebug("开屏被关闭");
-                    }
-
-                    @Override
-                    public void onSpotClicked(boolean isWebPage) {
-                        logDebug("开屏被点击");
-                        logInfo("是否是网页广告？%s", isWebPage ? "是" : "不是");
-                    }
-                });
-    }
-
-    protected void logInfo(String format, Object... args) {
-        logMessage(Log.INFO, format, args);
-    }
-
-    protected void logError(String format, Object... args) {
-        logMessage(Log.ERROR, format, args);
-    }
-
-    protected void logDebug(String format, Object... args) {
-        logMessage(Log.DEBUG, format, args);
-    }
-
-    protected void showShortToast(String format, Object... args) {
-        showToast(Toast.LENGTH_SHORT, format, args);
-    }
-
-    private void showToast(int duration, String format, Object... args) {
-        Toast.makeText(this, String.format(format, args), duration).show();
-    }
-
-    private void logMessage(int level, String format, Object... args) {
-        String formattedString = String.format(format, args);
-        switch (level) {
-            case Log.DEBUG:
-                Log.d(TAG, formattedString);
-                break;
-            case Log.INFO:
-                Log.i(TAG, formattedString);
-                break;
-            case Log.ERROR:
-                Log.e(TAG, formattedString);
-                break;
-        }
-    }
 
     /**
      * 隐藏虚拟按键，并且全屏
@@ -371,4 +163,178 @@ public class LaunchActivity extends Activity implements IFLYNativeListener {
             decorView.setSystemUiVisibility(uiOptions);
         }
     }
+    /***************************************************/
+
+    private AdViewSpreadManager adSpreadBIDView = null;
+    private int count = 1;
+
+    private void initAdView() {
+        InitSDKManager.getInstance().init(this, AdvConst.ADVIEW_APPID, null);
+        InitSDKManager.setDownloadNotificationEnable(false);
+    }
+
+    private void requestSpreadAd(){
+        adSpreadBIDView = new AdViewSpreadManager(this, AdvConst.ADVIEW_APPID, (RelativeLayout) findViewById(R.id.spreadlayout));
+        //adSpreadBIDView.setLogo(R.drawable.ic_laucher_h);
+        //adSpreadBIDView.setBackgroundColor(Color.WHITE);
+        adSpreadBIDView.setSpreadNotifyType(AdViewSpreadManager.NOTIFY_COUNTER_TEXT);
+        adSpreadBIDView.setOnAdViewListener(this);
+    }
+
+    @SuppressLint("ResourceType")
+    @Override
+    public void onAdNotifyCustomCallback( final int ruleTime,final  int delayTime) {
+        Log.i("AdViewBID", "onAdNotifyCustomCallback");
+        final TextView tv1 = new TextView(this);
+        final Button btn1 = new Button(this);
+        final LayoutParams btnLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        final LayoutParams tvLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+        tv1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        btn1.setId(123123);
+        btn1.setText("Skip");
+        tv1.setText(ruleTime + delayTime + "");
+
+        btnLp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        tvLp.addRule(RelativeLayout.LEFT_OF, btn1.getId());
+
+        adSpreadBIDView.getParentLayout().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                btn1.setVisibility(View.VISIBLE);
+                btn1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adSpreadBIDView.cancelAd();
+                    }
+                });
+            }
+        }, ruleTime * 1000);
+        adSpreadBIDView.getParentLayout().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                if (ruleTime + delayTime - count >= 1) {
+                    tv1.setText(ruleTime + delayTime - count + "");
+                    count++;
+                    adSpreadBIDView.getParentLayout().postDelayed(this, 1000);
+                }
+            }
+        }, 1000);
+        adSpreadBIDView.getParentLayout().addView(btn1, btnLp);
+        adSpreadBIDView.getParentLayout().addView(tv1, tvLp);
+        btn1.setVisibility(View.INVISIBLE);
+
+    }
+
+    @Override
+    public void onAdClicked() {
+        Log.i("AdViewBID", "onAdClicked");
+    }
+
+    @Override
+    public void onAdClosed() {
+        Log.i("AdViewBID", "onAdClosedAd");
+        handler.removeMessages(MSG_FINISH);
+        handler.sendEmptyMessageDelayed(MSG_FINISH, 500);
+    }
+
+    @Override
+    public void onAdClosedByUser() {
+        Log.i("AdViewBID", "onAdClosedByUser");
+        handler.removeMessages(MSG_FINISH);
+        handler.sendEmptyMessageDelayed(MSG_FINISH, 500);
+    }
+
+    @Override
+    public void onAdDisplayed() {
+        Log.i("AdViewBID", "onAdDisplayed");
+    }
+
+    @Override
+    public void onAdFailedReceived(String arg1) {
+        Log.i("AdViewBID", "onAdRecieveFailed");
+    }
+
+    @Override
+    public void onAdReceived() {
+        Log.i("AdViewBID", "onAdRecieved");
+    }
+
+    @Override
+    public void onAdSpreadPrepareClosed() {
+        handler.removeMessages(MSG_FINISH);
+        handler.sendEmptyMessageDelayed(MSG_FINISH, 500);
+        Log.i("AdViewBID", "onAdSpreadPrepareClosed");
+    }
+
+    protected void requestRunTimePermission(String[] permissions) {
+        // 用于存放为授权的权限
+        List<String> permissionList = new ArrayList<>();
+        for (String permission : permissions) {
+            // 判断是否已经授权，未授权，则加入待授权的权限集合中
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                permissionList.add(permission);
+            }
+        }
+
+        // 判断集合
+        if (!permissionList.isEmpty()) { // 如果集合不为空，则需要去授权
+            ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), 1);
+        } else {
+            requestSpreadAd();
+        }
+    }
+
+    /**
+     * 权限申请结果
+     * @param requestCode
+     *            请求码
+     * @param permissions
+     *            所有的权限集合
+     * @param grantResults
+     *            授权结果集合
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0) {
+                    // 被用户拒绝的权限集合
+                    List<String> deniedPermissions = new ArrayList<>();
+                    // 用户通过的权限集合
+                    List<String> grantedPermissions = new ArrayList<>();
+                    for (int i = 0; i < grantResults.length; i++) {
+                        // 获取授权结果，这是一个int类型的值
+                        int grantResult = grantResults[i];
+
+                        if (grantResult != PackageManager.PERMISSION_GRANTED) { // 用户拒绝授权的权限
+                            String permission = permissions[i];
+                            deniedPermissions.add(permission);
+                        } else { // 用户同意的权限
+                            String permission = permissions[i];
+                            grantedPermissions.add(permission);
+                        }
+                    }
+
+                    if (deniedPermissions.isEmpty()) { // 用户拒绝权限为空
+                        requestSpreadAd();
+                    } else { // 不为空
+                        Toast.makeText(this, "应用缺少必要的权限！请点击\"权限\"，打开所需要的权限。", Toast.LENGTH_LONG).show();
+                        // 回调授权成功的接口
+                        // 回调授权失败的接口
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.setData(Uri.parse("package:" + getPackageName()));
+                        startActivity(intent);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
 }

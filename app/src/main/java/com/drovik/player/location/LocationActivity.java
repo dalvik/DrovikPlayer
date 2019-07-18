@@ -8,6 +8,9 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
 import com.crixmod.sailorcast.SailorCast;
 import com.drovik.player.R;
+import com.drovik.player.adv.AdvConst;
+import com.kuaiyou.loader.AdViewBannerManager;
+import com.kuaiyou.loader.loaderInterface.AdViewBannerListener;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -20,9 +23,12 @@ import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /***
@@ -33,10 +39,11 @@ import android.widget.TextView;
  * @author baidu
  *
  */
-public class LocationActivity extends BaseCompatActivity {
+public class LocationActivity extends BaseCompatActivity implements AdViewBannerListener {
 
 	private LocationService locationService;
 	private TextView LocationResult;
+	private LinearLayout bannerAdLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +60,8 @@ public class LocationActivity extends BaseCompatActivity {
 				LocationActivity.this.finish();
 			}
 		});
-		LocationResult = (TextView) findViewById(R.id.gps_info);
+		LocationResult = findViewById(R.id.gps_info);
+		bannerAdLayout = findViewById(R.id.ad_container);
 		LocationResult.setMovementMethod(ScrollingMovementMethod.getInstance());
 		locationService = new LocationService(this);
 		LocationClientOption option = locationService.getDefaultLocationClientOption();
@@ -63,6 +71,7 @@ public class LocationActivity extends BaseCompatActivity {
 		option.setIgnoreKillProcess(false);
 		option.setIsNeedAltitude(true);
 		locationService.setLocationOption(option);
+		init();
 	}
 
 	/**
@@ -253,5 +262,56 @@ public class LocationActivity extends BaseCompatActivity {
 
 	private boolean isEmpty(String content){
 		return TextUtils.isEmpty(content);
+	}
+
+	/************************************/
+
+	private AdViewBannerManager adViewBIDView = null;
+
+	private void init() {
+		adViewBIDView = new AdViewBannerManager(this, AdvConst.ADVIEW_APPID, AdViewBannerManager.BANNER_AUTO_FILL, true);
+		adViewBIDView.setShowCloseBtn(true);
+		adViewBIDView.setRefreshTime(15);
+		adViewBIDView.setOpenAnim(true);
+		adViewBIDView.setOnAdViewListener(this);
+		if (null != bannerAdLayout) {
+			bannerAdLayout.addView(adViewBIDView.getAdViewLayout());
+		}
+	}
+
+	@Override
+	public void onAdClicked() {
+		Log.i("AdViewBID", "onAdClicked");
+	}
+
+	@Override
+	public void onAdClosed() {
+		Log.i("AdViewBID", "onAdClosedAd");
+		if (null != adViewBIDView) {
+			ViewGroup rootView = (ViewGroup) findViewById(android.R.id.content);
+			for (int i = 0; i < rootView.getChildCount(); i++) {
+				if (rootView.getChildAt(i) == adViewBIDView.getAdViewLayout()) {
+					rootView.removeView(adViewBIDView.getAdViewLayout());
+				}
+			}
+		}
+		if (null != bannerAdLayout) {
+			bannerAdLayout.removeAllViews();
+		}
+	}
+
+	@Override
+	public void onAdDisplayed() {
+		Log.i("AdViewBID", "onAdDisplayed");
+	}
+
+	@Override
+	public void onAdFailedReceived(String arg1) {
+		Log.i("AdViewBID", "onAdRecieveFailed");
+	}
+
+	@Override
+	public void onAdReceived() {
+		Log.i("AdViewBID", "onAdRecieved");
 	}
 }

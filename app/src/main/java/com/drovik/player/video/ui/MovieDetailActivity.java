@@ -14,7 +14,9 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,18 +32,21 @@ import com.crixmod.sailorcast.siteapi.SiteApi;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.crixmod.sailorcast.view.fragments.AlbumPlayGridFragment;
 import com.drovik.player.R;
+import com.drovik.player.adv.AdvConst;
 import com.drovik.player.video.Const;
 import com.drovik.player.video.adapter.EpisodeListAdapter;
 import com.drovik.player.video.parser.Episode;
 import com.drovik.player.video.parser.EpisodeList;
 import com.drovik.player.video.parser.IqiyiParser;
 import com.drovik.utils.ToastUtils;
+import com.kuaiyou.loader.AdViewBannerManager;
+import com.kuaiyou.loader.loaderInterface.AdViewBannerListener;
 
 import java.util.ArrayList;
 
 //import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbumsListener.OnGetEpisodeListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbumsListener.OnGetEpisodeListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, AdViewBannerListener {
 
     private final static int MSG_LOAD_MSG = 1000;
     private final static int PAGE_SIZE = 30;
@@ -99,6 +104,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
                     findViewById(R.id.album_play_back).setVisibility(View.GONE);
                     loadMoreAlbums();
                 }
+                initAdView();
             } else {
                 MovieDetailActivity.this.finish();
             }
@@ -181,6 +187,7 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
         mScore = findViewById(R.id.album_score);
         mDescribe = findViewById(R.id.album_desc);
         mSwipeContainer = findViewById(R.id.swipe_refresh_layout);
+        bannerAdLayout = findViewById(R.id.ad_container);
         mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
@@ -359,4 +366,57 @@ public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbu
     public void loadMoreAlbums() {
         SiteApi.doGetEpisodes(SCSite.IQIYI,mChannelId, mPageIndex, PAGE_SIZE, mAlbum.getPlayUrl(), mAlbum.getAlbumId(), this);
     }
+
+    /************************************/
+
+    private LinearLayout bannerAdLayout;
+    private AdViewBannerManager adViewBIDView = null;
+
+    private void initAdView() {
+        adViewBIDView = new AdViewBannerManager(this, AdvConst.ADVIEW_APPID, AdViewBannerManager.BANNER_AUTO_FILL, true);
+        adViewBIDView.setShowCloseBtn(true);
+        adViewBIDView.setRefreshTime(15);
+        adViewBIDView.setOpenAnim(true);
+        adViewBIDView.setOnAdViewListener(this);
+        if (null != bannerAdLayout) {
+            bannerAdLayout.addView(adViewBIDView.getAdViewLayout());
+        }
+    }
+
+    @Override
+    public void onAdClicked() {
+        Log.i("AdViewBID", "onAdClicked");
+    }
+
+    @Override
+    public void onAdClosed() {
+        Log.i("AdViewBID", "onAdClosedAd");
+        if (null != adViewBIDView) {
+            ViewGroup rootView = (ViewGroup) findViewById(android.R.id.content);
+            for (int i = 0; i < rootView.getChildCount(); i++) {
+                if (rootView.getChildAt(i) == adViewBIDView.getAdViewLayout()) {
+                    rootView.removeView(adViewBIDView.getAdViewLayout());
+                }
+            }
+        }
+        if (null != bannerAdLayout) {
+            bannerAdLayout.removeAllViews();
+        }
+    }
+
+    @Override
+    public void onAdDisplayed() {
+        Log.i("AdViewBID", "onAdDisplayed");
+    }
+
+    @Override
+    public void onAdFailedReceived(String arg1) {
+        Log.i("AdViewBID", "onAdRecieveFailed");
+    }
+
+    @Override
+    public void onAdReceived() {
+        Log.i("AdViewBID", "onAdRecieved");
+    }
+
 }

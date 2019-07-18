@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/spreadlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fitsSystemWindows="true">
 
     <ImageView
@@ -10,24 +12,4 @@
         android:layout_height="match_parent"
         android:background="@drawable/launch_bg" />
 
-    <ImageView
-        android:id="@+id/fullscreen_img"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:visibility="gone" />
-
-    <RelativeLayout
-        android:id="@+id/rl_splash"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <View
-            android:id="@+id/view_divider"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_alignParentBottom="true"
-            />
-    </RelativeLayout >
 </RelativeLayout>

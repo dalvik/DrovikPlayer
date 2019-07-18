@@ -32,6 +32,7 @@ import com.crixmod.sailorcast.model.SCAlbums;
 import com.crixmod.sailorcast.model.SCLiveStream;
 import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
+import com.drovik.player.adv.AdvConst;
 import com.drovik.player.video.Const;
 import com.drovik.player.video.parser.IqiyiParser;
 import com.iflytek.voiceads.IFLYVideoAd;
@@ -39,6 +40,8 @@ import com.iflytek.voiceads.config.AdError;
 import com.iflytek.voiceads.config.AdKeys;
 import com.iflytek.voiceads.conn.VideoDataRef;
 import com.iflytek.voiceads.listener.IFLYVideoListener;
+import com.kuaiyou.loader.AdViewInstlManager;
+import com.kuaiyou.loader.loaderInterface.AdViewInstlListener;
 
 import org.yczbj.ycvideoplayerlib.constant.ConstantKeys;
 import org.yczbj.ycvideoplayerlib.controller.VideoPlayerController;
@@ -52,11 +55,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import cdc.sed.yff.nm.cm.ErrorCode;
-import cdc.sed.yff.nm.sp.SpotListener;
-import cdc.sed.yff.nm.sp.SpotManager;
-
-public class GSYVideoPlayActivity extends AppCompatActivity{
+public class GSYVideoPlayActivity extends AppCompatActivity implements AdViewInstlListener {
     private String mVideoPath;
     private String mVid;
     private String mTvid;
@@ -94,11 +93,10 @@ public class GSYVideoPlayActivity extends AppCompatActivity{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_sample_play);
-        mAdCoverImageView = (ImageView) findViewById(R.id.rewarded_video_ad_cover_view);
-        adContainer = (RelativeLayout) findViewById(R.id.rewarded_video_ad_view);
-        videoPlayer =  (VideoPlayer)findViewById(R.id.video_player);
+        mAdCoverImageView = findViewById(R.id.rewarded_video_ad_cover_view);
+        adContainer = findViewById(R.id.rewarded_video_ad_view);
+        videoPlayer =  findViewById(R.id.video_player);
         mIqiyiParser = new IqiyiParser();
-        setupSlideableSpotAd();
         Log.d(TAG, "==> video play onCreate");
         PreferenceUtils.init(this);
         if(!initData()) {
@@ -107,6 +105,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity{
         } else {
             mHasPlayComplete = false;
             //requestNativeVideoAd();
+            initAdView();
             loadVideoSource();
             PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
             mRecorderWakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "DrovikVideoPlay_"+ powerManager.toString());
@@ -204,7 +203,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity{
         if (videoAd != null) {
             videoAd.onResume();
         }
-        SpotManager.getInstance(mContext).onPause();
     }
 
     @Override
@@ -228,7 +226,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity{
             adView = null;
             videoAd = null;
         }
-        SpotManager.getInstance(mContext).onDestroy();
     }
 
     @Override
@@ -249,11 +246,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity{
             videoPlayer.getFullscreenButton().performClick();
             return;
         }*/
-        if (SpotManager.getInstance(mContext).isSlideableSpotShowing()) {
-            SpotManager.getInstance(mContext).hideSlideableSpot();
-        } else {
-            GSYVideoPlayActivity.this.finish();
-        }
+        GSYVideoPlayActivity.this.finish();
     }
 
     private void setVideoPlayer(String urls) {
@@ -292,12 +285,10 @@ public class GSYVideoPlayActivity extends AppCompatActivity{
             @Override
             public void onPlayOrPauseClick(boolean isPlaying) {
                 if(!isPlaying){
-                    if(SpotManager.getInstance(mContext).isSlideableSpotShowing()){
-                        SpotManager.getInstance(mContext).hideSlideableSpot();
-                    }
+                    adInstlBIDView.closeInstl();
                 } else {
-                    if(!SpotManager.getInstance(mContext).isSlideableSpotShowing()){
-                        showPotAd();
+                    if(mIdAdViewReady){
+                        adInstlBIDView.showInstl(GSYVideoPlayActivity.this);
                     }
                 }
             }
@@ -542,72 +533,6 @@ public class GSYVideoPlayActivity extends AppCompatActivity{
         }
     };
 
-    private void setupSlideableSpotAd() {
-        // 设置插屏图片类型，默认竖图
-        //		// 横图
-        //		SpotManager.getInstance(mContext).setImageType(SpotManager
-        // .IMAGE_TYPE_HORIZONTAL);
-        // 竖图
-        SpotManager.getInstance(this).setImageType(SpotManager.IMAGE_TYPE_HORIZONTAL);
-
-        // 设置动画类型，默认高级动画
-        //		// 无动画
-        //		SpotManager.getInstance(mContext).setAnimationType(SpotManager
-        //				.ANIMATION_TYPE_NONE);
-        //		// 简单动画
-        //		SpotManager.getInstance(mContext)
-        //		                    .setAnimationType(SpotManager.ANIMATION_TYPE_SIMPLE);
-        // 高级动画
-        SpotManager.getInstance(this).setAnimationType(SpotManager.ANIMATION_TYPE_ADVANCED);
-    }
-
-    private void showPotAd() {
-        // 展示轮播插屏广告
-        SpotManager.getInstance(this)
-                .showSlideableSpot(this, new SpotListener() {
-
-                    @Override
-                    public void onShowSuccess() {
-                        logInfo("轮播插屏展示成功");
-                    }
-
-                    @Override
-                    public void onShowFailed(int errorCode) {
-                        logError("轮播插屏展示失败");
-                        switch (errorCode) {
-                            case ErrorCode.NON_NETWORK:
-                                //showShortToast("网络异常");
-                                break;
-                            case ErrorCode.NON_AD:
-                                //showShortToast("暂无轮播插屏广告");
-                                break;
-                            case ErrorCode.RESOURCE_NOT_READY:
-                                //showShortToast("轮播插屏资源还没准备好");
-                                break;
-                            case ErrorCode.SHOW_INTERVAL_LIMITED:
-                                //showShortToast("请勿频繁展示");
-                                break;
-                            case ErrorCode.WIDGET_NOT_IN_VISIBILITY_STATE:
-                                //showShortToast("请设置插屏为可见状态");
-                                break;
-                            default:
-                                //showShortToast("请稍后再试");
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onSpotClosed() {
-                        logDebug("轮播插屏被关闭");
-                    }
-
-                    @Override
-                    public void onSpotClicked(boolean isWebPage) {
-                        logDebug("轮播插屏被点击");
-                        logInfo("是否是网页广告？%s", isWebPage ? "是" : "不是");
-                    }
-                });
-    }
 
     protected void logInfo(String format, Object... args) {
         logMessage(Log.INFO, format, args);
@@ -642,5 +567,77 @@ public class GSYVideoPlayActivity extends AppCompatActivity{
                 Log.e(TAG, formattedString);
                 break;
         }
+    }
+
+    /***************************************************/
+
+    private AdViewInstlManager adInstlBIDView = null;
+    private boolean mIdAdViewReady;
+
+    private void initAdView() {
+        adInstlBIDView = new AdViewInstlManager(this, AdvConst.ADVIEW_APPID, true);//有关闭按钮：true，无关闭按钮：false
+//		adInstlBIDView.setDisplayMode(AdViewInstlManager.DISPLAYMODE_DIALOG);
+        adInstlBIDView.setOnAdViewListener(this);
+    }
+
+    @Override
+    public void onAdClicked() {
+        Log.i("AdViewBID", "onAdClicked");
+    }
+
+    @Override
+    public void onAdClosed() {
+        Log.i("AdViewBID", "onAdClosedAd");
+    }
+
+    @Override
+    public void onAdReady() {
+        Log.i("AdViewBID", "onAdReady");
+        mIdAdViewReady = true;
+        /**
+         * 1.普通展示方式
+         */
+        //adInstlBIDView.showInstl(this);
+//		/**
+//		 * 2.自定义展示方式
+//		 */
+//		// 如果使用自定义插屏，如退屏广告 可使用 下面的方法， 获取广告view，自定义展示
+//		if (adInstlBIDView.getDialogView() != null) {
+//			new AlertDialog.Builder(AdInstlActivity.this).setView(adInstlBIDView.getDialogView()).setPositiveButton("去看看", new DialogInterface.OnClickListener() {
+//				@Override
+//				public void onClick(DialogInterface dialog, int which) {
+//					adInstlBIDView.reportClick();
+//					adInstlBIDView.closeInstl();
+//				}
+//			}).setNegativeButton("退出应用", new DialogInterface.OnClickListener() {
+//				@Override
+//				public void onClick(DialogInterface dialog, int which) {
+//					adInstlBIDView.closeInstl();
+//				}
+//			}).show();
+//			adInstlBIDView.reportImpression();
+//		}
+
+    }
+
+    @Override
+    public void onAdDisplayed() {
+        Log.i("AdViewBID", "onDisplayed");
+    }
+
+    @Override
+    public void onAdFailedReceived( String arg1) {
+        Log.i("AdViewBID", "onAdRecieveFailed："+arg1);
+    }
+
+    @Override
+    public void onAdReceived() {
+        Log.i("AdViewBID", "onAdRecieved");
+    }
+
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
