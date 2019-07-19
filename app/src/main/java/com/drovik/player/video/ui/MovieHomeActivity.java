@@ -117,13 +117,11 @@ public class MovieHomeActivity extends BaseCompatActivity implements ViewPager.O
         });
         titleTv.setText(mTitle[0]);
         setMainButton(0);
-        mHandler.sendEmptyMessageDelayed(LOAD_AD, 2000);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mHandler.removeMessages(LOAD_AD);
     }
 
     private void setSelectedTab(int position) {

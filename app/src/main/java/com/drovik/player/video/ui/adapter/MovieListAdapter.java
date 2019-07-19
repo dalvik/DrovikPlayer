@@ -73,8 +73,7 @@ public class MovieListAdapter extends BaseAdapter {
         if (view == null) {
             viewHolder = new ViewHolder();
             view = getOneColumnVideoRowView(viewGroup, viewHolder);
-        }
-        else {
+        } else {
             viewHolder = (ViewHolder) view.getTag();
         }
         setupViewHolder(view,i,viewHolder,album);
@@ -92,9 +91,9 @@ public class MovieListAdapter extends BaseAdapter {
             viewHolder.videoImage.setLayoutParams(params);
             x = point.x;
             y = point.y;
-
-            if(album.getVerImageUrl() != null)
+            if(album.getVerImageUrl() != null) {
                 imageUrl = album.getVerImageUrl();
+            }
         }
 
         if(mColumns == 2) {
@@ -103,18 +102,20 @@ public class MovieListAdapter extends BaseAdapter {
             viewHolder.videoImage.setLayoutParams(params);
             x = point.x;
             y = point.y;
-            if(album.getHorImageUrl() != null)
+            if(album.getHorImageUrl() != null) {
                 imageUrl = album.getHorImageUrl();
+            }
         }
-
 
         if(imageUrl != null) {
             ImageTools.displayImage(viewHolder.videoImage,imageUrl,x,y);
         } else {
-            if(mColumns == 2)
+            if(mColumns == 2) {
                 viewHolder.videoImage.setImageDrawable(SailorCast.getResource().getDrawable(R.drawable.loading_hor));
-            if(mColumns == 3)
+            }
+            if(mColumns == 3) {
                 viewHolder.videoImage.setImageDrawable(SailorCast.getResource().getDrawable(R.drawable.loading));
+            }
         }
 
         viewHolder.videoTip.setText("");
@@ -139,15 +140,15 @@ public class MovieListAdapter extends BaseAdapter {
     private View getOneColumnVideoRowView(ViewGroup viewGroup, ViewHolder viewHolder) {
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
         View itemView;
-        if(mColumns == 2)
+        if(mColumns == 2) {
             itemView = inflater.inflate(R.layout.item_gridview_albumlist_2,viewGroup,false);
-        else
+        } else {
             itemView = inflater.inflate(R.layout.item_gridview_albumlist_3,viewGroup,false);
-
-        viewHolder.videoImage = (ImageView) itemView.findViewById(R.id.video_image);
-        viewHolder.videoTitle = (TextView) itemView.findViewById(R.id.video_title);
-        viewHolder.videoTip = (TextView) itemView.findViewById(R.id.video_tip);
-        viewHolder.resultContainer = (LinearLayout)itemView.findViewById(R.id.search_result);
+        }
+        viewHolder.videoImage = itemView.findViewById(R.id.video_image);
+        viewHolder.videoTitle = itemView.findViewById(R.id.video_title);
+        viewHolder.videoTip = itemView.findViewById(R.id.video_tip);
+        viewHolder.resultContainer = itemView.findViewById(R.id.search_result);
 
         itemView.setTag(viewHolder);
         return itemView;
