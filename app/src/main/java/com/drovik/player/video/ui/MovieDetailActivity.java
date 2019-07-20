@@ -44,8 +44,6 @@ import com.kuaiyou.loader.loaderInterface.AdViewBannerListener;
 
 import java.util.ArrayList;
 
-//import cn.pedant.SweetAlert.SweetAlertDialog;
-
 public class MovieDetailActivity extends BaseCompatActivity implements OnGetAlbumsListener.OnGetEpisodeListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, AdViewBannerListener {
 
     private final static int MSG_LOAD_MSG = 1000;

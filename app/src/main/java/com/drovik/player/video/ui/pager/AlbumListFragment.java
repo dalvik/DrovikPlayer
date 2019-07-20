@@ -295,7 +295,7 @@ public class AlbumListFragment extends Fragment implements
     public static String HTML = "<meta charset='utf-8'><style type='text/css'>* { padding: 0px; margin: 0px;}a:link { text-decoration: none;}</style><div  style='width: 100%; height: 100%;'><img src=\"image_path\" width=\"100%\" height=\"100%\" ></div>";
 
     private void initAdView() {
-        adViewNative = new AdViewNativeManager(getActivity(), AdvConst.ADVIEW_APPID, AdvConst.ADVIEW_NATIVE_VIDEO_ID, this);
+        adViewNative = new AdViewNativeManager(getActivity(), AdvConst.ADVIEW_APPID, AdvConst.ADVIEW_NATIVE_ID, this);
     }
 
     /**

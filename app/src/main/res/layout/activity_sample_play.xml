@@ -5,20 +5,7 @@
     android:layout_height="match_parent"
     android:background="#000000">
 
-    <ImageView
-        android:id="@+id/rewarded_video_ad_cover_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <RelativeLayout
-        android:id="@+id/rewarded_video_ad_view"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/base_bg" />
-
     <org.yczbj.ycvideoplayerlib.player.VideoPlayer
-        android:visibility="gone"
         android:id="@+id/video_player"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
