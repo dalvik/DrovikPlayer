@@ -28,6 +28,7 @@ public class Const {
     public final static String ACTION_REFRESH = "action_refresh";
     public final static String EXTRA_REFRESH = "extra_refresh";
 
+    public final static String ADVIEW = "adview";
     private Const() {
 
     }

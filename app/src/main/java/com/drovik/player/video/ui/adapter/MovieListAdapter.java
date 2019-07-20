@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.crixmod.sailorcast.utils.ImageTools;
 import com.drovik.player.R;
 import com.drovik.player.video.Const;
 import com.drovik.player.video.ui.MovieDetailActivity;
+import com.kuaiyou.loader.AdViewNativeManager;
 
 public class MovieListAdapter extends BaseAdapter {
     private Context mContext;
@@ -30,8 +32,13 @@ public class MovieListAdapter extends BaseAdapter {
 
     private SCAlbums mAlbums = new SCAlbums();
 
+    private AdViewNativeManager adViewNative;
+
+    private String TAG = "MovieListAdapter";
+
     private class ViewHolder {
-            LinearLayout resultContainer;
+
+        LinearLayout resultContainer;
             ImageView videoImage;
             TextView videoTitle;
             TextView videoTip;
@@ -41,6 +48,13 @@ public class MovieListAdapter extends BaseAdapter {
         this.mContext = mContext;
         this.mChannel = channel;
         this.mIndex = index;
+    }
+
+    public MovieListAdapter(Context mContext, SCChannel channel, int index, AdViewNativeManager adViewNative) {
+        this.mContext = mContext;
+        this.mChannel = channel;
+        this.mIndex = index;
+        this.adViewNative = adViewNative;
     }
 
     public void clear() {
@@ -124,15 +138,24 @@ public class MovieListAdapter extends BaseAdapter {
             viewHolder.videoTip.setText(album.getTip());
             viewHolder.videoTip.setVisibility(View.VISIBLE);
         }
-
+        if(Const.ADVIEW.equals(album.getAdView()) && adViewNative != null){
+            Log.d(TAG, "==> Impression: " + album.getVid());
+            adViewNative.reportImpression(album.getVid());
+        }
         viewHolder.resultContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mpdIntent = new Intent(mContext, MovieDetailActivity.class)
-                        .putExtra(Const.ALUMB_DETAIL, album)
-                        .putExtra(Const.CHANNEL_ID, mChannel.getChannelID())
-                        .putExtra(Const.INDEX_ID, mIndex);
-                mContext.startActivity(mpdIntent);
+                if(!Const.ADVIEW.equals(album.getAdView())){
+                    Intent mpdIntent = new Intent(mContext, MovieDetailActivity.class)
+                            .putExtra(Const.ALUMB_DETAIL, album)
+                            .putExtra(Const.CHANNEL_ID, mChannel.getChannelID())
+                            .putExtra(Const.INDEX_ID, mIndex);
+                    mContext.startActivity(mpdIntent);
+                } else {
+                    if(adViewNative != null) {
+                        adViewNative.reportClick(album.getVid());
+                    }
+                }
             }
         });
     }

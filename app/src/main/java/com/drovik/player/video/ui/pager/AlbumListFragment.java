@@ -32,6 +32,7 @@ import com.crixmod.sailorcast.uiutils.pagingridview.PagingGridView;
 import com.crixmod.sailorcast.view.AlbumFilterDialog;
 import com.drovik.player.R;
 import com.drovik.player.adv.AdvConst;
+import com.drovik.player.video.Const;
 import com.drovik.player.video.ui.adapter.MovieListAdapter;
 import com.kuaiyou.loader.AdViewNativeManager;
 import com.kuaiyou.loader.loaderInterface.AdViewNativeListener;
@@ -61,6 +62,7 @@ public class AlbumListFragment extends Fragment implements
     private int mColumns = 3;
     private SCChannelFilter mFilter;
     private boolean inFilterMode;
+    private SCAlbum mAdViewSCAlbum;
     private SwipeRefreshLayout mSwipeContainer;
 
 
@@ -88,13 +90,14 @@ public class AlbumListFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initAdView();
         if (getArguments() != null) {
             mPageNo = 0;
             mSiteID = getArguments().getInt(ARG_SITE_ID);
             mChannelID = getArguments().getInt(ARG_CHANNEL_ID);//index
             mIndex = getArguments().getInt(BaseMoviePager.EXTRA_CHANNEL_ID);
             loadMoreAlbums();
-            mAdapter = new MovieListAdapter(getActivity(), new SCChannel(mChannelID), mIndex);
+            mAdapter = new MovieListAdapter(getActivity(), new SCChannel(mChannelID), mIndex, adViewNative);
             if(mSiteID == SCSite.LETV) {
                 mColumns = 2;
                 mAdapter.setColumns(mColumns);
@@ -154,6 +157,11 @@ public class AlbumListFragment extends Fragment implements
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adViewNative.requestAd();
+    }
 
     public void loadMoreAlbums() {
         mPageNo ++ ;
@@ -184,11 +192,15 @@ public class AlbumListFragment extends Fragment implements
             }
 
             for(SCAlbum a : albums) {
-                if(mAdapter != null)
+                if(mAdapter != null) {
                     mAdapter.addAlbum(a);
+                }
             }
         }
 
+        if(mAdapter != null && mAdapter.getCount()>= 20) {
+            mAdapter.addAlbum(mAdViewSCAlbum);
+        }
         if(getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -260,7 +272,7 @@ public class AlbumListFragment extends Fragment implements
 
     @Override
     public void onRefresh() {
-        mAdapter = new MovieListAdapter(getActivity(), new SCChannel(mChannelID), mIndex);
+        mAdapter = new MovieListAdapter(getActivity(), new SCChannel(mChannelID), mIndex, adViewNative);
         mPageNo = 0;
         mGridView.setHasMoreItems(true);
         if(mSiteID == SCSite.LETV) {
@@ -282,10 +294,8 @@ public class AlbumListFragment extends Fragment implements
     private HashMap<String, Object> nativeAd;
     public static String HTML = "<meta charset='utf-8'><style type='text/css'>* { padding: 0px; margin: 0px;}a:link { text-decoration: none;}</style><div  style='width: 100%; height: 100%;'><img src=\"image_path\" width=\"100%\" height=\"100%\" ></div>";
 
-
     private void initAdView() {
         adViewNative = new AdViewNativeManager(getActivity(), AdvConst.ADVIEW_APPID, AdvConst.ADVIEW_NATIVE_VIDEO_ID, this);
-        adViewNative.requestAd();
     }
 
     /**
@@ -364,7 +374,8 @@ public class AlbumListFragment extends Fragment implements
                 natAd.addView(contentView);
 */
             }else {
-                Log.i("原生物料信息：","title="+nativeAd.get("title")+"\niconUrl="+nativeAd.get("adIcon")+"\ndescription="+nativeAd.get("description")+"\nimageUrl="+nativeAd.get("adImage"));
+                Log.i(TAG,"title="+nativeAd.get("title")+"\niconUrl="+nativeAd.get("adIcon")+"\ndescription="+nativeAd.get("description")+"\nimageUrl="+nativeAd.get("adImage"));
+                mAdViewSCAlbum = new SCAlbum(SCSite.IQIYI);
                 //Toast.makeText(this, "物料广告获取成功", Toast.LENGTH_SHORT).show();
                 //contentView = inflater.inflate(R.layout.item4, null);
                 //WebView icon = contentView.findViewById(R.id.icon);
@@ -373,28 +384,34 @@ public class AlbumListFragment extends Fragment implements
                // TextView desc = contentView.findViewById(R.id.desc);
                 ///TextView desc2 = contentView.findViewById(R.id.desc2);
                 //natAd.addView(contentView);
-                /*if (null != nativeAd) {
+                if (null != nativeAd) {
                     String title = (String) nativeAd.get("title");
                     String iconUrl = (String) nativeAd.get("adIcon");
                     String description = (String) nativeAd.get("description");
                     String imageUrl = (String) nativeAd.get("adImage");
+                    mAdViewSCAlbum.setTitle(title);
+                    mAdViewSCAlbum.setHorImageUrl(iconUrl);
+                    mAdViewSCAlbum.setVerImageUrl(imageUrl);
+                    mAdViewSCAlbum.setDesc(description);
+                    mAdViewSCAlbum.setAdView(Const.ADVIEW);
+                    mAdViewSCAlbum.setVid((String) nativeAd.get("adId"));
 
-
-                    desc.setText((CharSequence) nativeAd.get("description"));
+                    /*desc.setText((CharSequence) nativeAd.get("description"));
                     desc2.setText((CharSequence) nativeAd.get("sec_description"));
                     title.setText((CharSequence) nativeAd.get("title"));
                     if (!TextUtils.isEmpty((CharSequence) nativeAd.get("adImage")) && null != image) {
                         image.loadData((new String(HTML)).replace("image_path", (CharSequence) nativeAd.get("adImage")),
                                 "text/html; charset=UTF-8", null);
-                    }
+                    }*/
 //                    else {
 //                        image.loadData((new String(HTML)).replace("image_path",
 //                                (CharSequence) "http://www.adview.com/ssp/image/loff6ty1_main_20181214144226632006_1280_720.jpg"),
 //                                "text/html; charset=UTF-8", null);
 //                    }
-                    if (!TextUtils.isEmpty((CharSequence) nativeAd.get("adIcon")) && null != icon)
+                    /*if (!TextUtils.isEmpty((CharSequence) nativeAd.get("adIcon")) && null != icon) {
                         //icon.loadData((new String(HTML)).replace("image_path", (CharSequence) nativeAd.get("adIcon")), "text/html; charset=UTF-8", null);
-                }*/
+                    }*/
+                }
             }
             // 汇报展示
             //adViewNative.reportImpression((String) nativeAd.get("adId"));

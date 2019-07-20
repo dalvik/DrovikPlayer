@@ -23,9 +23,10 @@ public class SCAlbum implements Parcelable {
     private Boolean mIsCompleted = false;  /* 是否完结 */
     private String mLetvStyle = null;  /* Letv需要的字段, 其它站点不需要， 界面不显示 */
     private String mTVid;
-    private String mVid;
+    private String mVid;//when adview, presend adid
     private String mScore;
     private String mPlayUrl;//http://www.iqiyi.com/a_19rrhrra2l.html
+    private String mAdView;
 
     public SCAlbum(int siteID) {
         this.mSite = new SCSite(siteID);
@@ -53,6 +54,7 @@ public class SCAlbum implements Parcelable {
         mVid = in.readString();
         mScore = in.readString();
         mPlayUrl = in.readString();
+        mAdView = in.readString();
     }
 
     public static final Creator<SCAlbum> CREATOR = new Creator<SCAlbum>() {
@@ -105,6 +107,7 @@ public class SCAlbum implements Parcelable {
         dest.writeString(mVid);
         dest.writeString(mScore);
         dest.writeString(mPlayUrl);
+        dest.writeString(mAdView);
     }
 
     public String getAlbumId() {
@@ -241,5 +244,13 @@ public class SCAlbum implements Parcelable {
 
     public void setPlayUrl(String mPlayUrl) {
         this.mPlayUrl = mPlayUrl;
+    }
+
+    public String getAdView() {
+        return mAdView;
+    }
+
+    public void setAdView(String mAdView) {
+        this.mAdView = mAdView;
     }
 }
