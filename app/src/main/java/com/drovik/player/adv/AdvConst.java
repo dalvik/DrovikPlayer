@@ -7,7 +7,7 @@ public class AdvConst {
 
     public final static String ADVIEW_NATIVE_ID = "POSIDltos01ibelzk";
 
-    public final static String ADVIEW_VIDEO_ID = "POSIDltos01ibelzk";
+    public final static String ADVIEW_VIDEO_ID = "POSID4g2c7pw3j7m7";
 
     private AdvConst() {
 

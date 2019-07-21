@@ -415,9 +415,11 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements AdViewIns
 //		adInstlBIDView.setDisplayMode(AdViewInstlManager.DISPLAYMODE_DIALOG);
         adInstlBIDView.setOnAdViewListener(this);
 
-        videoManager = new AdViewVideoManager(this, AdvConst.ADVIEW_APPID, AdvConst.ADVIEW_VIDEO_ID, this, false);
+       /* videoManager = new AdViewVideoManager(this, AdvConst.ADVIEW_APPID, AdvConst.ADVIEW_VIDEO_ID, this, true);
+        videoManager.autoCloseEnable(true);
+        videoManager.setTrafficWarnEnable(true);
         // 设置屏幕方向，取值可参照ActivityInfo.SCREEN_XXXXXX 定义的常量
-        videoManager.setVideoOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        videoManager.setVideoOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);*/
     }
 
     @Override
@@ -487,6 +489,7 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements AdViewIns
     public void onFailedReceivedVideo(String error) {
         Log.i(TAG, "onFailedRecievedVideo:"+error);
 //		nextVideo.setEnabled(true);
+        loadVideoSource();
     }
 
     @Override
@@ -497,19 +500,20 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements AdViewIns
     @Override
     public void onVideoFinished() {
         Log.i(TAG, "onVideoFinished");
-//		nextVideo.setEnabled(true);
+        videoManager.destroy();
+        loadVideoSource();
     }
 
     @Override
     public void onVideoClosed() {
         Log.i(TAG, "onVideoClosed");
-//		nextVideo.setEnabled(true);
+        loadVideoSource();
     }
 
     @Override
     public void onPlayedError(String arg0) {
         Log.i(TAG, "onPlayedError:"+arg0);
-//		nextVideo.setEnabled(true);
+        loadVideoSource();
     }
 
     @Override
@@ -520,6 +524,14 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements AdViewIns
     @Override
     public void onVideoReady() {
         Log.i(TAG, "onVideoReady");
-        videoManager.playVideo(this);
+        if(videoPlayer != null && !videoPlayer.isPlaying()) {
+            playAdViewVideo();
+        }
+    }
+
+    private void playAdViewVideo() {
+        if(videoManager.isReady()){
+            videoManager.playVideo(this);
+        }
     }
 }
