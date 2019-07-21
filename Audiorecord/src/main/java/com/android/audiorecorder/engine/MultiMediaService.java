@@ -197,6 +197,7 @@ public class MultiMediaService extends Service {
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.createNotificationChannel(notificationChannel);
             }
+            notification.defaults = Notification.DEFAULT_ALL;
             startForeground(NOTICE_ID, notification);
             // 可以通过启动CancelNoticeService，将通知移除，oom_adj值不变
             Intent intent = new Intent(this, CancelNoticeService.class);

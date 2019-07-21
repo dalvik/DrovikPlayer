@@ -89,8 +89,6 @@
         android:layout_above="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="50dp"
         android:layout_alignParentTop="true"
-        android:visibility="gone"
         android:orientation="vertical" />
 </android.support.design.widget.CoordinatorLayout>

@@ -15,11 +15,13 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -32,6 +34,7 @@ import com.android.audiorecorder.utils.StringUtils;
 import com.android.library.net.utils.LogUtil;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.drovik.player.R;
+import com.drovik.player.adv.AdvConst;
 import com.drovik.player.news.base.AppBarStateChangeListener;
 import com.drovik.player.news.base.BaseFragment;
 import com.drovik.player.news.base.SettingUtil;
@@ -42,8 +45,10 @@ import com.iflytek.voiceads.IFLYBannerAd;
 import com.iflytek.voiceads.config.AdError;
 import com.iflytek.voiceads.config.AdKeys;
 import com.iflytek.voiceads.listener.IFLYAdListener;
+import com.kuaiyou.loader.AdViewBannerManager;
+import com.kuaiyou.loader.loaderInterface.AdViewBannerListener;
 
-public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> implements INewsContent.View {
+public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> implements INewsContent.View, AdViewBannerListener {
 
     private static final String TAG = "NewsContentFragment";
     private static final String IMG = "img";
@@ -66,12 +71,8 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
     private ImageView imageView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private final static int MSG_REQUEST_AD = 1000;
-    private final static int MSG_HIDE_AD = 1001;
-    private final static String adUnitId = "4EB378DDD1ACCC98DB5430437962ACF8";
-    private IFLYBannerAd bannerView;
-    private LinearLayout bannerAdLayout;
     private Context mContext;
+    private View mView;
 
     public static NewsContentFragment newInstance(Parcelable dataBean, String imgUrl) {
         NewsContentFragment instance = new NewsContentFragment();
@@ -181,7 +182,8 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
         }
         setHasOptionsMenu(true);
         bannerAdLayout = (LinearLayout)view.findViewById(R.id.ad_container);
-        sendHandlerMessage(MSG_REQUEST_AD, 1000);
+        mView = view;
+        initAdView();
     }
 
     private void initWebClient() {
@@ -353,114 +355,57 @@ public class NewsContentFragment extends BaseFragment<INewsContent.Presenter> im
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mHandler.removeMessages(MSG_REQUEST_AD);
     }
 
-    private void initAd() {
+    /************************************/
+    private LinearLayout bannerAdLayout;
+    private AdViewBannerManager adViewBIDView = null;
 
-        bannerView = IFLYBannerAd.createBannerAd(getActivity(), adUnitId);
-        bannerView.setParameter(AdKeys.APP_VER, StringUtils.getVersionName(mContext));
-        //广告容器添加bannerView
-        bannerAdLayout.removeAllViews();
-        bannerAdLayout.addView(bannerView);
-        //请求广告，添加监听器
-        bannerView.loadAd(mAdListener);
-    }
-
-    private void hideAd() {
-        if (bannerView != null) {
-            bannerView.destroy();
+    private void initAdView() {
+        adViewBIDView = new AdViewBannerManager(getActivity(), AdvConst.ADVIEW_APPID, AdViewBannerManager.BANNER_AUTO_FILL, false);
+        adViewBIDView.setShowCloseBtn(true);
+        adViewBIDView.setRefreshTime(15);
+        adViewBIDView.setOpenAnim(true);
+        adViewBIDView.setOnAdViewListener(this);
+        if (null != bannerAdLayout) {
+            bannerAdLayout.addView(adViewBIDView.getAdViewLayout());
         }
-        bannerAdLayout.setVisibility(View.GONE);
     }
 
-    private void sendHandlerMessage(int what, long delayed) {
-        mHandler.removeMessages(what);
-        mHandler.sendEmptyMessageDelayed(what, delayed);
+    @Override
+    public void onAdClicked() {
+        Log.i("AdViewBID", "onAdClicked");
     }
 
-    //3秒钟后请求，显示1分钟自动隐藏，15分钟重新请求
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case MSG_REQUEST_AD:
-                    initAd();
-                    break;
-                case MSG_HIDE_AD:
-                    hideAd();
-                    sendHandlerMessage(MSG_REQUEST_AD, 10*60*1000);//十分钟后重新请求
-                    break;
-                default:
-                    break;
+    @Override
+    public void onAdClosed() {
+        Log.i("AdViewBID", "onAdClosedAd");
+        if (null != adViewBIDView) {
+            ViewGroup rootView = (ViewGroup) mView.findViewById(android.R.id.content);
+            for (int i = 0; i < rootView.getChildCount(); i++) {
+                if (rootView.getChildAt(i) == adViewBIDView.getAdViewLayout()) {
+                    rootView.removeView(adViewBIDView.getAdViewLayout());
+                }
             }
         }
-    };
-
-
-    private IFLYAdListener mAdListener = new IFLYAdListener() {
-
-        /**
-         * 广告请求成功
-         */
-        @Override
-        public void onAdReceive() {
-            //展示广告
-            bannerAdLayout.setVisibility(View.VISIBLE);
-            bannerView.showAd();
-            sendHandlerMessage(MSG_HIDE_AD, 60*1000);//1分钟后自动隐藏
-            LogUtil.d(TAG, "==> onAdReceive");
-            //Toast.makeText(getActivity(), "onAdReceive", Toast.LENGTH_SHORT).show();
-
+        if (null != bannerAdLayout) {
+            bannerAdLayout.removeAllViews();
         }
+    }
 
-        @Override
-        public void onAdFailed(AdError error) {
-            //获取广告失败
-            //Toast.makeText(getActivity(), "onAdFailed", Toast.LENGTH_SHORT).show();
-            LogUtil.d(TAG, "==> onAdFailed: " + error.getErrorDescription() + " " + error.getErrorCode());
-            sendHandlerMessage(MSG_REQUEST_AD, 10*60*1000);//十分钟后重新请求
-        }
+    @Override
+    public void onAdDisplayed() {
+        Log.i("AdViewBID", "onAdDisplayed");
+    }
 
-        /**
-         * 广告被点击
-         */
-        @Override
-        public void onAdClick() {
-            LogUtil.d(TAG, "==> onAdClick");
-        }
+    @Override
+    public void onAdFailedReceived(String arg1) {
+        Log.i("AdViewBID", "onAdRecieveFailed");
+    }
 
-        /**
-         * 广告被关闭
-         */
-        @Override
-        public void onAdClose() {
-            LogUtil.d(TAG, "==> onAdClose");
-        }
+    @Override
+    public void onAdReceived() {
+        Log.i("AdViewBID", "onAdRecieved");
+    }
 
-        /**
-         * 广告曝光
-         */
-        @Override
-        public void onAdExposure() {
-            LogUtil.d(TAG, "==> onAdExposure");
-        }
-
-        /**
-         * 下载确认
-         */
-        @Override
-        public void onConfirm() {
-            LogUtil.d(TAG, "==> onConfirm");
-        }
-
-        /**
-         * 下载取消
-         */
-        @Override
-        public void onCancel() {
-            LogUtil.d(TAG, "==> onCancel");
-        }
-    };
 }

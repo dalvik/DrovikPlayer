@@ -233,7 +233,11 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements AdViewIns
         }
         //LogUtils.e("视频链接"+urls);
         //设置播放类型
-        videoPlayer.setPlayerType(ConstantKeys.IjkPlayerType.TYPE_IJK);
+        if(mIsSCVideo) {
+            videoPlayer.setPlayerType(ConstantKeys.IjkPlayerType.TYPE_IJK);
+        } else {
+            videoPlayer.setPlayerType(ConstantKeys.IjkPlayerType.TYPE_NATIVE);
+        }
         //设置视频地址和请求头部
         videoPlayer.setUp(urls, null);
         //创建视频控制器
@@ -348,61 +352,9 @@ public class GSYVideoPlayActivity extends AppCompatActivity implements AdViewIns
             Intent intent = new Intent(Const.ACTION_REFRESH);
             intent.putParcelableArrayListExtra(Const.EXTRA_REFRESH, list);
             sendBroadcast(intent);
-            /*if(!TextUtils.isEmpty(mTvid) && !TextUtils.isEmpty(mVid)){
-                new ParseVideoSourceAysncTask().execute();
-            }*/
         }
     }
 
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    loadVideoSource();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-
-    protected void logInfo(String format, Object... args) {
-        logMessage(Log.INFO, format, args);
-    }
-
-    protected void logError(String format, Object... args) {
-        logMessage(Log.ERROR, format, args);
-    }
-
-    protected void logDebug(String format, Object... args) {
-        logMessage(Log.DEBUG, format, args);
-    }
-
-    protected void showShortToast(String format, Object... args) {
-        showToast(Toast.LENGTH_SHORT, format, args);
-    }
-
-    private void showToast(int duration, String format, Object... args) {
-        Toast.makeText(this, String.format(format, args), duration).show();
-    }
-
-    private void logMessage(int level, String format, Object... args) {
-        String formattedString = String.format(format, args);
-        switch (level) {
-            case Log.DEBUG:
-                Log.d(TAG, formattedString);
-                break;
-            case Log.INFO:
-                Log.i(TAG, formattedString);
-                break;
-            case Log.ERROR:
-                Log.e(TAG, formattedString);
-                break;
-        }
-    }
 
     /***************************************************/
 

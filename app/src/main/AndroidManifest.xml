@@ -117,7 +117,7 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name="com.android.audiorecorder.ui.FileExplorerActivity"
-            android:theme="@style/AppTheme"
+            android:theme="@style/CommonAppTheme"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"/>
 

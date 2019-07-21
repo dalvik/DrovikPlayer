@@ -11,8 +11,8 @@ public class NotificationUtil {
 
     public static final String CHANNEL_ONE_ID = "com.drovik.player";
     public static final String CHANNEL_ONE_NAME = "Notify";
-    public static final String title = "muti-meidia service";
-    public static final String content = "muti-meidia service is runing...";
+    public static final String title = "卓维影音";
+    public static final String content = "卓维影音正在运行";
 
     private NotificationUtil() {
 
