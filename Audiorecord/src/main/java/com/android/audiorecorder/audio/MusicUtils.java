@@ -58,11 +58,12 @@ public class MusicUtils {
         }
         ContextWrapper cw = new ContextWrapper(realActivity);
         Intent intent = new Intent(cw, MediaPlaybackService.class);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+       /* if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             cw.startForegroundService(intent);
         } else {
             cw.startService(intent);
-        }
+        }*/
+        cw.startService(intent);
         ServiceBinder sb = new ServiceBinder(callback);
         if (cw.bindService((new Intent()).setClass(cw, MediaPlaybackService.class), sb, 0)) {
             sConnectionMap.put(cw, sb);

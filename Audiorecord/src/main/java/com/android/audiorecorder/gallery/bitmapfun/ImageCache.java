@@ -439,9 +439,9 @@ public class ImageCache {
                     LogUtil.e(TAG, "close - " + e);
                 }
             }
-            if(mMemoryCache != null){
+            /*if(mMemoryCache != null){
                 mMemoryCache.evictAll();
-            }
+            }*/
         }
     }
 

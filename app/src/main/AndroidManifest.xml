@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.drovik.player"
-    android:versionCode="105"
-    android:versionName="v1.0.5">
+    android:versionCode="106"
+    android:versionName="v1.0.6">
 
     <!-- normal -->
     <!-- 访问网络 -->
@@ -58,7 +58,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
 
     <supports-screens android:anyDensity="true"
@@ -286,6 +288,7 @@
 
         <service android:name="com.android.audiorecorder.audio.MediaPlaybackService" android:exported="false" />
 
+        <!--
         <service android:name=".ui.KeepAliveJobService"
             android:permission="android.permission.BIND_JOB_SERVICE"/>
 
@@ -293,6 +296,7 @@
             android:enabled="true"
             android:exported="true"
             android:process=":hw_deamon"/>
+         -->
 
         <receiver android:name="com.android.audiorecorder.engine.SystemRebootReceiver"
             android:enabled="true"

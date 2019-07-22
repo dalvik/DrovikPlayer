@@ -194,13 +194,15 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
             iRecorderService = IAudioService.Stub.asInterface(service);
             Intent mutiService = new Intent(SoundRecorder.this, MultiMediaService.class);
             Intent fileService = new Intent(SoundRecorder.this, FileProviderService.class);
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                 startForegroundService(mutiService);
                 startForegroundService(fileService);
             } else {
                 startService(mutiService);
                 startService(fileService);
-            }
+            }*/
+            startService(mutiService);
+            startService(fileService);
             if(iRecorderService != null) {
                 try {
                     iRecorderService.regStateListener(iAudioStateListener);
@@ -493,7 +495,9 @@ public class SoundRecorder extends BaseCompatActivity implements View.OnClickLis
                 return 0;
             }
             try {
-                return iRecorderService.getMaxAmplitude();
+                if(mAudioRecordStart){
+                    return iRecorderService.getMaxAmplitude();
+                }
             } catch (RemoteException e) {
                 LogUtil.d(TAG, "==> getMaxAmplitude error " + e.getMessage());
                 e.printStackTrace();
