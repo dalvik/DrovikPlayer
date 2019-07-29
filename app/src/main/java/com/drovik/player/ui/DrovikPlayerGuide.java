@@ -19,8 +19,6 @@ public class DrovikPlayerGuide extends BaseGuideActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏
         SharedPreferences preferences = getSharedPreferences(SettingsActivity.class.getName(), Context.MODE_PRIVATE);
         if(preferences.getBoolean(drovikPlayerGuide, false)){
             gotoHome();
