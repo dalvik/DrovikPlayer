@@ -85,7 +85,7 @@ public class CompassActivity extends BaseCompatActivity implements SensorEventLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compass_layout);
         setActionBarVisiable(View.GONE);
-        fullScreen(R.color.black);
+        fullScreen(R.color.color_87663D);
         com.android.library.utils.Utils.setStatusTextColor(true, this);
         setActionBarBackgroundColor(R.color.base_actionbar_background, R.color.base_actionbar_background);///actionbar and status bar
         //actionbar and status bar

@@ -187,7 +187,7 @@ public class MultiMediaService extends Service {
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mCurMode = LUNCH_MODE_MANLY;
         //如果API大于18，需要弹出一个可见通知
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, NotificationUtil.makeTarget("0"), PendingIntent.FLAG_UPDATE_CURRENT);
             Notification notification = NotificationUtil.getNotification(this, NotificationUtil.title, NotificationUtil.content, R.drawable.ic_launcher, pendingIntent, NotificationUtil.CHANNEL_ONE_ID);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -204,7 +204,7 @@ public class MultiMediaService extends Service {
             startService(intent);
         } else {
             startForeground(NOTICE_ID, new Notification());
-        }
+        }*/
         getAudioService();
         IntentFilter filter = new IntentFilter();
         filter.addAction(TimeSchedule.ACTION_TIMER_ALARM);

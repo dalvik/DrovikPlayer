@@ -43,7 +43,7 @@ android {
     defaultConfig {
         applicationId "com.drovik.player"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 25
         versionCode getVersionCode()
         versionName getVersionName()
         multiDexEnabled true

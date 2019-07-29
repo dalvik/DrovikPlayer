@@ -61,7 +61,7 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
     private PermissionHelper mPermissionHelper;
 
     private LocationService locationService;
-    private JobSchedulerManager mJobManager;
+    //private JobSchedulerManager mJobManager;
 
     private final String TAG = "HomeActivity";
 
@@ -71,13 +71,15 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         setContentView(R.layout.activity_home);
         Intent mutiService = new Intent(HomeActivity.this, MultiMediaService.class);
         Intent fileService = new Intent(HomeActivity.this, FileProviderService.class);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             startForegroundService(mutiService);
             startForegroundService(fileService);
         } else {
             startService(mutiService);
             startService(fileService);
-        }
+        }*/
+        startService(mutiService);
+        startService(fileService);
         com.android.library.utils.Utils.setStatusTextColor(false, this);
         fullScreen(R.color.home_color_primary);
         setActionBarBackgroundColor(R.color.home_color_primary, R.color.home_actionbar_background);
@@ -88,8 +90,8 @@ public class HomeActivity extends BaseCompatActivity implements LeftFragment.OnF
         UpdateManager.getUpdateManager().checkAppUpdate(this, false);
         initYouMi();
         initLocationSDK();
-        mJobManager = JobSchedulerManager.getJobSchedulerInstance(this);
-        mJobManager.startJobScheduler();
+        //mJobManager = JobSchedulerManager.getJobSchedulerInstance(this);
+        //mJobManager.startJobScheduler();
     }
 
     @Override

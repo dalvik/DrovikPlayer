@@ -18,13 +18,15 @@ public class SystemRebootReceiver extends BroadcastReceiver {
         if(Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())){
 			Intent mutiService = new Intent(context, MultiMediaService.class);
 			Intent fileService = new Intent(context, FileProviderService.class);
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+			/*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
 				context.startForegroundService(mutiService);
 				context.startForegroundService(fileService);
 			} else {
 				context.startService(mutiService);
 				context.startService(fileService);
-			}
+			}*/
+			context.startService(mutiService);
+			context.startService(fileService);
         }
 	}
 
