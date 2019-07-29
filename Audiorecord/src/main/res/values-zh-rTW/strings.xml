@@ -55,7 +55,7 @@
     <string name="select_all">全部選擇</string>
     <string name="unselect_all">全部取消</string>
     <string name="unknown">未知</string>
-    <string name="records_title">錄音</string>
+    <string name="records_title">藍牙錄音</string>
     <string name="record_rename">請輸入錄音新名稱:</string>
     <string name="storage_setting">儲存位置</string>
     <string name="storage_setting_sdcard_item">SD卡</string>

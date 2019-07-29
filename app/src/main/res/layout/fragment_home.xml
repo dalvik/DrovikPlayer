@@ -166,37 +166,6 @@
                     android:background="@color/splite_grey" />
 
                 <RelativeLayout
-                    android:id="@+id/home_file"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp">
-                    <!-- local file: record, image, video,record  -->
-                    <ImageView
-                        android:id="@+id/home_file_iv"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_centerHorizontal="true"
-                        android:src="@drawable/selector_home_file" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/home_file_iv"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/home_file"
-                        android:textColor="@color/white"/>
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="@dimen/base_splite_line_width"
-                    android:layout_height="match_parent"
-                    android:background="@color/splite_grey" />
-
-                <RelativeLayout
                     android:id="@+id/home_recorder"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -220,6 +189,36 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="8dp"
                         android:text="@string/home_recorder"
+                        android:textColor="@color/white"/>
+                </RelativeLayout>
+                <View
+                    android:layout_width="@dimen/base_splite_line_width"
+                    android:layout_height="match_parent"
+                    android:background="@color/splite_grey" />
+
+                <RelativeLayout
+                    android:id="@+id/home_file"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+                    <!-- local file: record, image, video,record  -->
+                    <ImageView
+                        android:id="@+id/home_file_iv"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/selector_home_file" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/home_file_iv"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/home_file"
                         android:textColor="@color/white"/>
                 </RelativeLayout>
 

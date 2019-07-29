@@ -85,7 +85,7 @@
     <string name="select_all">Select all</string>
     <string name="unselect_all">Unselect all</string>
     <string name="unknown">Unknown</string>
-    <string name="records_title">Records</string>
+    <string name="records_title">蓝牙录音</string>
     <string name="zero_time">0:00</string>
     <string name="record_rename">Please input new record name:</string>
     <string name="storage_setting">Memory location</string>

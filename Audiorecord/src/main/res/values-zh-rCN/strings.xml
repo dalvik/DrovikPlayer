@@ -83,7 +83,7 @@
     <string name="select_all">全部选择</string>
     <string name="unselect_all">全部取消</string>
     <string name="unknown">未知</string>
-    <string name="records_title">录音</string>
+    <string name="records_title">蓝牙录音</string>
     <string name="record_rename">请输入录音新名称:</string>
     <string name="storage_setting">存储位置</string>
     <string name="setting_setting">设置</string>
